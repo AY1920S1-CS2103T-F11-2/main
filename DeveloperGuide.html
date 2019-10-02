@@ -628,19 +628,40 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 <div class="ulist">
 <ul>
 <li>
-<p>has a need to manage a significant number of contacts</p>
+<p>Has a preference for command-line interfaces (CLI)</p>
 </li>
 <li>
-<p>prefer desktop apps over other types</p>
+<p>Able to type fast</p>
 </li>
 <li>
-<p>can type fast</p>
+<p>Has a need to track the expiry dates of numerous items</p>
 </li>
 <li>
-<p>prefers typing over mouse input</p>
+<p>Prefers desktop applications over other forms</p>
 </li>
 <li>
-<p>is reasonably comfortable using CLI apps</p>
+<p>Prefers typing over mouse input</p>
+</li>
+<li>
+<p>Wants to be able to search up an item’s expiry date quickly</p>
+</li>
+<li>
+<p>Has a need for items to be tagged appropriately</p>
+</li>
+<li>
+<p>Needs items to be organised into what has not expired and what to buy/replenish</p>
+</li>
+<li>
+<p>Wants to be notified of items that are soon expiring or has expired</p>
+</li>
+<li>
+<p>Tech-savvy and familiar with CLI</p>
+</li>
+<li>
+<p>Requires an app to check what items are about to expire for a particular recipe [v2.0]</p>
+</li>
+<li>
+<p>Wants to save recipes in a convenient format [v2.0]</p>
 </li>
 </ul>
 </div>
@@ -657,17 +678,17 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 <table class="tableblock frame-all grid-all" style="width: 59%;">
 <colgroup>
-<col style="width: 22%;">
-<col style="width: 23%;">
-<col style="width: 25%;">
-<col style="width: 30%;">
+<col style="width: 22.7722%;">
+<col style="width: 22.7722%;">
+<col style="width: 24.7524%;">
+<col style="width: 29.7032%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Priority</th>
 <th class="tableblock halign-left valign-top">As a &#8230;&#8203;</th>
 <th class="tableblock halign-left valign-top">I want to &#8230;&#8203;</th>
-<th class="tableblock halign-left valign-top">So that I can&#8230;&#8203;</th>
+<th class="tableblock halign-left valign-top">So that I &#8230;&#8203;</th>
 </tr>
 </thead>
 <tbody>
@@ -675,37 +696,127 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">new user</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">see usage instructions</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">refer to instructions when I forget how to use the App</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can refer to instructions when I forget how to use the application</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">add a new person</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input the names of items</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">delete a person</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">remove entries that I no longer need</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input the expiry dates of items</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">find a person by name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">locate details of persons without having to go through the entire list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">save the list of items I am tracking</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can come back to it after closing the application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view the list of things I am tracking</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">know which items are expiring soon</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">add items to the tracking list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">am able to track new items</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">delete items from the tracking list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can remove items that I do not need to track anymore</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exit from the application</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">do not have to be on the application all the time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">be reminded of items that are expiring soon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can use them before they expire or prepare to replenish them</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view the list of expired things that are to be replenished</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">know what to replenish</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sort my items according to name or date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can find my items more easily</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">search up my items by their tags or names</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can find my items more easily</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">hide <a href="#private-contact-detail">private contact details</a> by default</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">minimize chance of someone else seeing them by accident</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set quantity of my items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can take note of items that are soon running out or need using before the expiry date</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input description of items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can write small notes or annotate about the item</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">search items and delete</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can delete an item easily without having to remember their ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">undo my previous command</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can return to the previous state/list if I have accidentally executed a command I do not want</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tag items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">categorise and organise them better</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">edit items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can update their details easily when I need to</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">user with many persons in the address book</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sort persons by name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">locate a person easily</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">student leader staying on campus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">import tracking list into phone via QR Code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can remind my other friends when their items are expiring</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">chef</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">track items via recipes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can be reminded of what items are expiring soon and need replenishing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">store owners</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">track items and their quantity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">know what items have run out and need replenishing</p></td>
 </tr>
 </tbody>
 </table>
@@ -1416,4 +1527,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-02 17:50:22 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-02 18:05:09 UTC</div></div></div></body></html>
