@@ -312,7 +312,7 @@ Format: <code>sort|&lt;key&gt;</code></p>
 <div class="sect2">
 <h3 id="searching-item-by-name-code-search-code"><a class="link" href="#searching-item-by-name-code-search-code">3.7. Searching item by name: <code>search</code></a></h3>
 <div class="paragraph">
-<p>Searches for items whose names contain any of the given keywords.<br>
+<p>Search items whose names or tag(s) contain any of the given keywords.<br>
 Format: <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</code></p>
 </div>
 <div class="sidebarblock">
@@ -320,19 +320,22 @@ Format: <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</cod
 <div class="ulist">
 <ul>
 <li>
-<p>The search is case insensitive. e.g <code>ham</code> will match <code>Ham</code></p>
+<p>The search is case insensitive. e.g <code>ham</code> will match <code>Ham</code> and <code>#fruit</code> will match <code>#Fruit</code>.</p>
 </li>
 <li>
-<p>The order of the keywords does not matter. e.g. <code>Turkey Ham|Apple</code> will match <code>Apple|Turkey Ham</code></p>
+<p>The order of the keywords does not matter. e.g. <code>Turkey Ham|Apple</code> will match <code>Apple|Turkey Ham</code>.</p>
 </li>
 <li>
-<p>Only the name is searched.</p>
+<p>Only the name and tag, if any, are searched.</p>
 </li>
 <li>
-<p>Partial words can also be matched e.g. <code>Papa</code> will match <code>Papayas</code></p>
+<p>For name search, partial words can be matched e.g. <code>Papa</code> will match <code>Papayas</code>.</p>
 </li>
 <li>
-<p>Items matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Apple|Pear</code> will return <code>Granny Smith Apple</code>, <code>Japanese Pear</code></p>
+<p>For tag search, only exact words will be matched e.g. <code>#Fruit</code> will match <code>#Fruit</code> but <code>#Fru</code> will not match <code>#Fruit</code>.</p>
+</li>
+<li>
+<p>Items matching at least one keyword will be returned (an <code>OR</code> search). e.g. <code>Apple|Pear</code> will return <code>Granny Smith Apple</code> and <code>Japanese Pear</code>.</p>
 </li>
 </ul>
 </div>
@@ -348,8 +351,8 @@ Format: <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</cod
 Returns <code>Chicken Kebab</code> and <code>kebab</code></p>
 </li>
 <li>
-<p><code>search|milk|tea|pearls</code><br>
-Returns any items containing the terms <code>milk</code>, <code>tea</code>, or <code>pearls</code></p>
+<p><code>search|milk|tea|#Drink</code><br>
+Returns any items with names containing <code>milk</code> or <code>tea</code>, or with the tag <code>#Drink</code>.</p>
 </li>
 </ul>
 </div>
@@ -558,4 +561,4 @@ e.g. <code>delete|3</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-17 15:38:11 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-17 15:56:26 UTC</div></div></div></body></html>
