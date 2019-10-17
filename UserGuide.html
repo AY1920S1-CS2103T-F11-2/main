@@ -20,7 +20,7 @@
 <li><a href="#listing-expiring-items-code-check-code">3.5. Listing expiring items : <code>check</code></a></li>
 <li><a href="#sorting-all-items-code-sort-code">3.6. Sorting all items : <code>sort</code></a></li>
 <li><a href="#searching-item-by-name-code-search-code">3.7. Searching item by name: <code>search</code></a></li>
-<li><a href="#deleting-an-item-code-delete-code">3.8. Deleting an item : <code>delete</code></a></li>
+<li><a href="#deleting-items-tags-or-quantity-code-delete-code">3.8. Deleting items, tags or quantity : <code>delete</code></a></li>
 <li><a href="#tagging-an-item-code-tag-code">3.9. Tagging an item : <code>tag</code></a></li>
 <li><a href="#clearing-all-entries-code-clear-code">3.10. Clearing all entries : <code>clear</code></a></li>
 <li><a href="#exiting-the-program-code-exit-code">3.11. Exiting the program : <code>exit</code></a></li>
@@ -128,8 +128,8 @@ Format: <code>help</code></p>
 <div class="sect2">
 <h3 id="adding-an-item-code-add-code"><a class="link" href="#adding-an-item-code-add-code">3.2. Adding an item: <code>add</code></a></h3>
 <div class="paragraph">
-<p>Adds item to list<br>
-Format: <code>add|&lt;item name&gt;|&lt;expiry date&gt;</code></p>
+<p>Adds an item to your tracker.<br>
+Format: <code>add|&lt;item name&gt;|&lt;expiry date&gt;[|&lt;quantity&gt;]</code></p>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -137,25 +137,57 @@ Format: <code>add|&lt;item name&gt;|&lt;expiry date&gt;</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>add|durian|30/09/2019</code> (without tags)<br>
-Adds the item <code>durian</code> with expiry date <code>30/09/2019</code></p>
+<p><code>add|durian|30/09/2020</code> (without quantity)<br>
+Adds the item <code>durian</code> with expiry date <code>30/09/2019</code> with quantity <code>1</code></p>
+</li>
+<li>
+<p><code>add|ice cream|18/8/2020|2</code><br>
+Adds the item <code>ice cream</code> with expiry date <code>18/08/2019</code> with quantity <code>2</code></p>
 </li>
 </ul>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Item quantity <strong>must be a positive integer</strong> 1,2,3&#8230;&#8203;</p>
+</li>
+<li>
+<p>When not specified, the item quantity is assumed to be 1.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+For items with single quantity, you can save time by keying in only the item name and expiry date.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
 <h3 id="listing-all-items-code-view-code"><a class="link" href="#listing-all-items-code-view-code">3.3. Listing all items : <code>view</code></a></h3>
 <div class="paragraph">
-<p>Shows all items in the list.<br>
+<p>Lists all items in your tracker.<br>
 Format: <code>view</code></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="setting-reminder-for-an-item-code-set-reminder-code"><a class="link" href="#setting-reminder-for-an-item-code-set-reminder-code">3.4. Setting reminder for an item: <code>set reminder</code></a></h3>
 <div class="paragraph">
-<p>Sets a reminder threshold for the specified item.<br>
-This allows the check command to quickly find the item once the reminder threshold is exceeded.<br>
+<p>Sets a reminder threshold for your item.<br>
 Format: <code>set reminder|&lt;index&gt;|&lt;reminder threshold&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>This allows the check command to quickly find the item once the reminder threshold is exceeded.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -196,12 +228,12 @@ Removes the reminder for the first item in the list.</p>
 <div class="sect2">
 <h3 id="listing-expiring-items-code-check-code"><a class="link" href="#listing-expiring-items-code-check-code">3.5. Listing expiring items : <code>check</code></a></h3>
 <div class="paragraph">
-<p>Shows items whose reminder has been activated.<br>
-Format: <code>check</code></p>
+<p>Lists items that will expire within the specified number of days in your tracker.<br>
+Format: <code>check|&lt;days&gt;</code></p>
 </div>
 <div class="paragraph">
-<p>Shows items that will expire within the specified number of days in the list.<br>
-Format: <code>check|&lt;days&gt;</code></p>
+<p>Lists items whose reminder has been activated.<br>
+Format: <code>check</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -244,7 +276,7 @@ Lists items expiring in the next 20 days.</p>
 <div class="sect2">
 <h3 id="sorting-all-items-code-sort-code"><a class="link" href="#sorting-all-items-code-sort-code">3.6. Sorting all items : <code>sort</code></a></h3>
 <div class="paragraph">
-<p>Sorts all items in the list by either name or date.<br>
+<p>Sorts all items in your list by either name or date.<br>
 Format: <code>sort|&lt;key&gt;</code></p>
 </div>
 <div class="sidebarblock">
@@ -278,7 +310,7 @@ Format: <code>sort|&lt;key&gt;</code></p>
 <div class="sect2">
 <h3 id="searching-item-by-name-code-search-code"><a class="link" href="#searching-item-by-name-code-search-code">3.7. Searching item by name: <code>search</code></a></h3>
 <div class="paragraph">
-<p>Search items whose names contain any of the given keywords.<br>
+<p>Searches for items whose names contain any of the given keywords.<br>
 Format: <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</code></p>
 </div>
 <div class="sidebarblock">
@@ -321,22 +353,23 @@ Returns any items containing the terms <code>milk</code>, <code>tea</code>, or <
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-an-item-code-delete-code"><a class="link" href="#deleting-an-item-code-delete-code">3.8. Deleting an item : <code>delete</code></a></h3>
+<h3 id="deleting-items-tags-or-quantity-code-delete-code"><a class="link" href="#deleting-items-tags-or-quantity-code-delete-code">3.8. Deleting items, tags or quantity : <code>delete</code></a></h3>
 <div class="paragraph">
-<p>Deletes the specified item from the list or deletes tag(s) from the specified item.<br>
+<p>Deletes the specified item from your list.<br>
 Format: <code>delete|&lt;index&gt;</code><br>
 OR<br>
-Format: <code>delete|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code></p>
+Deletes tag(s) from the specified item.<br>
+Format: <code>delete|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code><br>
+OR<br>
+Reduces item quantity by the specified quantity.<br>
+Format <code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>Deletes the item at the specified <code>&lt;index&gt;</code>.</p>
-</li>
-<li>
-<p>The index refers to the index number shown in the list.</p>
+<p>The index refers to the index number shown on the list.</p>
 </li>
 <li>
 <p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
@@ -346,6 +379,12 @@ Format: <code>delete|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;
 </li>
 <li>
 <p>The item must contain the tags to be deleted.</p>
+</li>
+<li>
+<p>The quantity <strong>must be a positive integer</strong> 1, 2 ,3&#8230;&#8203;</p>
+</li>
+<li>
+<p>The quantity specified must be more than the item&#8217;s current quantity.</p>
 </li>
 </ul>
 </div>
@@ -357,7 +396,7 @@ Format: <code>delete|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;
 <div class="ulist">
 <ul>
 <li>
-<p><code>list</code><br>
+<p><code>view</code><br>
 <code>delete|2</code><br>
 Deletes the 2nd item in the list.</p>
 </li>
@@ -372,9 +411,14 @@ Deletes the 3rd item in the sorted list.</p>
 Deletes the 1st item in the results of the <code>search</code> command.</p>
 </li>
 <li>
-<p><code>list</code><br>
+<p><code>view</code><br>
 <code>delete|3|#Fruit #Food</code><br>
 Deletes the tags <code>#Fruit</code> and <code>#Food</code> from the 3rd item in the list.</p>
+</li>
+<li>
+<p><code>view</code><br>
+<code>delete|4|1</code><br>
+Reduces the quantity from the 4th item by 1.</p>
 </li>
 </ul>
 </div>
@@ -426,14 +470,9 @@ Format: <code>tag|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</c
 <div class="ulist">
 <ul>
 <li>
-<p><code>list</code><br>
+<p><code>view</code><br>
 <code>tag|2|#Nestle #Caffeine</code><br>
 Tags the 2nd item in the list with <code>#Nestle</code> and <code>#Caffeine</code>.</p>
-</li>
-<li>
-<p><code>search|potato</code><br>
-<code>tag|1</code><br>
-Deletes all tags of the 1st item in the results of the <code>search</code> command.</p>
 </li>
 </ul>
 </div>
@@ -479,7 +518,7 @@ There is no need to save manually.</p>
 <p><strong>Help</strong> : <code>help</code></p>
 </li>
 <li>
-<p><strong>Add</strong> <code>add|&lt;item name&gt;|&lt;expiry date&gt;|[&lt;tag&gt;]&#8230;&#8203;</code><br>
+<p><strong>Add</strong> <code>add|&lt;item name&gt;|&lt;expiry date&gt;[|&lt;quantity&gt;]&#8230;&#8203;</code><br>
 e.g. <code>add|durian|30/9/2019</code></p>
 </li>
 <li>
@@ -502,7 +541,7 @@ e.g. <code>sort|date</code></p>
 e.g. <code>search|milk|tea|pearls</code></p>
 </li>
 <li>
-<p><strong>Delete</strong> : <code>delete|&lt;index&gt;</code><br>
+<p><strong>Delete</strong> : <code>delete|&lt;index&gt;[|&lt;tag&gt; or &lt;quantity&gt;]</code><br>
 e.g. <code>delete|3</code></p>
 </li>
 <li>
@@ -517,4 +556,4 @@ e.g. <code>delete|3</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-17 14:20:51 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-17 15:19:12 UTC</div></div></div></body></html>
