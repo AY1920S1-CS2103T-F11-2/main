@@ -23,6 +23,11 @@ import io.xpire.model.tag.TagComparator;
  */
 public class TagCommand extends Command {
 
+    /**
+     * Private enum to indicate whether command shows all tags or tags and item
+     */
+    private enum TagMode { SHOW, TAG }
+
     public static final String COMMAND_WORD = "tag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
@@ -32,19 +37,32 @@ public class TagCommand extends Command {
             + "Example: " + COMMAND_WORD + "|1|#Food #Fruit";
 
     public static final String MESSAGE_TAG_ITEM_SUCCESS = "Tagged item: %1$s";
+    public static final String MESSAGE_TAG_SHOW_SUCCESS = "All item tags:";
+    public static final String MESSAGE_TAG_SHOW_FAILURE = "There are no tags.";
 
     private final Index index;
     private final TagItemDescriptor tagItemDescriptor;
+    private final TagMode mode;
+
+
 
     public TagCommand(Index index, TagItemDescriptor tagItemDescriptor) {
         this.index = index;
         this.tagItemDescriptor = new TagItemDescriptor(tagItemDescriptor);
+        this.mode = TagMode.TAG;
     }
 
     public TagCommand(Index index, String[] str) {
         this.index = index;
         this.tagItemDescriptor = new TagItemDescriptor();
         this.tagItemDescriptor.setTags(Arrays.stream(str).map(Tag::new).collect(Collectors.toSet()));
+        this.mode = TagMode.TAG;
+    }
+
+    public TagCommand() {
+        this.index = null;
+        this.tagItemDescriptor = null;
+        this.mode = TagMode.SHOW;
     }
 
     @Override
@@ -52,15 +70,31 @@ public class TagCommand extends Command {
         requireNonNull(model);
         List<Item> lastShownList = model.getFilteredItemList();
 
-        if (this.index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        switch (this.mode) {
+        case TAG:
+            if (this.index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+            }
+
+            Item itemToTag = lastShownList.get(this.index.getZeroBased());
+            Item taggedItem = createTaggedItem(itemToTag, this.tagItemDescriptor);
+            model.setItem(itemToTag, taggedItem);
+            return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedItem));
+        case SHOW:
+            Set<Tag> tagSet = new TreeSet<>(new TagComparator());
+            List<Item> itemList = model.getAllItemList();
+            itemList.forEach(item -> tagSet.addAll(item.getTags()));
+            if (tagSet.isEmpty()) {
+                return new CommandResult(MESSAGE_TAG_SHOW_FAILURE);
+            }
+            StringBuilder str = new StringBuilder(MESSAGE_TAG_SHOW_SUCCESS);
+            for (Tag tag: tagSet) {
+                str.append("\n").append(tag);
+            }
+            return new CommandResult(str.toString());
+        default:
         }
-
-        Item itemToTag = lastShownList.get(this.index.getZeroBased());
-        Item taggedItem = createTaggedItem(itemToTag, this.tagItemDescriptor);
-        model.setItem(itemToTag, taggedItem);
-        return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedItem));
-
+        throw new CommandException(Messages.MESSAGE_UNKNOWN_COMMAND);
     }
     /**
      * Creates and returns a {@code Item} with the details of {@code itemToTag}
@@ -107,7 +141,8 @@ public class TagCommand extends Command {
         // state check
         TagCommand e = (TagCommand) other;
         return index.equals(e.index)
-                && tagItemDescriptor.equals(e.tagItemDescriptor);
+                && tagItemDescriptor.equals(e.tagItemDescriptor)
+                && mode.equals(e.mode);
     }
 
     /**
