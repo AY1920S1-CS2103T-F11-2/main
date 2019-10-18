@@ -97,17 +97,18 @@ public class SortedUniqueItemListTest {
     @Test
     public void setItem_editedItemHasDifferentIdentity_success() {
         uniqueItemList.add(TypicalItems.KIWI);
-        uniqueItemList.setItem(TypicalItems.KIWI, TypicalItems.APPLE);
+        uniqueItemList.setItem(TypicalItems.KIWI, TypicalItems.EXPIRED_APPLE);
         SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
-        expectedUniqueItemList.add(TypicalItems.APPLE);
+        expectedUniqueItemList.add(TypicalItems.EXPIRED_APPLE);
         assertEquals(expectedUniqueItemList, uniqueItemList);
     }
 
     @Test
     public void setItem_editedItemHasNonUniqueIdentity_throwsDuplicateItemException() {
         uniqueItemList.add(TypicalItems.KIWI);
-        uniqueItemList.add(TypicalItems.APPLE);
-        assertThrows(DuplicateItemException.class, () -> uniqueItemList.setItem(TypicalItems.KIWI, TypicalItems.APPLE));
+        uniqueItemList.add(TypicalItems.EXPIRED_APPLE);
+        assertThrows(DuplicateItemException.class, () -> uniqueItemList.setItem(TypicalItems.KIWI,
+                TypicalItems.EXPIRED_APPLE));
     }
 
     @Test
@@ -137,7 +138,7 @@ public class SortedUniqueItemListTest {
     public void setItems_uniqueItemList_replacesOwnListWithProvidedUniqueItemList() {
         uniqueItemList.add(TypicalItems.KIWI);
         SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
-        expectedUniqueItemList.add(TypicalItems.APPLE);
+        expectedUniqueItemList.add(TypicalItems.EXPIRED_APPLE);
         uniqueItemList.setItems(expectedUniqueItemList);
         assertEquals(expectedUniqueItemList, uniqueItemList);
     }
@@ -149,7 +150,7 @@ public class SortedUniqueItemListTest {
 
     @Test
     public void setItems_list_replacesOwnListWithProvidedList() {
-        uniqueItemList.add(TypicalItems.APPLE);
+        uniqueItemList.add(TypicalItems.EXPIRED_APPLE);
         List<Item> itemList = Collections.singletonList(TypicalItems.KIWI);
         uniqueItemList.setItems(itemList);
         SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
@@ -159,7 +160,7 @@ public class SortedUniqueItemListTest {
 
     @Test
     public void setItems_listWithDuplicateItems_throwsDuplicateItemException() {
-        List<Item> listWithDuplicateItems = Arrays.asList(TypicalItems.APPLE, TypicalItems.APPLE);
+        List<Item> listWithDuplicateItems = Arrays.asList(TypicalItems.EXPIRED_APPLE, TypicalItems.EXPIRED_APPLE);
         assertThrows(DuplicateItemException.class, () -> uniqueItemList.setItems(listWithDuplicateItems));
     }
 

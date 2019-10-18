@@ -32,5 +32,4 @@ public class SortCommand extends Command {
         model.updateFilteredItemList(Model.PREDICATE_SORT_ALL_ITEMS);
         return new CommandResult(MESSAGE_SUCCESS + " by " + method.getValue());
     }
-
 }
