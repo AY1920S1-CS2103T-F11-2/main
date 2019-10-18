@@ -21,25 +21,27 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final Xpire xpire;
+    private final ReplenishList replenishList;
     private final UserPrefs userPrefs;
     private final FilteredList<Item> filteredItems;
 
     /**
      * Initializes a ModelManager with the given xpire and userPrefs.
      */
-    public ModelManager(ReadOnlyXpire xpire, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyXpire xpire, ReadOnlyUserPrefs userPrefs, ReplenishList replenishList) {
         super();
         CollectionUtil.requireAllNonNull(xpire, userPrefs);
 
         logger.fine("Initializing with xpire: " + xpire + " and user prefs " + userPrefs);
 
         this.xpire = new Xpire(xpire);
+        this.replenishList = new ReplenishList(replenishList);
         this.userPrefs = new UserPrefs(userPrefs);
         this.filteredItems = new FilteredList<>(this.xpire.getItemList());
     }
 
     public ModelManager() {
-        this(new Xpire(), new UserPrefs());
+        this(new Xpire(), new UserPrefs(), new ReplenishList());
     }
 
     //=========== UserPrefs =========================================================================================
@@ -142,6 +144,42 @@ public class ModelManager implements Model {
             // search commands have been executed before
             this.filteredItems.setPredicate(predicate.and(p));
         }
+    }
+
+
+    // =========== Replenish List =============================================================
+
+    @Override
+    public void setReplenishList(ReplenishList replenishList) {
+        this.replenishList.resetData(replenishList);
+    }
+
+    @Override
+    public ReplenishList getReplenishList() {
+        return this.replenishList;
+    }
+
+    @Override
+    public boolean hasToBuyItem(ToBuyItem item) {
+        requireNonNull(item);
+        return this.replenishList.hasItem(item);
+    }
+
+    @Override
+    public void deleteItem(ToBuyItem target) {
+        this.replenishList.removeItem(target);
+    }
+
+    @Override
+    public void addToBuyItem(ToBuyItem item) {
+        this.replenishList.addItem(item);
+        updateFilteredItemList(PREDICATE_SHOW_ALL_ITEMS);
+    }
+
+    @Override
+    public void setToBuyItem(ToBuyItem target, ToBuyItem editedItem) {
+        CollectionUtil.requireAllNonNull(target, editedItem);
+        this.replenishList.setItem(target, editedItem);
     }
 
     @Override

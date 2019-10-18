@@ -12,4 +12,5 @@ public interface ReadOnlyXpire {
      * This list will not contain any duplicate items.
      */
     ObservableList<Item> getItemList();
+
 }
