@@ -58,6 +58,20 @@ public class SortedUniqueItemListTest {
     }
 
     @Test
+    public void addItem_addedItemIsSorted_success() {
+        uniqueItemList.add(TypicalItems.KIWI);
+        uniqueItemList.add(TypicalItems.BANANA);
+        uniqueItemList.add(TypicalItems.DUCK);
+        uniqueItemList.add(TypicalItems.JELLY);
+        SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
+        expectedUniqueItemList.add(TypicalItems.BANANA);
+        expectedUniqueItemList.add(TypicalItems.DUCK);
+        expectedUniqueItemList.add(TypicalItems.JELLY);
+        expectedUniqueItemList.add(TypicalItems.KIWI);
+        assertEquals(expectedUniqueItemList, uniqueItemList);
+    }
+
+    @Test
     public void setItem_nullTargetItem_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> uniqueItemList.setItem(null, TypicalItems.KIWI));
     }

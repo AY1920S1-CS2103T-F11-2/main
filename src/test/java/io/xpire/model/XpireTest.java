@@ -84,7 +84,7 @@ public class XpireTest {
     }
 
     /**
-     * A stub ReadOnlyAddressBook whose items list can violate interface constraints.
+     * A stub ReadOnlyXpire whose items list can violate interface constraints.
      */
     private static class XpireStub implements ReadOnlyXpire {
         private final ObservableList<Item> items = FXCollections.observableArrayList();
