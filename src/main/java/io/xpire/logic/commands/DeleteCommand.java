@@ -99,7 +99,8 @@ public class DeleteCommand extends Command {
             model.setItem(targetItem, newQuantityItem);
             /* TODO: Transfer to To-Buy-List*/
             if (Quantity.quantityIsZero(newQuantityItem.getQuantity())) {
-                model.deleteItem(targetItem);
+                return new CommandResult(Quantity.MESSAGE_QUANTITY_ZERO
+                                                + Messages.MESSAGE_PROMPT_TRANSFER);
             }
             return new CommandResult(
                     String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetItem));

@@ -18,10 +18,16 @@ import static java.util.Objects.requireNonNull;
 public class ReplenishCommand extends Command {
 
     private final Index targetIndex;
+    public static final String COMMAND_WORD = "replenish";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
+            + "Moves the item identified by the index number to Replenish List.\n"
+            + "Format: replenish|<index> (index must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + "|1" + "\n";
+    private static final String MESSAGE_SUCCESS = "%s is moved to the Replenish List";
+    public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists in the Replenish List";
+    private ToBuyItem toBuyItem;
 
-    private static final String MESSAGE_SUCCESS = "%s is added to the Replenish List";
-
-    ReplenishCommand(Index targetIndex) {
+    public ReplenishCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 
@@ -38,9 +44,13 @@ public class ReplenishCommand extends Command {
 
         Item targetItem = lastShownList.get(this.targetIndex.getZeroBased());
         ToBuyItem toBuyItem = adaptItemToToBuy(targetItem);
+        this.toBuyItem = toBuyItem;
 
-        model.addToBuyItem(toBuyItem);
+        if (model.hasToBuyItem(toBuyItem)) {
+            throw new CommandException(MESSAGE_DUPLICATE_ITEM);
+        }
 
+        model.addToBuyItem(this.toBuyItem);
         return new CommandResult(String.format(MESSAGE_SUCCESS, targetItem.getName()));
     }
 

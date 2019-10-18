@@ -16,6 +16,7 @@ public class ExpiryDate {
     public static final String MESSAGE_CONSTRAINTS_RANGE = "Only Expiry dates that have not yet passed are accepted";
     public static final String MESSAGE_CONSTRAINTS_FORMAT =
             "Expiry dates should only contain numbers, in the format " + DATE_FORMAT;
+    public static final String MESSAGE_ITEM_EXPIRED = "Item has expired. \n";
     private static final String EXPIRED = "Expired!";
     private static final String DAYS_LEFT = "%d day%s left";
     private final LocalDate date;
