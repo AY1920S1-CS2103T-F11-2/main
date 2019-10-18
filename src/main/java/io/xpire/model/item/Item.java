@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.commons.util.DateUtil;
+import io.xpire.model.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -17,7 +18,7 @@ import io.xpire.model.tag.TagComparator;
  * Represents a Item in Xpire.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Item {
+public class Item extends XpireItem {
     // Identity fields
     private final Name name;
     private final ExpiryDate expiryDate;
@@ -81,6 +82,7 @@ public class Item {
         this.reminderThreshold = item.getReminderThreshold();
     }
 
+    @Override
     public Name getName() {
         return this.name;
     }
@@ -106,15 +108,12 @@ public class Item {
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
+    @Override
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(this.tags);
     }
 
-    /**
-     * Sets and overrides the tags.
-     *
-     * @param tags tags.
-     */
+    @Override
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
@@ -137,6 +136,16 @@ public class Item {
         this.reminderThreshold = reminderThreshold;
     }
 
+    @Override
+    public boolean isSameItem(XpireItem other) {
+        Item otherItem;
+        try {
+            otherItem = (Item) other;
+        } catch (ClassCastException e) {
+            return false;
+        }
+        return isSameItem(otherItem);
+    }
     /**
      * Returns true if both items of the same name have at least one other identity field that is the same.
      * This defines a weaker notion of equality between two items.

@@ -45,7 +45,7 @@ public class StorageManager implements Storage {
     }
 
 
-    // ================ AddressBook methods ==============================
+    // ================ Xpire methods ==============================
 
     @Override
     public Path getXpireFilePath() {
