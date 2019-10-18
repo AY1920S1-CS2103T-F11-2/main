@@ -40,8 +40,9 @@ public class SortCommandTest {
     @Test
     public void execute_sortByName_showsSortedList() {
         String expectedMessage = SortCommand.MESSAGE_SUCCESS + " by name";
-        SortCommand command = new SortCommand(new MethodOfSorting("name"));
-        expectedModel.sortItemList(new MethodOfSorting("name"));
+        MethodOfSorting methodOfSorting = new MethodOfSorting("name");
+        SortCommand command = new SortCommand(methodOfSorting);
+        expectedModel.sortItemList(methodOfSorting);
         expectedModel.updateFilteredItemList(Model.PREDICATE_SORT_ALL_ITEMS);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
@@ -53,8 +54,9 @@ public class SortCommandTest {
     @Test
     public void execute_sortByDate_showsSortedList() {
         String expectedMessage = SortCommand.MESSAGE_SUCCESS + " by date";
-        SortCommand command = new SortCommand(new MethodOfSorting("date"));
-        expectedModel.sortItemList(new MethodOfSorting("date"));
+        MethodOfSorting methodOfSorting = new MethodOfSorting("date");
+        SortCommand command = new SortCommand(methodOfSorting);
+        expectedModel.sortItemList(methodOfSorting);
         expectedModel.updateFilteredItemList(Model.PREDICATE_SORT_ALL_ITEMS);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
