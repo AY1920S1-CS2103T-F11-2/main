@@ -2,11 +2,13 @@ package io.xpire.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Iterator;
 import java.util.List;
 
 import io.xpire.model.item.Item;
 import io.xpire.model.item.SortedUniqueItemList;
 import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.tag.Tag;
 import javafx.collections.ObservableList;
 
 /**
@@ -84,6 +86,17 @@ public class Xpire implements ReadOnlyXpire {
      */
     public void setMethodOfSorting(MethodOfSorting method) {
         this.items.setMethodOfSorting(method);
+    }
+
+    public void checkExpiryDates() {
+        Iterator<Item> itr = items.iterator();
+        Item item;
+        while (itr.hasNext()) {
+            item = itr.next();
+            if (item.isItemExpired()) {
+                item.addTag(new Tag("Expired"));
+            }
+        }
     }
 
     //// util methods

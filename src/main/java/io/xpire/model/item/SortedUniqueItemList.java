@@ -116,6 +116,7 @@ public class SortedUniqueItemList implements Iterable<Item> {
         return this.internalUnmodifiableList;
     }
 
+
     @Override
     public Iterator<Item> iterator() {
         return this.sortedInternalList.iterator();

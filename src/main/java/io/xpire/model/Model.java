@@ -110,4 +110,6 @@ public interface Model {
 
     void setToBuyItem(ToBuyItem target, ToBuyItem editedItem);
 
+    void updateItemTags();
+
 }

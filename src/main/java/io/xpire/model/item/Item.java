@@ -118,6 +118,10 @@ public class Item extends XpireItem {
         this.tags = tags;
     }
 
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
+    }
+
     /**
      * Returns the reminder threshold.
      *
@@ -134,6 +138,10 @@ public class Item extends XpireItem {
      */
     public void setReminderThreshold(ReminderThreshold reminderThreshold) {
         this.reminderThreshold = reminderThreshold;
+    }
+
+    public boolean isItemExpired() {
+        return this.expiryDate.isExpired(DateUtil.getCurrentDate());
     }
 
     @Override
