@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.logic.commands.CommandType.XPIRE;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
@@ -33,7 +34,10 @@ public class TagCommand extends Command {
 
     public static final String MESSAGE_TAG_ITEM_SUCCESS = "Tagged item: %1$s";
 
+    public final CommandType commandType = XPIRE;
+
     private final Index index;
+
     private final TagItemDescriptor tagItemDescriptor;
 
     public TagCommand(Index index, TagItemDescriptor tagItemDescriptor) {
@@ -159,6 +163,10 @@ public class TagCommand extends Command {
         }
     }
 
+    @Override
+    public CommandType getCommandType() {
+        return commandType;
+    }
 
 
 }

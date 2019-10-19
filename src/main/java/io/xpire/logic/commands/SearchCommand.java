@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.logic.commands.CommandType.XPIRE;
 import static java.util.Objects.requireNonNull;
 
 import io.xpire.commons.core.Messages;
@@ -19,6 +20,8 @@ public class SearchCommand extends Command {
             + "Format: search|<keyword>[|<other keywords>]...\n"
             + "Example: " + COMMAND_WORD + "|apple|banana|panadol";
 
+    public final CommandType commandType = XPIRE;
+
     private final ContainsKeywordsPredicate predicate;
 
     public SearchCommand(ContainsKeywordsPredicate predicate) {
@@ -31,6 +34,11 @@ public class SearchCommand extends Command {
         model.updateFilteredItemList(this.predicate);
         return new CommandResult(
                 String.format(Messages.MESSAGE_ITEMS_LISTED_OVERVIEW, model.getFilteredItemList().size()));
+    }
+
+    @Override
+    public CommandType getCommandType() {
+        return commandType;
     }
 
     @Override

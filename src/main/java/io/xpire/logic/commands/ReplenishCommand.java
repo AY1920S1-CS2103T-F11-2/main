@@ -13,6 +13,7 @@ import io.xpire.model.tag.Tag;
 import java.util.List;
 import java.util.Set;
 
+import static io.xpire.logic.commands.CommandType.REPLENISH;
 import static java.util.Objects.requireNonNull;
 
 public class ReplenishCommand extends Command {
@@ -25,6 +26,7 @@ public class ReplenishCommand extends Command {
             + "Example: " + COMMAND_WORD + "|1" + "\n";
     private static final String MESSAGE_SUCCESS = "%s is moved to the Replenish List";
     public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists in the Replenish List";
+    public final CommandType commandType = REPLENISH;
     private ToBuyItem toBuyItem;
 
     public ReplenishCommand(Index targetIndex) {
@@ -58,6 +60,11 @@ public class ReplenishCommand extends Command {
         Name itemName = item.getName();
         Set<Tag> tags = item.getTags();
         return new ToBuyItem(itemName, tags);
+    }
+
+    @Override
+    public CommandType getCommandType() {
+        return commandType;
     }
 
 }

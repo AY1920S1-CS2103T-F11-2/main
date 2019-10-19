@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * An Immutable Xpire that is serializable to JSON format.
  */
-@JsonRootName(value = "xpire")
+@JsonRootName(value = "replenishList")
 class JsonSerializableReplenishList {
 
         public static final String MESSAGE_DUPLICATE_ITEM = "Items list contains duplicate item(s).";

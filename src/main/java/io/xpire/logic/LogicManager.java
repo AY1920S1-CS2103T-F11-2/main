@@ -8,6 +8,7 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.logic.commands.Command;
 import io.xpire.logic.commands.CommandResult;
+import io.xpire.logic.commands.CommandType;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.XpireParser;
 import io.xpire.logic.parser.exceptions.ParseException;
@@ -16,6 +17,8 @@ import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.item.Item;
 import io.xpire.storage.Storage;
 import javafx.collections.ObservableList;
+
+import static io.xpire.logic.commands.CommandType.MESSAGE_INVALID_COMMAND_TYPE;
 
 /**
  * The main LogicManager of the app.
@@ -41,14 +44,26 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = this.xpireParser.parseCommand(commandText);
         commandResult = command.execute(this.model);
-
-        try {
-            this.storage.saveXpire(this.model.getXpire());
-        } catch (IOException ioe) {
-            throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
+        CommandType commandType = command.getCommandType();
+        System.out.println(commandType);
+        switch (commandType) {
+        case XPIRE:
+            try {
+                this.storage.saveXpire(this.model.getXpire());
+            } catch (IOException ioe) {
+                throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
+            }
+            return commandResult;
+        case REPLENISH:
+            try {
+                this.storage.saveReplenishList(this.model.getReplenishList());
+            } catch (IOException ioe) {
+                throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
+            }
+            return commandResult;
+        default:
+            throw new CommandException(MESSAGE_INVALID_COMMAND_TYPE);
         }
-
-        return commandResult;
     }
 
     @Override

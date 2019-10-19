@@ -7,12 +7,13 @@ import java.util.Optional;
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReplenishList;
 import io.xpire.model.UserPrefs;
 
 /**
  * API of the Storage component
  */
-public interface Storage extends XpireStorage, UserPrefsStorage {
+public interface Storage extends XpireStorage, UserPrefsStorage, ReplenishListStorage {
 
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataConversionException, IOException;
@@ -28,5 +29,6 @@ public interface Storage extends XpireStorage, UserPrefsStorage {
 
     @Override
     void saveXpire(ReadOnlyXpire xpire) throws IOException;
+
 
 }

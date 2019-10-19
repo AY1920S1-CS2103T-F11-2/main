@@ -2,6 +2,8 @@ package io.xpire.logic.commands;
 
 import io.xpire.model.Model;
 
+import static io.xpire.logic.commands.CommandType.XPIRE;
+
 /**
  * Format full help instructions for every command for display.
  */
@@ -13,6 +15,13 @@ public class HelpCommand extends Command {
             + "Example: " + COMMAND_WORD;
 
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
+
+    public final CommandType commandType = XPIRE;
+
+    @Override
+    public CommandType getCommandType() {
+        return commandType;
+    }
 
     @Override
     public CommandResult execute(Model model) {

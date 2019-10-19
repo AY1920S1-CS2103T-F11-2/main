@@ -17,11 +17,15 @@ import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReplenishList;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.Xpire;
 import io.xpire.model.util.SampleDataUtil;
+import io.xpire.model.util.SampleReplenishUtil;
+import io.xpire.storage.JsonReplenishListStorage;
 import io.xpire.storage.JsonUserPrefsStorage;
 import io.xpire.storage.JsonXpireStorage;
+import io.xpire.storage.ReplenishListStorage;
 import io.xpire.storage.Storage;
 import io.xpire.storage.StorageManager;
 import io.xpire.storage.UserPrefsStorage;
@@ -43,7 +47,9 @@ public class MainApp extends Application {
     protected Ui ui;
     protected Logic logic;
     protected Storage storage;
+    protected ReplenishListStorage replenishListStorage;
     protected Model model;
+    protected ItemManager itemManager;
     protected Config config;
 
     @Override
@@ -59,11 +65,14 @@ public class MainApp extends Application {
         XpireStorage xpireStorage = new JsonXpireStorage(
                 userPrefs.getXpireFilePath()
         );
-        storage = new StorageManager(xpireStorage, userPrefsStorage);
+
+        ReplenishListStorage replenishListStorage = new JsonReplenishListStorage(userPrefs.getReplenishFilePath());
+
+        storage = new StorageManager(xpireStorage, userPrefsStorage, replenishListStorage);
 
         initLogging(config);
 
-        model = initModelManager(storage, userPrefs);
+        model = initModelManager(storage, userPrefs, replenishListStorage);
 
         logic = new LogicManager(model, storage);
 
@@ -76,24 +85,35 @@ public class MainApp extends Application {
      * is not found, or an empty expiry date tracker will be used instead if errors occur when reading
      * {@code storage}'s expiry date tracker.
      */
-    private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
+    private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs,
+                                   ReplenishListStorage replenishListStorage) {
         Optional<ReadOnlyXpire> expiryDateTrackerOptional;
         ReadOnlyXpire initialData;
+        Optional<ReplenishList> replenishListOptional;
+        ReplenishList initialReplenishList;
         try {
             expiryDateTrackerOptional = storage.readXpire();
+            replenishListOptional = replenishListStorage.readReplenishList();
             if (!expiryDateTrackerOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample Expiry Date Tracker");
             }
+            if (!replenishListOptional.isPresent()) {
+                logger.info("Data file not found. Will be starting with a sample Replenish List");
+            }
             initialData = expiryDateTrackerOptional.orElseGet(SampleDataUtil::getSampleXpire);
+            initialReplenishList = replenishListOptional.orElseGet(SampleReplenishUtil::getSampleReplenishList);
         } catch (DataConversionException e) {
-            logger.warning("Data file not in the correct format. Will be starting with an empty Expiry Date Tracker");
+            logger.warning("Data file not in the correct format. "
+                    + "Will be starting with an empty Expiry Date Tracker and Replenish List");
             initialData = new Xpire();
+            initialReplenishList = new ReplenishList();
         } catch (IOException e) {
-            logger.warning("Problem while reading from the file. Will be starting with an empty Expiry Date Tracker");
+            logger.warning("Problem while reading from the file. "
+                    + "Will be starting with an empty Expiry Date Tracker and ReplenishList");
             initialData = new Xpire();
+            initialReplenishList = new ReplenishList();
         }
-
-        return new ModelManager(initialData, userPrefs);
+        return new ModelManager(initialData, userPrefs, initialReplenishList);
     }
 
     private void initLogging(Config config) {

@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.logic.commands.CommandType.XPIRE;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
@@ -47,6 +48,8 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_QUANTITY_FAILURE = "Invalid quantity specified. \n"
             + "Quantity must be positive and less than item's quantity.";
     public static final String MESSAGE_DELETE_FAILURE = "Did not manage to delete anything";
+
+    public final CommandType commandType = XPIRE;
 
     private final Index targetIndex;
     private final Set<Tag> tagSet;
@@ -100,7 +103,7 @@ public class DeleteCommand extends Command {
             /* TODO: Transfer to To-Buy-List*/
             if (Quantity.quantityIsZero(newQuantityItem.getQuantity())) {
                 return new CommandResult(Quantity.MESSAGE_QUANTITY_ZERO
-                                                + Messages.MESSAGE_PROMPT_TRANSFER);
+                        + String.format(Messages.MESSAGE_PROMPT_TRANSFER, targetItem.getName()));
             }
             return new CommandResult(
                     String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetItem));
@@ -161,6 +164,11 @@ public class DeleteCommand extends Command {
             return this.targetIndex.equals(other.targetIndex)
                     && this.mode.equals(other.mode);
         }
+    }
+
+    @Override
+    public CommandType getCommandType() {
+        return commandType;
     }
 
     @Override

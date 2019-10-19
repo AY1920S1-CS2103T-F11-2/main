@@ -1,6 +1,7 @@
 package io.xpire.logic.commands;
 
 import static io.xpire.commons.util.CollectionUtil.requireAllNonNull;
+import static io.xpire.logic.commands.CommandType.XPIRE;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class SetReminderCommand extends Command {
             + "Example: " + COMMAND_WORD + "|1|7";
 
     public static final String MESSAGE_SUCCESS = "Set reminder for item %d in %s day(s)";
-
+    public final CommandType commandType = XPIRE;
     private final Index index;
     private final ReminderThreshold threshold;
 
@@ -70,5 +71,10 @@ public class SetReminderCommand extends Command {
             SetReminderCommand other = (SetReminderCommand) obj;
             return this.index.equals(other.index) && this.threshold.equals(other.threshold);
         }
+    }
+
+    @Override
+    public CommandType getCommandType() {
+        return commandType;
     }
 }

@@ -18,7 +18,7 @@ public class Quantity {
     public static final String MESSAGE_CONSTRAINTS =
             "Quantity added should be a positive integer and should not be blank";
     public static final String MESSAGE_QUANTITY_ZERO =
-            "Item has run out\n";
+            "Item has run out.\n";
     private static final String INTERNAL_MESSAGE_CONSTRAINTS =
             "Quantity added should be a non-negative integer and should not be blank";
     private int quantity;

@@ -15,6 +15,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     private GuiSettings guiSettings = new GuiSettings();
     private Path xpireFilePath = Paths.get("data" , "xpire.json");
+    private Path replenishFilePath = Paths.get("data", "replenishList.json");
 
     /**
      * Creates a {@code UserPrefs} with default values.
@@ -36,6 +37,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         requireNonNull(newUserPrefs);
         setGuiSettings(newUserPrefs.getGuiSettings());
         setXpireFilePath(newUserPrefs.getXpireFilePath());
+        setReplenishFilePath(newUserPrefs.getReplenishFilePath());
     }
 
     public GuiSettings getGuiSettings() {
@@ -51,9 +53,18 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         return this.xpireFilePath;
     }
 
+    public Path getReplenishFilePath() {
+        return this.replenishFilePath;
+    }
+
     public void setXpireFilePath(Path expiryDateTrackerFilePath) {
         requireNonNull(expiryDateTrackerFilePath);
         this.xpireFilePath = expiryDateTrackerFilePath;
+    }
+
+    public void setReplenishFilePath(Path replenishListFilePath) {
+        requireNonNull(replenishListFilePath);
+        this.replenishFilePath = replenishListFilePath;
     }
 
     @Override
@@ -64,7 +75,9 @@ public class UserPrefs implements ReadOnlyUserPrefs {
             return false;
         } else {
             UserPrefs other = (UserPrefs) obj;
-            return this.guiSettings.equals(other.guiSettings) && this.xpireFilePath.equals(other.xpireFilePath);
+            return this.guiSettings.equals(other.guiSettings)
+                    && this.xpireFilePath.equals(other.xpireFilePath)
+                    && this.replenishFilePath.equals(other.replenishFilePath);
         }
     }
 
@@ -78,6 +91,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         StringBuilder sb = new StringBuilder();
         sb.append("Gui Settings : " + this.guiSettings + "\n");
         sb.append("Local data file location : " + this.xpireFilePath);
+        sb.append("Replenish data file location: " + this.replenishFilePath);
         return sb.toString();
     }
 }
