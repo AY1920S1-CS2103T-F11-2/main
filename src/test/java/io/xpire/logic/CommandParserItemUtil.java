@@ -45,7 +45,6 @@ public class CommandParserItemUtil {
     public static final String VALID_QUANTITY_EXPIRING_FISH = "1";
     public static final String VALID_QUANTITY_EXPIRED_ORANGE = "1";
 
-
     public static final String VALID_TAG_FRUIT = "Fruit";
     public static final String VALID_TAG_DRINK = "Drink";
     public static final String VALID_TAG_FRIDGE = "Fridge";
