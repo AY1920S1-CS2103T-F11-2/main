@@ -13,6 +13,7 @@ import io.xpire.commons.util.ConfigUtil;
 import io.xpire.commons.util.StringUtil;
 import io.xpire.logic.Logic;
 import io.xpire.logic.LogicManager;
+import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.ReadOnlyUserPrefs;
@@ -74,7 +75,7 @@ public class MainApp extends Application {
 
         model = initModelManager(storage, userPrefs, replenishListStorage);
 
-        itemManager = new ItemManager(model);
+        itemManager = new ItemManager(model, storage);
 
         initItemManager();
 
