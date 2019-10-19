@@ -1,8 +1,14 @@
 package io.xpire.logic.parser;
 
+import static io.xpire.logic.CommandParserItemUtil.INVALID_EXPIRY_DATE;
 import static io.xpire.logic.CommandParserItemUtil.INVALID_NAME;
+import static io.xpire.logic.CommandParserItemUtil.INVALID_QUANTITY;
+import static io.xpire.logic.CommandParserItemUtil.INVALID_REMINDER_THRESHOLD;
 import static io.xpire.logic.CommandParserItemUtil.INVALID_TAG;
+import static io.xpire.logic.CommandParserItemUtil.VALID_EXPIRY_DATE_KIWI;
 import static io.xpire.logic.CommandParserItemUtil.VALID_NAME_JELLY;
+import static io.xpire.logic.CommandParserItemUtil.VALID_QUANTITY_JELLY;
+import static io.xpire.logic.CommandParserItemUtil.VALID_REMINDER_THRESHOLD_JELLY;
 import static io.xpire.logic.CommandParserItemUtil.VALID_TAG_DRINK;
 import static io.xpire.logic.CommandParserItemUtil.VALID_TAG_FRUIT;
 import static io.xpire.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
@@ -19,13 +25,18 @@ import java.util.TreeSet;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.logic.parser.exceptions.ParseException;
+import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Name;
+import io.xpire.model.item.Quantity;
+import io.xpire.model.item.ReminderThreshold;
+import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
 public class ParserUtilTest {
 
     private static final String WHITESPACE = "       ";
+    private static final String invalidMethodOfSorting = "n@m3";
 
     @Test
     public void parseIndex_invalidInput_throwsParseException() {
@@ -114,5 +125,80 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new TreeSet<>(new TagComparator());
         expectedTagSet.addAll(Arrays.asList(new Tag(VALID_TAG_DRINK), new Tag(VALID_TAG_FRUIT)));
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parseExpiryDate_validDate_returnsExpiryDate() throws Exception {
+        ExpiryDate validDate = new ExpiryDate(VALID_EXPIRY_DATE_KIWI);
+        assertEquals(validDate, ParserUtil.parseExpiryDate(VALID_EXPIRY_DATE_KIWI));
+    }
+
+    @Test
+    public void parseExpiryDate_validDateWithWhiteSpace_returnsExpiryDate() throws Exception {
+        ExpiryDate validDate = new ExpiryDate(VALID_EXPIRY_DATE_KIWI);
+        assertEquals(validDate, ParserUtil.parseExpiryDate(WHITESPACE + VALID_EXPIRY_DATE_KIWI + WHITESPACE));
+    }
+
+    //Note: I think need to catch DateTimeParseException somehow? If not here always got warning.
+    @Test
+    public void parseExpiryDate_emptyDate_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseExpiryDate(WHITESPACE));
+    }
+
+    @Test
+    public void parseExpiryDate_invalidDate_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseExpiryDate(INVALID_EXPIRY_DATE));
+    }
+
+    @Test
+    public void parseQuantity_validQuantity_returnsQuantity() throws Exception {
+        Quantity validQuantity = new Quantity(VALID_QUANTITY_JELLY);
+        assertEquals(validQuantity, ParserUtil.parseQuantity(VALID_QUANTITY_JELLY));
+    }
+
+    @Test
+    public void parseQuantity_invalidQuantity_returnsQuantity() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseQuantity(INVALID_QUANTITY));
+    }
+
+    @Test
+    public void parseMethodOfSorting_validSortByName_returnsMethodOfSorting() throws Exception {
+        MethodOfSorting validMethod = new MethodOfSorting(MethodOfSorting.SORT_NAME);
+        assertEquals(validMethod, ParserUtil.parseMethodOfSorting(MethodOfSorting.SORT_NAME));
+    }
+
+    @Test
+    public void parseMethodOfSorting_validSortByDate_returnsMethodOfSorting() throws Exception {
+        MethodOfSorting validMethod = new MethodOfSorting(MethodOfSorting.SORT_DATE);
+        assertEquals(validMethod, ParserUtil.parseMethodOfSorting(MethodOfSorting.SORT_DATE));
+    }
+
+    @Test
+    public void parseMethodOfSorting_invalidSort_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseMethodOfSorting(invalidMethodOfSorting));
+    }
+
+    @Test
+    public void parseReminderThreshold_validThreshold_returnsReminderThreshold() throws Exception {
+        ReminderThreshold validThreshold = new ReminderThreshold(VALID_REMINDER_THRESHOLD_JELLY);
+        assertEquals(validThreshold, ParserUtil.parseReminderThreshold(VALID_REMINDER_THRESHOLD_JELLY));
+    }
+
+    @Test
+    public void parseReminderThreshold_invalidThreshold_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseReminderThreshold(INVALID_REMINDER_THRESHOLD));
+    }
+
+    @Test
+    public void parseTagsFromInput_validTags_returnsSet() throws Exception {
+        Set<Tag> set = new TreeSet<>(new TagComparator());
+        set.add(new Tag(VALID_TAG_DRINK));
+        set.add(new Tag(VALID_TAG_FRUIT));
+        assertEquals(set, ParserUtil.parseTagsFromInput("#" + VALID_TAG_FRUIT + "#" + VALID_TAG_DRINK));
+    }
+
+    @Test
+    public void parseTagsFromInput_invalidTags_returnsSet() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseTagsFromInput("#"));
     }
 }
