@@ -1,5 +1,10 @@
 package io.xpire.logic.parser;
 
+import static io.xpire.logic.CommandParserItemUtil.INVALID_NAME;
+import static io.xpire.logic.CommandParserItemUtil.INVALID_TAG;
+import static io.xpire.logic.CommandParserItemUtil.VALID_NAME_JELLY;
+import static io.xpire.logic.CommandParserItemUtil.VALID_TAG_DRINK;
+import static io.xpire.logic.CommandParserItemUtil.VALID_TAG_FRUIT;
 import static io.xpire.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static io.xpire.testutil.Assert.assertThrows;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
@@ -19,20 +24,8 @@ import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
 public class ParserUtilTest {
-    public static final String INVALID_NAME = "@pple";
-    public static final String INVALID_EXPIRY_DATE = "50/50/5000";
-    public static final String INVALID_TAG = "$cold";
-    public static final String INVALID_QUANTITY = "-2";
-    public static final String INVALID_REMINDER_THRESHOLD = "-5";
 
-    private static final String VALID_NAME = "Rachel Walker";
-    private static final String VALID_PHONE = "123456";
-    private static final String VALID_ADDRESS = "123 Main Street #0505";
-    private static final String VALID_EMAIL = "rachel@example.com";
-    private static final String VALID_TAG_1 = "Friend";
-    private static final String VALID_TAG_2 = "Neighbour";
-
-    private static final String WHITESPACE = " \t\r\n";
+    private static final String WHITESPACE = "       ";
 
     @Test
     public void parseIndex_invalidInput_throwsParseException() {
@@ -66,14 +59,14 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
-        Name expectedName = new Name(VALID_NAME);
-        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
+        Name expectedName = new Name(VALID_NAME_JELLY);
+        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME_JELLY));
     }
 
     @Test
     public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
-        String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
-        Name expectedName = new Name(VALID_NAME);
+        String nameWithWhitespace = WHITESPACE + VALID_NAME_JELLY + WHITESPACE;
+        Name expectedName = new Name(VALID_NAME_JELLY);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
     }
 
@@ -89,14 +82,14 @@ public class ParserUtilTest {
 
     @Test
     public void parseTag_validValueWithoutWhitespace_returnsTag() throws Exception {
-        Tag expectedTag = new Tag(VALID_TAG_1);
-        assertEquals(expectedTag, ParserUtil.parseTag(VALID_TAG_1));
+        Tag expectedTag = new Tag(VALID_TAG_DRINK);
+        assertEquals(expectedTag, ParserUtil.parseTag(VALID_TAG_DRINK));
     }
 
     @Test
     public void parseTag_validValueWithWhitespace_returnsTrimmedTag() throws Exception {
-        String tagWithWhitespace = WHITESPACE + VALID_TAG_1 + WHITESPACE;
-        Tag expectedTag = new Tag(VALID_TAG_1);
+        String tagWithWhitespace = WHITESPACE + VALID_TAG_DRINK + WHITESPACE;
+        Tag expectedTag = new Tag(VALID_TAG_DRINK);
         assertEquals(expectedTag, ParserUtil.parseTag(tagWithWhitespace));
     }
 
@@ -107,7 +100,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseTags_collectionWithInvalidTags_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, INVALID_TAG)));
+        assertThrows(ParseException.class, () -> ParserUtil.parseTags(Arrays.asList(VALID_TAG_DRINK, INVALID_TAG)));
     }
 
     @Test
@@ -117,9 +110,9 @@ public class ParserUtilTest {
 
     @Test
     public void parseTags_collectionWithValidTags_returnsTagSet() throws Exception {
-        Set<Tag> actualTagSet = ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
+        Set<Tag> actualTagSet = ParserUtil.parseTags(Arrays.asList(VALID_TAG_DRINK, VALID_TAG_FRUIT));
         Set<Tag> expectedTagSet = new TreeSet<>(new TagComparator());
-        expectedTagSet.addAll(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
+        expectedTagSet.addAll(Arrays.asList(new Tag(VALID_TAG_DRINK), new Tag(VALID_TAG_FRUIT)));
         assertEquals(expectedTagSet, actualTagSet);
     }
 }
