@@ -166,7 +166,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void deleteItem(ToBuyItem target) {
+    public void deleteToBuyItem(ToBuyItem target) {
         this.replenishList.removeItem(target);
     }
 

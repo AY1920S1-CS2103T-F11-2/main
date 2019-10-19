@@ -1,13 +1,12 @@
 package io.xpire.model;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import io.xpire.commons.util.CollectionUtil;
-import io.xpire.model.item.Item;
 import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
-
-import java.util.Set;
-import java.util.TreeSet;
 
 public class ToBuyItem extends XpireItem {
 

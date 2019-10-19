@@ -1,11 +1,11 @@
 package io.xpire.storage;
 
-import io.xpire.commons.exceptions.DataConversionException;
-import io.xpire.model.ReplenishList;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
+
+import io.xpire.commons.exceptions.DataConversionException;
+import io.xpire.model.ReplenishList;
 
 public interface ReplenishListStorage {
 

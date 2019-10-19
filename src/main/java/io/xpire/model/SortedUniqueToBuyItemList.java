@@ -1,19 +1,17 @@
 package io.xpire.model;
 
-import io.xpire.commons.util.CollectionUtil;
-import io.xpire.model.item.Item;
-import io.xpire.model.item.SortedUniqueItemList;
-import io.xpire.model.item.exceptions.DuplicateItemException;
-import io.xpire.model.item.exceptions.ItemNotFoundException;
-import io.xpire.model.item.sort.MethodOfSorting;
-import io.xpire.model.item.sort.MethodOfSortingToBuy;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
+import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
+import io.xpire.commons.util.CollectionUtil;
+import io.xpire.model.item.exceptions.DuplicateItemException;
+import io.xpire.model.item.exceptions.ItemNotFoundException;
+import io.xpire.model.item.sort.MethodOfSortingToBuy;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 
 public class SortedUniqueToBuyItemList {
 

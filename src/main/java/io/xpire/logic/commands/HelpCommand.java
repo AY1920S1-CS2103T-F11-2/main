@@ -1,8 +1,8 @@
 package io.xpire.logic.commands;
 
-import io.xpire.model.Model;
-
 import static io.xpire.logic.commands.CommandType.XPIRE;
+
+import io.xpire.model.Model;
 
 /**
  * Format full help instructions for every command for display.

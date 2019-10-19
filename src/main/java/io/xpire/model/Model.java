@@ -4,12 +4,10 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 
 import io.xpire.commons.core.GuiSettings;
-import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.sort.MethodOfSorting;
 import javafx.collections.ObservableList;
 
-import static java.util.Objects.requireNonNull;
 
 /**
  * The API of the Model component.
@@ -104,9 +102,9 @@ public interface Model {
 
     boolean hasToBuyItem(ToBuyItem item);
 
-    void deleteItem(ToBuyItem target);
-
     void addToBuyItem(ToBuyItem item);
+
+    void deleteToBuyItem(ToBuyItem target);
 
     void setToBuyItem(ToBuyItem target, ToBuyItem editedItem);
 

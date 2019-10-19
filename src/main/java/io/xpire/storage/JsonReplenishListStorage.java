@@ -1,5 +1,12 @@
 package io.xpire.storage;
 
+import static java.util.Objects.requireNonNull;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.logging.Logger;
+
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.commons.exceptions.IllegalValueException;
@@ -7,14 +14,7 @@ import io.xpire.commons.util.FileUtil;
 import io.xpire.commons.util.JsonUtil;
 import io.xpire.model.ReplenishList;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Optional;
-import java.util.logging.Logger;
-
-import static java.util.Objects.requireNonNull;
-
-public class JsonReplenishListStorage implements ReplenishListStorage{
+public class JsonReplenishListStorage implements ReplenishListStorage {
 
     private static final Logger logger = LogsCenter.getLogger(JsonReplenishListStorage.class);
 

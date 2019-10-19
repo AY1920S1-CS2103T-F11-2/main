@@ -1,9 +1,9 @@
 package io.xpire.model;
 
+import java.util.Set;
+
 import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
-
-import java.util.Set;
 
 public abstract class XpireItem {
 

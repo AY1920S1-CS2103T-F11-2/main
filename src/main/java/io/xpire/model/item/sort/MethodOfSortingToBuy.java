@@ -1,11 +1,11 @@
 package io.xpire.model.item.sort;
 
-import io.xpire.commons.util.AppUtil;
-import io.xpire.model.ToBuyItem;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Comparator;
 
-import static java.util.Objects.requireNonNull;
+import io.xpire.commons.util.AppUtil;
+import io.xpire.model.ToBuyItem;
 
 public class MethodOfSortingToBuy {
 

@@ -1,5 +1,7 @@
 package io.xpire.logic;
 
+import static io.xpire.logic.commands.CommandType.MESSAGE_INVALID_COMMAND_TYPE;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
@@ -18,7 +20,6 @@ import io.xpire.model.item.Item;
 import io.xpire.storage.Storage;
 import javafx.collections.ObservableList;
 
-import static io.xpire.logic.commands.CommandType.MESSAGE_INVALID_COMMAND_TYPE;
 
 /**
  * The main LogicManager of the app.
