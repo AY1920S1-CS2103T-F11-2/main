@@ -26,7 +26,7 @@ public class TagCommand extends Command {
     /**
      * Private enum to indicate whether command shows all tags or tags and item
      */
-    private enum TagMode { SHOW, TAG }
+    enum TagMode { SHOW, TAG }
 
     public static final String COMMAND_WORD = "tag";
 
@@ -65,6 +65,10 @@ public class TagCommand extends Command {
         this.mode = TagMode.SHOW;
     }
 
+    public TagMode getMode() {
+        return this.mode;
+    }
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
@@ -75,11 +79,11 @@ public class TagCommand extends Command {
             if (this.index.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
             }
-
             Item itemToTag = lastShownList.get(this.index.getZeroBased());
             Item taggedItem = createTaggedItem(itemToTag, this.tagItemDescriptor);
             model.setItem(itemToTag, taggedItem);
             return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedItem));
+
         case SHOW:
             Set<Tag> tagSet = new TreeSet<>(new TagComparator());
             List<Item> itemList = model.getAllItemList();
@@ -87,15 +91,28 @@ public class TagCommand extends Command {
             if (tagSet.isEmpty()) {
                 return new CommandResult(MESSAGE_TAG_SHOW_FAILURE);
             }
-            StringBuilder str = new StringBuilder(MESSAGE_TAG_SHOW_SUCCESS);
-            for (Tag tag: tagSet) {
-                str.append("\n").append(tag);
-            }
+            List<String> tagNameList = tagSet.stream().map(Tag::toString).collect(Collectors.toList());
+            StringBuilder str = appendTagsToFeedback(tagNameList, new StringBuilder(MESSAGE_TAG_SHOW_SUCCESS));
             return new CommandResult(str.toString());
+
         default:
         }
         throw new CommandException(Messages.MESSAGE_UNKNOWN_COMMAND);
     }
+
+    /**
+     * Appends tags to user feedback to show all tags.
+     *
+     * @param tagNameList List of tag names.
+     * @param str StringBuilder to append to.
+     */
+    public static StringBuilder appendTagsToFeedback(List<String> tagNameList, StringBuilder str) {
+        for (String tagName: tagNameList) {
+            str.append("\n").append(tagName);
+        }
+        return str;
+    }
+
     /**
      * Creates and returns a {@code Item} with the details of {@code itemToTag}
      * edited with {@code tagItemDescriptor}.
@@ -140,6 +157,9 @@ public class TagCommand extends Command {
 
         // state check
         TagCommand e = (TagCommand) other;
+        if (mode.equals(TagMode.SHOW)) {
+            return mode.equals(e.mode);
+        }
         return index.equals(e.index)
                 && tagItemDescriptor.equals(e.tagItemDescriptor)
                 && mode.equals(e.mode);
