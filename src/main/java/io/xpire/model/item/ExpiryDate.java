@@ -55,7 +55,7 @@ public class ExpiryDate {
 
     public boolean isExpired(LocalDate current) {
         long offset = DateUtil.getOffsetDays(current, this.date);
-        return offset > 0;
+        return offset <= 0;
     }
 
     public LocalDate getDate() {

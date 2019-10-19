@@ -74,6 +74,10 @@ public class MainApp extends Application {
 
         model = initModelManager(storage, userPrefs, replenishListStorage);
 
+        itemManager = new ItemManager(model);
+
+        initItemManager();
+
         logic = new LogicManager(model, storage);
 
         ui = new UiManager(logic);
@@ -118,6 +122,10 @@ public class MainApp extends Application {
 
     private void initLogging(Config config) {
         LogsCenter.init(config);
+    }
+
+    private void initItemManager() {
+        itemManager.updateItemTags();
     }
 
     /**

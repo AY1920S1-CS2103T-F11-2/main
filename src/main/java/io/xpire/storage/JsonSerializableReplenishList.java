@@ -25,7 +25,7 @@ class JsonSerializableReplenishList {
          * Constructs a {@code JsonSerializableXpire} with the given items.
          */
         @JsonCreator
-        public JsonSerializableReplenishList(@JsonProperty("toBuyItems") List<JsonAdaptedToBuyItem> items) {
+        public JsonSerializableReplenishList(@JsonProperty("items") List<JsonAdaptedToBuyItem> items) {
             this.items.addAll(items);
         }
 
