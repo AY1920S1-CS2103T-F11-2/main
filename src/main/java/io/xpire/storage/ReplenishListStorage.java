@@ -7,6 +7,9 @@ import java.util.Optional;
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReplenishList;
 
+/**
+ * Represents a storage for {@link ReplenishList}.
+ */
 public interface ReplenishListStorage {
 
     Path getReplenishListFilePath();

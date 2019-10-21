@@ -8,6 +8,9 @@ import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
+/**
+ * Represents an item user needs to replenish.
+ */
 public class ToBuyItem extends XpireItem {
 
     private final Name name;

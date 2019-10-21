@@ -53,6 +53,11 @@ public class ExpiryDate {
         return offset > 0 ? String.format(DAYS_LEFT, offset, offset == 1 ? "" : "s") : EXPIRED;
     }
 
+    /**
+     * Checks if an item is expired.
+     * @param current
+     * @return
+     */
     public boolean isExpired(LocalDate current) {
         long offset = DateUtil.getOffsetDays(current, this.date);
         return offset <= 0;

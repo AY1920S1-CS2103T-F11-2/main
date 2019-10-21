@@ -6,6 +6,9 @@ import io.xpire.model.ReplenishList;
 import io.xpire.model.ToBuyItem;
 import io.xpire.model.item.Name;
 
+/**
+ * Contains utility methods for populating {@code ReplenishList} with sample data.
+ */
 public class SampleReplenishUtil {
 
     public static ToBuyItem[] getSampleToBuyItems() {

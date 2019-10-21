@@ -13,6 +13,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 
+/**
+ * A list of to-buy items that enforces uniqueness between its elements and does not allow nulls.
+ * An item is considered unique by comparing using {@code ToBuyItem#isSameItem(ToBuyItem)}. As such, adding and
+ * updating of items uses ToBuyItem#isSameItem(ToBuyItem) for equality so as to ensure that the item being added or
+ * updated is unique in terms of identity in the SortedUniqueToBuyItemList. However, the removal of a item uses
+ * Item#equals(Object) so as to ensure that the item with exactly the same fields will be removed.
+ *
+ * Supports a minimal set of list operations.
+ *
+ * @see ToBuyItem#isSameItem(ToBuyItem)
+ */
 public class SortedUniqueToBuyItemList {
 
     private final ObservableList<ToBuyItem> internalList = FXCollections.observableArrayList();
@@ -38,7 +49,7 @@ public class SortedUniqueToBuyItemList {
     }
 
     /**
-     * Adds an item to the list.
+     * Adds a to-buy item to the list.
      * The item must not already exist in the list.
      */
     public void add(ToBuyItem toAdd) {

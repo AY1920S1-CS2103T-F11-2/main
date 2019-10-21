@@ -15,7 +15,9 @@ import io.xpire.model.item.Item;
 import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
 
-
+/**
+ * Adds a {@code ToBuyItem} to the Replenish List.
+ */
 public class ReplenishCommand extends Command {
 
     public static final String COMMAND_WORD = "replenish";

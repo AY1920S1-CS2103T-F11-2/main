@@ -15,7 +15,9 @@ import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
-
+/**
+ * Jackson-friendly version of {@link ToBuyItem}.
+ */
 public class JsonAdaptedToBuyItem {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Item's %s field is missing!";
@@ -23,7 +25,7 @@ public class JsonAdaptedToBuyItem {
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonAdaptedItem} with the given item details.
+     * Constructs a {@code JsonAdaptedToBuyItem} with the given item details.
      */
     @JsonCreator
     public JsonAdaptedToBuyItem(@JsonProperty("name") String name,
@@ -35,7 +37,7 @@ public class JsonAdaptedToBuyItem {
     }
 
     /**
-     * Converts a given {@code Item} into this class for Jackson use.
+     * Converts a given {@code ToBuyItem} into this class for Jackson use.
      */
     public JsonAdaptedToBuyItem(ToBuyItem source) {
         this.name = source.getName().toString();
@@ -47,7 +49,7 @@ public class JsonAdaptedToBuyItem {
     }
 
     /**
-     * Converts this Jackson-friendly adapted item object into the model's {@code Item} object.
+     * Converts this Jackson-friendly adapted item object into the model's {@code ToBuyItem} object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted item.
      */

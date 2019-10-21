@@ -7,6 +7,10 @@ import java.util.Comparator;
 import io.xpire.commons.util.AppUtil;
 import io.xpire.model.ToBuyItem;
 
+/**
+ * Represents a method of sorting in the replenish list.
+ * Guarantees: immutable; name is valid as declared in {@link #isValidMethodOfToBuySorting(String)}
+ */
 public class MethodOfSortingToBuy {
 
     public static final String MESSAGE_CONSTRAINTS = "Sorting can only be done by 'name'.";

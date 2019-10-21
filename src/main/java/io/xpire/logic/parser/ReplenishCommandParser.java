@@ -6,6 +6,9 @@ import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.ReplenishCommand;
 import io.xpire.logic.parser.exceptions.ParseException;
 
+/**
+ * Parses input arguments and creates a new ReplenishCommand object
+ */
 public class ReplenishCommandParser implements Parser<ReplenishCommand> {
 
     @Override

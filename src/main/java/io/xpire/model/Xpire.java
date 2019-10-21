@@ -12,8 +12,8 @@ import io.xpire.model.tag.Tag;
 import javafx.collections.ObservableList;
 
 /**
- * Wraps all data at xpire level
- * Duplicates are not allowed (by .isSameItem comparison)
+ * Wraps all data at xpire level.
+ * Duplicates are not allowed (by .isSameItem comparison).
  */
 public class Xpire implements ReadOnlyXpire {
 
@@ -88,6 +88,9 @@ public class Xpire implements ReadOnlyXpire {
         this.items.setMethodOfSorting(method);
     }
 
+    /**
+     * Checks expiry date of every item in xpire.
+     */
     public void checkExpiryDates() {
         Iterator<Item> itr = items.iterator();
         Item item;

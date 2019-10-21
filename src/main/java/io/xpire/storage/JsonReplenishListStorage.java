@@ -14,6 +14,9 @@ import io.xpire.commons.util.FileUtil;
 import io.xpire.commons.util.JsonUtil;
 import io.xpire.model.ReplenishList;
 
+/**
+ * A class to access ReplenishList data stored as a json file on the hard disk.
+ */
 public class JsonReplenishListStorage implements ReplenishListStorage {
 
     private static final Logger logger = LogsCenter.getLogger(JsonReplenishListStorage.class);
@@ -33,7 +36,12 @@ public class JsonReplenishListStorage implements ReplenishListStorage {
         return readReplenishList(this.filePath);
     }
 
-
+    /**
+     * Similar to {@link #readReplenishList()}.
+     *
+     * @param filePath location of the data. Cannot be null.
+     * @throws DataConversionException if the file is not in the correct format.
+     */
     public Optional<ReplenishList> readReplenishList(Path filePath) throws DataConversionException {
         requireNonNull(filePath);
 
@@ -55,6 +63,11 @@ public class JsonReplenishListStorage implements ReplenishListStorage {
         saveReplenishList(replenishList, this.filePath);
     }
 
+    /**
+     * Similar to {@link #saveReplenishList(ReplenishList)}.
+     *
+     * @param filePath location of the data. Cannot be null.
+     */
     public void saveReplenishList(ReplenishList replenishList, Path filePath) throws IOException {
         requireNonNull(replenishList);
         requireNonNull(filePath);

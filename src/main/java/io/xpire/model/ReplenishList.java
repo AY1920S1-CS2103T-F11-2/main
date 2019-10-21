@@ -6,6 +6,10 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 
+/**
+ * Wraps all the to-buy items at Replenish List level.
+ * No duplicate items allowed.
+ */
 public class ReplenishList {
 
     private final SortedUniqueToBuyItemList items = new SortedUniqueToBuyItemList();
@@ -13,7 +17,7 @@ public class ReplenishList {
     public ReplenishList() {}
 
     /**
-     * Creates a Xpire object using the Items in the {@code toBeCopied}
+     * Creates a ReplenishList object using the ToBuyItems in the {@code toBeCopied}
      */
     public ReplenishList(ReplenishList toBeCopied) {
         this();
@@ -21,7 +25,7 @@ public class ReplenishList {
     }
 
     /**
-     * Replaces the contents of the item list with {@code items}.
+     * Replaces the contents of the replenish list with {@code items}.
      * {@code items} must not contain duplicate items.
      */
     public void setItems(List<ToBuyItem> items) {
@@ -29,7 +33,7 @@ public class ReplenishList {
     }
 
     /**
-     * Returns true if an item with the same identity as {@code item} exists in xpire.
+     * Returns true if a {@code ToBuyItem} with the same identity as {@code ToBuyItem} exists in the replenish list.
      */
     public boolean hasItem(ToBuyItem item) {
         requireNonNull(item);
@@ -37,15 +41,15 @@ public class ReplenishList {
     }
 
     /**
-     * Removes {@code key} from this {@code Xpire}.
-     * {@code key} must exist in xpire.
+     * Removes {@code key} from this {@code ReplenishList}.
+     * {@code key} must exist in the replenish list.
      */
     public void removeItem(ToBuyItem key) {
         this.items.remove(key);
     }
 
     /**
-     * Resets the existing data of this {@code Xpire} with {@code newData}.
+     * Resets the existing data of this {@code ReplenishList} with {@code newData}.
      */
     public void resetData(ReplenishList newData) {
         requireNonNull(newData);
@@ -53,8 +57,8 @@ public class ReplenishList {
     }
 
     /**
-     * Adds a item to xpire.
-     * The item must not already exist in xpire.
+     * Adds an item to the replenish list.
+     * The item must not already exist in the replenish list.
      */
     public void addItem(ToBuyItem item) {
         this.items.add(item);
@@ -62,15 +66,19 @@ public class ReplenishList {
 
     /**
      * Replaces the given item {@code target} in the list with {@code editedItem}.
-     * {@code target} must exist in xpire.
-     * The item identity of {@code editedItem} must not be the same as another existing item in xpire.
+     * {@code target} must exist in the replenish list.
+     * The item identity of {@code editedItem} must not be the same as another existing item in replenish
+     * list.
      */
     public void setItem(ToBuyItem targetItem, ToBuyItem editedItem) {
         requireNonNull(editedItem);
         this.items.setItem(targetItem, editedItem);
     }
 
-
+    /**
+     * Returns an unmodifiable view of the replenish list.
+     * This list will not contain any duplicate items.
+     */
     public ObservableList<ToBuyItem> getItemList() {
         return this.items.asUnmodifiableObservableList();
     }
