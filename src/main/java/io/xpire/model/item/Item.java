@@ -10,7 +10,6 @@ import java.util.TreeSet;
 
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.commons.util.DateUtil;
-import io.xpire.model.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 

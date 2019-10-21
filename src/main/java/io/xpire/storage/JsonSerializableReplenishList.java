@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.model.ReplenishList;
-import io.xpire.model.ToBuyItem;
+import io.xpire.model.item.ToBuyItem;
 
 /**
  * An Immutable Xpire that is serializable to JSON format.

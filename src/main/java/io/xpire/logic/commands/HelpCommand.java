@@ -18,10 +18,10 @@ public class HelpCommand extends Command {
 
     public final CommandType commandType = XPIRE;
 
-    @Override
-    public CommandType getCommandType() {
-        return commandType;
-    }
+//    @Override
+//    public CommandType getCommandType() {
+//        return commandType;
+//    }
 
     @Override
     public CommandResult execute(Model model) {

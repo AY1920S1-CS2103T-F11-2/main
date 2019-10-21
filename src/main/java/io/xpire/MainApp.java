@@ -66,7 +66,7 @@ public class MainApp extends Application {
                 userPrefs.getXpireFilePath()
         );
 
-        ReplenishListStorage replenishListStorage = new JsonReplenishListStorage(userPrefs.getReplenishFilePath());
+        replenishListStorage = new JsonReplenishListStorage(userPrefs.getReplenishFilePath());
 
         storage = new StorageManager(xpireStorage, userPrefsStorage, replenishListStorage);
 

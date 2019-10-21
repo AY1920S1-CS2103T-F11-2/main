@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
+import io.xpire.model.item.SortedUniqueToBuyItemList;
+import io.xpire.model.item.ToBuyItem;
 import javafx.collections.ObservableList;
 
 /**

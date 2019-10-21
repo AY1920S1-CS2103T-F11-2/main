@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.xpire.commons.exceptions.IllegalValueException;
-import io.xpire.model.ToBuyItem;
+import io.xpire.model.item.ToBuyItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;

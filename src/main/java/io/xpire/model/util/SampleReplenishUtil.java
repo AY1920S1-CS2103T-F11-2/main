@@ -3,7 +3,7 @@ package io.xpire.model.util;
 import static io.xpire.model.util.SampleDataUtil.getTagSet;
 
 import io.xpire.model.ReplenishList;
-import io.xpire.model.ToBuyItem;
+import io.xpire.model.item.ToBuyItem;
 import io.xpire.model.item.Name;
 
 /**

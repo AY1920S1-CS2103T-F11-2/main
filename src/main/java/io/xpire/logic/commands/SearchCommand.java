@@ -36,10 +36,10 @@ public class SearchCommand extends Command {
                 String.format(Messages.MESSAGE_ITEMS_LISTED_OVERVIEW, model.getFilteredItemList().size()));
     }
 
-    @Override
-    public CommandType getCommandType() {
-        return commandType;
-    }
+//    @Override
+//    public CommandType getCommandType() {
+//        return commandType;
+//    }
 
     @Override
     public boolean equals(Object obj) {

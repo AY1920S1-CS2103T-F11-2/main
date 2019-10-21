@@ -8,6 +8,7 @@ import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Item;
 import javafx.collections.ObservableList;
 

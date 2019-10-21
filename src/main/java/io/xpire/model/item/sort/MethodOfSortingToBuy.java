@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Comparator;
 
 import io.xpire.commons.util.AppUtil;
-import io.xpire.model.ToBuyItem;
+import io.xpire.model.item.ToBuyItem;
 
 /**
  * Represents a method of sorting in the replenish list.

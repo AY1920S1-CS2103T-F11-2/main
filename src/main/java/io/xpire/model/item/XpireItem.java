@@ -1,8 +1,7 @@
-package io.xpire.model;
+package io.xpire.model.item;
 
 import java.util.Set;
 
-import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
 
 /**

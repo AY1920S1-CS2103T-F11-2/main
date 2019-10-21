@@ -1,7 +1,5 @@
 package io.xpire.logic;
 
-import static io.xpire.logic.commands.CommandType.MESSAGE_INVALID_COMMAND_TYPE;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
@@ -10,7 +8,6 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.logic.commands.Command;
 import io.xpire.logic.commands.CommandResult;
-import io.xpire.logic.commands.CommandType;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.XpireParser;
 import io.xpire.logic.parser.exceptions.ParseException;
@@ -27,10 +24,11 @@ import javafx.collections.ObservableList;
 public class LogicManager implements Logic {
     public static final String FILE_OPS_ERROR_MESSAGE = "Could not save data to file: ";
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
-
     private final Model model;
     private final Storage storage;
     private final XpireParser xpireParser;
+
+//    private CommandType commandType = XPIRE;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
@@ -45,26 +43,13 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = this.xpireParser.parseCommand(commandText);
         commandResult = command.execute(this.model);
-        CommandType commandType = command.getCommandType();
-        System.out.println(commandType);
-        switch (commandType) {
-        case XPIRE:
-            try {
-                this.storage.saveXpire(this.model.getXpire());
-            } catch (IOException ioe) {
-                throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
-            }
-            return commandResult;
-        case REPLENISH:
-            try {
-                this.storage.saveReplenishList(this.model.getReplenishList());
-            } catch (IOException ioe) {
-                throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
-            }
-            return commandResult;
-        default:
-            throw new CommandException(MESSAGE_INVALID_COMMAND_TYPE);
+        try {
+            this.storage.saveXpire(this.model.getXpire());
+            this.storage.saveReplenishList(this.model.getReplenishList());
+        } catch (IOException ioe) {
+            throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }
+        return commandResult;
     }
 
     @Override

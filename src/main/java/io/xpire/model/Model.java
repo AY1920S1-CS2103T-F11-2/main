@@ -5,6 +5,8 @@ import java.util.function.Predicate;
 
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.ToBuyItem;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.sort.MethodOfSorting;
 import javafx.collections.ObservableList;
 
@@ -90,12 +92,16 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered item list */
     ObservableList<Item> getFilteredItemList();
 
+    /*TODO*/
+    ObservableList<ToBuyItem> getFilteredReplenishList();
+
     /**
      * Updates the filter of the filtered item list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredItemList(Predicate<Item> predicate);
 
+    /* TODO: Add javadoc comments */
     void setReplenishList(ReplenishList replenishList);
 
     ReplenishList getReplenishList();
@@ -109,5 +115,7 @@ public interface Model {
     void setToBuyItem(ToBuyItem target, ToBuyItem editedItem);
 
     void updateItemTags();
+
+    public void updateFilteredReplenishList(Predicate<ToBuyItem> predicate);
 
 }

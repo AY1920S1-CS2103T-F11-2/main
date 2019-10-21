@@ -36,9 +36,9 @@ public class SortCommand extends Command {
         return new CommandResult(MESSAGE_SUCCESS + " by " + method.getValue());
     }
 
-    @Override
-    public CommandType getCommandType() {
-        return commandType;
-    }
+//    @Override
+//    public CommandType getCommandType() {
+//        return commandType;
+//    }
 
 }

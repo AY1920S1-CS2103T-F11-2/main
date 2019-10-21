@@ -100,7 +100,6 @@ public class DeleteCommand extends Command {
             assert this.quantity != null;
             Item newQuantityItem = reduceItemQuantity(targetItem, quantity);
             model.setItem(targetItem, newQuantityItem);
-            /* TODO: Transfer to To-Buy-List*/
             if (Quantity.quantityIsZero(newQuantityItem.getQuantity())) {
                 return new CommandResult(Quantity.MESSAGE_QUANTITY_ZERO
                         + String.format(Messages.MESSAGE_PROMPT_TRANSFER, targetItem.getName()));
@@ -139,8 +138,8 @@ public class DeleteCommand extends Command {
      *
      * @param targetItem Item which amount will be reduced.
      * @param reduceByQuantity Quantity to be reduced.
-     * @return
-     * @throws ParseException
+     * @return Item with reduced quantity.
+     * @throws ParseException when quantity parsed is less than item's original quantity.
      */
     private Item reduceItemQuantity(Item targetItem, Quantity reduceByQuantity) throws CommandException,
                                                                                        ParseException {
@@ -165,11 +164,11 @@ public class DeleteCommand extends Command {
                     && this.mode.equals(other.mode);
         }
     }
-
-    @Override
-    public CommandType getCommandType() {
-        return commandType;
-    }
+//
+//    @Override
+//    public CommandType getCommandType() {
+//        return commandType;
+//    }
 
     @Override
     public int hashCode() {

@@ -1,10 +1,9 @@
-package io.xpire.model;
+package io.xpire.model.item;
 
 import java.util.Set;
 import java.util.TreeSet;
 
 import io.xpire.commons.util.CollectionUtil;
-import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 

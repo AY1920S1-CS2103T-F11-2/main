@@ -65,10 +65,10 @@ public class AddCommand extends Command {
         }
     }
 
-    @Override
-    public CommandType getCommandType() {
-        return commandType;
-    }
+//    @Override
+//    public CommandType getCommandType() {
+//        return commandType;
+//    }
 
     @Override
     public int hashCode() {

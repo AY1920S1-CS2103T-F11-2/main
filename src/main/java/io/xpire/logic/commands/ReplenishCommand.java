@@ -10,7 +10,7 @@ import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
-import io.xpire.model.ToBuyItem;
+import io.xpire.model.item.ToBuyItem;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
@@ -63,10 +63,10 @@ public class ReplenishCommand extends Command {
         Set<Tag> tags = item.getTags();
         return new ToBuyItem(itemName, tags);
     }
-
-    @Override
-    public CommandType getCommandType() {
-        return commandType;
-    }
+//
+//    @Override
+//    public CommandType getCommandType() {
+//        return commandType;
+//    }
 
 }

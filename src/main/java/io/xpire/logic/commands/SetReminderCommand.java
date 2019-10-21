@@ -73,8 +73,8 @@ public class SetReminderCommand extends Command {
         }
     }
 
-    @Override
-    public CommandType getCommandType() {
-        return commandType;
-    }
+//    @Override
+//    public CommandType getCommandType() {
+//        return commandType;
+//    }
 }

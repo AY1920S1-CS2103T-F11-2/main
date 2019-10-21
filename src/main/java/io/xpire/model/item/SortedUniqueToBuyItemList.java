@@ -1,4 +1,4 @@
-package io.xpire.model;
+package io.xpire.model.item;
 
 import static java.util.Objects.requireNonNull;
 

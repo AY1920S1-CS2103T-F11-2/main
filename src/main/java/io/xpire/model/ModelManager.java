@@ -10,6 +10,7 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.ToBuyItem;
 import io.xpire.model.item.sort.MethodOfSorting;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -24,6 +25,7 @@ public class ModelManager implements Model {
     private final ReplenishList replenishList;
     private final UserPrefs userPrefs;
     private final FilteredList<Item> filteredItems;
+    private final FilteredList<ToBuyItem> filteredToBuyItems;
 
     /**
      * Initializes a ModelManager with the given xpire and userPrefs.
@@ -38,6 +40,7 @@ public class ModelManager implements Model {
         this.replenishList = new ReplenishList(replenishList);
         this.userPrefs = new UserPrefs(userPrefs);
         this.filteredItems = new FilteredList<>(this.xpire.getItemList());
+        this.filteredToBuyItems = new FilteredList<>(this.replenishList.getItemList());
     }
 
     public ModelManager() {
@@ -160,6 +163,17 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<ToBuyItem> getFilteredReplenishList() {
+        return this.filteredToBuyItems;
+    }
+
+    @Override
+    public void updateFilteredReplenishList(Predicate<ToBuyItem> predicate) {
+        requireNonNull(predicate);
+        this.filteredToBuyItems.setPredicate(predicate);
+    }
+
+    @Override
     public boolean hasToBuyItem(ToBuyItem item) {
         requireNonNull(item);
         return this.replenishList.hasItem(item);
@@ -173,7 +187,7 @@ public class ModelManager implements Model {
     @Override
     public void addToBuyItem(ToBuyItem item) {
         this.replenishList.addItem(item);
-        updateFilteredItemList(PREDICATE_SHOW_ALL_ITEMS);
+        //updateFilteredItemList(PREDICATE_SHOW_ALL_ITEMS);
     }
 
     @Override
@@ -183,7 +197,6 @@ public class ModelManager implements Model {
     }
 
     // =========== Item Manager =============================================================
-
     @Override
     public void updateItemTags() {
         this.xpire.checkExpiryDates();
