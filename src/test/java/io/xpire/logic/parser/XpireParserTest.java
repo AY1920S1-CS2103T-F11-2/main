@@ -30,6 +30,7 @@ import io.xpire.model.item.Item;
 import io.xpire.testutil.ItemBuilder;
 import io.xpire.testutil.ItemUtil;
 
+
 public class XpireParserTest {
 
     private final XpireParser parser = new XpireParser();

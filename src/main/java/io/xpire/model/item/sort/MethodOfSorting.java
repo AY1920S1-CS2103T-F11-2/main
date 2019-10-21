@@ -56,7 +56,8 @@ public class MethodOfSorting {
      * Returns the string value of the method of sorting.
      * @return The string representation of the method of sorting.
      */
-    public String getValue() {
+    @Override
+    public String toString() {
         return this.method;
     }
 
@@ -72,4 +73,8 @@ public class MethodOfSorting {
         }
     }
 
+    @Override
+    public int hashCode() {
+        return method.hashCode();
+    }
 }
