@@ -14,6 +14,7 @@ import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.item.Item;
+import io.xpire.model.state.StackManager;
 import io.xpire.storage.Storage;
 import javafx.collections.ObservableList;
 
@@ -27,11 +28,13 @@ public class LogicManager implements Logic {
     private final Model model;
     private final Storage storage;
     private final XpireParser xpireParser;
+    private final StackManager stackManager;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
         this.xpireParser = new XpireParser();
+        this.stackManager = new StackManager();
     }
 
     @Override

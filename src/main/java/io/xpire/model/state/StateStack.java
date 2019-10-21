@@ -9,7 +9,17 @@ import java.util.Stack;
  */
 public class StateStack<State> {
 
+    private final Stack<State> stack;
+
     public StateStack() {
-        Stack<State> stack = new Stack<>();
+        this.stack = new Stack<>();
+    }
+
+    public void add(State state) {
+        this.stack.push(state);
+    }
+
+    public State pop() {
+        return this.stack.pop();
     }
 }
