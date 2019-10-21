@@ -14,6 +14,7 @@ import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.state.StackManager;
+import io.xpire.model.state.State;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -78,6 +79,7 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Model model, StackManager stackManager) throws CommandException, ParseException {
         requireNonNull(model);
+        stackManager.push(new State(model, this));
         List<Item> lastShownList = model.getFilteredItemList();
 
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {

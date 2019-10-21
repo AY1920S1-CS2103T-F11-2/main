@@ -9,6 +9,7 @@ import io.xpire.model.item.ExpiringSoonPredicate;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.ReminderThresholdExceededPredicate;
 import io.xpire.model.state.StackManager;
+import io.xpire.model.state.State;
 
 /**
  * Displays all items whose expiry date falls within the specified duration (in days).
@@ -38,6 +39,7 @@ public class CheckCommand extends Command {
     @Override
     public CommandResult execute(Model model, StackManager stackManager) {
         requireNonNull(model);
+        stackManager.push(new State(model, this));
         model.updateFilteredItemList(this.predicate);
         return new CommandResult(MESSAGE_SUCCESS);
     }

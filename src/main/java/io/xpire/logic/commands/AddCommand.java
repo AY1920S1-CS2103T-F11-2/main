@@ -6,6 +6,7 @@ import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.state.StackManager;
+import io.xpire.model.state.State;
 
 /**
  * Adds an item to the list.
@@ -45,7 +46,7 @@ public class AddCommand extends Command {
         if (model.hasItem(this.toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_ITEM);
         }
-
+        stackManager.push(new State(model, this));
         model.addItem(this.toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, this.toAdd));
     }

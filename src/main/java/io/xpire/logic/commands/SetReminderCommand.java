@@ -12,6 +12,7 @@ import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.ReminderThreshold;
 import io.xpire.model.state.StackManager;
+import io.xpire.model.state.State;
 
 /**
  * Changes the reminder threshold for an item identified with its displayed index.
@@ -46,6 +47,7 @@ public class SetReminderCommand extends Command {
     @Override
     public CommandResult execute(Model model, StackManager stackManager) throws CommandException {
         requireNonNull(model);
+        stackManager.push(new State(model, this));
         List<Item> lastShownList = model.getFilteredItemList();
 
         if (this.index.getZeroBased() >= lastShownList.size()) {
