@@ -12,9 +12,9 @@ import static io.xpire.model.item.Quantity.DEFAULT_QUANTITY;
 public class ReplaceCommandParser implements Parser<ReplaceCommand> {
 
     public ReplaceCommand parse(String args) throws ParseException {
-        String[] arguments = args.split("\\|", 2);
+        String[] arguments = args.split("\\|", 3);
         Index index;
-        if (!areArgumentsPresent(arguments)) {
+        if (invalidArgumentFormat(arguments)) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ReplaceCommand.MESSAGE_USAGE));
         }
@@ -34,11 +34,11 @@ public class ReplaceCommandParser implements Parser<ReplaceCommand> {
         return new ReplaceCommand(index, expiryDate, quantity);
     }
 
-    private static boolean areArgumentsPresent(String...arguments) {
-        return arguments.length >= 2;
+    private static boolean invalidArgumentFormat(String...arguments) {
+        return arguments.length < 2 | arguments.length > 3;
     }
 
     private static boolean hasQuantity(String...arguments) {
-        return arguments.length >= 3 && !arguments[2].equals("");
+        return arguments.length == 3 && !arguments[2].equals("");
     }
 }

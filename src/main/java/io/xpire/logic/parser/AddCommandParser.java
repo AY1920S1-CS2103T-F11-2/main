@@ -21,7 +21,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     public AddCommand parse(String args) throws ParseException {
         String[] arguments = args.split("\\|", 3);
-        if (!areArgumentsPresent(arguments)) {
+        if (invalidArgumentFormat(arguments)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
         Item item;
@@ -36,8 +36,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         return new AddCommand(item);
     }
 
-    private static boolean areArgumentsPresent(String...arguments) {
-        return arguments.length >= 2;
+    private static boolean invalidArgumentFormat(String...arguments) {
+        return arguments.length < 2 | arguments.length > 3;
     }
 
     private static boolean hasQuantity(String...arguments) {

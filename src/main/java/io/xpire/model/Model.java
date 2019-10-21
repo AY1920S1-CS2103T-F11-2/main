@@ -21,6 +21,9 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Item> PREDICATE_SORT_ALL_ITEMS = unused -> true;
 
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<ToBuyItem> PREDICATE_SHOW_ALL_TO_BUY = unused -> true;
+
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */

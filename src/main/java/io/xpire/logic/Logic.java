@@ -8,6 +8,7 @@ import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.item.ToBuyItem;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Item;
 import javafx.collections.ObservableList;
@@ -35,6 +36,9 @@ public interface Logic {
 
     /** Returns an unmodifiable view of the filtered list of items */
     ObservableList<Item> getFilteredItemList();
+
+    /** Returns an unmodifiable view of the filtered list of to-buy items */
+    ObservableList<ToBuyItem> getFilteredReplenishList();
 
     /**
      * Returns the user prefs' xpire file path.

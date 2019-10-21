@@ -14,6 +14,7 @@ import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.ToBuyItem;
 import io.xpire.storage.Storage;
 import javafx.collections.ObservableList;
 
@@ -58,6 +59,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Item> getFilteredItemList() {
         return this.model.getFilteredItemList();
+    }
+
+    @Override
+    public ObservableList<ToBuyItem> getFilteredReplenishList() {
+        return this.model.getFilteredReplenishList();
     }
 
     @Override
