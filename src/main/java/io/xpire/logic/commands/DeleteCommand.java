@@ -13,6 +13,7 @@ import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.Quantity;
+import io.xpire.model.state.StackManager;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -75,7 +76,7 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException, ParseException {
+    public CommandResult execute(Model model, StackManager stackManager) throws CommandException, ParseException {
         requireNonNull(model);
         List<Item> lastShownList = model.getFilteredItemList();
 
@@ -166,4 +167,10 @@ public class DeleteCommand extends Command {
     public int hashCode() {
         return this.targetIndex.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Test";
+    }
+
 }

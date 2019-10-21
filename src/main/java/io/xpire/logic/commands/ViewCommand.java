@@ -2,6 +2,7 @@ package io.xpire.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import io.xpire.model.Model;
+import io.xpire.model.state.StackManager;
 
 /**
  * Display all items to the user.
@@ -14,9 +15,15 @@ public class ViewCommand extends Command {
 
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model, StackManager stackManager) {
         requireNonNull(model);
         model.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
         return new CommandResult(MESSAGE_SUCCESS);
     }
+
+    @Override
+    public String toString() {
+        return "Test";
+    }
+
 }

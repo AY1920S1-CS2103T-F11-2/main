@@ -19,7 +19,6 @@ import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.Xpire;
-import io.xpire.model.state.StateStack;
 import io.xpire.model.util.SampleDataUtil;
 import io.xpire.storage.JsonUserPrefsStorage;
 import io.xpire.storage.JsonXpireStorage;
@@ -46,7 +45,6 @@ public class MainApp extends Application {
     protected Storage storage;
     protected Model model;
     protected Config config;
-    protected StateStack stack;
 
     @Override
     public void init() throws Exception {
@@ -62,8 +60,6 @@ public class MainApp extends Application {
                 userPrefs.getXpireFilePath()
         );
         storage = new StorageManager(xpireStorage, userPrefsStorage);
-
-        stack = new StateStack();
 
         initLogging(config);
 

@@ -1,6 +1,7 @@
 package io.xpire.logic.commands;
 
 import io.xpire.model.Model;
+import io.xpire.model.state.StackManager;
 
 /**
  * Format full help instructions for every command for display.
@@ -15,7 +16,11 @@ public class HelpCommand extends Command {
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model, StackManager stackManager) {
         return new CommandResult(SHOWING_HELP_MESSAGE, true, false);
+    }
+    @Override
+    public String toString() {
+        return "Test";
     }
 }

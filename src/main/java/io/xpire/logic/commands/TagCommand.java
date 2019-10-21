@@ -14,6 +14,7 @@ import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.item.Item;
+import io.xpire.model.state.StackManager;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -70,7 +71,7 @@ public class TagCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    public CommandResult execute(Model model, StackManager stackManager) throws CommandException {
         requireNonNull(model);
         List<Item> lastShownList = model.getFilteredItemList();
 
@@ -214,6 +215,9 @@ public class TagCommand extends Command {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "Test";
+    }
 
 }

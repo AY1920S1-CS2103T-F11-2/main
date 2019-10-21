@@ -11,6 +11,7 @@ import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.ReminderThreshold;
+import io.xpire.model.state.StackManager;
 
 /**
  * Changes the reminder threshold for an item identified with its displayed index.
@@ -43,7 +44,7 @@ public class SetReminderCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    public CommandResult execute(Model model, StackManager stackManager) throws CommandException {
         requireNonNull(model);
         List<Item> lastShownList = model.getFilteredItemList();
 
@@ -70,5 +71,10 @@ public class SetReminderCommand extends Command {
             SetReminderCommand other = (SetReminderCommand) obj;
             return this.index.equals(other.index) && this.threshold.equals(other.threshold);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Test";
     }
 }

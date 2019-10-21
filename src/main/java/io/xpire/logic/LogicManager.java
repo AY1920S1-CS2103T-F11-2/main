@@ -43,7 +43,7 @@ public class LogicManager implements Logic {
 
         CommandResult commandResult;
         Command command = this.xpireParser.parseCommand(commandText);
-        commandResult = command.execute(this.model);
+        commandResult = command.execute(this.model, this.stackManager);
 
         try {
             this.storage.saveXpire(this.model.getXpire());

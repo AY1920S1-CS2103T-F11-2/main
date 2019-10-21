@@ -103,4 +103,9 @@ public interface Model {
      */
     void updateFilteredItemList(Predicate<Item> predicate);
 
+    /**
+     * Updates the model as input model.
+     */
+    void updateModel(Model model);
+
 }

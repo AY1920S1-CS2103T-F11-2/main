@@ -14,6 +14,7 @@ import io.xpire.model.Model;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.ContainsKeywordsPredicate;
 import io.xpire.model.item.Item;
+import io.xpire.model.state.StackManager;
 import io.xpire.testutil.Assert;
 
 /**
@@ -32,7 +33,7 @@ public class CommandTestUtil {
     public static void assertCommandSuccess(Command command, Model actualModel, CommandResult expectedCommandResult,
                                             Model expectedModel) {
         try {
-            CommandResult result = command.execute(actualModel);
+            CommandResult result = command.execute(actualModel, new StackManager());
             assertEquals(expectedCommandResult, result);
             assertEquals(expectedModel, actualModel);
         } catch (CommandException | ParseException ce) {
@@ -62,7 +63,8 @@ public class CommandTestUtil {
         Xpire expectedXpire = new Xpire(actualModel.getXpire());
         List<Item> expectedFilteredList = new ArrayList<>(actualModel.getFilteredItemList());
 
-        Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
+        Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(
+                actualModel, new StackManager()));
         assertEquals(expectedXpire, actualModel.getXpire());
         assertEquals(expectedFilteredList, actualModel.getFilteredItemList());
     }

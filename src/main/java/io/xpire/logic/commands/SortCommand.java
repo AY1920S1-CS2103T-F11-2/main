@@ -3,6 +3,7 @@ import static java.util.Objects.requireNonNull;
 
 import io.xpire.model.Model;
 import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.state.StackManager;
 
 /**
  * Sorts the items in the displayed list.
@@ -26,7 +27,7 @@ public class SortCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model, StackManager stackManager) {
         requireNonNull(model);
         model.sortItemList(this.method);
         model.updateFilteredItemList(Model.PREDICATE_SORT_ALL_ITEMS);
@@ -49,4 +50,10 @@ public class SortCommand extends Command {
     public int hashCode() {
         return this.method.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Test";
+    }
+
 }

@@ -23,10 +23,10 @@ public class ModelManager implements Model {
 
     private final Xpire xpire;
     private final UserPrefs userPrefs;
-    private final FilteredList<Item> filteredItems;
+    private FilteredList<Item> filteredItems;
 
     /**
-     * Initializes a ModelManager with the given xpire and userPrefs.
+     * Initialises a ModelManager with the given xpire and userPrefs.
      */
     public ModelManager(ReadOnlyXpire xpire, ReadOnlyUserPrefs userPrefs) {
         super();
@@ -41,6 +41,15 @@ public class ModelManager implements Model {
 
     public ModelManager() {
         this(new Xpire(), new UserPrefs());
+    }
+
+    /**
+     * Creates a clone of the input model that is to be stored as a state.
+     */
+    public ModelManager(Model model) {
+        this.xpire = new Xpire(model.getXpire());
+        this.userPrefs = new UserPrefs(model.getUserPrefs());
+        this.filteredItems = new FilteredList<>(this.xpire.getItemList());
     }
 
     //=========== UserPrefs =========================================================================================
@@ -143,6 +152,13 @@ public class ModelManager implements Model {
             // search commands have been executed before
             this.filteredItems.setPredicate(predicate.and(p));
         }
+    }
+
+    @Override
+    public void updateModel(Model model) {
+        this.setXpire(model.getXpire());
+        this.setUserPrefs(model.getUserPrefs());
+        this.filteredItems = (FilteredList<Item>) model.getFilteredItemList();
     }
 
     // =========== Tag Item List Accessors =============================================================

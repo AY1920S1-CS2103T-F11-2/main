@@ -24,6 +24,7 @@ import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.state.StackManager;
 import io.xpire.testutil.ItemBuilder;
 import javafx.collections.ObservableList;
 
@@ -40,7 +41,7 @@ public class AddCommandTest {
         Item kiwi = new ItemBuilder().withName(VALID_NAME_KIWI)
                                             .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                                             .withQuantity("1").build();
-        CommandResult commandResult = new AddCommand(kiwi).execute(modelStub);
+        CommandResult commandResult = new AddCommand(kiwi).execute(modelStub, new StackManager());
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, kiwi), commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(kiwi), modelStub.itemsAdded);
     }
@@ -53,7 +54,8 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(kiwi);
         ModelStub modelStub = new ModelStubWithItem(kiwi);
         //duplicate items cannot be added to the list
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_ITEM, () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_ITEM, () -> addCommand.execute(
+                modelStub, new StackManager()));
     }
 
     @Test
@@ -161,6 +163,11 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredItemList(Predicate<Item> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateModel(Model model) {
             throw new AssertionError("This method should not be called.");
         }
     }
