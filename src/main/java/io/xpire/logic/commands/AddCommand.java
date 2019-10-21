@@ -1,6 +1,5 @@
 package io.xpire.logic.commands;
 
-import static io.xpire.logic.commands.CommandType.XPIRE;
 import static java.util.Objects.requireNonNull;
 
 import io.xpire.logic.commands.exceptions.CommandException;
@@ -21,8 +20,6 @@ public class AddCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New item added: %s";
 
     public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists";
-
-    public final CommandType commandType = XPIRE;
 
     private final Item toAdd;
 
@@ -64,11 +61,6 @@ public class AddCommand extends Command {
             return this.toAdd.equals(other.toAdd);
         }
     }
-
-//    @Override
-//    public CommandType getCommandType() {
-//        return commandType;
-//    }
 
     @Override
     public int hashCode() {

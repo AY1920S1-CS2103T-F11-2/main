@@ -1,5 +1,5 @@
 package io.xpire.logic.commands;
-import static io.xpire.logic.commands.CommandType.XPIRE;
+
 import static java.util.Objects.requireNonNull;
 
 import io.xpire.model.Model;
@@ -20,8 +20,6 @@ public class SortCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Sorted all items";
 
-    public final CommandType commandType = XPIRE;
-
     private final MethodOfSorting method;
 
     public SortCommand(MethodOfSorting method) {
@@ -35,10 +33,5 @@ public class SortCommand extends Command {
         model.updateFilteredItemList(Model.PREDICATE_SORT_ALL_ITEMS);
         return new CommandResult(MESSAGE_SUCCESS + " by " + method.getValue());
     }
-
-//    @Override
-//    public CommandType getCommandType() {
-//        return commandType;
-//    }
 
 }

@@ -1,6 +1,5 @@
 package io.xpire.logic.commands;
 
-import static io.xpire.logic.commands.CommandType.XPIRE;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
@@ -24,8 +23,6 @@ public class CheckCommand extends Command {
             + "Example: " + COMMAND_WORD + "|7\n"
             + "If no duration is specified, expired items and items whose days to expiry date are less than or equals "
             + "to the remainder threshold will be displayed.\n";
-
-    public final CommandType commandType = XPIRE;
 
     private final Predicate<Item> predicate;
 
@@ -55,11 +52,6 @@ public class CheckCommand extends Command {
             return this.predicate.equals(other.predicate);
         }
     }
-
-//    @Override
-//    public CommandType getCommandType() {
-//        return commandType;
-//    }
 
     @Override
     public int hashCode() {
