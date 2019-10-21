@@ -37,7 +37,6 @@ import io.xpire.model.tag.TagComparator;
 public class ParserUtilTest {
 
     private static final String WHITESPACE = "       ";
-
     private static final String VALID_EXPIRY_DATE_1 = "2/9/2050";
     private static final String VALID_EXPIRY_DATE_2 = "02/09/2050";
     private static final String VALID_METHOD_OF_SORTING_NAME = "name";
