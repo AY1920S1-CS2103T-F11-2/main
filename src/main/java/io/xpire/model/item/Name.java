@@ -32,6 +32,13 @@ public class Name {
     }
 
     /**
+     * Defensive cloning constructor to create a clone of name with input name.
+     */
+    public Name(Name name) {
+        this.name = name.toString();
+    }
+
+    /**
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidName(String test) {

@@ -15,7 +15,7 @@ import javafx.collections.ObservableList;
  */
 public class Xpire implements ReadOnlyXpire {
 
-    private final SortedUniqueItemList items = new SortedUniqueItemList();
+    private SortedUniqueItemList items = new SortedUniqueItemList();
 
     public Xpire() {}
 
@@ -37,6 +37,9 @@ public class Xpire implements ReadOnlyXpire {
         this.items.setItems(items);
     }
 
+    public void setUniqueList(SortedUniqueItemList list) {
+        this.items = list;
+    }
     /**
      * Resets the existing data of this {@code Xpire} with {@code newData}.
      */

@@ -31,6 +31,13 @@ public class ReminderThreshold {
     }
 
     /**
+     * Defensive cloning constructor to create a clone of ReminderThreshold with input ReminderThreshold.
+     */
+    public ReminderThreshold(ReminderThreshold rt) {
+        this.reminderThreshold = rt.getValue();
+    }
+
+    /**
      * Returns true if a given integer is a valid reminder threshold.
      */
     public static boolean isValidReminderThreshold(String test) {

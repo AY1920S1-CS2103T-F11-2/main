@@ -25,7 +25,7 @@ public class UndoCommand extends Command {
             throw new CommandException(Messages.MESSAGE_NO_PREVIOUS_STATE);
         } else {
             State prevState = stackManager.pop();
-            model.updateModel(prevState.getModel());
+            model.updateModel(prevState);
             return new CommandResult(String.format(MESSAGE_SUCCESS, prevState.getCommand()));
         }
     }

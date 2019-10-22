@@ -35,6 +35,13 @@ public class Quantity {
     }
 
     /**
+     * Defensive cloning constructor to create a clone of Quantity with input Quantity.
+     */
+    public Quantity(Quantity qty) {
+        this.quantity = Integer.parseInt(qty.toString());
+    }
+
+    /**
      * Constructs a {@code Quantity}.
      *
      * @param quantity A valid quantity, i.e. a non-negative integer.

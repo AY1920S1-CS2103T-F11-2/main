@@ -7,7 +7,9 @@ import java.util.function.Predicate;
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.state.State;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 /**
  * The API of the Model component.
@@ -106,6 +108,8 @@ public interface Model {
     /**
      * Updates the model as input model.
      */
-    void updateModel(Model model);
+    void updateModel(State state);
+
+    void setFilteredItems(FilteredList<Item> list);
 
 }

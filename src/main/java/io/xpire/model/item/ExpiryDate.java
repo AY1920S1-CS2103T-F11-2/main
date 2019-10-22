@@ -33,6 +33,13 @@ public class ExpiryDate {
     }
 
     /**
+     * Defensive cloning of ExpiryDate to return a new ExpiryDate with input date.
+     */
+    public ExpiryDate(ExpiryDate date) {
+        this.date = date.getDate();
+    }
+
+    /**
      * Returns true if a given string is a valid expiry date with format d/M/yyyy.
      */
     public static boolean isValidFormatExpiryDate(String date) {

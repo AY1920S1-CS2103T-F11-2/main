@@ -10,7 +10,7 @@ public class ReminderThresholdTest {
 
     @Test
     public void constructor_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new ReminderThreshold(null));
+        assertThrows(NullPointerException.class, () -> new ReminderThreshold((ReminderThreshold) null));
     }
 
     @Test

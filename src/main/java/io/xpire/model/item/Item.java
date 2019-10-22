@@ -73,12 +73,15 @@ public class Item {
         this.reminderThreshold = reminderThreshold;
     }
 
+    /**
+     * Defensive cloning method for testing and state. (Creates a new Item object with input Item)
+     */
     public Item(Item item) {
-        this.name = item.getName();
-        this.expiryDate = item.getExpiryDate();
-        this.quantity = item.getQuantity();
-        this.tags = item.getTags();
-        this.reminderThreshold = item.getReminderThreshold();
+        this.name = new Name(item.getName());
+        this.expiryDate = new ExpiryDate(item.getExpiryDate());
+        this.quantity = new Quantity(item.getQuantity());
+        this.tags.addAll(item.getTags());
+        this.reminderThreshold = new ReminderThreshold(item.getReminderThreshold());
     }
 
     public Name getName() {
