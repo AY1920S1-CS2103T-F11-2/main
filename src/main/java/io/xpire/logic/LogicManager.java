@@ -8,6 +8,7 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.logic.commands.Command;
 import io.xpire.logic.commands.CommandResult;
+import io.xpire.logic.commands.ViewMode;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.XpireParser;
 import io.xpire.logic.parser.exceptions.ParseException;
@@ -23,25 +24,34 @@ import javafx.collections.ObservableList;
  * The main LogicManager of the app.
  */
 public class LogicManager implements Logic {
+
     public static final String FILE_OPS_ERROR_MESSAGE = "Could not save data to file: ";
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
     private final Model model;
     private final Storage storage;
     private final XpireParser xpireParser;
+    private ViewMode viewMode;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
         this.xpireParser = new XpireParser();
+        this.viewMode = ViewMode.XPIRE;
     }
 
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
-
         CommandResult commandResult;
         Command command = this.xpireParser.parseCommand(commandText);
-        commandResult = command.execute(this.model);
+        if (this.viewMode == ViewMode.REPLENISH) {
+            commandResult = command.execute(this.model, true);
+        } else {
+            commandResult = command.execute(this.model);
+        }
+        if (commandResult.isShowReplenish()) {
+            this.viewMode = ViewMode.REPLENISH;
+        }
         try {
             this.storage.saveXpire(this.model.getXpire());
             this.storage.saveReplenishList(this.model.getReplenishList());

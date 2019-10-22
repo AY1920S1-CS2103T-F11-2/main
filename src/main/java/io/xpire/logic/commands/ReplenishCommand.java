@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_VIEW_MODE;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.TreeSet;
 import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
+import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.item.ToBuyItem;
 import io.xpire.model.item.Item;
@@ -37,6 +39,14 @@ public class ReplenishCommand extends Command {
         this.targetIndex = targetIndex;
     }
 
+    @Override
+    public CommandResult execute(Model model, boolean isReplenishView) throws CommandException {
+        if (isReplenishView) {
+            throw new CommandException(MESSAGE_VIEW_MODE);
+        } else {
+            return execute(model);
+        }
+    }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {

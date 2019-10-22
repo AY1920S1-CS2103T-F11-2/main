@@ -18,4 +18,6 @@ public abstract class Command {
      */
     public abstract CommandResult execute(Model model) throws CommandException, ParseException;
 
+    public abstract CommandResult execute(Model model, boolean isReplenishView) throws CommandException, ParseException;
+
 }

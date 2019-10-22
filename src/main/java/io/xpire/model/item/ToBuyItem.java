@@ -57,4 +57,17 @@ public class ToBuyItem extends XpireItem {
                     && this.name.equals(other.name);
         }
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        if (!this.getTags().isEmpty()) {
+            builder.append(this.name).append("\n")
+                    .append("Tags: ");
+        } else {
+            builder.append(this.name).append("\n");
+        }
+        this.getTags().forEach(builder::append);
+        return builder.toString();
+    }
 }

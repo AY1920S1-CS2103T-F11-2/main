@@ -14,6 +14,8 @@ import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.ToBuyItem;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -49,6 +51,24 @@ public class TagCommand extends Command {
     }
 
     @Override
+    public CommandResult execute(Model model, boolean isReplenishView) throws CommandException {
+        requireNonNull(model);
+        if (isReplenishView) {
+            List<ToBuyItem> lastShownList = model.getFilteredReplenishList();
+            if (this.index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+            }
+            ToBuyItem itemToTag = lastShownList.get(this.index.getZeroBased());
+            ToBuyItem taggedItem = createTaggedToBuyItem(itemToTag, this.tagItemDescriptor);
+            model.setToBuyItem(itemToTag, taggedItem);
+            return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedItem),
+                    false, false, true);
+        } else {
+            return execute(model);
+        }
+    }
+
+    @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Item> lastShownList = model.getFilteredItemList();
@@ -61,8 +81,8 @@ public class TagCommand extends Command {
         Item taggedItem = createTaggedItem(itemToTag, this.tagItemDescriptor);
         model.setItem(itemToTag, taggedItem);
         return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedItem));
-
     }
+
     /**
      * Creates and returns a {@code Item} with the details of {@code itemToTag}
      * edited with {@code tagItemDescriptor}.
@@ -75,13 +95,24 @@ public class TagCommand extends Command {
     }
 
     /**
+     * Creates and returns a {@code ToBuyItem} with the details of {@code itemToTag}
+     * edited with {@code tagItemDescriptor}.
+     */
+    private static ToBuyItem createTaggedToBuyItem(ToBuyItem itemToTag, TagItemDescriptor tagItemDescriptor) {
+        assert itemToTag != null;
+        Set<Tag> updatedTags = updateTags(itemToTag, tagItemDescriptor);
+        return new ToBuyItem(itemToTag.getName(), updatedTags);
+    }
+
+
+    /**
      * Returns an updated set of tags.
      *
      * @param itemToTag Item to be tagged.
      * @param tagItemDescriptor Descriptor that specifies additional tags to be added on or tags to be cleared.
      * @return Set containing updated tags.
      */
-    private static Set<Tag> updateTags(Item itemToTag, TagItemDescriptor tagItemDescriptor) {
+    private static Set<Tag> updateTags(XpireItem itemToTag, TagItemDescriptor tagItemDescriptor) {
         Set<Tag> set = new TreeSet<>(new TagComparator());
         set.addAll(itemToTag.getTags());
         set.addAll(tagItemDescriptor.getTags());

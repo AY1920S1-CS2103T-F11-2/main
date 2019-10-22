@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_VIEW_MODE;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
@@ -20,13 +21,18 @@ public class ReplaceCommand extends Command {
 
     public static final String COMMAND_WORD = "replace";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Moves an item in the replenish list to the tracker.\n"
-            + "Format: replace|<item index in replenish list>|<expiry date>[|<quantity>]\n"
+    public static final String MESSAGE_USAGE_FORMAT = "Format: replace|"
+            + "<item index in replenish list>|<expiry date>[|<quantity>]\n"
             + "Example: " + COMMAND_WORD + "|1|11/12/1999|2";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Moves an item in the replenish list to the tracker.\n"
+            + MESSAGE_USAGE_FORMAT;
 
     public static final String MESSAGE_SUCCESS = "New item replenished: %s";
 
     public static final String MESSAGE_DUPLICATE_ITEM = "This item is already replenished";
+
+    public static final String MESSAGE_TO_REPLENISH_VIEW = "Please change to replenish view";
 
     private final Index targetIndex;
     private final ExpiryDate expiryDate;
@@ -36,6 +42,15 @@ public class ReplaceCommand extends Command {
         this.targetIndex = targetIndex;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
+    }
+
+    @Override
+    public CommandResult execute(Model model, boolean isReplenishView) throws CommandException {
+        if (isReplenishView) {
+            return execute(model);
+        } else {
+            throw new CommandException(MESSAGE_TO_REPLENISH_VIEW);
+        }
     }
 
     @Override

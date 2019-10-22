@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_VIEW_MODE;
 import static java.util.Objects.requireNonNull;
 
 import io.xpire.logic.commands.exceptions.CommandException;
@@ -29,6 +30,15 @@ public class AddCommand extends Command {
     public AddCommand(Item item) {
         requireNonNull(item);
         this.toAdd = item;
+    }
+
+    @Override
+    public CommandResult execute(Model model, boolean isReplenishView) throws CommandException {
+        if (isReplenishView) {
+            throw new CommandException(MESSAGE_VIEW_MODE);
+        } else {
+            return execute(model);
+        }
     }
 
     /**

@@ -1,8 +1,10 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_VIEW_MODE;
 import static java.util.Objects.requireNonNull;
 
 import io.xpire.commons.core.Messages;
+import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.item.ContainsKeywordsPredicate;
 
@@ -23,6 +25,15 @@ public class SearchCommand extends Command {
 
     public SearchCommand(ContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
+    }
+
+    @Override
+    public CommandResult execute(Model model, boolean isReplenishView) throws CommandException {
+        if (isReplenishView) {
+            throw new CommandException(MESSAGE_VIEW_MODE);
+        } else {
+            return execute(model);
+        }
     }
 
     @Override

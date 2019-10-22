@@ -1,9 +1,11 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_VIEW_MODE;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
+import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.item.ExpiringSoonPredicate;
 import io.xpire.model.item.Item;
@@ -32,6 +34,15 @@ public class CheckCommand extends Command {
 
     public CheckCommand(ReminderThresholdExceededPredicate predicate) {
         this.predicate = predicate;
+    }
+
+    @Override
+    public CommandResult execute(Model model, boolean isReplenishView) throws CommandException {
+        if (isReplenishView) {
+            throw new CommandException(MESSAGE_VIEW_MODE);
+        } else {
+            return execute(model);
+        }
     }
 
     @Override

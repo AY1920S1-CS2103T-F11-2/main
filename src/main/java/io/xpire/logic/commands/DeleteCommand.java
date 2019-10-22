@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_VIEW_MODE;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
@@ -72,6 +73,15 @@ public class DeleteCommand extends Command {
         this.tagSet = null;
         this.quantity = quantity;
         this.mode = DeleteMode.QUANTITY;
+    }
+
+    @Override
+    public CommandResult execute(Model model, boolean isReplenishView) throws CommandException, ParseException {
+       if (isReplenishView) {
+           throw new CommandException(MESSAGE_VIEW_MODE);
+       } else {
+           return execute(model);
+       }
     }
 
     @Override

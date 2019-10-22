@@ -13,5 +13,6 @@ public class Messages {
     public static final String MESSAGE_INVALID_TAGS = "Tags are not in the item specified!";
     public static final String MESSAGE_UNKNOWN_DELETE_MODE = "Unknown Delete mode";
     public static final String MESSAGE_PROMPT_TRANSFER = "You may wish to transfer %s to the Replenish List";
+    public static final String MESSAGE_VIEW_MODE = "Please switch to default view mode before performing command";
 
 }

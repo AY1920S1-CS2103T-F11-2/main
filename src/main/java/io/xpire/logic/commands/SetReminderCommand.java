@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_VIEW_MODE;
 import static io.xpire.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
@@ -39,6 +40,15 @@ public class SetReminderCommand extends Command {
 
         this.index = index;
         this.threshold = threshold;
+    }
+
+    @Override
+    public CommandResult execute(Model model, boolean isReplenishView) throws CommandException {
+        if (isReplenishView) {
+            throw new CommandException(MESSAGE_VIEW_MODE);
+        } else {
+            return execute(model);
+        }
     }
 
     @Override

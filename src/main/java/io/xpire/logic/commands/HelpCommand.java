@@ -15,6 +15,13 @@ public class HelpCommand extends Command {
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
 
     @Override
+    public CommandResult execute(Model model, boolean isReplenishView) {
+        return isReplenishView ?
+                new CommandResult(SHOWING_HELP_MESSAGE, true, false, true)
+                : execute(model);
+    }
+
+    @Override
     public CommandResult execute(Model model) {
         return new CommandResult(SHOWING_HELP_MESSAGE, true, false, false);
     }
