@@ -48,7 +48,7 @@ public class ModelManager implements Model {
      */
     public ModelManager(Model model) {
         this.xpire = new Xpire(model.getXpire());
-        this.userPrefs = new UserPrefs(model.getUserPrefs());
+        this.userPrefs = (UserPrefs) model.getUserPrefs();
         this.filteredItems = new FilteredList<>(this.xpire.getItemList());
     }
 

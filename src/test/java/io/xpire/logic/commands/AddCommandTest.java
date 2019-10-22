@@ -21,6 +21,7 @@ import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.UserPrefs;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.sort.MethodOfSorting;
@@ -212,6 +213,12 @@ public class AddCommandTest {
         public ReadOnlyXpire getXpire() {
             return new Xpire();
         }
+
+        @Override
+        public ReadOnlyUserPrefs getUserPrefs() {
+            return new UserPrefs();
+        }
+
     }
 
 }

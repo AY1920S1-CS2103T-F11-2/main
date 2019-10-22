@@ -2,6 +2,7 @@ package io.xpire.model.state;
 
 import io.xpire.logic.commands.Command;
 import io.xpire.model.Model;
+import io.xpire.model.ModelManager;
 
 /**
  * State that stores the current working model.
@@ -11,7 +12,7 @@ public class State {
     private final Command command;
 
     public State(Model model, Command command) {
-        this.model = model;
+        this.model = new ModelManager(model);
         this.command = command;
     }
 
