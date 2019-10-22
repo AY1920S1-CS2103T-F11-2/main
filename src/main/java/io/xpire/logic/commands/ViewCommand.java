@@ -15,7 +15,7 @@ public class ViewCommand extends Command {
     public static final String XPIRE_MESSAGE_SUCCESS = "Displayed all items";
 
     public static final String REPLENISH_MESSAGE_SUCCESS = "Displayed all items in the replenish list.\n"
-            + "To move an item in the replenish list to the tracker"
+            + "Move an item in the replenish list to the tracker:\n"
             + ReplaceCommand.MESSAGE_USAGE_FORMAT;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows the list of items.\n"
