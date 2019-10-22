@@ -1,6 +1,7 @@
 package io.xpire.model;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 
 import io.xpire.commons.core.GuiSettings;
@@ -97,6 +98,13 @@ public interface Model {
 
     /*TODO*/
     ObservableList<ToBuyItem> getFilteredReplenishList();
+
+    /**
+     * Returns a list of all the items.
+     *
+     * @return List of all items.
+     */
+    List<Item> getAllItemList();
 
     /**
      * Updates the filter of the filtered item list to filter by the given {@code predicate}.

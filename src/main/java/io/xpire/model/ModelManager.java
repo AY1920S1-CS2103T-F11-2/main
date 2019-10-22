@@ -3,6 +3,7 @@ package io.xpire.model;
 import static java.util.Objects.requireNonNull;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -200,6 +201,13 @@ public class ModelManager implements Model {
     @Override
     public void updateItemTags() {
         this.xpire.checkExpiryDates();
+    }
+
+    // =========== Tag Item List Accessors =============================================================
+
+    @Override
+    public List<Item> getAllItemList() {
+        return this.xpire.getItemList();
     }
 
     @Override

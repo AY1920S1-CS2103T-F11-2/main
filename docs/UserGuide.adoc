@@ -68,16 +68,18 @@ Format: `help`
 
 
 === Adding an item: `add`
+
 Adds an item to your tracker. +
+Upon addition of the item, the updated list sorted by name then date in chronological order, will be displayed. +
 Format: `add|<item name>|<expiry date>[|<quantity>]`
 
 Examples:
 
-* `add|durian|30/09/2020` (without quantity) +
-Adds the item `durian` with expiry date `30/09/2019` with quantity `1`
+* `add|durian|30/9/2020` (without quantity) +
+Adds the item `durian` with expiry date `30/9/2019` with quantity `1`
 
 * `add|ice cream|18/8/2020|2` +
-Adds the item `ice cream` with expiry date `18/08/2019` with quantity `2`
+Adds the item `ice cream` with expiry date `18/8/2019` with quantity `2`
 
 ****
 * Item quantity **must be a positive integer** 1,2,3...
@@ -89,7 +91,8 @@ For items with single quantity, you can save time by keying in only the item nam
 
 === Listing all items : `view`
 
-Lists all items in your tracker. +
+Shows all items in the list. +
+All items are sorted by both name (lexicographical order) and date (chronological order). +
 Format: `view`
 
 === Setting reminder for an item: `set reminder`
@@ -141,8 +144,8 @@ Sorts all items in your list by either name or date. +
 Format: `sort|<key>`
 
 ****
-* Sorting by both name and date is done in ascending order.
-* For example, Apple will sort ahead of Banana, while 01/01/2000 will sort ahead of 01/01/2001.
+* Items are sorted by both name and date.
+* For example, Apple will sort ahead of Banana, while 1/1/2000 will sort ahead of 1/1/2001.
 ****
 
 Examples:
@@ -153,23 +156,24 @@ Examples:
 
 === Searching item by name: `search`
 
-Searches for items whose names contain any of the given keywords. +
+Search items whose names or tag(s) contain any of the given keywords. +
 Format: `search|<keyword>[|<other keywords>]...`
 
 ****
-* The search is case insensitive. e.g `ham` will match `Ham`
-* The order of the keywords does not matter. e.g. `Turkey Ham|Apple` will match `Apple|Turkey Ham`
-* Only the name is searched.
-* Partial words can also be matched e.g. `Papa` will match `Papayas`
-* Items matching at least one keyword will be returned (i.e. `OR` search). e.g. `Apple|Pear` will return `Granny Smith Apple`, `Japanese Pear`
+* The search is case insensitive. e.g `ham` will match `Ham` and `#fruit` will match `#Fruit`.
+* The order of the keywords does not matter. e.g. `Turkey Ham|Apple` will match `Apple|Turkey Ham`.
+* Only the name and tag, if any, are searched.
+* For name search, partial words can be matched e.g. `Papa` will match `Papayas`.
+* For tag search, only exact words will be matched e.g. `#Fruit` will match `#Fruit` but `#Fru` will not match `#Fruit`.
+* Items matching at least one keyword will be returned (an `OR` search). e.g. `Apple|Pear` will return `Granny Smith Apple` and `Japanese Pear`.
 ****
 
 Examples:
 
 * `search|kebab` +
 Returns `Chicken Kebab` and `kebab`
-* `search|milk|tea|pearls` +
-Returns any items containing the terms `milk`, `tea`, or `pearls`
+* `search|milk|tea|#Drink` +
+Returns any items with names containing `milk` or `tea`, or with the tag `#Drink`.
 
 // tag::delete[]
 === Deleting items, tags or quantity : `delete`
@@ -221,6 +225,11 @@ An item can have any number of tags (including 0)
 Tags an item from the list according to user input +
 Format: `tag|<index>|<tag>[<other tags>]...`
 
+OR
+
+Shows the tags you have created +
+Format: `tag`
+
 ****
 * Tags the item at the specified `<index>`.
 * The index refers to the index number shown in the list.
@@ -235,6 +244,8 @@ Examples:
 `tag|2|#Nestle #Caffeine` +
 Tags the 2nd item in the list with `#Nestle` and `#Caffeine`.
 
+* `tag` +
+Shows all tags created.
 
 === Clearing all entries : `clear`
 
