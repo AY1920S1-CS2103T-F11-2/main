@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
@@ -13,6 +14,7 @@ import io.xpire.model.item.ToBuyItem;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
+import io.xpire.model.tag.TagComparator;
 
 /**
  * Adds a {@code ToBuyItem} to the Replenish List.
@@ -26,6 +28,7 @@ public class ReplenishCommand extends Command {
             + "Example: " + COMMAND_WORD + "|1" + "\n";
     public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists in the Replenish List";
     public static final String MESSAGE_SUCCESS = "%s is moved to the Replenish List";
+    private static final Tag EXPIRED_TAG = new Tag("Expired");
 
     private ToBuyItem toBuyItem;
     private final Index targetIndex;
@@ -59,7 +62,13 @@ public class ReplenishCommand extends Command {
 
     private ToBuyItem adaptItemToToBuy(Item item) {
         Name itemName = item.getName();
-        Set<Tag> tags = item.getTags();
-        return new ToBuyItem(itemName, tags);
+        Set<Tag> originalTags = item.getTags();
+        Set<Tag> newTags = new TreeSet<>(new TagComparator());
+        for (Tag tag: originalTags) {
+            if (!newTags.contains(tag) && !tag.equals(EXPIRED_TAG)) {
+                newTags.add(tag);
+            }
+        }
+        return new ToBuyItem(itemName, newTags);
     }
 }

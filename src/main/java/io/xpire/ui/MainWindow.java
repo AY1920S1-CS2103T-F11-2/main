@@ -46,6 +46,9 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane itemListPanelPlaceholder;
 
     @FXML
+    private StackPane toBuyItemListPanelPlaceholder;
+
+    @FXML
     private StackPane resultDisplayPlaceholder;
 
     @FXML
@@ -111,6 +114,11 @@ public class MainWindow extends UiPart<Stage> {
         itemListPanel = new ItemListPanel(logic.getFilteredItemList());
         itemListPanelPlaceholder.getChildren().add(itemListPanel.getRoot());
 
+        toBuyItemListPanel = new ToBuyItemListPanel(logic.getFilteredReplenishList());
+        toBuyItemListPanelPlaceholder.getChildren().add(toBuyItemListPanel.getRoot());
+        toBuyItemListPanelPlaceholder.setManaged(false);
+        toBuyItemListPanelPlaceholder.setVisible(false);
+
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
@@ -121,6 +129,19 @@ public class MainWindow extends UiPart<Stage> {
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
     }
 
+    void showReplenish() {
+        toBuyItemListPanelPlaceholder.setManaged(true);
+        toBuyItemListPanelPlaceholder.setVisible(true);
+        itemListPanelPlaceholder.setManaged(false);
+        itemListPanelPlaceholder.setVisible(false);
+    }
+
+    void showXpire() {
+        toBuyItemListPanelPlaceholder.setManaged(false);
+        toBuyItemListPanelPlaceholder.setVisible(false);
+        itemListPanelPlaceholder.setManaged(true);
+        itemListPanelPlaceholder.setVisible(true);
+    }
 
     /**
      * Sets the default size based on {@code guiSettings}.
@@ -176,13 +197,18 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
-
             if (commandResult.isShowHelp()) {
                 handleHelp();
             }
 
             if (commandResult.isExit()) {
                 handleExit();
+            }
+
+            if (commandResult.isShowReplenish()) {
+                showReplenish();
+            } else {
+                showXpire();
             }
 
             return commandResult;

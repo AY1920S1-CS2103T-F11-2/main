@@ -17,13 +17,17 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    /** Replenish list view is shown to user */
+    private final boolean showReplenish;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showReplenish) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
+        this.showReplenish = showReplenish;
     }
 
     /**
@@ -31,7 +35,8 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false);
+        this(feedbackToUser, false,
+                false, false);
     }
 
     public String getFeedbackToUser() {
@@ -46,6 +51,10 @@ public class CommandResult {
         return this.exit;
     }
 
+    public boolean isShowReplenish() {
+        return this.showReplenish;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -56,13 +65,15 @@ public class CommandResult {
             CommandResult other = (CommandResult) obj;
             return this.feedbackToUser.equals(other.feedbackToUser)
                     && this.showHelp == other.showHelp
-                    && this.exit == other.exit;
+                    && this.exit == other.exit
+                    && this.showReplenish == other.showReplenish;
         }
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.feedbackToUser, this.showHelp, this.exit);
+        return Objects.hash(this.feedbackToUser, this.showHelp, this.exit,
+                this.showReplenish);
     }
 
 }

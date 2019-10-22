@@ -41,7 +41,7 @@ public class ViewCommand extends Command {
             return new CommandResult(MESSAGE_SUCCESS);
         case REPLENISH:
             model.updateFilteredReplenishList(Model.PREDICATE_SHOW_ALL_TO_BUY);
-            return new CommandResult(MESSAGE_SUCCESS);
+            return new CommandResult(MESSAGE_SUCCESS, false, false, true);
         default:
             assert false;
             return null;

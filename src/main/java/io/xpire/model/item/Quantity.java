@@ -19,9 +19,11 @@ public class Quantity {
             "Quantity added should be a positive integer and should not be blank";
     public static final String MESSAGE_QUANTITY_ZERO =
             "Item has run out.\n";
+    public static final int MAX_VALUE = 100000;
     private static final String INTERNAL_MESSAGE_CONSTRAINTS =
             "Quantity added should be a non-negative integer and should not be blank";
     private int quantity;
+
 
 
     /**
@@ -64,7 +66,7 @@ public class Quantity {
      * Returns true if a given input string is a valid quantity.
      */
     public static boolean isValidInputQuantity(String test) {
-        return StringUtil.isNonZeroUnsignedInteger(test);
+        return StringUtil.isNonZeroUnsignedInteger(test) && Integer.parseInt(test) <= MAX_VALUE;
     }
 
     /**

@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
@@ -16,7 +15,6 @@ import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ToBuyItem;
 import io.xpire.model.tag.Tag;
-import io.xpire.model.tag.TagComparator;
 
 public class ReplaceCommand extends Command {
 
@@ -29,8 +27,6 @@ public class ReplaceCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New item replenished: %s";
 
     public static final String MESSAGE_DUPLICATE_ITEM = "This item is already replenished";
-
-    private static final Tag EXPIRED_TAG = new Tag("Expired");
 
     private final Index targetIndex;
     private final ExpiryDate expiryDate;
@@ -63,14 +59,8 @@ public class ReplaceCommand extends Command {
 
     private Item adaptToBuyToItem(ToBuyItem toBuy, ExpiryDate expiryDate, Quantity quantity) {
         Name itemName = toBuy.getName();
-        Set<Tag> originalTags = toBuy.getTags();
-        Set<Tag> newTags = new TreeSet<>(new TagComparator());
-        for (Tag tag: originalTags) {
-            if (!newTags.contains(tag) && !tag.equals(EXPIRED_TAG)) {
-                newTags.add(tag);
-            }
-        }
-        return new Item(itemName, expiryDate, quantity, newTags);
+        Set<Tag> tags = toBuy.getTags();
+        return new Item(itemName, expiryDate, quantity, tags);
     }
 
 }
