@@ -74,25 +74,39 @@ public class TagCommand extends Command {
     public CommandResult execute(Model model, boolean isReplenishView) throws CommandException {
         requireNonNull(model);
         if (isReplenishView) {
-            List<ToBuyItem> lastShownList = model.getFilteredReplenishList();
-            if (this.index.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+            switch (this.mode) {
+            case TAG:
+                List<ToBuyItem> lastShownList = model.getFilteredReplenishList();
+                if (this.index.getZeroBased() >= lastShownList.size()) {
+                    throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+                }
+                ToBuyItem itemToTag = lastShownList.get(this.index.getZeroBased());
+                ToBuyItem taggedItem = createTaggedToBuyItem(itemToTag, this.tagItemDescriptor);
+                model.setToBuyItem(itemToTag, taggedItem);
+                return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedItem),
+                        false, false, true);
+            case SHOW:
+                Set<Tag> tagSet = new TreeSet<>(new TagComparator());
+                List<ToBuyItem> itemList = model.getToBuyItemList();
+                itemList.forEach(item -> tagSet.addAll(item.getTags()));
+                if (tagSet.isEmpty()) {
+                    return new CommandResult(MESSAGE_TAG_SHOW_FAILURE, false, false, true);
+                }
+                List<String> tagNameList = tagSet.stream().map(Tag::toString).collect(Collectors.toList());
+                StringBuilder str = appendTagsToFeedback(tagNameList, new StringBuilder(MESSAGE_TAG_SHOW_SUCCESS));
+                return new CommandResult(str.toString(), false, false, true);
+            default:
             }
-            ToBuyItem itemToTag = lastShownList.get(this.index.getZeroBased());
-            ToBuyItem taggedItem = createTaggedToBuyItem(itemToTag, this.tagItemDescriptor);
-            model.setToBuyItem(itemToTag, taggedItem);
-            return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedItem),
-                    false, false, true);
         } else {
             return execute(model);
         }
+        throw new CommandException(Messages.MESSAGE_UNKNOWN_COMMAND);
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Item> lastShownList = model.getFilteredItemList();
-
         switch (this.mode) {
         case TAG:
             if (this.index.getZeroBased() >= lastShownList.size()) {

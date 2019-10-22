@@ -107,6 +107,13 @@ public interface Model {
     List<Item> getAllItemList();
 
     /**
+     * Returns a list of all to-buy items.
+     *
+     * @return List of all to-buy items.
+     */
+    List<ToBuyItem> getToBuyItemList();
+
+    /**
      * Updates the filter of the filtered item list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */

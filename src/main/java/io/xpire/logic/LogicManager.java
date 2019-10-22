@@ -49,7 +49,9 @@ public class LogicManager implements Logic {
         } else {
             commandResult = command.execute(this.model);
         }
-        if (commandResult.isShowReplenish()) {
+        if (!commandResult.isShowReplenish()) {
+            this.viewMode = ViewMode.XPIRE;
+        } else {
             this.viewMode = ViewMode.REPLENISH;
         }
         try {

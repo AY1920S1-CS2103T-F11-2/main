@@ -1,6 +1,5 @@
 package io.xpire.logic.commands;
 
-import static io.xpire.commons.core.Messages.MESSAGE_VIEW_MODE;
 import static java.util.Objects.requireNonNull;
 
 import io.xpire.logic.commands.exceptions.CommandException;
@@ -25,14 +24,18 @@ public class ViewCommand extends Command {
             + "Format: view[|<key>] (where key is 'replenish')\n"
             + "Example: " + COMMAND_WORD + "|replenish";
 
-    private final ViewMode viewMode;
+    private enum RequestedView {
+        TRACKER, REPLENISHLIST;
+    }
+
+    private final RequestedView requestedView;
 
     public ViewCommand() {
-        this.viewMode = ViewMode.XPIRE;
+        this.requestedView = RequestedView.TRACKER;
     }
 
     public ViewCommand(String s) {
-        this.viewMode = ViewMode.REPLENISH;
+        this.requestedView = RequestedView.REPLENISHLIST;
     }
 
     @Override
@@ -43,11 +46,11 @@ public class ViewCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        switch (this.viewMode) {
-        case XPIRE:
+        switch (this.requestedView) {
+        case TRACKER:
             model.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
             return new CommandResult(XPIRE_MESSAGE_SUCCESS);
-        case REPLENISH:
+        case REPLENISHLIST:
             model.updateFilteredReplenishList(Model.PREDICATE_SHOW_ALL_TO_BUY);
             return new CommandResult(REPLENISH_MESSAGE_SUCCESS, false, false, true);
         default:

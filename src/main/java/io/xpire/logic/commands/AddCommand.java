@@ -40,7 +40,6 @@ public class AddCommand extends Command {
             return execute(model);
         }
     }
-
     /**
      * Executes {@code AddCommand}.
      *

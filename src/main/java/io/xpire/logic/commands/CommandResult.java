@@ -18,7 +18,7 @@ public class CommandResult {
     private final boolean exit;
 
     /** Replenish list view is shown to user */
-    private final boolean showReplenish;
+    private boolean showReplenish;
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.

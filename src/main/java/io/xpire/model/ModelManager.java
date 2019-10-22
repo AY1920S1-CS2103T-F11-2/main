@@ -211,6 +211,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public List<ToBuyItem> getToBuyItemList() {
+        return this.replenishList.getItemList();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
