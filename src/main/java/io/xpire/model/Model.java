@@ -6,10 +6,12 @@ import java.util.function.Predicate;
 
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.SortedUniqueItemList;
 import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.state.State;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+//import javafx.collections.transformation.FilteredList;
 
 /**
  * The API of the Model component.
@@ -92,6 +94,8 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered item list */
     ObservableList<Item> getFilteredItemList();
 
+    public FilteredList<Item> getFilteredItemList(boolean x);
+
     /**
      * Returns a list of all the items.
      *
@@ -110,6 +114,6 @@ public interface Model {
      */
     void updateModel(State state);
 
-    void setFilteredItems(FilteredList<Item> list);
+    void setFilteredItems(SortedUniqueItemList list, Predicate<? super Item> predicate);
 
 }

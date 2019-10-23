@@ -24,6 +24,7 @@ import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.SortedUniqueItemList;
 import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.state.StackManager;
 import io.xpire.model.state.State;
@@ -97,7 +98,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setFilteredItems(FilteredList<Item> list) {
+        public void setFilteredItems(SortedUniqueItemList list, Predicate<? super Item> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -163,6 +164,11 @@ public class AddCommandTest {
 
         @Override
         public ObservableList<Item> getFilteredItemList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public FilteredList<Item> getFilteredItemList(boolean x) {
             throw new AssertionError("This method should not be called.");
         }
 

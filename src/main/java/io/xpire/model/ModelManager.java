@@ -11,6 +11,7 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.SortedUniqueItemList;
 import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.state.State;
 import javafx.collections.ObservableList;
@@ -125,8 +126,9 @@ public class ModelManager implements Model {
     // =========== Filtered Item List Accessors =============================================================
 
     @Override
-    public void setFilteredItems(FilteredList<Item> list) {
-        this.filteredItems = list;
+    public void setFilteredItems(SortedUniqueItemList list, Predicate<? super Item> predicate) {
+        this.filteredItems = new FilteredList<Item>(list.asUnmodifiableObservableList());
+        this.filteredItems.setPredicate(predicate);
     }
 
     /**
@@ -135,6 +137,15 @@ public class ModelManager implements Model {
      */
     @Override
     public ObservableList<Item> getFilteredItemList() {
+        return this.filteredItems;
+    }
+
+    /**
+     * Returns a view of the list of {@code Item} backed by the internal list of
+     * {@code versionedXpire}
+     */
+    @Override
+    public FilteredList<Item> getFilteredItemList(boolean x) {
         return this.filteredItems;
     }
 
@@ -153,9 +164,10 @@ public class ModelManager implements Model {
 
     @Override
     public void updateModel(State state) {
-        this.xpire.setUniqueList(state.getCloneModel().getFullItemList());
-        setUserPrefs(state.getCloneModel().getUserPref());
-        setFilteredItems((FilteredList<Item>) state.getCloneModel().getFilteredList());
+        CloneModel clone = state.getCloneModel();
+        this.xpire.setUniqueList(clone.getFullItemList());
+        setUserPrefs(clone.getUserPref());
+        setFilteredItems(clone.getFilteredList(), clone.getPredicate());
     }
 
     // =========== Tag Item List Accessors =============================================================

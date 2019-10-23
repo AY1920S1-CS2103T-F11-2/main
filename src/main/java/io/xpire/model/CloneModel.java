@@ -1,8 +1,9 @@
 package io.xpire.model;
 
+import java.util.function.Predicate;
+
 import io.xpire.model.item.Item;
 import io.xpire.model.item.SortedUniqueItemList;
-import javafx.collections.ObservableList;
 
 /**
  * A clone of a model.
@@ -11,7 +12,8 @@ public class CloneModel {
 
     private SortedUniqueItemList fullItemList = null;
     private UserPrefs userPref = null;
-    private ObservableList<Item> filteredList = null;
+    private SortedUniqueItemList filteredList = null;
+    private Predicate<? super Item> predicate = null;
 
     public CloneModel(Model model) {
         cloneXpire(model);
@@ -48,16 +50,29 @@ public class CloneModel {
         return this.userPref;
     }
 
+    /**
+     * Clones the filtered list in the model.
+     */
     private void cloneFilteredList(Model model) {
-        this.filteredList = model.getFilteredItemList();
-        this.filteredList.forEach(item -> new Item(item));
+        Predicate<? super Item> predicate = model.getFilteredItemList(true).getPredicate();
+        this.filteredList = new SortedUniqueItemList();
+        for (Item item: model.getFilteredItemList()) {
+            this.filteredList.add(new Item(item));
+        }
     }
 
     /**
      * Retrieves the filtered list of items for this current model and state.
      */
-    public ObservableList<Item> getFilteredList() {
+    public SortedUniqueItemList getFilteredList() {
         return this.filteredList;
+    }
+
+    /**
+     * Retrieves the predicate associated with this state's filtered list.
+     */
+    public Predicate<? super Item> getPredicate() {
+        return this.predicate;
     }
 
 }

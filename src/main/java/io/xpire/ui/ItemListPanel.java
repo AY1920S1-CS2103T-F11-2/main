@@ -22,6 +22,7 @@ public class ItemListPanel extends UiPart<Region> {
 
     public ItemListPanel(ObservableList<Item> itemList) {
         super(FXML);
+        System.out.println("Help me");
         itemListView.setItems(itemList);
         itemListView.setCellFactory(listView -> new ItemListViewCell());
     }
@@ -33,7 +34,7 @@ public class ItemListPanel extends UiPart<Region> {
         @Override
         protected void updateItem(Item item, boolean empty) {
             super.updateItem(item, empty);
-
+            System.out.println("Updated bij");
             if (empty || item == null) {
                 setGraphic(null);
                 setText(null);
