@@ -12,6 +12,7 @@ import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.ToBuyItem;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.sort.MethodOfSorting;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

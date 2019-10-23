@@ -1,6 +1,7 @@
 package io.xpire.model;
 
 import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import javafx.collections.ObservableList;
 
 /**

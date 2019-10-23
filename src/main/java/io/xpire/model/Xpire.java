@@ -18,6 +18,7 @@ import javafx.collections.ObservableList;
 public class Xpire implements ReadOnlyXpire {
 
     private final SortedUniqueItemList items = new SortedUniqueItemList();
+    private final SortedUniqueItemList toreplenishitems = new SortedUniqueItemList();
 
     public Xpire() {}
 
