@@ -286,7 +286,7 @@ Format: <code>sort|&lt;key&gt;</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Items are sorted by both name and date.</p>
+<p>Items can be sorted by either name or date.</p>
 </li>
 <li>
 <p>For example, Apple will sort ahead of Banana, while 1/1/2000 will sort ahead of 1/1/2001.</p>
@@ -337,6 +337,9 @@ Format: <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</cod
 <li>
 <p>Items matching at least one keyword will be returned (an <code>OR</code> search). e.g. <code>Apple|Pear</code> will return <code>Granny Smith Apple</code> and <code>Japanese Pear</code>.</p>
 </li>
+<li>
+<p>If no items are found, any closely related keywords, if any, will be displayed.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -349,6 +352,10 @@ Format: <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</cod
 <li>
 <p><code>search|kebab</code><br>
 Returns <code>Chicken Kebab</code> and <code>kebab</code></p>
+</li>
+<li>
+<p><code>search|Chicken Ham</code><br>
+Returns <code>Chicken Ham</code></p>
 </li>
 <li>
 <p><code>search|milk|tea|#Drink</code><br>
@@ -572,4 +579,4 @@ e.g. <code>delete|3</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-21 04:11:00 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-23 15:45:37 UTC</div></div></div></body></html>
