@@ -26,15 +26,24 @@
 <li><a href="#auto-sorting-of-items-by-name-then-date">3.2. Auto-sorting of items by name then date</a></li>
 <li><a href="#set-reminders-for-expiring-items">3.3. Set Reminders for expiring items</a></li>
 <li><a href="#undo-redo-feature">3.4. Undo/Redo feature</a></li>
-<li><a href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></li>
-<li><a href="#spelling-correction-with-alternative-recommendations">3.6. Spelling correction with alternative recommendations</a></li>
-<li><a href="#logging">3.7. Logging</a></li>
-<li><a href="#Implementation-Configuration">3.8. Configuration</a></li>
+<li><a href="#search">3.5. Search</a></li>
+<li><a href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></li>
+<li><a href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a></li>
+<li><a href="#logging">3.8. Logging</a></li>
+<li><a href="#Implementation-Configuration">3.9. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a></li>
 <li><a href="#testing">5. Testing</a></li>
-<li><a href="#dev-ops">6. Dev Ops</a></li>
+<li><a href="#dev-ops">6. Dev Ops</a>
+<ul class="sectlevel2">
+<li><a href="#build-automation">6.1. Build Automation</a></li>
+<li><a href="#continuous-integration">6.2. Continuous Integration</a></li>
+<li><a href="#documentation-previews">6.3. Documentation Previews</a></li>
+<li><a href="#making-a-release">6.4. Making a Release</a></li>
+<li><a href="#managing-dependencies">6.5. Managing Dependencies</a></li>
+</ul>
+</li>
 <li><a href="#product-scope">Appendix A: Product Scope</a></li>
 <li><a href="#user-stories">Appendix B: User Stories</a></li>
 <li><a href="#use-cases">Appendix C: Use Cases</a></li>
@@ -832,7 +841,27 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></h3>
+<h3 id="search"><a class="link" href="#search">3.5. Search</a></h3>
+<div class="paragraph">
+<p>This feature allows users to filter out specific items either by name or by tag(s) through providing the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel. For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
+</div>
+<div class="paragraph">
+<p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
+</div>
+<div class="sect3">
+<h4 id="implementation-6"><a class="link" href="#implementation-6">3.5.1. Implementation</a></h4>
+<div class="paragraph">
+<p>Below is the UML sequence diagram of an example usage scenario.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SearchCommandSequenceDiagram.png" alt="SearchCommandSequenceDiagram">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></h3>
 <div class="paragraph">
 <p><em>{Explain here how the data encryption feature will be implemented}</em></p>
 </div>
@@ -846,7 +875,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p>The following activity diagram summarizes what happens when a user executes a new command:</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.1. Design Considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.6.1. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-set-reminder-executes-2"><a class="link" href="#aspect-how-set-reminder-executes-2">Aspect: How set reminder executes</a></h5>
 <div class="ulist">
@@ -916,9 +945,9 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.6. Spelling correction with alternative recommendations</a></h3>
+<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a></h3>
 <div class="sect3">
-<h4 id="implementation-6"><a class="link" href="#implementation-6">3.6.1. Implementation</a></h4>
+<h4 id="implementation-7"><a class="link" href="#implementation-7">3.7.1. Implementation</a></h4>
 <div class="paragraph">
 <p>The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
 This distance is based on the number of substitutions, deletions, insertions or transpositions of characters, needed to convert the source string into the target string.
@@ -938,7 +967,7 @@ Relevant functions supporting this operation are implemented in <code>StringUtil
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.6.2. Design Considerations</a></h4>
+<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.7.2. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">Aspect: How recommendations execute</a></h5>
 <div class="ulist">
@@ -1008,14 +1037,14 @@ Relevant functions supporting this operation are implemented in <code>StringUtil
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.7. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.8. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.8, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.9, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -1046,7 +1075,7 @@ Relevant functions supporting this operation are implemented in <code>StringUtil
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.8. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.9. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -1072,8 +1101,61 @@ Relevant functions supporting this operation are implemented in <code>StringUtil
 <div class="sect1">
 <h2 id="dev-ops"><a class="link" href="#dev-ops">6. Dev Ops</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="build-automation"><a class="link" href="#build-automation">6.1. Build Automation</a></h3>
 <div class="paragraph">
-<p>Refer to the guide <a href="DevOps.html">here</a>.</p>
+<p>We use Gradle for build automation. See <a href="UsingGradle.html">here</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="continuous-integration"><a class="link" href="#continuous-integration">6.2. Continuous Integration</a></h3>
+<div class="paragraph">
+<p>We use <a href="https://travis-ci.org/">Travis CI</a> to perform <em>Continuous Integration</em> on our project. See <a href="UsingTravis.html">here</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="documentation-previews"><a class="link" href="#documentation-previews">6.3. Documentation Previews</a></h3>
+<div class="paragraph">
+<p>We use <a href="https://www.netlify.com/">Netlify</a> to preview the HTML pages of any modified asciidocs files when reviewing pull requests. See <a href="UsingNetlify.html">here</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="making-a-release"><a class="link" href="#making-a-release">6.4. Making a Release</a></h3>
+<div class="paragraph">
+<p>Follow the steps below to make a new release:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Update the version number in <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/tree/master/src/main/java/io/xpire/MainApp.java"><code>MainApp.java</code></a>.</p>
+</li>
+<li>
+<p>Generate a JAR file <a href="UsingGradle.html#creating-the-jar-file">using Gradle</a>.</p>
+</li>
+<li>
+<p>Tag the repo with the version number. e.g. <code>v1.4</code></p>
+</li>
+<li>
+<p><a href="https://help.github.com/articles/creating-releases/">Create a new release using GitHub</a> and upload the JAR file you have created.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="managing-dependencies"><a class="link" href="#managing-dependencies">6.5. Managing Dependencies</a></h3>
+<div class="paragraph">
+<p>Xpire often depends on third-party libraries. For instance, the <a href="https://github.com/FasterXML/jackson">Jackson library</a> is being used for JSON parsing in Xpire. Below are 2 ways to manage these <em>dependencies</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use Gradle to manage and automatically download dependencies (Recommended).</p>
+</li>
+<li>
+<p>Manually download and include those libraries in the repo (this requires extra work and bloats the repo size).</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -1985,4 +2067,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-24 15:42:08 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-24 15:47:02 UTC</div></div></div></body></html>
