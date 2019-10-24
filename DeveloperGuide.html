@@ -612,51 +612,55 @@ As a more OOP model, we can store a <code>Tag</code> list in <code>Xpire</code>,
 <div class="sect3">
 <h4 id="implementation-5"><a class="link" href="#implementation-5">3.4.1. Implementation</a></h4>
 <div class="paragraph">
-<p>The undo/redo mechanism is facilitated by <code>VersionedXpire</code>.
-It extends <code>Xpire</code> with an undo/redo history, stored internally as an <code>XpireStateList</code> and <code>currentStatePointer</code>.
-Additionally, it implements the following operations:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>VersionedXpire#commit()</code>&#8201;&#8212;&#8201;Saves the current Xpire state in its history.</p>
-</li>
-<li>
-<p><code>VersionedXpire#undo()</code>&#8201;&#8212;&#8201;Restores the previous Xpire state from its history.</p>
-</li>
-<li>
-<p><code>VersionedXpire#redo()</code>&#8201;&#8212;&#8201;Restores a previously undone Xpire state from its history.</p>
-</li>
-</ul>
+<p>The undo/redo mechanism is facilitated by <code>CloneModel</code> and <code>StackManager</code>.
+It is a separate class that stores a state of the model at any command in time.<br>
+Internally, it runs three private functions that copy the data over.</p>
 </div>
 <div class="paragraph">
-<p>These operations are exposed in the <code>Model</code> interface as <code>Model#commitXpire()</code>, <code>Model#undoXpire()</code> and <code>Model#redoXpire()</code> respectively.</p>
+<p>The mechanism is supported by a StackManager which stores internally all the states and<br>
+decides when to pop or clear, depending on the command.
+There are two stacks that are stored in StackManager internally, the Undo and the Redo stack.
+These stacks are initialised and cleared upon beginning/ending every session.</p>
+</div>
+<div class="paragraph">
+<p>At every command (Other than undo/redo/help/exit), the state is stored internally.<br>
+When an undo command is executed, it will pop the previous state and update the model via <code>updateModel</code>.<br>
+The state that was undid will then be pushed into the Redo stack, should the user types in a redo command.</p>
 </div>
 <div class="paragraph">
 <p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
 </div>
 <div class="paragraph">
-<p>Step 1. The user launches the application for the first time. The <code>VersionedXpire</code> will be initialized with the initial Xpire state, and the <code>currentStatePointer</code> pointing to that single Xpire state.</p>
+<p>Step 1. The user launches the application for the first time. The two internal stacks in <code>StackManager</code> will be initialised.</p>
+</div>
+<div class="paragraph">
+<p>Both stacks should be empty as there are no previous commands by the user. The current state is s0, the initial state of Xpire.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedoState0.png" alt="UndoRedoState0">
+<img src="images/UndoRedo/UndoRedoStep1.png" alt="UndoRedoStep1">
 </div>
 </div>
 <div class="paragraph">
-<p>Step 2. The user executes <code>delete|5</code> command to delete the 5th item in the Xpire. The <code>delete</code> command calls <code>Model#commitXpire()</code>, causing the modified state of the Xpire after the <code>delete|5</code> command executes to be saved in the <code>XpireStateList</code>, and the <code>currentStatePointer</code> is shifted to the newly inserted Xpire state.</p>
+<p>Step 2. The user executes <code>delete|5</code> command to delete the 5th item in Xpire. The <code>delete</code> will then save the previous state, s0 by pushing it into the Undo Stack.</p>
+</div>
+<div class="paragraph">
+<p>The current state will be the new state <code>s1</code> that has the 5th item in Xpire deleted.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedoState1.png" alt="UndoRedoState1">
+<img src="images/UndoRedo/UndoRedoStep2.png" alt="UndoRedoStep2">
 </div>
 </div>
 <div class="paragraph">
-<p>Step 3. The user executes <code>add|Strawberry|3/2/2020|1</code> to add a new item. The <code>add</code> command also calls <code>Model#commitXpire()</code>, causing another modified Xpire state to be saved into the <code>XpireStateList</code>.</p>
+<p>Step 3. The user executes <code>add|Apple|30/10/2019|3</code> to add a new item. Similar to Step 2, The <code>add</code> command will then save the previous state, s1 by pushing it into the Undo Stack.</p>
+</div>
+<div class="paragraph">
+<p>The current state will be the new state <code>s2</code> with the item Apple added.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedoState2.png" alt="UndoRedoState2">
+<img src="images/UndoRedo/UndoRedoStep3.png" alt="UndoRedoStep3">
 </div>
 </div>
 <div class="admonitionblock note">
@@ -666,17 +670,20 @@ Additionally, it implements the following operations:</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If a command fails its execution, it will not call <code>Model#commitXpire()</code>, so the Xpire state will not be saved into the <code>XpireStateList</code>.
+If a command fails its execution, it will not save the previous state, thus the Xpire state will not be pushed into the UndoStack.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Step 4. The user now decides that adding the item was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will call <code>Model#undoXpire()</code>, which will shift the <code>currentStatePointer</code> once to the left, pointing it to the previous Xpire state, and restores the Xpire to that state.</p>
+<p>Step 4. The user now decides that adding the item was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will then update the current model with the model in the previous state.</p>
+</div>
+<div class="paragraph">
+<p>Internally within StackManager, the most recent state, s1, will be popped from the Undo Stack to become the current state. At the same time, s2, the new state with the added item, will be pushed into the Redo Stack.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedoState3.png" alt="UndoRedoState3">
+<img src="images/UndoRedo/UndoRedoStep4.png" alt="UndoRedoStep4">
 </div>
 </div>
 <div class="admonitionblock note">
@@ -686,13 +693,13 @@ If a command fails its execution, it will not call <code>Model#commitXpire()</co
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If the <code>currentStatePointer</code> is at index 0, pointing to the initial Xpire state, then there are no previous Xpire states to restore. The <code>undo</code> command uses <code>Model#canUndoXpire()</code> to check if this is the case. If so, it will return an error to the user rather than attempting to perform the undo.
+If there are no commands to undo (e.g. at the start of a new Xpire session), undo will return an Error to the user instead. This is done by checking whether the UndoStack is empty.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the undo operation works:</p>
+<p>The following sequence diagram shows how the undo operation works (TO BE UPDATED):</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -712,7 +719,7 @@ The lifeline for <code>UndoCommand</code> should end at the destroy marker (X) b
 </table>
 </div>
 <div class="paragraph">
-<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;it calls <code>Model#redoXpire()</code>, which shifts the <code>currentStatePointer</code> once to the right, pointing to the previously undone state, and restores the Xpire to that state.</p>
+<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;It will pop the latest state from the Redo Stack and set it as the current state whilst pushing the current state into the Undo Stack.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -721,33 +728,68 @@ The lifeline for <code>UndoCommand</code> should end at the destroy marker (X) b
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If the <code>currentStatePointer</code> is at index <code>XpireStateList.size() - 1</code>, pointing to the latest Xpire state, then there are no undone Xpire states to restore. The <code>redo</code> command uses <code>Model#canRedoXpire()</code> to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+Similarly, if there are no commands to redo, redo will return an Error to the user. This is done by checking if the Redo Stack is empty.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Step 5. The user then decides to execute the command <code>list</code>. Commands that do not modify the Xpire, such as <code>list</code>, will usually not call <code>Model#commitXpire()</code>, <code>Model#undoXpire()</code> or <code>Model#redoXpire()</code>. Thus, the <code>XpireStateList</code> remains unchanged.</p>
+<p>From Step 4, there are 3 scenarios which showcases the behaviour of StackManager after an Undo Command has been executed.</p>
+</div>
+<div class="paragraph">
+<p>Step 5a. The user suddenly decides that he should not have undid the previous AddCommand, thus he wants to redo the action. This is done by inputting 'redo' in Xpire.</p>
+</div>
+<div class="paragraph">
+<p>Internally within Stack Manager, the current state will be the popped state, s2, from the Redo Stack. The current state, s1, will then be psuehd back into the Undo Stack.</p>
+</div>
+<div class="paragraph">
+<p>The current states and their locations should be the same as after the execution of the Add command in Step 3.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedoState4.png" alt="UndoRedoState4">
+<img src="images/UndoRedo/UndoRedoStep5a.png" alt="UndoRedoStep5a">
 </div>
 </div>
 <div class="paragraph">
-<p>Step 6. The user executes <code>clear</code>, which calls <code>Model#commitXpire()</code>. Since the <code>currentStatePointer</code> is not pointing at the end of the <code>XpireStateList</code>, all Xpire states after the <code>currentStatePointer</code> will be purged. We designed it this way because it no longer makes sense to redo the <code>add n/David &#8230;&#8203;</code> command. This is the behavior that most modern desktop applications follow.</p>
+<p>Step 5b. The user decides to further undo his actions, which now includes the first Delete command. The initial state, s0, will then be popped from the Undo Stack and set as the current state.</p>
+</div>
+<div class="paragraph">
+<p>The current state, s1, will then be pushed into the Redo Stack.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedoState5.png" alt="UndoRedoState5">
+<img src="images/UndoRedo/UndoRedoStep5b.png" alt="UndoRedoStep5b">
 </div>
 </div>
 <div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
+<p>Step 5c. The user may also decide to execute some other command (which is the most likely scenario) other than Undo/Redo. For instance, the user inputs <code>tag|2|#Fruit</code></p>
+</div>
+<div class="paragraph">
+<p>When this happens, the existing states in the Redo Stack will be cleared. The state s1, will then be pushed into the Undo Stack whilst the current state will be the new state s3 that includes the new Tag command.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/CommitActivityDiagram.png" alt="CommitActivityDiagram">
+<img src="images/UndoRedo/UndoRedoStep5c.png" alt="UndoRedoStep5c">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Not all commands will save states to StackManager. Exit and Help commands will not save states. Undo and Redo commands should only act on commands that update the items or change the view of the items to the user.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following activity diagram summarises what happens when a user executes a new command:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/UndoRedo/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram">
 </div>
 </div>
 </div>
@@ -758,7 +800,7 @@ If the <code>currentStatePointer</code> is at index <code>XpireStateList.size() 
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Saves the entire Xpire.</p>
+<p><strong>Alternative 1 (current choice):</strong> Saves the entire model.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -778,7 +820,8 @@ If the <code>currentStatePointer</code> is at index <code>XpireStateList.size() 
 <p>Pros: Will use less memory (e.g. for <code>delete</code>, just save the item being deleted).</p>
 </li>
 <li>
-<p>Cons: We must ensure that the implementation of each individual command are correct.</p>
+<p>Cons: We must ensure that the implementation of each individual command are correct.<br>
+Hard to do when we are applying stackable search/sort commands.</p>
 </li>
 </ul>
 </div>
@@ -791,14 +834,14 @@ If the <code>currentStatePointer</code> is at index <code>XpireStateList.size() 
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Use a list to store the history of Xpire states.</p>
+<p><strong>Alternative 1 (current choice):</strong> Use a list to store the history of model states.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.</p>
 </li>
 <li>
-<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update both <code>HistoryManager</code> and <code>VersionedXpire</code>.</p>
+<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update the filtered list shown to the user and the backend Xpire data.</p>
 </li>
 </ul>
 </div>
@@ -1975,4 +2018,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-24 05:34:20 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-24 10:04:10 UTC</div></div></div></body></html>
