@@ -263,19 +263,22 @@ The following activity diagram summarizes what happens when a user executes a ne
 === Undo/Redo feature
 ==== Implementation
 
-The undo/redo mechanism is facilitated by `VersionedXpire`.
-It extends `Xpire` with an undo/redo history, stored internally as an `XpireStateList` and `currentStatePointer`.
-Additionally, it implements the following operations:
+The undo/redo mechanism is facilitated by `CloneModel` and `StateManager`.
+It is a separate class that stores a state of the model at any command in time. +
+Internally, it runs three private functions that copy the data over.
 
-* `VersionedXpire#commit()` -- Saves the current Xpire state in its history.
-* `VersionedXpire#undo()` -- Restores the previous Xpire state from its history.
-* `VersionedXpire#redo()` -- Restores a previously undone Xpire state from its history.
+The mechanism is supported by a StateManager which stores internally all the states and +
+decides when to pop or clear, depending on the command.
+There are two stacks that are stored in StateManager internally, the Undo and the Redo stack.
+These stacks are initialised and cleared upon beginning/ending every session.
 
-These operations are exposed in the `Model` interface as `Model#commitXpire()`, `Model#undoXpire()` and `Model#redoXpire()` respectively.
+At every command (Other than undo/redo/help/exit), the state is stored internally. +
+When an undo command is executed, it will pop the previous state and update the model via `updateModel`. +
+The state that was undid will then be pushed into the Redo stack, should the user types in a redo command.
 
 Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
 
-Step 1. The user launches the application for the first time. The `VersionedXpire` will be initialized with the initial Xpire state, and the `currentStatePointer` pointing to that single Xpire state.
+Step 1. The user launches the application for the first time. The two internal stacks in `StackManager` will be initialized with the initial Xpire state, and the `currentStatePointer` pointing to that single Xpire state.
 
 image::UndoRedoState0.png[]
 
