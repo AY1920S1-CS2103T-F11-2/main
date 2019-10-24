@@ -14,6 +14,7 @@ import io.xpire.model.item.Item;
 import io.xpire.model.item.SortedUniqueItemList;
 import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.state.State;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
@@ -39,6 +40,7 @@ public class ModelManager implements Model {
         this.xpire = new Xpire(xpire);
         this.userPrefs = new UserPrefs(userPrefs);
         this.filteredItems = new FilteredList<>(this.xpire.getItemList());
+        this.filteredItems.addListener(this::showCurrentItems);
     }
 
     public ModelManager() {
@@ -151,7 +153,9 @@ public class ModelManager implements Model {
 
     @Override
     public void updateFilteredItemList(Predicate<Item> predicate) {
-        requireNonNull(predicate);
+        if (predicate == null) {
+            this.filteredItems.setPredicate(PREDICATE_SHOW_ALL_ITEMS);
+        }
         Predicate<? super Item> p = this.filteredItems.getPredicate();
         if (predicate == PREDICATE_SHOW_ALL_ITEMS || p == null) {
             // a view command or first ever search command
@@ -165,7 +169,7 @@ public class ModelManager implements Model {
     @Override
     public void updateModel(State state) {
         CloneModel clone = state.getCloneModel();
-        this.xpire.setUniqueList(clone.getFullItemList());
+        setXpire(clone.getXpire());
         setUserPrefs(clone.getUserPref());
         setFilteredItems(clone.getFilteredList(), clone.getPredicate());
     }
@@ -189,5 +193,8 @@ public class ModelManager implements Model {
                     && this.userPrefs.equals(other.userPrefs)
                     && this.filteredItems.equals(other.filteredItems);
         }
+    }
+
+    private void showCurrentItems(ListChangeListener.Change<? extends Item> change) {
     }
 }
