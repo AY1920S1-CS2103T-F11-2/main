@@ -96,6 +96,7 @@ public class TypicalItems {
                                                           .withReminderThreshold(VALID_REMINDER_THRESHOLD_CORIANDER)
                                                           .build();
 
+
     private TypicalItems() {} // prevents instantiation
 
     /**

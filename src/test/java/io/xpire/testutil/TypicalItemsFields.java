@@ -38,6 +38,7 @@ public class TypicalItemsFields {
     public static final String VALID_EXPIRY_DATE_EXPIRED_MILK = PASSED_A_WEEK;
     public static final String VALID_EXPIRY_DATE_EXPIRED_ORANGE = PASSED_A_DAY;
 
+
     public static final String VALID_QUANTITY_APPLE = "1";
     public static final String VALID_QUANTITY_BANANA = "5";
     public static final String VALID_QUANTITY_CORIANDER = "999";
