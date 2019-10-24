@@ -308,7 +308,7 @@ image::UndoRedo/UndoRedoStep4.png[]
 [NOTE]
 If there are no commands to undo (e.g. at the start of a new Xpire session), undo will return an Error to the user instead. This is done by checking whether the UndoStack is empty.
 
-The following sequence diagram shows how the undo operation works:
+The following sequence diagram shows how the undo operation works (TO BE UPDATED):
 
 image::UndoSequenceDiagram.png[]
 
@@ -344,9 +344,9 @@ image::UndoRedo/UndoRedoStep5c.png[]
 [NOTE]
 Not all commands will save states to StackManager. Exit and Help commands will not save states. Undo and Redo commands should only act on commands that update the items or change the view of the items to the user.
 
-The following activity diagram summarizes what happens when a user executes a new command:
+The following activity diagram summarises what happens when a user executes a new command:
 
-image::CommitActivityDiagram.png[]
+image::UndoRedo/UndoRedoActivityDiagram.png[]
 
 ==== Design Considerations
 
