@@ -1,0 +1,33 @@
+@startuml
+(*)  --> "check input"
+If "input is verbose" then
+--> [Yes] "turn on verbosity"
+--> "run command"
+else
+--> "run command"
+Endif
+-->(*)
+@enduml
+
+@startuml
+start
+:User executes search command;
+:Parser parses keywords;
+
+'Since the beta syntax does not support placing the condition outside the
+'diamond we place it as the true branch instead.
+
+if () then ([specified keyword(s) exist])
+    :Display filtered list;
+else ([else])
+    :Search for similar existing keyword(s) ;
+    if () then ([similar keyword(s) exist])
+        :Returns recommendation(s);
+    else ([else])
+    :Display empty list;
+    endif
+endif
+
+stop
+
+@enduml
