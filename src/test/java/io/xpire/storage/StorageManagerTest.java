@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import io.xpire.commons.core.GuiSettings;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.UserPrefs;
-import io.xpire.model.Xpire;
+import io.xpire.model.ListView;
 import io.xpire.testutil.TypicalItems;
 
 public class StorageManagerTest {
@@ -54,10 +54,10 @@ public class StorageManagerTest {
          * {@link JsonAddressBookStorage} class.
          * More extensive testing of UserPref saving/reading is done in {@link JsonAddressBookStorageTest} class.
          */
-        Xpire original = TypicalItems.getTypicalExpiryDateTracker();
+        ListView original = TypicalItems.getTypicalExpiryDateTracker();
         storageManager.saveXpire(original);
-        ReadOnlyXpire retrieved = storageManager.readXpire().get();
-        assertEquals(original.getItemList(), new Xpire(retrieved).getItemList());
+        ReadOnlyListView retrieved = storageManager.readXpire().get();
+        assertEquals(original.getItemList(), new ListView(retrieved).getItemList());
     }
 
     @Test

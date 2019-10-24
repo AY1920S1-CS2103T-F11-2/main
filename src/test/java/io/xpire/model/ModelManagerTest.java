@@ -25,7 +25,7 @@ public class ModelManagerTest {
     public void constructor() {
         assertEquals(new UserPrefs(), modelManager.getUserPrefs());
         Assertions.assertEquals(new GuiSettings(), modelManager.getGuiSettings());
-        assertEquals(new Xpire(), new Xpire(modelManager.getXpire()));
+        assertEquals(new ListView(), new ListView(modelManager.getXpire()));
     }
 
     @Test
@@ -95,9 +95,9 @@ public class ModelManagerTest {
 
     @Test
     public void equals() {
-        Xpire xpire = new ExpiryDateTrackerBuilder()
+        ListView xpire = new ExpiryDateTrackerBuilder()
                 .withItem(TypicalItems.KIWI).withItem(TypicalItems.BANANA).build();
-        Xpire differentAddressBook = new Xpire();
+        ListView differentAddressBook = new ListView();
         UserPrefs userPrefs = new UserPrefs();
 
         // same values -> returns true

@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyUserPrefs;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.UserPrefs;
 
 /**
@@ -53,24 +53,24 @@ public class StorageManager implements Storage {
     }
 
     @Override
-    public Optional<ReadOnlyXpire> readXpire() throws DataConversionException, IOException {
+    public Optional<ReadOnlyListView> readXpire() throws DataConversionException, IOException {
         return readXpire(this.xpireStorage.getXpireFilePath());
     }
 
     @Override
-    public Optional<ReadOnlyXpire> readXpire(Path filePath) throws
+    public Optional<ReadOnlyListView> readXpire(Path filePath) throws
             DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
         return this.xpireStorage.readXpire(filePath);
     }
 
     @Override
-    public void saveXpire(ReadOnlyXpire xpire) throws IOException {
+    public void saveXpire(ReadOnlyListView xpire) throws IOException {
         saveXpire(xpire, this.xpireStorage.getXpireFilePath());
     }
 
     @Override
-    public void saveXpire(ReadOnlyXpire xpire, Path filePath) throws IOException {
+    public void saveXpire(ReadOnlyListView xpire, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         this.xpireStorage.saveXpire(xpire, filePath);
     }

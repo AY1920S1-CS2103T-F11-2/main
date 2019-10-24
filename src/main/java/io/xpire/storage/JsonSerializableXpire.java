@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import io.xpire.commons.exceptions.IllegalValueException;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.XpireItem;
 
@@ -36,7 +36,7 @@ class JsonSerializableXpire {
      *
      * @param source future changes to this will not affect the created {@code JsonSerializableXpire}.
      */
-    public JsonSerializableXpire(ReadOnlyXpire source) {
+    public JsonSerializableXpire(ReadOnlyListView<XpireItem> source) {
         items.addAll(source.getItemList().stream().map(JsonAdaptedItem::new).collect(Collectors.toList()));
     }
 

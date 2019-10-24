@@ -11,7 +11,7 @@ import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
-import io.xpire.model.Xpire;
+import io.xpire.model.ListView;
 import io.xpire.model.item.ContainsKeywordsPredicate;
 import io.xpire.model.item.XpireItem;
 import io.xpire.testutil.Assert;
@@ -59,7 +59,7 @@ public class CommandTestUtil {
     public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
-        Xpire expectedXpire = new Xpire(actualModel.getXpire());
+        ListView expectedXpire = new ListView(actualModel.getXpire());
         List<XpireItem> expectedFilteredList = new ArrayList<>(actualModel.getFilteredItemList());
 
         Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));

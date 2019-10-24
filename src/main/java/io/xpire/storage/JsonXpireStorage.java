@@ -12,7 +12,7 @@ import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.commons.util.FileUtil;
 import io.xpire.commons.util.JsonUtil;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReadOnlyListView;
 
 /**
  * A class to access Xpire data stored as a json file on the hard disk.
@@ -32,7 +32,7 @@ public class JsonXpireStorage implements XpireStorage {
     }
 
     @Override
-    public Optional<ReadOnlyXpire> readXpire() throws DataConversionException {
+    public Optional<ReadOnlyListView> readXpire() throws DataConversionException {
         return readXpire(this.filePath);
     }
 
@@ -42,7 +42,7 @@ public class JsonXpireStorage implements XpireStorage {
      * @param filePath location of the data. Cannot be null.
      * @throws DataConversionException if the file is not in the correct format.
      */
-    public Optional<ReadOnlyXpire> readXpire(Path filePath) throws DataConversionException {
+    public Optional<ReadOnlyListView> readXpire(Path filePath) throws DataConversionException {
         requireNonNull(filePath);
 
         Optional<JsonSerializableXpire> jsonTracker = JsonUtil.readJsonFile(
@@ -60,16 +60,16 @@ public class JsonXpireStorage implements XpireStorage {
     }
 
     @Override
-    public void saveXpire(ReadOnlyXpire xpire) throws IOException {
+    public void saveXpire(ReadOnlyListView xpire) throws IOException {
         saveXpire(xpire, this.filePath);
     }
 
     /**
-     * Similar to {@link #saveXpire(ReadOnlyXpire)}.
+     * Similar to {@link #saveXpire(ReadOnlyListView)}.
      *
      * @param filePath location of the data. Cannot be null.
      */
-    public void saveXpire(ReadOnlyXpire xpire, Path filePath) throws IOException {
+    public void saveXpire(ReadOnlyListView xpire, Path filePath) throws IOException {
         requireNonNull(xpire);
         requireNonNull(filePath);
 

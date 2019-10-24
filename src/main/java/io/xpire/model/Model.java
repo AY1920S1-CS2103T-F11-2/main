@@ -57,10 +57,10 @@ public interface Model {
     /**
      * Replaces xpire data with the data in {@code xpire}.
      */
-    void setXpire(ReadOnlyXpire xpire);
+    void setXpire(ReadOnlyListView xpire);
 
     /** Returns the xpire */
-    ReadOnlyXpire getXpire();
+    ReadOnlyListView getXpire();
 
     /**
      * Returns true if an item with the same identity as {@code item} exists in xpire.

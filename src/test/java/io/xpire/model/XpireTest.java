@@ -24,7 +24,7 @@ import javafx.collections.ObservableList;
 
 public class XpireTest {
 
-    private final Xpire xpire = new Xpire();
+    private final ListView xpire = new ListView();
 
     @Test
     public void constructor() {
@@ -38,7 +38,7 @@ public class XpireTest {
 
     @Test
     public void resetData_withValidReadOnlyExpiryDateTracker_replacesData() {
-        Xpire newData = getTypicalExpiryDateTracker();
+        ListView newData = getTypicalExpiryDateTracker();
         xpire.resetData(newData);
         assertEquals(newData.getItemList(), xpire.getItemList());
     }
@@ -48,7 +48,7 @@ public class XpireTest {
         XpireItem editedApple = new ItemBuilder(EXPIRED_APPLE).withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                                                          .withQuantity("1").build();
         List<XpireItem> newXpireItems = Arrays.asList(EXPIRED_APPLE, editedApple);
-        XpireStub newData = new XpireStub(newXpireItems);
+        ListViewStub newData = new ListViewStub(newXpireItems);
         assertThrows(DuplicateItemException.class, () -> xpire.resetData(newData));
     }
 
@@ -86,10 +86,10 @@ public class XpireTest {
     /**
      * A stub ReadOnlyXpire whose items list can violate interface constraints.
      */
-    private static class XpireStub implements ReadOnlyXpire {
+    private static class ListViewStub implements ReadOnlyListView {
         private final ObservableList<XpireItem> xpireItems = FXCollections.observableArrayList();
 
-        XpireStub(Collection<XpireItem> xpireItems) {
+        ListViewStub(Collection<XpireItem> xpireItems) {
             this.xpireItems.setAll(xpireItems);
         }
 

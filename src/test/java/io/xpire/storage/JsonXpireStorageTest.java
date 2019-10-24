@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import io.xpire.commons.exceptions.DataConversionException;
-import io.xpire.model.ReadOnlyXpire;
-import io.xpire.model.Xpire;
+import io.xpire.model.ReadOnlyListView;
+import io.xpire.model.ListView;
 
 public class JsonXpireStorageTest {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonXpireStorageTest");
@@ -28,7 +28,7 @@ public class JsonXpireStorageTest {
         assertThrows(NullPointerException.class, () -> readExpiryDateTracker(null));
     }
 
-    private java.util.Optional<ReadOnlyXpire> readExpiryDateTracker(String filePath) throws Exception {
+    private java.util.Optional<ReadOnlyListView> readExpiryDateTracker(String filePath) throws Exception {
         return new JsonXpireStorage(Paths.get(filePath))
                 .readXpire(addToTestDataPathIfNotNull(filePath));
     }
@@ -65,24 +65,24 @@ public class JsonXpireStorageTest {
     @Test
     public void readAndSaveExpiryDateTracker_allInOrder_success() throws Exception {
         Path filePath = testFolder.resolve("TempXpire.json");
-        Xpire original = getTypicalExpiryDateTracker();
+        ListView original = getTypicalExpiryDateTracker();
         JsonXpireStorage jsonExpiryDateTrackerStorage = new JsonXpireStorage(filePath);
 
         // Save in new file and read back
         jsonExpiryDateTrackerStorage.saveXpire(original, filePath);
-        ReadOnlyXpire readBack = jsonExpiryDateTrackerStorage.readXpire(filePath).get();
-        assertEquals(original.getItemList(), new Xpire(readBack).getItemList());
+        ReadOnlyListView readBack = jsonExpiryDateTrackerStorage.readXpire(filePath).get();
+        assertEquals(original.getItemList(), new ListView(readBack).getItemList());
 
         // Modify data, overwrite exiting file, and read back
         original.addItem(KIWI);
         jsonExpiryDateTrackerStorage.saveXpire(original, filePath);
         readBack = jsonExpiryDateTrackerStorage.readXpire(filePath).get();
-        assertEquals(original.getItemList(), new Xpire(readBack).getItemList());
+        assertEquals(original.getItemList(), new ListView(readBack).getItemList());
 
         // Save and read without specifying file path
         jsonExpiryDateTrackerStorage.saveXpire(original); // file path not specified
         readBack = jsonExpiryDateTrackerStorage.readXpire().get(); // file path not specified
-        assertEquals(original.getItemList(), new Xpire(readBack).getItemList());
+        assertEquals(original.getItemList(), new ListView(readBack).getItemList());
 
     }
 
@@ -94,7 +94,7 @@ public class JsonXpireStorageTest {
     /**
      * Saves {@code xpire} at the specified {@code filePath}.
      */
-    private void saveExpiryDateTracker(ReadOnlyXpire addressBook, String filePath) {
+    private void saveExpiryDateTracker(ReadOnlyListView addressBook, String filePath) {
         try {
             new JsonXpireStorage(Paths.get(filePath))
                     .saveXpire(addressBook, addToTestDataPathIfNotNull(filePath));
@@ -105,6 +105,6 @@ public class JsonXpireStorageTest {
 
     @Test
     public void saveExpiryDateTracker_nullFilePath_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> saveExpiryDateTracker(new Xpire(), null));
+        assertThrows(NullPointerException.class, () -> saveExpiryDateTracker(new ListView(), null));
     }
 }

@@ -16,7 +16,7 @@ import io.xpire.logic.LogicManager;
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.ReadOnlyUserPrefs;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.Xpire;
 import io.xpire.model.util.SampleDataUtil;
@@ -77,8 +77,8 @@ public class MainApp extends Application {
      * {@code storage}'s expiry date tracker.
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
-        Optional<ReadOnlyXpire> expiryDateTrackerOptional;
-        ReadOnlyXpire initialData;
+        Optional<ReadOnlyListView> expiryDateTrackerOptional;
+        ReadOnlyListView initialData;
         try {
             expiryDateTrackerOptional = storage.readXpire();
             if (!expiryDateTrackerOptional.isPresent()) {

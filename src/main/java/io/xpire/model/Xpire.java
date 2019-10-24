@@ -13,7 +13,7 @@ import javafx.collections.ObservableList;
  * Wraps all data at xpire level
  * Duplicates are not allowed (by .isSameItem comparison)
  */
-public class Xpire implements ReadOnlyXpire {
+public class Xpire implements ReadOnlyListView<XpireItem> {
 
     private final SortedUniqueXpireItemList items = new SortedUniqueXpireItemList();
 
@@ -22,7 +22,7 @@ public class Xpire implements ReadOnlyXpire {
     /**
      * Creates a Xpire object using the Items in the {@code toBeCopied}
      */
-    public Xpire(ReadOnlyXpire toBeCopied) {
+    public Xpire(ReadOnlyListView toBeCopied) {
         this();
         this.resetData(toBeCopied);
     }
@@ -40,7 +40,7 @@ public class Xpire implements ReadOnlyXpire {
     /**
      * Resets the existing data of this {@code Xpire} with {@code newData}.
      */
-    public void resetData(ReadOnlyXpire newData) {
+    public void resetData(ReadOnlyListView newData) {
         requireNonNull(newData);
         this.setItems(newData.getItemList());
     }

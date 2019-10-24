@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import io.xpire.commons.util.StringUtil;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.XpireItem;
@@ -27,7 +27,7 @@ public class SampleDataUtil {
         };
     }
 
-    public static ReadOnlyXpire getSampleXpire() {
+    public static ReadOnlyListView getSampleXpire() {
         Xpire sampleXpire = new Xpire();
         for (XpireItem sampleXpireItem : getSampleItems()) {
             sampleXpire.addItem(sampleXpireItem);

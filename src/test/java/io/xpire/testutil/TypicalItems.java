@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.xpire.commons.util.DateUtil;
-import io.xpire.model.Xpire;
+import io.xpire.model.ListView;
 import io.xpire.model.item.XpireItem;
 
 /**
@@ -72,8 +72,8 @@ public class TypicalItems {
     /**
      * Returns an {@code Xpire} with all the typical items.
      */
-    public static Xpire getTypicalExpiryDateTracker() {
-        Xpire edt = new Xpire();
+    public static ListView getTypicalExpiryDateTracker() {
+        ListView edt = new ListView();
         for (XpireItem xpireItem : getTypicalItems()) {
             XpireItem copyXpireItem = new XpireItem(xpireItem);
             edt.addItem(copyXpireItem);

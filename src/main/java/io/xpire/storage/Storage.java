@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyUserPrefs;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.UserPrefs;
 
 /**
@@ -24,9 +24,9 @@ public interface Storage extends XpireStorage, UserPrefsStorage {
     Path getXpireFilePath();
 
     @Override
-    Optional<ReadOnlyXpire> readXpire() throws DataConversionException, IOException;
+    Optional<ReadOnlyListView> readXpire() throws DataConversionException, IOException;
 
     @Override
-    void saveXpire(ReadOnlyXpire xpire) throws IOException;
+    void saveXpire(ReadOnlyListView xpire) throws IOException;
 
 }

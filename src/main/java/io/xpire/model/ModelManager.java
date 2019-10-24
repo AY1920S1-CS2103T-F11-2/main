@@ -35,7 +35,7 @@ public class ModelManager implements Model {
     /**
      * Initializes a ModelManager with the given xpire and userPrefs.
      */
-    public ModelManager(ReadOnlyXpire xpire, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyListView xpire, ReadOnlyUserPrefs userPrefs) {
         super();
         CollectionUtil.requireAllNonNull(xpire, userPrefs);
 
@@ -88,12 +88,12 @@ public class ModelManager implements Model {
     //=========== expiryDateTracker  ================================================================================
 
     @Override
-    public void setXpire(ReadOnlyXpire xpire) {
+    public void setXpire(ReadOnlyListView xpire) {
         this.xpire.resetData(xpire);
     }
 
     @Override
-    public ReadOnlyXpire getXpire() {
+    public ReadOnlyListView getXpire() {
         return this.xpire;
     }
 

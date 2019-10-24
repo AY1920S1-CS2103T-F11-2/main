@@ -1,6 +1,6 @@
 package io.xpire.testutil;
 
-import io.xpire.model.Xpire;
+import io.xpire.model.ListView;
 import io.xpire.model.item.XpireItem;
 
 /**
@@ -10,13 +10,13 @@ import io.xpire.model.item.XpireItem;
  */
 public class ExpiryDateTrackerBuilder {
 
-    private Xpire xpire;
+    private ListView xpire;
 
     public ExpiryDateTrackerBuilder() {
-        xpire = new Xpire();
+        xpire = new ListView();
     }
 
-    public ExpiryDateTrackerBuilder(Xpire xpire) {
+    public ExpiryDateTrackerBuilder(ListView xpire) {
         this.xpire = xpire;
     }
 
@@ -28,7 +28,7 @@ public class ExpiryDateTrackerBuilder {
         return this;
     }
 
-    public Xpire build() {
+    public ListView build() {
         return xpire;
     }
 }

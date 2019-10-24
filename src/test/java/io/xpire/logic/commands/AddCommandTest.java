@@ -22,8 +22,8 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyUserPrefs;
-import io.xpire.model.ReadOnlyXpire;
-import io.xpire.model.Xpire;
+import io.xpire.model.ReadOnlyListView;
+import io.xpire.model.ListView;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
@@ -124,12 +124,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setXpire(ReadOnlyXpire newData) {
+        public void setXpire(ReadOnlyListView newData) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ReadOnlyXpire getXpire() {
+        public ReadOnlyListView getXpire() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -216,8 +216,8 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyXpire getXpire() {
-            return new Xpire();
+        public ReadOnlyListView getXpire() {
+            return new ListView();
         }
     }
 
