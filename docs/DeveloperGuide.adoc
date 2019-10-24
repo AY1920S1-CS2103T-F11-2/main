@@ -321,17 +321,28 @@ Similarly, if there are no commands to redo, redo will return an Error to the us
 
 From Step 4, there are 3 scenarios which showcases the behaviour of StackManager after an Undo Command has been executed.
 
-Step 5a. The user then decides to execute the command `list`. Commands that do not modify the Xpire, such as `list`, will usually not call `Model#commitXpire()`, `Model#undoXpire()` or `Model#redoXpire()`. Thus, the `XpireStateList` remains unchanged.
+Step 5a. The user suddenly decides that he should not have undid the previous AddCommand, thus he wants to redo the action. This is done by inputting 'redo' in Xpire.
+
+Internally within Stack Manager, the current state will be the popped state, s2, from the Redo Stack. The current state, s1, will then be psuehd back into the Undo Stack.
+
+The current states and their locations should be the same as after the execution of the Add command in Step 3.
 
 image::UndoRedo/UndoRedoStep5a.png[]
 
-Step 5b. The user executes `clear`, which calls `Model#commitXpire()`. Since the `currentStatePointer` is not pointing at the end of the `XpireStateList`, all Xpire states after the `currentStatePointer` will be purged. We designed it this way because it no longer makes sense to redo the `add n/David ...` command. This is the behavior that most modern desktop applications follow.
+Step 5b. The user decides to further undo his actions, which now includes the first Delete command. The initial state, s0, will then be popped from the Undo Stack and set as the current state.
+
+The current state, s1, will then be pushed into the Redo Stack.
 
 image::UndoRedo/UndoRedoStep5b.png[]
 
-Step 5c. The user executes `clear`, which calls `Model#commitXpire()`. Since the `currentStatePointer` is not pointing at the end of the `XpireStateList`, all Xpire states after the `currentStatePointer` will be purged. We designed it this way because it no longer makes sense to redo the `add n/David ...` command. This is the behavior that most modern desktop applications follow.
+Step 5c. The user may also decide to execute some other command (which is the most likely scenario) other than Undo/Redo. For instance, the user inputs `tag|2|#Fruit`
+
+When this happens, the existing states in the Redo Stack will be cleared. The state s1, will then be pushed into the Undo Stack whilst the current state will be the new state s3 that includes the new Tag command.
 
 image::UndoRedo/UndoRedoStep5c.png[]
+
+[NOTE]
+Not all commands will save states to StackManager. Exit and Help commands will not save states. Undo and Redo commands should only act on commands that update the items or change the view of the items to the user.
 
 The following activity diagram summarizes what happens when a user executes a new command:
 
