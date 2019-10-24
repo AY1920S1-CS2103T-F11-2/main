@@ -21,20 +21,19 @@ public class TypicalItemsFields {
     public static final String VALID_NAME_EXPIRING_FISH = "Fish";
 
     public static final String TODAY = DateUtil.convertDateToString(LocalDate.now(), DATE_FORMAT);
-    public static final String VALID_EXPIRY_DATE_APPLE = TODAY;
     public static final String IN_A_WEEK = DateUtil.convertDateToString(LocalDate.now().plusDays(7), DATE_FORMAT);
-    public static final String VALID_EXPIRY_DATE_FISH = IN_A_WEEK;
     public static final String IN_TWO_WEEKS = DateUtil.convertDateToString(LocalDate.now().plusDays(14), DATE_FORMAT);
-    public static final String VALID_EXPIRY_DATE_BANANA = IN_TWO_WEEKS;
     public static final String IN_A_MONTH = DateUtil.convertDateToString(LocalDate.now().plusDays(30), DATE_FORMAT);
+    public static final String PASSED_A_DAY = DateUtil.convertDateToString(LocalDate.now().minusDays(1), DATE_FORMAT);
+    public static final String PASSED_A_WEEK = DateUtil.convertDateToString(LocalDate.now().minusDays(7), DATE_FORMAT);
 
+    public static final String VALID_EXPIRY_DATE_APPLE = TODAY;
+    public static final String VALID_EXPIRY_DATE_EXPIRING_FISH = IN_A_WEEK;
+    public static final String VALID_EXPIRY_DATE_BANANA = IN_TWO_WEEKS;
     public static final String VALID_EXPIRY_DATE_KIWI = IN_A_MONTH;
     public static final String VALID_EXPIRY_DATE_JELLY = IN_A_MONTH;
     public static final String VALID_EXPIRY_DATE_DUCK = IN_A_MONTH;
-
-    public static final String PASSED_A_DAY = DateUtil.convertDateToString(LocalDate.now().minusDays(1), DATE_FORMAT);
-    public static final String VALID_EXPIRY_DATE_ORANGE = PASSED_A_DAY;
-    public static final String PASSED_A_WEEK = DateUtil.convertDateToString(LocalDate.now().minusDays(7), DATE_FORMAT);
+    public static final String VALID_EXPIRY_DATE_EXPIRED_ORANGE = PASSED_A_DAY;
     public static final String VALID_EXPIRY_DATE_EXPIRED_MILK = PASSED_A_WEEK;
 
     public static final String VALID_QUANTITY_APPLE = "1";
@@ -56,9 +55,9 @@ public class TypicalItemsFields {
     public static final String VALID_REMINDER_THRESHOLD_DUCK = "0";
     public static final String VALID_REMINDER_THRESHOLD_JELLY = "3";
     public static final String VALID_REMINDER_THRESHOLD_KIWI = "20";
-    public static final String VALID_REMINDER_THRESHOLD_FISH = "8";
-    public static final String VALID_REMINDER_THRESHOLD_ORANGE = "0";
-    public static final String VALID_REMINDER_THRESHOLD_MILK = "0";
+    public static final String VALID_REMINDER_THRESHOLD_EXPIRING_FISH = "8";
+    public static final String VALID_REMINDER_THRESHOLD_EXPIRED_ORANGE = "0";
+    public static final String VALID_REMINDER_THRESHOLD_EXPIRED_MILK = "0";
 
     public static final String INVALID_NAME = "@pple";
     public static final String INVALID_EXPIRY_DATE = "50505000";
