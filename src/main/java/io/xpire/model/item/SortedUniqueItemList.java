@@ -9,6 +9,7 @@ import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.model.item.exceptions.ItemNotFoundException;
 import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.item.sort.SortingMethod;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -25,17 +26,20 @@ import javafx.collections.transformation.SortedList;
  *
  * @see Item#isSameItem(Item)
  */
-public class SortedUniqueItemList implements Iterable<Item> {
+public class SortedUniqueItemList implements SortedUniqueList<Item> {
+
     private final ObservableList<Item> internalList = FXCollections.observableArrayList();
-    private MethodOfSorting methodOfSorting = new MethodOfSorting("name");
+    private SortingMethod<Item> methodOfSorting = new MethodOfSorting("name");
     private final SortedList<Item> sortedInternalList = new SortedList<>(internalList, methodOfSorting.getComparator());
     private final ObservableList<Item> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(this.sortedInternalList);
 
 
+
     /**
      * Returns true if the list contains an equivalent item as the given argument.
      */
+    @Override
     public boolean contains(Item toCheck) {
         requireNonNull(toCheck);
         return this.internalList.stream().anyMatch(toCheck::isSameItem);
@@ -45,6 +49,7 @@ public class SortedUniqueItemList implements Iterable<Item> {
      * Adds an item to the list.
      * The item must not already exist in the list.
      */
+    @Override
     public void add(Item toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
@@ -59,6 +64,7 @@ public class SortedUniqueItemList implements Iterable<Item> {
      * {@code target} must exist in the list.
      * The item identity of {@code editedItem} must not be the same as another existing item in the list.
      */
+    @Override
     public void setItem(Item target, Item editedItem) {
         CollectionUtil.requireAllNonNull(target, editedItem);
 
@@ -85,15 +91,18 @@ public class SortedUniqueItemList implements Iterable<Item> {
         }
     }
 
-    public void setItems(SortedUniqueItemList replacement) {
+    @Override
+    public void setItems(SortedUniqueList<Item> replacement) {
         requireNonNull(replacement);
-        this.internalList.setAll(replacement.sortedInternalList);
+        SortedUniqueItemList replacementList = (SortedUniqueItemList) replacement;
+        this.internalList.setAll(replacementList.sortedInternalList);
     }
 
     /**
      * Replaces the contents of this list with {@code items}.
      * {@code items} must not contain duplicate items.
      */
+    @Override
     public void setItems(List<Item> items) {
         CollectionUtil.requireAllNonNull(items);
         if (!itemsAreUnique(items)) {
@@ -105,7 +114,8 @@ public class SortedUniqueItemList implements Iterable<Item> {
     /**
      * Set method of sorting.
      */
-    public void setMethodOfSorting(MethodOfSorting method) {
+    @Override
+    public void setMethodOfSorting(SortingMethod<Item> method) {
         this.methodOfSorting = method;
         this.sortedInternalList.setComparator(methodOfSorting.getComparator());
     }
@@ -113,6 +123,7 @@ public class SortedUniqueItemList implements Iterable<Item> {
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
+    @Override
     public ObservableList<Item> asUnmodifiableObservableList() {
         return this.internalUnmodifiableList;
     }

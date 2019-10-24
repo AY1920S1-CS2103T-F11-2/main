@@ -15,6 +15,7 @@ import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
 import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.item.sort.SortingMethod;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -128,7 +129,7 @@ public class ParserUtil {
     public static MethodOfSorting parseMethodOfSorting(String key) throws ParseException {
         requireNonNull(key);
         String trimmedMethodOfSorting = key.trim();
-        if (!MethodOfSorting.isValidMethodOfSorting(trimmedMethodOfSorting)) {
+        if (!SortingMethod.isValidMethodOfSorting(trimmedMethodOfSorting)) {
             Set<String> allowedArgs = new TreeSet<>(Arrays.asList(
                     MethodOfSorting.SORT_NAME, MethodOfSorting.SORT_DATE));
             String output = StringUtil.findSimilar(key, allowedArgs, 1);

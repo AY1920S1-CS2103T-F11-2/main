@@ -6,21 +6,20 @@ import java.util.Comparator;
 
 import io.xpire.commons.util.AppUtil;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.SortedUniqueList;
 
 /**
  * Represents a MethodOfSorting in the expiry date tracker.
  * Guarantees: immutable; name is valid as declared in {@link #isValidMethodOfSorting(String)}
  */
-public class MethodOfSorting {
+public class MethodOfSorting implements SortingMethod<Item> {
 
     public static final String MESSAGE_CONSTRAINTS = "Sorting can only be done by 'name' or 'date'.";
-    public static final String SORT_NAME = "name";
-    public static final String SORT_DATE = "date";
     private final Comparator<Item> nameSorter = Comparator.comparing(l->l.getName().toString(),
             String.CASE_INSENSITIVE_ORDER);
     private final Comparator<Item> dateSorter = Comparator.comparing(l->l.getExpiryDate().getDate(),
             Comparator.nullsFirst(Comparator.naturalOrder()));
-    private final Comparator<Item>nameThenDateSorter = nameSorter.thenComparing(dateSorter);
+    private final Comparator<Item> nameThenDateSorter = nameSorter.thenComparing(dateSorter);
     private final String method;
 
     /**
@@ -29,15 +28,8 @@ public class MethodOfSorting {
      */
     public MethodOfSorting(String method) {
         requireNonNull(method);
-        AppUtil.checkArgument(isValidMethodOfSorting(method), MESSAGE_CONSTRAINTS);
+        AppUtil.checkArgument(SortingMethod.isValidMethodOfSorting(method), MESSAGE_CONSTRAINTS);
         this.method = method;
-    }
-
-    /**
-     * Returns true if a given string is a valid method of sorting.
-     */
-    public static boolean isValidMethodOfSorting(String test) {
-        return (test.equals(SORT_NAME) || test.equals(SORT_DATE));
     }
 
     /**
@@ -51,6 +43,8 @@ public class MethodOfSorting {
             return nameThenDateSorter;
         }
     }
+
+
 
     /**
      * Returns the string value of the method of sorting.
