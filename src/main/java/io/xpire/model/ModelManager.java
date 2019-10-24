@@ -16,7 +16,7 @@ import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
-import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 import javafx.collections.ObservableList;
@@ -140,7 +140,7 @@ public class ModelManager implements Model {
     //=========== Sorted Item List Accessors ========================================================================
 
     @Override
-    public void sortItemList(MethodOfSorting method) {
+    public void sortItemList(XpireMethodOfSorting method) {
         requireNonNull(method);
         this.xpire.setMethodOfSorting(method);
     }

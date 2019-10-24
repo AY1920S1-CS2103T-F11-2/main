@@ -14,8 +14,8 @@ import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.item.sort.MethodOfSorting;
-import io.xpire.model.item.sort.SortingMethod;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -126,16 +126,16 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code key} is invalid.
      */
-    public static MethodOfSorting parseMethodOfSorting(String key) throws ParseException {
+    public static XpireMethodOfSorting parseMethodOfSorting(String key) throws ParseException {
         requireNonNull(key);
         String trimmedMethodOfSorting = key.trim();
-        if (!SortingMethod.isValidMethodOfSorting(trimmedMethodOfSorting)) {
+        if (!MethodOfSorting.isValidMethodOfSorting(trimmedMethodOfSorting)) {
             Set<String> allowedArgs = new TreeSet<>(Arrays.asList(
-                    MethodOfSorting.SORT_NAME, MethodOfSorting.SORT_DATE));
+                    XpireMethodOfSorting.SORT_NAME, XpireMethodOfSorting.SORT_DATE));
             String output = StringUtil.findSimilar(key, allowedArgs, 1);
-            throw new ParseException(MethodOfSorting.MESSAGE_CONSTRAINTS + output);
+            throw new ParseException(XpireMethodOfSorting.MESSAGE_CONSTRAINTS + output);
         }
-        return new MethodOfSorting(trimmedMethodOfSorting);
+        return new XpireMethodOfSorting(trimmedMethodOfSorting);
     }
 
     /**

@@ -3,15 +3,12 @@ package io.xpire.model.item;
 import static io.xpire.model.item.Quantity.DEFAULT_QUANTITY;
 import static io.xpire.model.item.ReminderThreshold.DEFAULT_THRESHOLD;
 
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
 
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.commons.util.DateUtil;
 import io.xpire.model.tag.Tag;
-import io.xpire.model.tag.TagComparator;
 
 /**
  * Represents an item in the expiry date tracker.

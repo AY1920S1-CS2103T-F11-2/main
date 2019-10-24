@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import io.xpire.model.item.XpireItem;
-import io.xpire.model.item.SortedUniqueItemList;
-import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.item.SortedUniqueXpireItemList;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import javafx.collections.ObservableList;
 
 /**
@@ -15,7 +15,7 @@ import javafx.collections.ObservableList;
  */
 public class Xpire implements ReadOnlyXpire {
 
-    private final SortedUniqueItemList items = new SortedUniqueItemList();
+    private final SortedUniqueXpireItemList items = new SortedUniqueXpireItemList();
 
     public Xpire() {}
 
@@ -82,7 +82,7 @@ public class Xpire implements ReadOnlyXpire {
     /**
      * Set method of sorting.
      */
-    public void setMethodOfSorting(MethodOfSorting method) {
+    public void setMethodOfSorting(XpireMethodOfSorting method) {
         this.items.setMethodOfSorting(method);
     }
 

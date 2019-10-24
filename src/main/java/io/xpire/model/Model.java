@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
-import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import javafx.collections.ObservableList;
 
@@ -90,7 +90,7 @@ public interface Model {
      * Sorts the filtered item list.
      * @param method The method of sorting.
      */
-    void sortItemList(MethodOfSorting method);
+    void sortItemList(XpireMethodOfSorting method);
 
     /**
      * Returns a set containing all existing names of items in the list.

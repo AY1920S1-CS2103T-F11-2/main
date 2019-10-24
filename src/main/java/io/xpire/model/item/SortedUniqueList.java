@@ -1,6 +1,6 @@
 package io.xpire.model.item;
 
-import io.xpire.model.item.sort.SortingMethod;
+import io.xpire.model.item.sort.MethodOfSorting;
 import javafx.collections.ObservableList;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public interface SortedUniqueList<T> extends Iterable<T> {
 
     void setItems(List<T> items);
 
-    void setMethodOfSorting(SortingMethod<T> method);
+    void setMethodOfSorting(MethodOfSorting<T> method);
 
     ObservableList<T> asUnmodifiableObservableList();
 

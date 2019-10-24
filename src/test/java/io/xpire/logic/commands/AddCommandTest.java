@@ -25,7 +25,7 @@ import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.Name;
-import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.testutil.ItemBuilder;
 import javafx.collections.ObservableList;
@@ -159,7 +159,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void sortItemList(MethodOfSorting method) {
+        public void sortItemList(XpireMethodOfSorting method) {
             throw new AssertionError("This method should not be called.");
         }
 
