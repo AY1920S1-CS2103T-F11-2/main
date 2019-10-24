@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import io.xpire.model.item.XpireItem;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.commons.core.GuiSettings;
@@ -23,7 +24,6 @@ import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.Xpire;
-import io.xpire.model.item.Item;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.tag.Tag;
@@ -41,7 +41,7 @@ public class AddCommandTest {
     @Test
     public void execute_itemAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingItemAdded modelStub = new ModelStubAcceptingItemAdded();
-        Item kiwi = new ItemBuilder().withName(VALID_NAME_KIWI)
+        XpireItem kiwi = new ItemBuilder().withName(VALID_NAME_KIWI)
                                             .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                                             .withQuantity("1").build();
         CommandResult commandResult = new AddCommand(kiwi).execute(modelStub);
@@ -51,7 +51,7 @@ public class AddCommandTest {
 
     @Test
     public void execute_duplicateItem_throwsCommandException() {
-        Item kiwi = new ItemBuilder().withName(VALID_NAME_KIWI)
+        XpireItem kiwi = new ItemBuilder().withName(VALID_NAME_KIWI)
                 .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                 .withQuantity("1").build();
         AddCommand addCommand = new AddCommand(kiwi);
@@ -62,8 +62,8 @@ public class AddCommandTest {
 
     @Test
     public void equals() {
-        Item apple = new ItemBuilder().withName("Apple").build();
-        Item banana = new ItemBuilder().withName("Banana").build();
+        XpireItem apple = new ItemBuilder().withName("Apple").build();
+        XpireItem banana = new ItemBuilder().withName("Banana").build();
         AddCommand addAppleCommand = new AddCommand(apple);
         AddCommand addBananaCommand = new AddCommand(banana);
 
@@ -119,7 +119,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addItem(Item item) {
+        public void addItem(XpireItem xpireItem) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -134,17 +134,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasItem(Item item) {
+        public boolean hasItem(XpireItem xpireItem) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void deleteItem(Item target) {
+        public void deleteItem(XpireItem target) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setItem(Item target, Item editedItem) {
+        public void setItem(XpireItem target, XpireItem editedXpireItem) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -164,17 +164,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<Item> getFilteredItemList() {
+        public ObservableList<XpireItem> getFilteredItemList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public List<Item> getAllItemList() {
+        public List<XpireItem> getAllItemList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void updateFilteredItemList(Predicate<Item> predicate) {
+        public void updateFilteredItemList(Predicate<XpireItem> predicate) {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -183,17 +183,17 @@ public class AddCommandTest {
      * A Model stub that contains a single item.
      */
     private class ModelStubWithItem extends ModelStub {
-        private final Item item;
+        private final XpireItem xpireItem;
 
-        ModelStubWithItem(Item item) {
-            requireNonNull(item);
-            this.item = item;
+        ModelStubWithItem(XpireItem xpireItem) {
+            requireNonNull(xpireItem);
+            this.xpireItem = xpireItem;
         }
 
         @Override
-        public boolean hasItem(Item item) {
-            requireNonNull(item);
-            return this.item.isSameItem(item);
+        public boolean hasItem(XpireItem xpireItem) {
+            requireNonNull(xpireItem);
+            return this.xpireItem.isSameItem(xpireItem);
         }
     }
 
@@ -201,18 +201,18 @@ public class AddCommandTest {
      * A Model stub that always accept the item being added.
      */
     private class ModelStubAcceptingItemAdded extends ModelStub {
-        final ArrayList<Item> itemsAdded = new ArrayList<>();
+        final ArrayList<XpireItem> itemsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasItem(Item item) {
-            requireNonNull(item);
-            return itemsAdded.stream().anyMatch(item::isSameItem);
+        public boolean hasItem(XpireItem xpireItem) {
+            requireNonNull(xpireItem);
+            return itemsAdded.stream().anyMatch(xpireItem::isSameItem);
         }
 
         @Override
-        public void addItem(Item item) {
-            requireNonNull(item);
-            itemsAdded.add(item);
+        public void addItem(XpireItem xpireItem) {
+            requireNonNull(xpireItem);
+            itemsAdded.add(xpireItem);
         }
 
         @Override

@@ -5,21 +5,20 @@ import static java.util.Objects.requireNonNull;
 import java.util.Comparator;
 
 import io.xpire.commons.util.AppUtil;
-import io.xpire.model.item.Item;
-import io.xpire.model.item.SortedUniqueList;
+import io.xpire.model.item.XpireItem;
 
 /**
  * Represents a MethodOfSorting in the expiry date tracker.
  * Guarantees: immutable; name is valid as declared in {@link #isValidMethodOfSorting(String)}
  */
-public class MethodOfSorting implements SortingMethod<Item> {
+public class MethodOfSorting implements SortingMethod<XpireItem> {
 
     public static final String MESSAGE_CONSTRAINTS = "Sorting can only be done by 'name' or 'date'.";
-    private final Comparator<Item> nameSorter = Comparator.comparing(l->l.getName().toString(),
+    private final Comparator<XpireItem> nameSorter = Comparator.comparing(l->l.getName().toString(),
             String.CASE_INSENSITIVE_ORDER);
-    private final Comparator<Item> dateSorter = Comparator.comparing(l->l.getExpiryDate().getDate(),
+    private final Comparator<XpireItem> dateSorter = Comparator.comparing(l->l.getExpiryDate().getDate(),
             Comparator.nullsFirst(Comparator.naturalOrder()));
-    private final Comparator<Item> nameThenDateSorter = nameSorter.thenComparing(dateSorter);
+    private final Comparator<XpireItem> nameThenDateSorter = nameSorter.thenComparing(dateSorter);
     private final String method;
 
     /**
@@ -35,7 +34,7 @@ public class MethodOfSorting implements SortingMethod<Item> {
     /**
      * Returns a comparator for the given method of sorting.
      */
-    public Comparator<Item> getComparator() {
+    public Comparator<XpireItem> getComparator() {
         switch (method) {
         case "date":
             return dateSorter;

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.util.CollectionUtil;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.tag.Tag;
@@ -30,7 +30,7 @@ public class ModelManager implements Model {
 
     private final Xpire xpire;
     private final UserPrefs userPrefs;
-    private final FilteredList<Item> filteredItems;
+    private final FilteredList<XpireItem> filteredXpireItems;
 
     /**
      * Initializes a ModelManager with the given xpire and userPrefs.
@@ -43,7 +43,7 @@ public class ModelManager implements Model {
 
         this.xpire = new Xpire(xpire);
         this.userPrefs = new UserPrefs(userPrefs);
-        this.filteredItems = new FilteredList<>(this.xpire.getItemList());
+        this.filteredXpireItems = new FilteredList<>(this.xpire.getItemList());
     }
 
     public ModelManager() {
@@ -98,41 +98,41 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hasItem(Item item) {
-        requireNonNull(item);
-        return this.xpire.hasItem(item);
+    public boolean hasItem(XpireItem xpireItem) {
+        requireNonNull(xpireItem);
+        return this.xpire.hasItem(xpireItem);
     }
 
     @Override
-    public void deleteItem(Item target) {
+    public void deleteItem(XpireItem target) {
         this.xpire.removeItem(target);
     }
 
     @Override
-    public void addItem(Item item) {
-        this.xpire.addItem(item);
+    public void addItem(XpireItem xpireItem) {
+        this.xpire.addItem(xpireItem);
         updateFilteredItemList(PREDICATE_SHOW_ALL_ITEMS);
     }
 
     @Override
-    public void setItem(Item target, Item editedItem) {
-        CollectionUtil.requireAllNonNull(target, editedItem);
-        this.xpire.setItem(target, editedItem);
+    public void setItem(XpireItem target, XpireItem editedXpireItem) {
+        CollectionUtil.requireAllNonNull(target, editedXpireItem);
+        this.xpire.setItem(target, editedXpireItem);
     }
 
     @Override
     public Set<Tag> getAllItemTags() {
         Set<Tag> tagSet = new TreeSet<>(new TagComparator());
-        List<Item> itemList = this.xpire.getItemList();
-        itemList.forEach(item -> tagSet.addAll(item.getTags()));
+        List<XpireItem> xpireItemList = this.xpire.getItemList();
+        xpireItemList.forEach(item -> tagSet.addAll(item.getTags()));
         return tagSet;
     }
 
     @Override
     public Set<Name> getAllItemNames() {
         Set<Name> nameSet = new TreeSet<>(Comparator.comparing(Name::toString));
-        List<Item> itemList = this.xpire.getItemList();
-        itemList.forEach(item -> nameSet.add(item.getName()));
+        List<XpireItem> xpireItemList = this.xpire.getItemList();
+        xpireItemList.forEach(item -> nameSet.add(item.getName()));
         return nameSet;
     }
 
@@ -152,27 +152,27 @@ public class ModelManager implements Model {
      * {@code versionedXpire}
      */
     @Override
-    public ObservableList<Item> getFilteredItemList() {
-        return this.filteredItems;
+    public ObservableList<XpireItem> getFilteredItemList() {
+        return this.filteredXpireItems;
     }
 
     @Override
-    public void updateFilteredItemList(Predicate<Item> predicate) {
+    public void updateFilteredItemList(Predicate<XpireItem> predicate) {
         requireNonNull(predicate);
-        Predicate<? super Item> p = this.filteredItems.getPredicate();
+        Predicate<? super XpireItem> p = this.filteredXpireItems.getPredicate();
         if (predicate == PREDICATE_SHOW_ALL_ITEMS || p == null) {
             // a view command or first ever search command
-            this.filteredItems.setPredicate(predicate);
+            this.filteredXpireItems.setPredicate(predicate);
         } else {
             // search commands have been executed before
-            this.filteredItems.setPredicate(predicate.and(p));
+            this.filteredXpireItems.setPredicate(predicate.and(p));
         }
     }
 
     // =========== Tag Item List Accessors =============================================================
 
     @Override
-    public List<Item> getAllItemList() {
+    public List<XpireItem> getAllItemList() {
         return this.xpire.getItemList();
     }
 
@@ -186,7 +186,7 @@ public class ModelManager implements Model {
             ModelManager other = (ModelManager) obj;
             return this.xpire.equals(other.xpire)
                     && this.userPrefs.equals(other.userPrefs)
-                    && this.filteredItems.equals(other.filteredItems);
+                    && this.filteredXpireItems.equals(other.filteredXpireItems);
         }
     }
 }

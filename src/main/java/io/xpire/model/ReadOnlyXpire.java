@@ -1,6 +1,6 @@
 package io.xpire.model;
 
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import javafx.collections.ObservableList;
 
 /**
@@ -11,5 +11,5 @@ public interface ReadOnlyXpire {
      * Returns an unmodifiable view of the item list.
      * This list will not contain any duplicate items.
      */
-    ObservableList<Item> getItemList();
+    ObservableList<XpireItem> getItemList();
 }

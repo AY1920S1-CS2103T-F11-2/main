@@ -14,9 +14,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import io.xpire.model.item.XpireItem;
 import org.junit.jupiter.api.Test;
 
-import io.xpire.model.item.Item;
 import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.testutil.ItemBuilder;
 import javafx.collections.FXCollections;
@@ -45,10 +45,10 @@ public class XpireTest {
 
     @Test
     public void resetData_withDuplicateItems_throwsDuplicateItemException() {
-        Item editedApple = new ItemBuilder(EXPIRED_APPLE).withExpiryDate(VALID_EXPIRY_DATE_APPLE)
+        XpireItem editedApple = new ItemBuilder(EXPIRED_APPLE).withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                                                          .withQuantity("1").build();
-        List<Item> newItems = Arrays.asList(EXPIRED_APPLE, editedApple);
-        XpireStub newData = new XpireStub(newItems);
+        List<XpireItem> newXpireItems = Arrays.asList(EXPIRED_APPLE, editedApple);
+        XpireStub newData = new XpireStub(newXpireItems);
         assertThrows(DuplicateItemException.class, () -> xpire.resetData(newData));
     }
 
@@ -71,7 +71,7 @@ public class XpireTest {
     @Test
     public void hasItem_itemWithSameIdentityFieldsInExpiryDateTracker_returnsTrue() {
         xpire.addItem(EXPIRED_APPLE);
-        Item editedAlice = new ItemBuilder(EXPIRED_APPLE)
+        XpireItem editedAlice = new ItemBuilder(EXPIRED_APPLE)
                 .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                 .withTags(VALID_TAG_FRUIT)
                 .build();
@@ -87,15 +87,15 @@ public class XpireTest {
      * A stub ReadOnlyXpire whose items list can violate interface constraints.
      */
     private static class XpireStub implements ReadOnlyXpire {
-        private final ObservableList<Item> items = FXCollections.observableArrayList();
+        private final ObservableList<XpireItem> xpireItems = FXCollections.observableArrayList();
 
-        XpireStub(Collection<Item> items) {
-            this.items.setAll(items);
+        XpireStub(Collection<XpireItem> xpireItems) {
+            this.xpireItems.setAll(xpireItems);
         }
 
         @Override
-        public ObservableList<Item> getItemList() {
-            return items;
+        public ObservableList<XpireItem> getItemList() {
+            return xpireItems;
         }
     }
 

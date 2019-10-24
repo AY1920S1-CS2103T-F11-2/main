@@ -33,7 +33,7 @@
           </Menu>
         </MenuBar>
 
-        <VBox fx:id="itemList" minWidth="340" prefWidth="340" style="-fx-border-color: #262626 transparent transparent transparent;" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
+        <VBox fx:id="xpireItemList" minWidth="340" prefWidth="340" style="-fx-border-color: #262626 transparent transparent transparent;" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
           <padding>
             <Insets bottom="10" left="10" right="10" top="10" />
           </padding>

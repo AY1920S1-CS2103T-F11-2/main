@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 
 /**
  * Adds an item to the list.
@@ -20,14 +20,14 @@ public class AddCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New item added: %s";
     public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists";
 
-    private final Item toAdd;
+    private final XpireItem toAdd;
 
     /**
      * Creates an AddCommand to add the specified {@code Item}
      */
-    public AddCommand(Item item) {
-        requireNonNull(item);
-        this.toAdd = item;
+    public AddCommand(XpireItem xpireItem) {
+        requireNonNull(xpireItem);
+        this.toAdd = xpireItem;
     }
 
     /**

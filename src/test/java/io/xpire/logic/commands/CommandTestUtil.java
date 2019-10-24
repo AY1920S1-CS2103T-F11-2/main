@@ -13,7 +13,7 @@ import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.ContainsKeywordsPredicate;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.testutil.Assert;
 
 /**
@@ -60,7 +60,7 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         Xpire expectedXpire = new Xpire(actualModel.getXpire());
-        List<Item> expectedFilteredList = new ArrayList<>(actualModel.getFilteredItemList());
+        List<XpireItem> expectedFilteredList = new ArrayList<>(actualModel.getFilteredItemList());
 
         Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedXpire, actualModel.getXpire());
@@ -73,8 +73,8 @@ public class CommandTestUtil {
     public static void showItemAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredItemList().size());
 
-        Item item = model.getFilteredItemList().get(targetIndex.getZeroBased());
-        final String[] splitName = item.getName().toString().split("\\s+");
+        XpireItem xpireItem = model.getFilteredItemList().get(targetIndex.getZeroBased());
+        final String[] splitName = xpireItem.getName().toString().split("\\s+");
         model.updateFilteredItemList(new ContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredItemList().size());

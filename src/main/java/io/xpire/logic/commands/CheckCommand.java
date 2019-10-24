@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 import io.xpire.model.Model;
 import io.xpire.model.item.ExpiringSoonPredicate;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.ReminderThresholdExceededPredicate;
 
 /**
@@ -24,7 +24,7 @@ public class CheckCommand extends Command {
             + "If no duration is specified, expired items and items whose days to expiry date are less than or equals "
             + "to the remainder threshold will be displayed.\n";
 
-    private final Predicate<Item> predicate;
+    private final Predicate<XpireItem> predicate;
 
     public CheckCommand(ExpiringSoonPredicate predicate) {
         this.predicate = predicate;

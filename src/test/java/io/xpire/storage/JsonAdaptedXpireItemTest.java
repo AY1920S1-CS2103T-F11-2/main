@@ -27,7 +27,7 @@ import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
 import io.xpire.model.tag.Tag;
 
-public class JsonAdaptedItemTest {
+public class JsonAdaptedXpireItemTest {
 
     private static final List<JsonAdaptedTag> VALID_TAGS = new ArrayList<>() {{
             add(new JsonAdaptedTag(new Tag(VALID_TAG_FRIDGE)));

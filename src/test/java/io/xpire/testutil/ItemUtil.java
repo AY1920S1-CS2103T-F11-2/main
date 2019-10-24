@@ -1,7 +1,7 @@
 package io.xpire.testutil;
 
 import io.xpire.logic.commands.AddCommand;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 
 /**
  * A utility class for Item.
@@ -11,21 +11,21 @@ public class ItemUtil {
     /**
      * Returns an add command string for adding the {@code item}.
      */
-    public static String getAddCommand(Item item) {
-        return AddCommand.COMMAND_WORD + "|" + getItemDetails(item);
+    public static String getAddCommand(XpireItem xpireItem) {
+        return AddCommand.COMMAND_WORD + "|" + getItemDetails(xpireItem);
     }
 
     /**
      * Returns the part of command string for the given {@code item}'s details.
      */
-    public static String getItemDetails(Item item) {
+    public static String getItemDetails(XpireItem xpireItem) {
         StringBuilder sb = new StringBuilder("");
-        sb.append(item.getName().toString() + "|");
-        sb.append(item.getExpiryDate().toString() + "|");
-        sb.append(item.getQuantity().toString());
-        if (!item.getTags().isEmpty()) {
+        sb.append(xpireItem.getName().toString() + "|");
+        sb.append(xpireItem.getExpiryDate().toString() + "|");
+        sb.append(xpireItem.getQuantity().toString());
+        if (!xpireItem.getTags().isEmpty()) {
             sb.append("|");
-            item.getTags().stream().forEach(s -> sb.append(s.getTagName() + " "));
+            xpireItem.getTags().stream().forEach(s -> sb.append(s.getTagName() + " "));
         }
         return sb.toString();
     }

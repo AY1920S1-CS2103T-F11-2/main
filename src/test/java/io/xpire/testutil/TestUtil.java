@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 import io.xpire.commons.core.index.Index;
 import io.xpire.model.Model;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 
 /**
  * A utility class for test cases.
@@ -49,7 +49,7 @@ public class TestUtil {
     /**
      * Returns the item in the {@code model}'s item list at {@code index}.
      */
-    public static Item getItem(Model model, Index index) {
+    public static XpireItem getItem(Model model, Index index) {
         return model.getFilteredItemList().get(index.getZeroBased());
     }
 }

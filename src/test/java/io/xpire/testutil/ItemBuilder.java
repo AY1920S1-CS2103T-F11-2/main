@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import io.xpire.model.item.ExpiryDate;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
@@ -39,14 +39,14 @@ public class ItemBuilder {
     /**
      * Initializes the ItemBuilder with the data of {@code itemToCopy}.
      */
-    public ItemBuilder(Item itemToCopy) {
-        name = itemToCopy.getName();
-        expiryDate = itemToCopy.getExpiryDate();
-        quantity = itemToCopy.getQuantity();
+    public ItemBuilder(XpireItem xpireItemToCopy) {
+        name = xpireItemToCopy.getName();
+        expiryDate = xpireItemToCopy.getExpiryDate();
+        quantity = xpireItemToCopy.getQuantity();
         TreeSet<Tag> set = new TreeSet<>(new TagComparator());
-        set.addAll(itemToCopy.getTags());
+        set.addAll(xpireItemToCopy.getTags());
         tags = set;
-        this.reminderThreshold = itemToCopy.getReminderThreshold();
+        this.reminderThreshold = xpireItemToCopy.getReminderThreshold();
     }
 
     /**
@@ -100,10 +100,10 @@ public class ItemBuilder {
     /**
      * Constructs a new {@code Item} with the modified fields.
      */
-    public Item build() {
-        Item newItem = new Item(name, expiryDate, quantity, tags);
-        newItem.setReminderThreshold(reminderThreshold);
-        return newItem;
+    public XpireItem build() {
+        XpireItem newXpireItem = new XpireItem(name, expiryDate, quantity, tags);
+        newXpireItem.setReminderThreshold(reminderThreshold);
+        return newXpireItem;
     }
 
 }

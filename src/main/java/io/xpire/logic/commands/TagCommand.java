@@ -13,7 +13,7 @@ import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -72,22 +72,22 @@ public class TagCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Item> lastShownList = model.getFilteredItemList();
+        List<XpireItem> lastShownList = model.getFilteredItemList();
 
         switch (this.mode) {
         case TAG:
             if (this.index.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
             }
-            Item itemToTag = lastShownList.get(this.index.getZeroBased());
-            Item taggedItem = createTaggedItem(itemToTag, this.tagItemDescriptor);
-            model.setItem(itemToTag, taggedItem);
-            return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedItem));
+            XpireItem xpireItemToTag = lastShownList.get(this.index.getZeroBased());
+            XpireItem taggedXpireItem = createTaggedItem(xpireItemToTag, this.tagItemDescriptor);
+            model.setItem(xpireItemToTag, taggedXpireItem);
+            return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedXpireItem));
 
         case SHOW:
             Set<Tag> tagSet = new TreeSet<>(new TagComparator());
-            List<Item> itemList = model.getAllItemList();
-            itemList.forEach(item -> tagSet.addAll(item.getTags()));
+            List<XpireItem> xpireItemList = model.getAllItemList();
+            xpireItemList.forEach(item -> tagSet.addAll(item.getTags()));
             if (tagSet.isEmpty()) {
                 return new CommandResult(MESSAGE_TAG_SHOW_FAILURE);
             }
@@ -117,23 +117,23 @@ public class TagCommand extends Command {
      * Creates and returns a {@code Item} with the details of {@code itemToTag}
      * edited with {@code tagItemDescriptor}.
      */
-    private static Item createTaggedItem(Item itemToTag, TagItemDescriptor tagItemDescriptor) {
-        assert itemToTag != null;
-        Set<Tag> updatedTags = updateTags(itemToTag, tagItemDescriptor);
-        return new Item(itemToTag.getName(), itemToTag.getExpiryDate(), itemToTag.getQuantity(),
-                updatedTags, itemToTag.getReminderThreshold());
+    private static XpireItem createTaggedItem(XpireItem xpireItemToTag, TagItemDescriptor tagItemDescriptor) {
+        assert xpireItemToTag != null;
+        Set<Tag> updatedTags = updateTags(xpireItemToTag, tagItemDescriptor);
+        return new XpireItem(xpireItemToTag.getName(), xpireItemToTag.getExpiryDate(), xpireItemToTag.getQuantity(),
+                updatedTags, xpireItemToTag.getReminderThreshold());
     }
 
     /**
      * Returns an updated set of tags.
      *
-     * @param itemToTag Item to be tagged.
+     * @param xpireItemToTag Item to be tagged.
      * @param tagItemDescriptor Descriptor that specifies additional tags to be added on or tags to be cleared.
      * @return Set containing updated tags.
      */
-    private static Set<Tag> updateTags(Item itemToTag, TagItemDescriptor tagItemDescriptor) {
+    private static Set<Tag> updateTags(XpireItem xpireItemToTag, TagItemDescriptor tagItemDescriptor) {
         Set<Tag> set = new TreeSet<>(new TagComparator());
-        set.addAll(itemToTag.getTags());
+        set.addAll(xpireItemToTag.getTags());
         set.addAll(tagItemDescriptor.getTags());
         return set;
     }
