@@ -27,8 +27,6 @@ public class TypicalItems {
                                             .withExpiryDate(IN_TWO_WEEKS)
                                             .withQuantity("5").build();
 
-
-
     public static final Item KIWI = new ItemBuilder().withName("Kiwi")
                                                       .withExpiryDate(IN_A_MONTH)
                                                       .withQuantity("2")
