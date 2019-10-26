@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.nio.file.Path;
 
+import javafx.scene.control.ListView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -55,14 +56,14 @@ public class StorageManagerTest {
          * More extensive testing of UserPref saving/reading is done in {@link JsonAddressBookStorageTest} class.
          */
         ListView original = TypicalItems.getTypicalExpiryDateTracker();
-        storageManager.saveXpire(original);
+        storageManager.saveList(original);
         ReadOnlyListView retrieved = storageManager.readXpire().get();
         assertEquals(original.getItemList(), new ListView(retrieved).getItemList());
     }
 
     @Test
     public void getExpiryDateTrackerFilePath() {
-        assertNotNull(storageManager.getXpireFilePath());
+        assertNotNull(storageManager.getListFilePath());
     }
 
 }

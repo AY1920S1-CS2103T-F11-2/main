@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import io.xpire.commons.core.Messages;
 import io.xpire.commons.util.StringUtil;
 import io.xpire.model.Model;
+import io.xpire.model.XpireModel;
 import io.xpire.model.item.ContainsKeywordsPredicate;
 
 /**
@@ -28,17 +29,17 @@ public class SearchCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
-        requireNonNull(model);
-        model.updateFilteredItemList(this.predicate);
+    public CommandResult execute(Model xpireModel) {
+        requireNonNull(xpireModel);
+        xpireModel.updateFilteredItemList(this.predicate);
         StringBuilder sb = new StringBuilder(String.format(Messages.MESSAGE_ITEMS_LISTED_OVERVIEW,
-                model.getFilteredItemList().size()));
-        if (model.getFilteredItemList().size() == 0) {
+                xpireModel.getFilteredItemList().size()));
+        if (xpireModel.getFilteredItemList().size() == 0) {
             predicate.getKeywords().forEach(s -> {
                 if (s.startsWith("#")) {
-                    sb.append(StringUtil.findSimilarItemTags(s, model.getAllItemTags()));
+                    sb.append(StringUtil.findSimilarItemTags(s, xpireModel.getAllItemTags()));
                 } else {
-                    sb.append(StringUtil.findSimilarItemNames(s, model.getAllItemNames()));
+                    sb.append(StringUtil.findSimilarItemNames(s, xpireModel.getAllItemNames()));
                 }
             });
         }

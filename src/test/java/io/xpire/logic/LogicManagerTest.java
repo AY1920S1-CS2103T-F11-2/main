@@ -14,7 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import io.xpire.model.XpireModel;
+import io.xpire.model.XpireModelManager;
 import io.xpire.model.item.XpireItem;
+import io.xpire.storage.JsonXpireStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -24,12 +27,9 @@ import io.xpire.logic.commands.CommandResult;
 import io.xpire.logic.commands.ViewCommand;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.UserPrefs;
 import io.xpire.storage.JsonUserPrefsStorage;
-import io.xpire.storage.JsonXpireStorage;
 import io.xpire.storage.StorageManager;
 import io.xpire.testutil.ItemBuilder;
 
@@ -39,7 +39,7 @@ public class LogicManagerTest {
     @TempDir
     public Path temporaryFolder;
 
-    private Model model = new ModelManager();
+    private XpireModel xpireModel = new XpireModelManager();
     private Logic logic;
 
     @BeforeEach
@@ -48,7 +48,7 @@ public class LogicManagerTest {
                 new JsonXpireStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        logic = new LogicManager(model, storage);
+        logic = new LogicManager(xpireModel, storage);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class LogicManagerTest {
     @Test
     public void execute_validCommand_success() throws Exception {
         String listCommand = ViewCommand.COMMAND_WORD;
-        assertCommandSuccess(listCommand, ViewCommand.MESSAGE_SUCCESS, model);
+        assertCommandSuccess(listCommand, ViewCommand.MESSAGE_SUCCESS, xpireModel);
     }
 
     @Test
@@ -78,13 +78,13 @@ public class LogicManagerTest {
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        logic = new LogicManager(model, storage);
+        logic = new LogicManager(xpireModel, storage);
 
         // Execute add command
         String addCommand = AddCommand.COMMAND_WORD + "|" + VALID_NAME_BANANA + "|" + VALID_EXPIRY_DATE_BANANA
                 + "| " + VALID_QUANTITY_BANANA;
         XpireItem expectedXpireItem = new ItemBuilder(BANANA).build();
-        ModelManager expectedModel = new ModelManager();
+        XpireModelManager expectedModel = new XpireModelManager();
         expectedModel.addItem(expectedXpireItem);
         String expectedMessage = LogicManager.FILE_OPS_ERROR_MESSAGE + DUMMY_IO_EXCEPTION;
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
@@ -99,19 +99,19 @@ public class LogicManagerTest {
      * Executes the command and confirms that
      * - no exceptions are thrown <br>
      * - the feedback message is equal to {@code expectedMessage} <br>
-     * - the internal model manager state is the same as that in {@code expectedModel} <br>
-     * @see #assertCommandFailure(String, Class, String, Model)
+     * - the internal xpireModel manager state is the same as that in {@code expectedXpireModel} <br>
+     * @see #assertCommandFailure(String, Class, String, XpireModel)
      */
     private void assertCommandSuccess(String inputCommand, String expectedMessage,
-            Model expectedModel) throws CommandException, ParseException {
+            XpireModel expectedXpireModel) throws CommandException, ParseException {
         CommandResult result = logic.execute(inputCommand);
         assertEquals(expectedMessage, result.getFeedbackToUser());
-        assertEquals(expectedModel, model);
+        assertEquals(expectedXpireModel, xpireModel);
     }
 
     /**
      * Executes the command, confirms that a ParseException is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, Model)
+     * @see #assertCommandFailure(String, Class, String, XpireModel)
      */
     private void assertParseException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, ParseException.class, expectedMessage);
@@ -119,7 +119,7 @@ public class LogicManagerTest {
 
     /**
      * Executes the command, confirms that a CommandException is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, Model)
+     * @see #assertCommandFailure(String, Class, String, XpireModel)
      */
     private void assertCommandException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, CommandException.class, expectedMessage);
@@ -127,25 +127,25 @@ public class LogicManagerTest {
 
     /**
      * Executes the command, confirms that the exception is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, Model)
+     * @see #assertCommandFailure(String, Class, String, XpireModel)
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
             String expectedMessage) {
-        Model expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
-        assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
+        XpireModel expectedXpireModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
+        assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedXpireModel);
     }
 
     /**
      * Executes the command and confirms that
      * - the {@code expectedException} is thrown <br>
      * - the resulting error message is equal to {@code expectedMessage} <br>
-     * - the internal model manager state is the same as that in {@code expectedModel} <br>
-     * @see #assertCommandSuccess(String, String, Model)
+     * - the internal xpireModel manager state is the same as that in {@code expectedXpireModel} <br>
+     * @see #assertCommandSuccess(String, String, XpireModel)
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
-            String expectedMessage, Model expectedModel) {
+            String expectedMessage, XpireModel expectedXpireModel) {
         assertThrows(expectedException, expectedMessage, () -> logic.execute(inputCommand));
-        assertEquals(expectedModel, model);
+        assertEquals(expectedXpireModel, xpireModel);
     }
 
     /**
@@ -157,7 +157,7 @@ public class LogicManagerTest {
         }
 
         @Override
-        public void saveXpire(ReadOnlyListView xpire, Path filePath) throws IOException {
+        public void saveList(ReadOnlyListView xpire, Path filePath) throws IOException {
             throw DUMMY_IO_EXCEPTION;
         }
     }

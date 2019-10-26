@@ -13,32 +13,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
+import io.xpire.model.XpireModel;
 import org.junit.jupiter.api.Test;
 
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
+import io.xpire.model.XpireModelManager;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.item.ExpiringSoonPredicate;
 import io.xpire.model.item.ReminderThresholdExceededPredicate;
 
 /**
- * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
+ * Contains integration tests (interaction with the XpireModel, UndoCommand and RedoCommand) and unit tests for
  * {@code CheckCommand}.
  */
 public class CheckCommandTest {
 
-    private Model model = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+    private XpireModel xpireModel = new XpireModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+    private XpireModel expectedXpireModel = new XpireModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
 
     @Test
     public void execute_checkReminder_success() {
         String expectedMessage = MESSAGE_SUCCESS;
         ReminderThresholdExceededPredicate predicate = new ReminderThresholdExceededPredicate();
         CheckCommand command = new CheckCommand(predicate);
-        expectedModel.updateFilteredItemList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        expectedXpireModel.updateFilteredItemList(predicate);
+        assertCommandSuccess(command, xpireModel, expectedMessage, expectedXpireModel);
         assertEquals(Arrays.asList(EXPIRED_APPLE, EXPIRING_FISH, EXPIRED_MILK, EXPIRED_ORANGE),
-                model.getFilteredItemList());
+                xpireModel.getFilteredItemList());
     }
 
     @Test
@@ -46,9 +46,9 @@ public class CheckCommandTest {
         String expectedMessage = MESSAGE_SUCCESS;
         ExpiringSoonPredicate predicate = new ExpiringSoonPredicate(5);
         CheckCommand command = new CheckCommand(predicate);
-        expectedModel.updateFilteredItemList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(EXPIRED_APPLE, EXPIRED_MILK, EXPIRED_ORANGE), model.getFilteredItemList());
+        expectedXpireModel.updateFilteredItemList(predicate);
+        assertCommandSuccess(command, xpireModel, expectedMessage, expectedXpireModel);
+        assertEquals(Arrays.asList(EXPIRED_APPLE, EXPIRED_MILK, EXPIRED_ORANGE), xpireModel.getFilteredItemList());
     }
 
     @Test

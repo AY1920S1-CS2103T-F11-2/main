@@ -13,23 +13,23 @@ import org.junit.jupiter.api.Test;
 
 import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
+import io.xpire.model.XpireModel;
+import io.xpire.model.XpireModelManager;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.item.ReminderThreshold;
 
 
 /**
- * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
+ * Contains integration tests (interaction with the XpireModel, UndoCommand and RedoCommand) and unit tests for
  * {@code SetReminderCommand}.
  */
 public class SetReminderCommandTest {
 
-    private Model model;
+    private XpireModel xpireModel;
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+        xpireModel = new XpireModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
     }
 
     @Test
@@ -57,11 +57,11 @@ public class SetReminderCommandTest {
 
     @Test
     public void execute_invalidIndex_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredItemList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(xpireModel.getFilteredItemList().size() + 1);
         ReminderThreshold validThreshold = new ReminderThreshold("2");
         SetReminderCommand setReminderCommand = new SetReminderCommand(outOfBoundIndex, validThreshold);
 
-        assertCommandFailure(setReminderCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(setReminderCommand, xpireModel, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class SetReminderCommandTest {
         ReminderThreshold threshold = new ReminderThreshold("1");
         SetReminderCommand command = new SetReminderCommand(firstIndex, threshold);
         String expectedMessage = String.format(MESSAGE_SUCCESS, firstIndex.getOneBased(), threshold);
-        assertCommandSuccess(command, model, expectedMessage, model);
+        assertCommandSuccess(command, xpireModel, expectedMessage, xpireModel);
     }
 
 }

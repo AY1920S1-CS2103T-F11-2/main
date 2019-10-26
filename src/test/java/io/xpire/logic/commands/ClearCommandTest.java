@@ -1,9 +1,9 @@
 package io.xpire.logic.commands;
 
+import io.xpire.model.XpireModel;
 import org.junit.jupiter.api.Test;
 
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
+import io.xpire.model.XpireModelManager;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.ListView;
 import io.xpire.testutil.TypicalItems;
@@ -12,19 +12,19 @@ public class ClearCommandTest {
 
     @Test
     public void execute_emptyAddressBook_success() {
-        Model model = new ModelManager();
-        Model expectedModel = new ModelManager();
+        XpireModel xpireModel = new XpireModelManager();
+        XpireModel expectedXpireModel = new XpireModelManager();
 
-        CommandTestUtil.assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        CommandTestUtil.assertCommandSuccess(new ClearCommand(), xpireModel, ClearCommand.MESSAGE_SUCCESS, expectedXpireModel);
     }
 
     @Test
     public void execute_nonEmptyAddressBook_success() {
-        Model model = new ModelManager(TypicalItems.getTypicalExpiryDateTracker(), new UserPrefs());
-        Model expectedModel = new ModelManager(TypicalItems.getTypicalExpiryDateTracker(), new UserPrefs());
-        expectedModel.setXpire(new ListView());
+        XpireModel xpireModel = new XpireModelManager(TypicalItems.getTypicalExpiryDateTracker(), new UserPrefs());
+        XpireModel expectedXpireModel = new XpireModelManager(TypicalItems.getTypicalExpiryDateTracker(), new UserPrefs());
+        expectedXpireModel.setListView(new ListView());
 
-        CommandTestUtil.assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        CommandTestUtil.assertCommandSuccess(new ClearCommand(), xpireModel, ClearCommand.MESSAGE_SUCCESS, expectedXpireModel);
     }
 
 }

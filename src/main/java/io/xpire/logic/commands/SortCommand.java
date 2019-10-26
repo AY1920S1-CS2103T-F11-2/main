@@ -2,6 +2,7 @@ package io.xpire.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import io.xpire.model.Model;
+import io.xpire.model.XpireModel;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 
 /**
@@ -26,10 +27,10 @@ public class SortCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
-        requireNonNull(model);
-        model.sortItemList(this.method);
-        model.updateFilteredItemList(Model.PREDICATE_SORT_ALL_ITEMS);
+    public CommandResult execute(Model xpireModel) {
+        requireNonNull(xpireModel);
+        xpireModel.sortItemList(this.method);
+        xpireModel.updateFilteredItemList(XpireModel.PREDICATE_SORT_ALL_ITEMS);
         return new CommandResult(MESSAGE_SUCCESS + " by " + method);
     }
 

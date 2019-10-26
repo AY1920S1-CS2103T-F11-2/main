@@ -21,13 +21,13 @@ class JsonSerializableXpire {
 
     public static final String MESSAGE_DUPLICATE_ITEM = "Items list contains duplicate item(s).";
 
-    private final List<JsonAdaptedItem> items = new ArrayList<>();
+    private final List<JsonAdaptedXpireItem> items = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonSerializableXpire} with the given items.
      */
     @JsonCreator
-    public JsonSerializableXpire(@JsonProperty("items") List<JsonAdaptedItem> items) {
+    public JsonSerializableXpire(@JsonProperty("items") List<JsonAdaptedXpireItem> items) {
         this.items.addAll(items);
     }
 
@@ -37,18 +37,18 @@ class JsonSerializableXpire {
      * @param source future changes to this will not affect the created {@code JsonSerializableXpire}.
      */
     public JsonSerializableXpire(ReadOnlyListView<XpireItem> source) {
-        items.addAll(source.getItemList().stream().map(JsonAdaptedItem::new).collect(Collectors.toList()));
+        items.addAll(source.getItemList().stream().map(JsonAdaptedXpireItem::new).collect(Collectors.toList()));
     }
 
     /**
-     * Converts this expiry date tracker into the model's {@code ExpiryDateTracker} object.
+     * Converts this expiry date tracker into the xpireModel's {@code ExpiryDateTracker} object.
      *
      * @throws IllegalValueException if there were any data constraints violated.
      */
     public Xpire toModelType() throws IllegalValueException {
         Xpire xpire = new Xpire();
-        for (JsonAdaptedItem jsonAdaptedItem : items) {
-            XpireItem xpireItem = jsonAdaptedItem.toModelType();
+        for (JsonAdaptedXpireItem jsonAdaptedXpireItem : items) {
+            XpireItem xpireItem = jsonAdaptedXpireItem.toModelType();
             if (xpire.hasItem(xpireItem)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_ITEM);
             }

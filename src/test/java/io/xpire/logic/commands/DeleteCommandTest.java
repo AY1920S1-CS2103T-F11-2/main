@@ -33,6 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Set;
 import java.util.TreeSet;
 
+import io.xpire.model.XpireModel;
+import io.xpire.model.XpireModelManager;
 import io.xpire.model.item.XpireItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,8 +42,6 @@ import org.junit.jupiter.api.Test;
 import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.tag.Tag;
@@ -50,82 +50,82 @@ import io.xpire.model.tag.TagComparator;
 import io.xpire.testutil.ItemBuilder;
 
 /**
- * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
+ * Contains integration tests (interaction with the XpireModel, UndoCommand and RedoCommand) and unit tests for
  * {@code DeleteCommand}.
  */
 public class DeleteCommandTest {
 
-    private Model model;
+    private XpireModel xpireModel;
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+        xpireModel = new XpireModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
     }
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        XpireItem xpireItemToDelete = model.getFilteredItemList().get(INDEX_FIRST_ITEM.getZeroBased());
+        XpireItem xpireItemToDelete = xpireModel.getFilteredItemList().get(INDEX_FIRST_ITEM.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_ITEM);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_ITEM_SUCCESS, xpireItemToDelete);
 
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        XpireModelManager expectedModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
         expectedModel.deleteItem(xpireItemToDelete);
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(deleteCommand, xpireModel, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredItemList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(xpireModel.getFilteredItemList().size() + 1);
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, xpireModel, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
     }
 
     @Test
     public void execute_validIndexFilteredList_success() {
-        showItemAtIndex(model, INDEX_FIRST_ITEM);
+        showItemAtIndex(xpireModel, INDEX_FIRST_ITEM);
 
-        XpireItem xpireItemToDelete = model.getFilteredItemList().get(INDEX_FIRST_ITEM.getZeroBased());
+        XpireItem xpireItemToDelete = xpireModel.getFilteredItemList().get(INDEX_FIRST_ITEM.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_ITEM);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_ITEM_SUCCESS, xpireItemToDelete);
 
-        Model expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
-        expectedModel.deleteItem(xpireItemToDelete);
-        showNoItem(expectedModel);
+        XpireModel expectedXpireModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
+        expectedXpireModel.deleteItem(xpireItemToDelete);
+        showNoItem(expectedXpireModel);
 
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(deleteCommand, xpireModel, expectedMessage, expectedXpireModel);
     }
 
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() {
-        showItemAtIndex(model, INDEX_FIRST_ITEM);
+        showItemAtIndex(xpireModel, INDEX_FIRST_ITEM);
 
         Index outOfBoundIndex = INDEX_SECOND_ITEM;
         // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getXpire().getItemList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < xpireModel.getListView().getItemList().size());
 
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, xpireModel, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
     }
 
     //test to delete tags for item with tags
     @Test
     public void execute_deleteTagsFromItemNotAllFields_success() {
-        XpireItem targetXpireItem = model.getFilteredItemList().get(INDEX_THIRD_ITEM.getZeroBased());
+        XpireItem targetXpireItem = xpireModel.getFilteredItemList().get(INDEX_THIRD_ITEM.getZeroBased());
         Set<Tag> set = new TreeSet<>(new TagComparator());
         set.add(new Tag(VALID_TAG_FRIDGE));
         set.add(new Tag(VALID_TAG_PROTEIN));
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_THIRD_ITEM, set);
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        XpireModelManager expectedModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
         XpireItem expectedXpireItem = new ItemBuilder().withName(VALID_NAME_DUCK)
                                              .withExpiryDate(VALID_EXPIRY_DATE_DUCK)
                                              .build();
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TAGS_SUCCESS, expectedXpireItem);
         expectedModel.setItem(targetXpireItem, expectedXpireItem); //set target item with no tags
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(deleteCommand, xpireModel, expectedMessage, expectedModel);
     }
 
     //Tags don't exist for you to delete.
@@ -134,18 +134,18 @@ public class DeleteCommandTest {
         Set<Tag> set = new TreeSet<>(new TagComparator());
         set.add(new Tag(VALID_TAG_DRINK));
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_SIXTH_ITEM, set);
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_TAGS);
+        assertCommandFailure(deleteCommand, xpireModel, Messages.MESSAGE_INVALID_TAGS);
     }
 
     //test to delete tags for item with all fields present
     @Test
     public void execute_deleteTagsFromItemAllFields_success() {
-        XpireItem targetXpireItem = model.getFilteredItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
+        XpireItem targetXpireItem = xpireModel.getFilteredItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
         Set<Tag> set = new TreeSet<>(new TagComparator());
         set.add(new Tag(VALID_TAG_FRIDGE));
 
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIFTH_ITEM, set);
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        XpireModelManager expectedModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
 
         XpireItem expectedXpireItem = new ItemBuilder().withName(VALID_NAME_JELLY)
                                              .withExpiryDate(VALID_EXPIRY_DATE_JELLY)
@@ -154,16 +154,16 @@ public class DeleteCommandTest {
                                              .build();
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TAGS_SUCCESS, expectedXpireItem);
         expectedModel.setItem(targetXpireItem, expectedXpireItem); //set target item with no tags
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(deleteCommand, xpireModel, expectedMessage, expectedModel);
     }
 
     //test that does not delete any tags due to empty set
     @Test
     public void execute_deleteNoTagsFromItemAllFields_success() {
-        XpireItem targetXpireItem = model.getFilteredItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
+        XpireItem targetXpireItem = xpireModel.getFilteredItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
         Set<Tag> set = new TreeSet<>(new TagComparator());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIFTH_ITEM, set);
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        XpireModelManager expectedModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
         XpireItem expectedXpireItem = new ItemBuilder().withName(VALID_NAME_JELLY)
                                              .withExpiryDate(VALID_EXPIRY_DATE_JELLY)
                                              .withQuantity(VALID_QUANTITY_JELLY)
@@ -172,7 +172,7 @@ public class DeleteCommandTest {
                                              .build();
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TAGS_SUCCESS, expectedXpireItem);
         expectedModel.setItem(targetXpireItem, expectedXpireItem); //set target item with no tags
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(deleteCommand, xpireModel, expectedMessage, expectedModel);
     }
 
     @Test
@@ -180,16 +180,16 @@ public class DeleteCommandTest {
         Set<Tag> set = new TreeSet<>(new TagComparator());
         set.add(new Tag(VALID_TAG_FRUIT));
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_SEVENTH_ITEM, set);
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_TAGS);
+        assertCommandFailure(deleteCommand, xpireModel, Messages.MESSAGE_INVALID_TAGS);
     }
 
     @Test
     public void execute_deleteQuantityLessThanItemQuantityFromItem_success() {
         //All item fields present
-        XpireItem targetXpireItem = model.getFilteredItemList().get(INDEX_SECOND_ITEM.getZeroBased());
+        XpireItem targetXpireItem = xpireModel.getFilteredItemList().get(INDEX_SECOND_ITEM.getZeroBased());
         Quantity quantityToDeduct = new Quantity("2");
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_SECOND_ITEM, quantityToDeduct);
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        XpireModelManager expectedModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
         XpireItem expectedXpireItem = new ItemBuilder().withName(VALID_NAME_BANANA)
                 .withExpiryDate(VALID_EXPIRY_DATE_BANANA)
                 .withQuantity("3")
@@ -198,13 +198,13 @@ public class DeleteCommandTest {
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_QUANTITY_SUCCESS,
                 quantityToDeduct.toString(), targetXpireItem);
         expectedModel.setItem(targetXpireItem, expectedXpireItem);
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(deleteCommand, xpireModel, expectedMessage, expectedModel);
 
         //Not all item fields present
-        targetXpireItem = model.getFilteredItemList().get(INDEX_SIXTH_ITEM.getZeroBased());
+        targetXpireItem = xpireModel.getFilteredItemList().get(INDEX_SIXTH_ITEM.getZeroBased());
         quantityToDeduct = new Quantity("1");
         deleteCommand = new DeleteCommand(INDEX_SIXTH_ITEM, quantityToDeduct);
-        expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        expectedModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
         expectedXpireItem = new ItemBuilder().withName(VALID_NAME_EXPIRED_MILK)
                 .withExpiryDate(VALID_EXPIRY_DATE_EXPIRED_MILK)
                 .withQuantity("1")
@@ -212,7 +212,7 @@ public class DeleteCommandTest {
         expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_QUANTITY_SUCCESS,
                 quantityToDeduct.toString(), targetXpireItem);
         expectedModel.setItem(targetXpireItem, expectedXpireItem);
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(deleteCommand, xpireModel, expectedMessage, expectedModel);
     }
 
 
@@ -220,20 +220,20 @@ public class DeleteCommandTest {
     public void execute_deleteQuantityEqualsToItemQuantityFromItem_success() {
         Quantity quantityToDeduct = new Quantity("1");
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_THIRD_ITEM, quantityToDeduct);
-        XpireItem xpireItemToDelete = model.getFilteredItemList().get(INDEX_THIRD_ITEM.getZeroBased());
+        XpireItem xpireItemToDelete = xpireModel.getFilteredItemList().get(INDEX_THIRD_ITEM.getZeroBased());
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_QUANTITY_SUCCESS,
                 quantityToDeduct.toString(), xpireItemToDelete);
-        Model expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
-        expectedModel.deleteItem(xpireItemToDelete);
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        XpireModel expectedXpireModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
+        expectedXpireModel.deleteItem(xpireItemToDelete);
+        assertCommandSuccess(deleteCommand, xpireModel, expectedMessage, expectedXpireModel);
     }
 
     @Test
     public void execute_deleteQuantityMoreThanItemQuantityFromItem_throwsCommandException() {
-        XpireItem xpireItemToDelete = model.getFilteredItemList().get(INDEX_THIRD_ITEM.getZeroBased());
+        XpireItem xpireItemToDelete = xpireModel.getFilteredItemList().get(INDEX_THIRD_ITEM.getZeroBased());
         Quantity quantityToDeduct = new Quantity("3");
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_THIRD_ITEM, quantityToDeduct);
-        assertCommandFailure(deleteCommand, model, DeleteCommand.MESSAGE_DELETE_QUANTITY_FAILURE);
+        assertCommandFailure(deleteCommand, xpireModel, DeleteCommand.MESSAGE_DELETE_QUANTITY_FAILURE);
     }
 
     @Test
@@ -259,11 +259,11 @@ public class DeleteCommandTest {
     }
 
     /**
-     * Updates {@code model}'s filtered list to show no one.
+     * Updates {@code xpireModel}'s filtered list to show no one.
      */
-    private void showNoItem(Model model) {
-        model.updateFilteredItemList(p -> false);
+    private void showNoItem(XpireModel xpireModel) {
+        xpireModel.updateFilteredItemList(p -> false);
 
-        assertTrue(model.getFilteredItemList().isEmpty());
+        assertTrue(xpireModel.getFilteredItemList().isEmpty());
     }
 }

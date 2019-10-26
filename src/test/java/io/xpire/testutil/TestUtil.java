@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import io.xpire.commons.core.index.Index;
-import io.xpire.model.Model;
+import io.xpire.model.XpireModel;
 import io.xpire.model.item.XpireItem;
 
 /**
@@ -33,23 +33,23 @@ public class TestUtil {
     }
 
     /**
-     * Returns the middle index of the item in the {@code model}'s item list.
+     * Returns the middle index of the item in the {@code xpireModel}'s item list.
      */
-    public static Index getMidIndex(Model model) {
-        return Index.fromOneBased(model.getFilteredItemList().size() / 2);
+    public static Index getMidIndex(XpireModel xpireModel) {
+        return Index.fromOneBased(xpireModel.getFilteredItemList().size() / 2);
     }
 
     /**
-     * Returns the last index of the item in the {@code model}'s item list.
+     * Returns the last index of the item in the {@code xpireModel}'s item list.
      */
-    public static Index getLastIndex(Model model) {
-        return Index.fromOneBased(model.getFilteredItemList().size());
+    public static Index getLastIndex(XpireModel xpireModel) {
+        return Index.fromOneBased(xpireModel.getFilteredItemList().size());
     }
 
     /**
-     * Returns the item in the {@code model}'s item list at {@code index}.
+     * Returns the item in the {@code xpireModel}'s item list at {@code index}.
      */
-    public static XpireItem getItem(Model model, Index index) {
-        return model.getFilteredItemList().get(index.getZeroBased());
+    public static XpireItem getItem(XpireModel xpireModel, Index index) {
+        return xpireModel.getFilteredItemList().get(index.getZeroBased());
     }
 }

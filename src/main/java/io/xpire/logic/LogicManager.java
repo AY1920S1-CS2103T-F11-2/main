@@ -12,6 +12,8 @@ import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.XpireParser;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
+import io.xpire.model.ReplenishModel;
+import io.xpire.model.XpireModel;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.item.XpireItem;
 import io.xpire.storage.Storage;
@@ -24,14 +26,20 @@ public class LogicManager implements Logic {
     public static final String FILE_OPS_ERROR_MESSAGE = "Could not save data to file: ";
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
 
-    private final Model model;
+    private Model model;
+    private final XpireModel xpireModel;
+    private final ReplenishModel replenishModel;
     private final Storage storage;
     private final XpireParser xpireParser;
+    private Mode mode;
 
-    public LogicManager(Model model, Storage storage) {
-        this.model = model;
+    public LogicManager(XpireModel xpireModel, ReplenishModel replenishModel, Storage storage) {
+        this.xpireModel = xpireModel;
+        this.replenishModel = replenishModel;
         this.storage = storage;
         this.xpireParser = new XpireParser();
+        this.mode = Mode.XPIRE;
+        updateModel();
     }
 
     @Override
@@ -43,7 +51,8 @@ public class LogicManager implements Logic {
         commandResult = command.execute(this.model);
 
         try {
-            this.storage.saveXpire(this.model.getXpire());
+            this.storage.updateListStorage(mode);
+            this.storage.saveList(this.model.getListView());
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }
@@ -52,8 +61,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ReadOnlyListView getXpire() {
-        return this.model.getXpire();
+    public ReadOnlyListView getListView() {
+        return this.model.getListView();
     }
 
     @Override
@@ -62,8 +71,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public Path getXpireFilePath() {
-        return this.model.getXpireFilePath();
+    public Path getListFilePath() {
+        return this.model.getListFilePath();
     }
 
     @Override
@@ -75,4 +84,9 @@ public class LogicManager implements Logic {
     public void setGuiSettings(GuiSettings guiSettings) {
         this.model.setGuiSettings(guiSettings);
     }
+
+    private void updateModel() {
+        this.model = xpireModel;
+    }
+
 }

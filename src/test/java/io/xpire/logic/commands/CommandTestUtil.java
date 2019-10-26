@@ -10,7 +10,7 @@ import java.util.List;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
-import io.xpire.model.Model;
+import io.xpire.model.XpireModel;
 import io.xpire.model.ListView;
 import io.xpire.model.item.ContainsKeywordsPredicate;
 import io.xpire.model.item.XpireItem;
@@ -27,57 +27,57 @@ public class CommandTestUtil {
     /**
      * Executes the given {@code command}, confirms that <br>
      * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
-     * - the {@code actualModel} matches {@code expectedModel}
+     * - the {@code actualXpireModel} matches {@code expectedXpireModel}
      */
-    public static void assertCommandSuccess(Command command, Model actualModel, CommandResult expectedCommandResult,
-                                            Model expectedModel) {
+    public static void assertCommandSuccess(Command command, XpireModel actualXpireModel, CommandResult expectedCommandResult,
+                                            XpireModel expectedXpireModel) {
         try {
-            CommandResult result = command.execute(actualModel);
+            CommandResult result = command.execute(actualXpireModel);
             assertEquals(expectedCommandResult, result);
-            assertEquals(expectedModel, actualModel);
+            assertEquals(expectedXpireModel, actualXpireModel);
         } catch (CommandException | ParseException ce) {
             throw new AssertionError("Execution of command should not fail.", ce);
         }
     }
 
     /**
-     * Convenience wrapper to {@link #assertCommandSuccess(Command, Model, CommandResult, Model)}
+     * Convenience wrapper to {@link #assertCommandSuccess(Command, XpireModel, CommandResult, XpireModel)}
      * that takes a string {@code expectedMessage}.
      */
-    public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage,
-            Model expectedModel) {
+    public static void assertCommandSuccess(Command command, XpireModel actualXpireModel, String expectedMessage,
+                                            XpireModel expectedXpireModel) {
         CommandResult expectedCommandResult = new CommandResult(expectedMessage);
-        assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
+        assertCommandSuccess(command, actualXpireModel, expectedCommandResult, expectedXpireModel);
     }
 
     /**
      * Executes the given {@code command}, confirms that <br>
      * - a {@code CommandException} is thrown <br>
      * - the CommandException message matches {@code expectedMessage} <br>
-     * - the expiry date tracker, filtered item list and selected item in {@code actualModel} remain unchanged
+     * - the expiry date tracker, filtered item list and selected item in {@code actualXpireModel} remain unchanged
      */
-    public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
-        // we are unable to defensively copy the model for comparison later, so we can
+    public static void assertCommandFailure(Command command, XpireModel actualXpireModel, String expectedMessage) {
+        // we are unable to defensively copy the xpireModel for comparison later, so we can
         // only do so by copying its components.
-        ListView expectedXpire = new ListView(actualModel.getXpire());
-        List<XpireItem> expectedFilteredList = new ArrayList<>(actualModel.getFilteredItemList());
+        ListView expectedXpire = new ListView(actualXpireModel.getListView());
+        List<XpireItem> expectedFilteredList = new ArrayList<>(actualXpireModel.getFilteredItemList());
 
-        Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
-        assertEquals(expectedXpire, actualModel.getXpire());
-        assertEquals(expectedFilteredList, actualModel.getFilteredItemList());
+        Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualXpireModel));
+        assertEquals(expectedXpire, actualXpireModel.getListView());
+        assertEquals(expectedFilteredList, actualXpireModel.getFilteredItemList());
     }
     /**
-     * Updates {@code model}'s filtered list to show only the item at the given {@code targetIndex} in the
-     * {@code model}'s expiry date tracker.
+     * Updates {@code xpireModel}'s filtered list to show only the item at the given {@code targetIndex} in the
+     * {@code xpireModel}'s expiry date tracker.
      */
-    public static void showItemAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredItemList().size());
+    public static void showItemAtIndex(XpireModel xpireModel, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < xpireModel.getFilteredItemList().size());
 
-        XpireItem xpireItem = model.getFilteredItemList().get(targetIndex.getZeroBased());
+        XpireItem xpireItem = xpireModel.getFilteredItemList().get(targetIndex.getZeroBased());
         final String[] splitName = xpireItem.getName().toString().split("\\s+");
-        model.updateFilteredItemList(new ContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        xpireModel.updateFilteredItemList(new ContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
-        assertEquals(1, model.getFilteredItemList().size());
+        assertEquals(1, xpireModel.getFilteredItemList().size());
     }
 
 }

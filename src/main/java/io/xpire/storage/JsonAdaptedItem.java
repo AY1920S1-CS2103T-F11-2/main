@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.model.item.ExpiryDate;
+import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
@@ -26,9 +27,6 @@ class JsonAdaptedItem {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Item's %s field is missing!";
 
     private final String name;
-    private final String expiryDate;
-    private final String quantity;
-    private final String reminderThreshold;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -36,14 +34,8 @@ class JsonAdaptedItem {
      */
     @JsonCreator
     public JsonAdaptedItem(@JsonProperty("name") String name,
-                           @JsonProperty("expiryDate") String expiryDate,
-                           @JsonProperty("quantity") String quantity,
-                           @JsonProperty("reminderThreshold") String reminderThreshold,
-                           @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                                @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
-        this.expiryDate = expiryDate;
-        this.quantity = quantity;
-        this.reminderThreshold = reminderThreshold;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -52,11 +44,8 @@ class JsonAdaptedItem {
     /**
      * Converts a given {@code Item} into this class for Jackson use.
      */
-    public JsonAdaptedItem(XpireItem source) {
+    public JsonAdaptedItem(Item source) {
         this.name = source.getName().toString();
-        this.expiryDate = source.getExpiryDate().toString();
-        this.quantity = source.getQuantity().toString();
-        this.reminderThreshold = source.getReminderThreshold().toString();
         this.tags.addAll(source
                 .getTags()
                 .stream()
@@ -65,11 +54,11 @@ class JsonAdaptedItem {
     }
 
     /**
-     * Converts this Jackson-friendly adapted item object into the model's {@code Item} object.
+     * Converts this Jackson-friendly adapted item object into the xpireModel's {@code Item} object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted item.
      */
-    public XpireItem toModelType() throws IllegalValueException {
+    public Item toModelType() throws IllegalValueException {
 
         if (this.name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
@@ -79,35 +68,6 @@ class JsonAdaptedItem {
         }
         final Name modelName = new Name(this.name);
 
-        if (this.expiryDate == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    ExpiryDate.class.getSimpleName()));
-        }
-        if (!ExpiryDate.isValidFormatExpiryDate(this.expiryDate)) {
-            throw new IllegalValueException(ExpiryDate.MESSAGE_CONSTRAINTS_FORMAT);
-        }
-
-        final ExpiryDate modelExpiryDate = new ExpiryDate(this.expiryDate);
-
-        if (this.quantity == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    Quantity.class.getSimpleName()));
-        }
-        if (!Quantity.isValidInputQuantity(this.quantity)) {
-            throw new IllegalValueException(Quantity.MESSAGE_CONSTRAINTS);
-        }
-        final Quantity modelQuantity = new Quantity(this.quantity);
-
-        if (this.reminderThreshold == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    ReminderThreshold.class.getSimpleName()));
-        }
-
-        if (!ReminderThreshold.isValidReminderThreshold(this.reminderThreshold)) {
-            throw new IllegalValueException(ReminderThreshold.MESSAGE_CONSTRAINTS);
-        }
-        final ReminderThreshold modelReminderThreshold = new ReminderThreshold(this.reminderThreshold);
-
         final List<Tag> itemTags = new ArrayList<>();
         for (JsonAdaptedTag tag : this.tags) {
             itemTags.add(tag.toModelType());
@@ -115,8 +75,7 @@ class JsonAdaptedItem {
         final Set<Tag> modelTags = new TreeSet<>(new TagComparator());
         modelTags.addAll(itemTags);
 
-        XpireItem xpireItem = new XpireItem(modelName, modelExpiryDate, modelQuantity, modelTags);
-        xpireItem.setReminderThreshold(modelReminderThreshold);
-        return xpireItem;
+        Item item = new Item(modelName, modelTags);
+        return item;
     }
 }

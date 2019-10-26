@@ -5,35 +5,35 @@ import static io.xpire.logic.commands.CommandTestUtil.showItemAtIndex;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
 import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
 
+import io.xpire.model.XpireModel;
+import io.xpire.model.XpireModelManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests for ListCommand.
+ * Contains integration tests (interaction with the XpireModel) and unit tests for ListCommand.
  */
 public class ViewCommandTest {
 
-    private Model model;
-    private Model expectedModel;
+    private XpireModel xpireModel;
+    private XpireModel expectedXpireModel;
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
-        expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        xpireModel = new XpireModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+        expectedXpireModel = new XpireModelManager(xpireModel.getListView(), new UserPrefs());
     }
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(new ViewCommand(), model, ViewCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ViewCommand(), xpireModel, ViewCommand.MESSAGE_SUCCESS, expectedXpireModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
-        showItemAtIndex(model, INDEX_FIRST_ITEM);
-        assertCommandSuccess(new ViewCommand(), model, ViewCommand.MESSAGE_SUCCESS, expectedModel);
+        showItemAtIndex(xpireModel, INDEX_FIRST_ITEM);
+        assertCommandSuccess(new ViewCommand(), xpireModel, ViewCommand.MESSAGE_SUCCESS, expectedXpireModel);
     }
 }

@@ -14,18 +14,23 @@ import io.xpire.commons.util.StringUtil;
 import io.xpire.logic.Logic;
 import io.xpire.logic.LogicManager;
 import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
+import io.xpire.model.ReplenishList;
+import io.xpire.model.ReplenishModel;
+import io.xpire.model.ReplenishModelManager;
+import io.xpire.model.XpireModel;
+import io.xpire.model.XpireModelManager;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.Xpire;
 import io.xpire.model.util.SampleDataUtil;
-import io.xpire.storage.JsonUserPrefsStorage;
+import io.xpire.storage.JsonReplenishStorage;
 import io.xpire.storage.JsonXpireStorage;
+import io.xpire.storage.JsonUserPrefsStorage;
 import io.xpire.storage.Storage;
 import io.xpire.storage.StorageManager;
 import io.xpire.storage.UserPrefsStorage;
-import io.xpire.storage.XpireStorage;
+import io.xpire.storage.ListStorage;
 import io.xpire.ui.Ui;
 import io.xpire.ui.UiManager;
 import javafx.application.Application;
@@ -43,7 +48,8 @@ public class MainApp extends Application {
     protected Ui ui;
     protected Logic logic;
     protected Storage storage;
-    protected Model model;
+    protected XpireModel xpireModel;
+    protected ReplenishModel replenishModel;
     protected Config config;
 
     @Override
@@ -56,31 +62,37 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
-        XpireStorage xpireStorage = new JsonXpireStorage(
-                userPrefs.getXpireFilePath()
+        JsonXpireStorage xpireStorage = new JsonXpireStorage(
+                userPrefs.getListFilePath()
         );
-        storage = new StorageManager(xpireStorage, userPrefsStorage);
+        JsonReplenishStorage replenishStorage = new JsonReplenishStorage(
+                userPrefs.getListFilePath()
+        );
+
+        storage = new StorageManager(replenishStorage, xpireStorage, userPrefsStorage);
 
         initLogging(config);
 
-        model = initModelManager(storage, userPrefs);
+        xpireModel = initModelManager(storage, userPrefs);
 
-        logic = new LogicManager(model, storage);
+        replenishModel = initReplenishList(storage, userPrefs);
+
+        logic = new LogicManager(xpireModel, replenishModel, storage);
 
         ui = new UiManager(logic);
     }
 
     /**
-     * Returns a {@code ModelManager} with the data from {@code storage}'s expiry date tracker and {@code userPrefs}.
+     * Returns a {@code XpireModelManager} with the data from {@code storage}'s expiry date tracker and {@code userPrefs}.
      * <br> The data from the sample expiry date tracker will be used instead if {@code storage}'s expiry date tracker
      * is not found, or an empty expiry date tracker will be used instead if errors occur when reading
      * {@code storage}'s expiry date tracker.
      */
-    private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
+    private XpireModel initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         Optional<ReadOnlyListView> expiryDateTrackerOptional;
         ReadOnlyListView initialData;
         try {
-            expiryDateTrackerOptional = storage.readXpire();
+            expiryDateTrackerOptional = storage.readList();
             if (!expiryDateTrackerOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample Expiry Date Tracker");
             }
@@ -93,7 +105,34 @@ public class MainApp extends Application {
             initialData = new Xpire();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        return new XpireModelManager(initialData, userPrefs);
+    }
+
+
+    /**
+     * Returns a {@code XpireModelManager} with the data from {@code storage}'s expiry date tracker and {@code userPrefs}.
+     * <br> The data from the sample expiry date tracker will be used instead if {@code storage}'s expiry date tracker
+     * is not found, or an empty expiry date tracker will be used instead if errors occur when reading
+     * {@code storage}'s expiry date tracker.
+     */
+    private ReplenishModelManager initReplenishList(Storage storage, ReadOnlyUserPrefs userPrefs) {
+        Optional<ReadOnlyListView> listOptional;
+        ReadOnlyListView initialData;
+        try {
+            listOptional = storage.readList();
+            if (!listOptional.isPresent()) {
+                logger.info("Data file not found. Will be starting with a sample Expiry Date Tracker");
+            }
+            initialData = listOptional.orElseGet(SampleDataUtil::getSampleXpire);
+        } catch (DataConversionException e) {
+            logger.warning("Data file not in the correct format. Will be starting with an empty Expiry Date Tracker");
+            initialData = new ReplenishList();
+        } catch (IOException e) {
+            logger.warning("Problem while reading from the file. Will be starting with an empty Expiry Date Tracker");
+            initialData = new ReplenishList();
+        }
+
+        return new ReplenishModelManager(initialData, userPrefs);
     }
 
     private void initLogging(Config config) {
@@ -178,7 +217,7 @@ public class MainApp extends Application {
     public void stop() {
         logger.info("============================ [ Stopping Xpire ] =============================");
         try {
-            storage.saveUserPrefs(model.getUserPrefs());
+            storage.saveUserPrefs(xpireModel.getUserPrefs());
         } catch (IOException e) {
             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
         }

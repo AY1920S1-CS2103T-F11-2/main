@@ -11,12 +11,12 @@ import io.xpire.model.Xpire;
 /**
  * Represents a storage for {@link Xpire}.
  */
-public interface XpireStorage {
+public interface ListStorage {
 
     /**
      * Returns the file path of the data file.
      */
-    Path getXpireFilePath();
+    Path getListFilePath();
 
     /**
      * Returns Xpire data as a {@link ReadOnlyListView}.
@@ -24,12 +24,12 @@ public interface XpireStorage {
      * @throws DataConversionException if the data in storage is not in the expected format.
      * @throws IOException if there was any problem when reading from the storage.
      */
-    Optional<ReadOnlyListView> readXpire() throws DataConversionException, IOException;
+    Optional<ReadOnlyListView> readList() throws DataConversionException, IOException;
 
     /**
-     * @see #getXpireFilePath()
+     * @see #getListFilePath()
      */
-    Optional<ReadOnlyListView> readXpire(Path filePath) throws DataConversionException,
+    Optional<ReadOnlyListView> readList(Path filePath) throws DataConversionException,
                                                                IOException;
 
     /**
@@ -37,11 +37,11 @@ public interface XpireStorage {
      * @param xpire cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveXpire(ReadOnlyListView xpire) throws IOException;
+    void saveList(ReadOnlyListView xpire) throws IOException;
 
     /**
-     * @see #saveXpire(ReadOnlyListView)
+     * @see #saveList(ReadOnlyListView)
      */
-    void saveXpire(ReadOnlyListView xpire, Path filePath) throws IOException;
+    void saveList(ReadOnlyListView xpire, Path filePath) throws IOException;
 
 }

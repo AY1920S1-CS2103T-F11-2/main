@@ -14,8 +14,10 @@ import java.util.logging.Logger;
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.util.CollectionUtil;
+import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
+import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
@@ -23,19 +25,19 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
 /**
- * Represents the in-memory model of the xpire data.
+ * Represents the in-memory xpireModel of the xpire data.
  */
-public class ModelManager implements Model {
-    private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
+public class XpireModelManager implements XpireModel {
+    private static final Logger logger = LogsCenter.getLogger(XpireModelManager.class);
 
     private final Xpire xpire;
     private final UserPrefs userPrefs;
     private final FilteredList<XpireItem> filteredXpireItems;
 
     /**
-     * Initializes a ModelManager with the given xpire and userPrefs.
+     * Initializes a XpireModelManager with the given xpire and userPrefs.
      */
-    public ModelManager(ReadOnlyListView xpire, ReadOnlyUserPrefs userPrefs) {
+    public XpireModelManager(ReadOnlyListView xpire, ReadOnlyUserPrefs userPrefs) {
         super();
         CollectionUtil.requireAllNonNull(xpire, userPrefs);
 
@@ -46,7 +48,7 @@ public class ModelManager implements Model {
         this.filteredXpireItems = new FilteredList<>(this.xpire.getItemList());
     }
 
-    public ModelManager() {
+    public XpireModelManager() {
         this(new Xpire(), new UserPrefs());
     }
 
@@ -75,31 +77,32 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Path getXpireFilePath() {
-        return this.userPrefs.getXpireFilePath();
+    public Path getListFilePath() {
+        return this.userPrefs.getListFilePath();
     }
 
     @Override
-    public void setXpireFilePath(Path xpireFilePath) {
+    public void setListFilePath(Path xpireFilePath) {
         requireNonNull(xpireFilePath);
-        this.userPrefs.setXpireFilePath(xpireFilePath);
+        this.userPrefs.setListFilePath(xpireFilePath);
     }
 
     //=========== expiryDateTracker  ================================================================================
 
     @Override
-    public void setXpire(ReadOnlyListView xpire) {
+    public void setListView(ReadOnlyListView xpire) {
         this.xpire.resetData(xpire);
     }
 
     @Override
-    public ReadOnlyListView getXpire() {
+    public ReadOnlyListView getListView() {
         return this.xpire;
     }
 
     @Override
-    public boolean hasItem(XpireItem xpireItem) {
-        requireNonNull(xpireItem);
+    public boolean hasItem(XpireItem item) {
+        requireNonNull(item);
+        XpireItem xpireItem = (XpireItem) item;
         return this.xpire.hasItem(xpireItem);
     }
 
@@ -140,7 +143,7 @@ public class ModelManager implements Model {
     //=========== Sorted Item List Accessors ========================================================================
 
     @Override
-    public void sortItemList(XpireMethodOfSorting method) {
+    public void sortItemList(MethodOfSorting<XpireItem> method) {
         requireNonNull(method);
         this.xpire.setMethodOfSorting(method);
     }
@@ -180,10 +183,10 @@ public class ModelManager implements Model {
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
-        } else if (!(obj instanceof ModelManager)) {
+        } else if (!(obj instanceof XpireModelManager)) {
             return false;
         } else {
-            ModelManager other = (ModelManager) obj;
+            XpireModelManager other = (XpireModelManager) obj;
             return this.xpire.equals(other.xpire)
                     && this.userPrefs.equals(other.userPrefs)
                     && this.filteredXpireItems.equals(other.filteredXpireItems);

@@ -17,15 +17,15 @@ import io.xpire.testutil.Assert;
 import io.xpire.testutil.ExpiryDateTrackerBuilder;
 import io.xpire.testutil.TypicalItems;
 
-public class ModelManagerTest {
+public class XpireModelManagerTest {
 
-    private ModelManager modelManager = new ModelManager();
+    private XpireModelManager modelManager = new XpireModelManager();
 
     @Test
     public void constructor() {
         assertEquals(new UserPrefs(), modelManager.getUserPrefs());
         Assertions.assertEquals(new GuiSettings(), modelManager.getGuiSettings());
-        assertEquals(new ListView(), new ListView(modelManager.getXpire()));
+        assertEquals(new ListView(), new ListView(modelManager.getListView()));
     }
 
     @Test
@@ -36,14 +36,14 @@ public class ModelManagerTest {
     @Test
     public void setUserPrefs_validUserPrefs_copiesUserPrefs() {
         UserPrefs userPrefs = new UserPrefs();
-        userPrefs.setXpireFilePath(Paths.get("address/book/file/path"));
+        userPrefs.setListFilePath(Paths.get("address/book/file/path"));
         userPrefs.setGuiSettings(new GuiSettings(1, 2, 3, 4));
         modelManager.setUserPrefs(userPrefs);
         assertEquals(userPrefs, modelManager.getUserPrefs());
 
         // Modifying userPrefs should not modify modelManager's userPrefs
         UserPrefs oldUserPrefs = new UserPrefs(userPrefs);
-        userPrefs.setXpireFilePath(Paths.get("new/address/book/file/path"));
+        userPrefs.setListFilePath(Paths.get("new/address/book/file/path"));
         assertEquals(oldUserPrefs, modelManager.getUserPrefs());
     }
 
@@ -61,14 +61,14 @@ public class ModelManagerTest {
 
     @Test
     public void setExpiryDateTrackerFilePath_nullPath_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> modelManager.setXpireFilePath(null));
+        Assert.assertThrows(NullPointerException.class, () -> modelManager.setListFilePath(null));
     }
 
     @Test
     public void setExpiryDateTrackerFilePath_validPath_setsAddressBookFilePath() {
         Path path = Paths.get("address/book/file/path");
-        modelManager.setXpireFilePath(path);
-        assertEquals(path, modelManager.getXpireFilePath());
+        modelManager.setListFilePath(path);
+        assertEquals(path, modelManager.getListFilePath());
     }
 
     @Test
@@ -101,8 +101,8 @@ public class ModelManagerTest {
         UserPrefs userPrefs = new UserPrefs();
 
         // same values -> returns true
-        modelManager = new ModelManager(xpire, userPrefs);
-        ModelManager modelManagerCopy = new ModelManager(xpire, userPrefs);
+        modelManager = new XpireModelManager(xpire, userPrefs);
+        XpireModelManager modelManagerCopy = new XpireModelManager(xpire, userPrefs);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -115,19 +115,19 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(5));
 
         // different addressBook -> returns false
-        assertFalse(modelManager.equals(new ModelManager(differentAddressBook, userPrefs)));
+        assertFalse(modelManager.equals(new XpireModelManager(differentAddressBook, userPrefs)));
 
         // different filteredList -> returns false
         String[] keywords = TypicalItems.KIWI.getName().toString().split("\\s+");
         modelManager.updateFilteredItemList(new ContainsKeywordsPredicate(Arrays.asList(keywords)));
-        assertFalse(modelManager.equals(new ModelManager(xpire, userPrefs)));
+        assertFalse(modelManager.equals(new XpireModelManager(xpire, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
+        modelManager.updateFilteredItemList(XpireModel.PREDICATE_SHOW_ALL_ITEMS);
 
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
-        differentUserPrefs.setXpireFilePath(Paths.get("differentFilePath"));
-        assertFalse(modelManager.equals(new ModelManager(xpire, differentUserPrefs)));
+        differentUserPrefs.setListFilePath(Paths.get("differentFilePath"));
+        assertFalse(modelManager.equals(new XpireModelManager(xpire, differentUserPrefs)));
     }
 }

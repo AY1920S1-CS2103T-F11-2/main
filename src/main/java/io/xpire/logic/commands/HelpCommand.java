@@ -1,6 +1,7 @@
 package io.xpire.logic.commands;
 
 import io.xpire.model.Model;
+import io.xpire.model.XpireModel;
 
 /**
  * Format full help instructions for every command for display.
@@ -16,6 +17,6 @@ public class HelpCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        return new CommandResult(SHOWING_HELP_MESSAGE, true, false);
+        return new CommandResult(SHOWING_HELP_MESSAGE, true, false, false);
     }
 }

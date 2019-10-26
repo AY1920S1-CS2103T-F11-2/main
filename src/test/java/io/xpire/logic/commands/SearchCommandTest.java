@@ -14,19 +14,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 import java.util.Collections;
 
+import io.xpire.model.XpireModel;
+import io.xpire.model.XpireModelManager;
 import org.junit.jupiter.api.Test;
 
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.item.ContainsKeywordsPredicate;
 
 /**
- * Contains integration tests (interaction with the Model) for {@code SearchCommand}.
+ * Contains integration tests (interaction with the XpireModel) for {@code SearchCommand}.
  */
 public class SearchCommandTest {
-    private Model model = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+    private XpireModel xpireModel = new XpireModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+    private XpireModel expectedXpireModel = new XpireModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
 
     @Test
     public void equals() {
@@ -60,9 +60,9 @@ public class SearchCommandTest {
         String expectedMessage = String.format(MESSAGE_ITEMS_LISTED_OVERVIEW, 0);
         ContainsKeywordsPredicate predicate = preparePredicate("Pineapple|Pear|#Cold");
         SearchCommand command = new SearchCommand(predicate);
-        expectedModel.updateFilteredItemList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredItemList());
+        expectedXpireModel.updateFilteredItemList(predicate);
+        assertCommandSuccess(command, xpireModel, expectedMessage, expectedXpireModel);
+        assertEquals(Collections.emptyList(), xpireModel.getFilteredItemList());
     }
 
     @Test
@@ -71,9 +71,9 @@ public class SearchCommandTest {
                 + String.format(MESSAGE_SUGGESTIONS, "[Banana]");
         ContainsKeywordsPredicate predicate = preparePredicate("Banaan");
         SearchCommand command = new SearchCommand(predicate);
-        expectedModel.updateFilteredItemList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredItemList());
+        expectedXpireModel.updateFilteredItemList(predicate);
+        assertCommandSuccess(command, xpireModel, expectedMessage, expectedXpireModel);
+        assertEquals(Collections.emptyList(), xpireModel.getFilteredItemList());
     }
 
     @Test
@@ -81,9 +81,9 @@ public class SearchCommandTest {
         String expectedMessage = String.format(MESSAGE_ITEMS_LISTED_OVERVIEW, 2);
         ContainsKeywordsPredicate predicate = preparePredicate("Banaan|#Fridge");
         SearchCommand command = new SearchCommand(predicate);
-        expectedModel.updateFilteredItemList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(DUCK, JELLY), model.getFilteredItemList());
+        expectedXpireModel.updateFilteredItemList(predicate);
+        assertCommandSuccess(command, xpireModel, expectedMessage, expectedXpireModel);
+        assertEquals(Arrays.asList(DUCK, JELLY), xpireModel.getFilteredItemList());
     }
 
     @Test
@@ -93,9 +93,9 @@ public class SearchCommandTest {
                 + String.format(MESSAGE_SUGGESTIONS, "[Banana]");
         ContainsKeywordsPredicate predicate = preparePredicate("Banaan|#Fridg");
         SearchCommand command = new SearchCommand(predicate);
-        expectedModel.updateFilteredItemList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredItemList());
+        expectedXpireModel.updateFilteredItemList(predicate);
+        assertCommandSuccess(command, xpireModel, expectedMessage, expectedXpireModel);
+        assertEquals(Collections.emptyList(), xpireModel.getFilteredItemList());
     }
 
     @Test
@@ -103,9 +103,9 @@ public class SearchCommandTest {
         String expectedMessage = String.format(MESSAGE_ITEMS_LISTED_OVERVIEW, 3);
         ContainsKeywordsPredicate predicate = preparePredicate("Banana|#Fridge");
         SearchCommand command = new SearchCommand(predicate);
-        expectedModel.updateFilteredItemList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(BANANA, DUCK, JELLY), model.getFilteredItemList());
+        expectedXpireModel.updateFilteredItemList(predicate);
+        assertCommandSuccess(command, xpireModel, expectedMessage, expectedXpireModel);
+        assertEquals(Arrays.asList(BANANA, DUCK, JELLY), xpireModel.getFilteredItemList());
     }
 
     @Test
@@ -113,9 +113,9 @@ public class SearchCommandTest {
         String expectedMessage = String.format(MESSAGE_ITEMS_LISTED_OVERVIEW, 2);
         ContainsKeywordsPredicate predicate = preparePredicate("Pineapple|Banana|#Protein|#Cold");
         SearchCommand command = new SearchCommand(predicate);
-        expectedModel.updateFilteredItemList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(BANANA, DUCK), model.getFilteredItemList());
+        expectedXpireModel.updateFilteredItemList(predicate);
+        assertCommandSuccess(command, xpireModel, expectedMessage, expectedXpireModel);
+        assertEquals(Arrays.asList(BANANA, DUCK), xpireModel.getFilteredItemList());
     }
 
     /**

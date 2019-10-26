@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.SortedUniqueXpireItemList;
+import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import javafx.collections.ObservableList;
 
@@ -27,7 +28,7 @@ public class Xpire implements ReadOnlyListView<XpireItem> {
         this.resetData(toBeCopied);
     }
 
-    //// list overwrite operations
+    // list overwrite operations
 
     /**
      * Replaces the contents of the item list with {@code items}.
@@ -82,7 +83,7 @@ public class Xpire implements ReadOnlyListView<XpireItem> {
     /**
      * Set method of sorting.
      */
-    public void setMethodOfSorting(XpireMethodOfSorting method) {
+    public void setMethodOfSorting(MethodOfSorting<XpireItem> method) {
         this.items.setMethodOfSorting(method);
     }
 

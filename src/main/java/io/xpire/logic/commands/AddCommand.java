@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
+import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 
 /**
@@ -20,7 +21,7 @@ public class AddCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New item added: %s";
     public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists";
 
-    private final XpireItem toAdd;
+    private final Item toAdd;
 
     /**
      * Creates an AddCommand to add the specified {@code Item}

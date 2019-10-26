@@ -11,6 +11,7 @@ import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
+import io.xpire.model.XpireModel;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.tag.Tag;
@@ -75,9 +76,9 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException, ParseException {
-        requireNonNull(model);
-        List<XpireItem> lastShownList = model.getFilteredItemList();
+    public CommandResult execute(Model xpireModel) throws CommandException, ParseException {
+        requireNonNull(xpireModel);
+        List<XpireItem> lastShownList = xpireModel.getFilteredItemList();
 
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
@@ -86,20 +87,20 @@ public class DeleteCommand extends Command {
         XpireItem targetXpireItem = lastShownList.get(this.targetIndex.getZeroBased());
         switch(this.mode) {
         case ITEM:
-            model.deleteItem(targetXpireItem);
+            xpireModel.deleteItem(targetXpireItem);
             return new CommandResult(String.format(MESSAGE_DELETE_ITEM_SUCCESS, targetXpireItem));
         case TAGS:
             assert this.tagSet != null;
             XpireItem newTaggedXpireItem = removeTagsFromItem(targetXpireItem, this.tagSet);
-            model.setItem(targetXpireItem, newTaggedXpireItem);
+            xpireModel.setItem(targetXpireItem, newTaggedXpireItem);
             return new CommandResult(String.format(MESSAGE_DELETE_TAGS_SUCCESS, targetXpireItem));
         case QUANTITY:
             assert this.quantity != null;
             XpireItem newQuantityXpireItem = reduceItemQuantity(targetXpireItem, quantity);
-            model.setItem(targetXpireItem, newQuantityXpireItem);
+            xpireModel.setItem(targetXpireItem, newQuantityXpireItem);
             /* TODO: Transfer to To-Buy-List*/
             if (Quantity.quantityIsZero(newQuantityXpireItem.getQuantity())) {
-                model.deleteItem(targetXpireItem);
+                xpireModel.deleteItem(targetXpireItem);
             }
             return new CommandResult(
                     String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetXpireItem));

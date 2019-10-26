@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
 import io.xpire.model.Model;
+import io.xpire.model.XpireModel;
 import io.xpire.model.item.ExpiringSoonPredicate;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.ReminderThresholdExceededPredicate;

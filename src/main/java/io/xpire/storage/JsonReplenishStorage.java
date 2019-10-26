@@ -1,12 +1,5 @@
 package io.xpire.storage;
 
-import static java.util.Objects.requireNonNull;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Optional;
-import java.util.logging.Logger;
-
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.commons.exceptions.IllegalValueException;
@@ -14,16 +7,20 @@ import io.xpire.commons.util.FileUtil;
 import io.xpire.commons.util.JsonUtil;
 import io.xpire.model.ReadOnlyListView;
 
-/**
- * A class to access Xpire data stored as a json file on the hard disk.
- */
-public class JsonXpireStorage implements ListStorage {
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import static java.util.Objects.requireNonNull;
+
+public class JsonReplenishStorage implements ListStorage {
 
     private static final Logger logger = LogsCenter.getLogger(JsonXpireStorage.class);
 
     private Path filePath;
 
-    public JsonXpireStorage(Path filePath) {
+    public JsonReplenishStorage(Path filePath) {
         this.filePath = filePath;
     }
 
@@ -45,8 +42,8 @@ public class JsonXpireStorage implements ListStorage {
     public Optional<ReadOnlyListView> readList(Path filePath) throws DataConversionException {
         requireNonNull(filePath);
 
-        Optional<JsonSerializableXpire> jsonTracker = JsonUtil.readJsonFile(
-                filePath, JsonSerializableXpire.class);
+        Optional<JsonSerializableReplenishList> jsonTracker = JsonUtil.readJsonFile(
+                filePath, JsonSerializableReplenishList.class);
         if (jsonTracker.isEmpty()) {
             return Optional.empty();
         }
@@ -74,7 +71,7 @@ public class JsonXpireStorage implements ListStorage {
         requireNonNull(filePath);
 
         FileUtil.createIfMissing(filePath);
-        JsonUtil.saveJsonFile(new JsonSerializableXpire(xpire), filePath);
+        JsonUtil.saveJsonFile(new JsonSerializableReplenishList(xpire), filePath);
     }
 
 }

@@ -13,6 +13,7 @@ import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
+import io.xpire.model.XpireModel;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
@@ -70,9 +71,9 @@ public class TagCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-        List<XpireItem> lastShownList = model.getFilteredItemList();
+    public CommandResult execute(Model xpireModel) throws CommandException {
+        requireNonNull(xpireModel);
+        List<XpireItem> lastShownList = xpireModel.getFilteredItemList();
 
         switch (this.mode) {
         case TAG:
@@ -81,12 +82,12 @@ public class TagCommand extends Command {
             }
             XpireItem xpireItemToTag = lastShownList.get(this.index.getZeroBased());
             XpireItem taggedXpireItem = createTaggedItem(xpireItemToTag, this.tagItemDescriptor);
-            model.setItem(xpireItemToTag, taggedXpireItem);
+            xpireModel.setItem(xpireItemToTag, taggedXpireItem);
             return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedXpireItem));
 
         case SHOW:
             Set<Tag> tagSet = new TreeSet<>(new TagComparator());
-            List<XpireItem> xpireItemList = model.getAllItemList();
+            List<XpireItem> xpireItemList = xpireModel.getAllItemList();
             xpireItemList.forEach(item -> tagSet.addAll(item.getTags()));
             if (tagSet.isEmpty()) {
                 return new CommandResult(MESSAGE_TAG_SHOW_FAILURE);

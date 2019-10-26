@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import io.xpire.model.XpireModel;
 import io.xpire.model.item.XpireItem;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.logic.commands.exceptions.CommandException;
-import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.ListView;
@@ -40,7 +40,7 @@ public class AddCommandTest {
 
     @Test
     public void execute_itemAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingItemAdded modelStub = new ModelStubAcceptingItemAdded();
+        XpireModelStubAcceptingItemAdded modelStub = new XpireModelStubAcceptingItemAdded();
         XpireItem kiwi = new ItemBuilder().withName(VALID_NAME_KIWI)
                                             .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                                             .withQuantity("1").build();
@@ -55,7 +55,7 @@ public class AddCommandTest {
                 .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                 .withQuantity("1").build();
         AddCommand addCommand = new AddCommand(kiwi);
-        ModelStub modelStub = new ModelStubWithItem(kiwi);
+        XpireModelStub modelStub = new XpireModelStubWithItem(kiwi);
         //duplicate items cannot be added to the list
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_ITEM, () -> addCommand.execute(modelStub));
     }
@@ -85,9 +85,9 @@ public class AddCommandTest {
     }
 
     /**
-     * A default model stub that have all of the methods failing.
+     * A default xpireModel stub that have all of the methods failing.
      */
-    private class ModelStub implements Model {
+    private class XpireModelStub implements XpireModel {
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");
@@ -109,12 +109,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public Path getXpireFilePath() {
+        public Path getListFilePath() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setXpireFilePath(Path xpireFilePath) {
+        public void setListFilePath(Path xpireFilePath) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -124,12 +124,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setXpire(ReadOnlyListView newData) {
+        public void setListView(ReadOnlyListView newData) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ReadOnlyListView getXpire() {
+        public ReadOnlyListView getListView() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -180,12 +180,12 @@ public class AddCommandTest {
     }
 
     /**
-     * A Model stub that contains a single item.
+     * A XpireModel stub that contains a single item.
      */
-    private class ModelStubWithItem extends ModelStub {
+    private class XpireModelStubWithItem extends XpireModelStub {
         private final XpireItem xpireItem;
 
-        ModelStubWithItem(XpireItem xpireItem) {
+        XpireModelStubWithItem(XpireItem xpireItem) {
             requireNonNull(xpireItem);
             this.xpireItem = xpireItem;
         }
@@ -198,9 +198,9 @@ public class AddCommandTest {
     }
 
     /**
-     * A Model stub that always accept the item being added.
+     * A XpireModel stub that always accept the item being added.
      */
-    private class ModelStubAcceptingItemAdded extends ModelStub {
+    private class XpireModelStubAcceptingItemAdded extends XpireModelStub {
         final ArrayList<XpireItem> itemsAdded = new ArrayList<>();
 
         @Override
@@ -216,7 +216,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyListView getXpire() {
+        public ReadOnlyListView getListView() {
             return new ListView();
         }
     }
