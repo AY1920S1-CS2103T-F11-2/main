@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.SortedUniqueItemList;
 import io.xpire.model.item.sort.MethodOfSorting;
 import javafx.collections.ObservableList;
@@ -30,11 +30,11 @@ public class Xpire implements ReadOnlyXpire {
     //// list overwrite operations
 
     /**
-     * Replaces the contents of the item list with {@code items}.
-     * {@code items} must not contain duplicate items.
+     * Replaces the contents of the xpireItem list with {@code xpireItems}.
+     * {@code xpireItems} must not contain duplicate xpireItems.
      */
-    public void setItems(List<Item> items) {
-        this.items.setItems(items);
+    public void setItems(List<XpireItem> xpireItems) {
+        this.items.setItems(xpireItems);
     }
 
     /**
@@ -46,36 +46,36 @@ public class Xpire implements ReadOnlyXpire {
     }
 
     /**
-     * Returns true if an item with the same identity as {@code item} exists in xpire.
+     * Returns true if an xpireItem with the same identity as {@code xpireItem} exists in xpire.
      */
-    public boolean hasItem(Item item) {
-        requireNonNull(item);
-        return this.items.contains(item);
+    public boolean hasItem(XpireItem xpireItem) {
+        requireNonNull(xpireItem);
+        return this.items.contains(xpireItem);
     }
 
     /**
-     * Adds a item to xpire.
-     * The item must not already exist in xpire.
+     * Adds a xpireItem to xpire.
+     * The xpireItem must not already exist in xpire.
      */
-    public void addItem(Item item) {
-        this.items.add(item);
+    public void addItem(XpireItem xpireItem) {
+        this.items.add(xpireItem);
     }
 
     /**
-     * Replaces the given item {@code target} in the list with {@code editedItem}.
+     * Replaces the given xpireItem {@code target} in the list with {@code editedXpireItem}.
      * {@code target} must exist in xpire.
-     * The item identity of {@code editedItem} must not be the same as another existing item in xpire.
+     * The xpireItem identity of {@code editedXpireItem} must not be the same as another existing xpireItem in xpire.
      */
-    public void setItem(Item target, Item editedItem) {
-        requireNonNull(editedItem);
-        this.items.setItem(target, editedItem);
+    public void setItem(XpireItem target, XpireItem editedXpireItem) {
+        requireNonNull(editedXpireItem);
+        this.items.setItem(target, editedXpireItem);
     }
 
     /**
      * Removes {@code key} from this {@code Xpire}.
      * {@code key} must exist in xpire.
      */
-    public void removeItem(Item key) {
+    public void removeItem(XpireItem key) {
         this.items.remove(key);
     }
 
@@ -96,7 +96,7 @@ public class Xpire implements ReadOnlyXpire {
     }
 
     @Override
-    public ObservableList<Item> getItemList() {
+    public ObservableList<XpireItem> getItemList() {
         return this.items.asUnmodifiableObservableList();
     }
 

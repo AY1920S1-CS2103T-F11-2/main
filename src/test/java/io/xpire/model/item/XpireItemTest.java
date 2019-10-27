@@ -14,12 +14,12 @@ import org.junit.jupiter.api.Test;
 
 import io.xpire.testutil.ItemBuilder;
 
-public class ItemTest {
+public class XpireItemTest {
 
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        Item item = new ItemBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> item.getTags().remove(0));
+        XpireItem xpireItem = new ItemBuilder().build();
+        assertThrows(UnsupportedOperationException.class, () -> xpireItem.getTags().remove(0));
     }
 
     @Test
@@ -31,7 +31,7 @@ public class ItemTest {
         assertFalse(KIWI.isSameItem(null));
 
         // different expiry date -> returns false
-        Item editedKiwi = new ItemBuilder(KIWI).withExpiryDate("02/02/2020").build();
+        XpireItem editedKiwi = new ItemBuilder(KIWI).withExpiryDate("02/02/2020").build();
         assertFalse(KIWI.isSameItem(editedKiwi));
 
         // different name -> returns false
@@ -48,7 +48,7 @@ public class ItemTest {
     @Test
     public void equals() {
         // same values -> returns true
-        Item kiwiCopy = new ItemBuilder(KIWI).build();
+        XpireItem kiwiCopy = new ItemBuilder(KIWI).build();
         assertTrue(KIWI.equals(kiwiCopy));
 
         // same object -> returns true
@@ -60,11 +60,11 @@ public class ItemTest {
         // different type -> returns false
         assertFalse(KIWI.equals(5));
 
-        // different item -> returns false
+        // different xpireItem -> returns false
         assertFalse(KIWI.equals(EXPIRED_APPLE));
 
         // different name -> returns false
-        Item editedKiwi = new ItemBuilder(KIWI).withName(VALID_NAME_BANANA).build();
+        XpireItem editedKiwi = new ItemBuilder(KIWI).withName(VALID_NAME_BANANA).build();
         assertFalse(KIWI.equals(editedKiwi));
 
         // different expiry date -> returns false

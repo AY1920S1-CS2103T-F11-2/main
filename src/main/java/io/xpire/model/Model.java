@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import io.xpire.commons.core.GuiSettings;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.tag.Tag;
@@ -19,10 +19,10 @@ import javafx.collections.ObservableList;
  */
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
-    Predicate<Item> PREDICATE_SHOW_ALL_ITEMS = unused -> true;
+    Predicate<XpireItem> PREDICATE_SHOW_ALL_ITEMS = unused -> true;
 
     /** {@code Predicate} that always evaluate to true */
-    Predicate<Item> PREDICATE_SORT_ALL_ITEMS = unused -> true;
+    Predicate<XpireItem> PREDICATE_SORT_ALL_ITEMS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -63,31 +63,31 @@ public interface Model {
     ReadOnlyXpire getXpire();
 
     /**
-     * Returns true if an item with the same identity as {@code item} exists in xpire.
+     * Returns true if an xpireItem with the same identity as {@code xpireItem} exists in xpire.
      */
-    boolean hasItem(Item item);
+    boolean hasItem(XpireItem xpireItem);
 
     /**
-     * Deletes the given item.
-     * The item must exist in xpire.
+     * Deletes the given xpireItem.
+     * The xpireItem must exist in xpire.
      */
-    void deleteItem(Item target);
+    void deleteItem(XpireItem target);
 
     /**
-     * Adds the given item.
-     * {@code item} must not already exist in xpire.
+     * Adds the given xpireItem.
+     * {@code xpireItem} must not already exist in xpire.
      */
-    void addItem(Item item);
+    void addItem(XpireItem xpireItem);
 
     /**
-     * Replaces the given item {@code target} with {@code editedItem}.
+     * Replaces the given xpireItem {@code target} with {@code editedXpireItem}.
      * {@code target} must exist in xpire.
-     * The item identity of {@code editedItem} must not be the same as another existing item in xpire.
+     * The xpireItem identity of {@code editedXpireItem} must not be the same as another existing xpireItem in xpire.
      */
-    void setItem(Item target, Item editedItem);
+    void setItem(XpireItem target, XpireItem editedXpireItem);
 
     /**
-     * Sorts the filtered item list.
+     * Sorts the filtered xpireItem list.
      * @param method The method of sorting.
      */
     void sortItemList(MethodOfSorting method);
@@ -104,20 +104,20 @@ public interface Model {
      */
     Set<Tag> getAllItemTags();
 
-    /** Returns an unmodifiable view of the filtered item list */
-    ObservableList<Item> getFilteredItemList();
+    /** Returns an unmodifiable view of the filtered xpireItem list */
+    ObservableList<XpireItem> getFilteredItemList();
 
     /**
      * Returns a list of all the items.
      *
      * @return List of all items.
      */
-    List<Item> getAllItemList();
+    List<XpireItem> getAllItemList();
 
     /**
-     * Updates the filter of the filtered item list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered xpireItem list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredItemList(Predicate<Item> predicate);
+    void updateFilteredItemList(Predicate<XpireItem> predicate);
 
 }

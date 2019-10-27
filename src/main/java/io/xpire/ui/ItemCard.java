@@ -3,7 +3,7 @@ package io.xpire.ui;
 import java.util.Optional;
 
 import io.xpire.commons.util.DateUtil;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.ReminderDate;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
 /**
- * An UI component that displays information of a {@code Item}.
+ * An UI component that displays information of a {@code XpireItem}.
  */
 public class ItemCard extends UiPart<Region> {
 
@@ -26,7 +26,7 @@ public class ItemCard extends UiPart<Region> {
      *
      */
 
-    public final Item item;
+    public final XpireItem xpireItem;
 
     @FXML
     private HBox cardPane;
@@ -45,21 +45,21 @@ public class ItemCard extends UiPart<Region> {
     @FXML
     private Label reminder;
 
-    public ItemCard(Item item, int displayedIndex) {
+    public ItemCard(XpireItem xpireItem, int displayedIndex) {
         super(FXML);
-        this.item = item;
+        this.xpireItem = xpireItem;
         this.id.setText(displayedIndex + ". ");
-        this.name.setText(item.getName().toString());
-        this.expiryDate.setText(item.getExpiryDate().toString());
-        this.quantity.setText("Quantity: " + item.getQuantity().toString());
+        this.name.setText(xpireItem.getName().toString());
+        this.expiryDate.setText(xpireItem.getExpiryDate().toString());
+        this.quantity.setText("Quantity: " + xpireItem.getQuantity().toString());
         Optional<ReminderDate> reminderDate = DateUtil.getReminderDate(
-                item.getExpiryDate().getDate(), item.getReminderThreshold().getValue());
+                xpireItem.getExpiryDate().getDate(), xpireItem.getReminderThreshold().getValue());
         if (reminderDate.isPresent()) {
             this.reminder.setText(reminderDate.get().toString());
         } else {
             this.reminder.setVisible(false);
         }
-        this.item.getTags()
+        this.xpireItem.getTags()
                 .forEach(tag -> this.tags.getChildren().add(new Label(tag.getTagName())));
 
         box.setOnMouseClicked(e -> box.requestFocus());
@@ -80,6 +80,6 @@ public class ItemCard extends UiPart<Region> {
         // state check
         ItemCard card = (ItemCard) other;
         return id.getText().equals(card.id.getText())
-                && item.equals(card.item);
+                && xpireItem.equals(card.xpireItem);
     }
 }

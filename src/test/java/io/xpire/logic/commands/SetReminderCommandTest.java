@@ -51,7 +51,7 @@ public class SetReminderCommandTest {
         // null -> returns false
         assertFalse(setFirstCommand.equals(null));
 
-        // different item -> returns false
+        // different xpireItem -> returns false
         assertFalse(setFirstCommand.equals(setSecondCommand));
     }
 

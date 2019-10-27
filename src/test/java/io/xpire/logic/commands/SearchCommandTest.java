@@ -51,7 +51,7 @@ public class SearchCommandTest {
         // null -> returns false
         assertFalse(findFirstCommand.equals(null));
 
-        // different item -> returns false
+        // different xpireItem -> returns false
         assertFalse(findFirstCommand.equals(findSecondCommand));
     }
 

@@ -9,30 +9,30 @@ import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.ReminderThreshold;
 
 /**
- * Changes the reminder threshold for an item identified with its displayed index.
+ * Changes the reminder threshold for an xpireItem identified with its displayed index.
  */
 
 public class SetReminderCommand extends Command {
 
     public static final String COMMAND_WORD = "set reminder";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Changes the reminder threshold of the item "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Changes the reminder threshold of the xpireItem "
             + "identified with its displayed index. "
             + "Existing threshold will be overwritten by the input.\n"
             + "Format: set reminder|<index>|<threshold> (both index and threshold must be positive numbers)\n"
             + "Example: " + COMMAND_WORD + "|1|7";
 
-    public static final String MESSAGE_SUCCESS = "Set reminder for item %d in %s day(s)";
+    public static final String MESSAGE_SUCCESS = "Set reminder for xpireItem %d in %s day(s)";
 
     private final Index index;
     private final ReminderThreshold threshold;
 
     /**
-     * @param index Index of the item in the list.
+     * @param index Index of the xpireItem in the list.
      * @param threshold New threshold.
      */
     public SetReminderCommand(Index index, ReminderThreshold threshold) {
@@ -45,17 +45,17 @@ public class SetReminderCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Item> lastShownList = model.getFilteredItemList();
+        List<XpireItem> lastShownList = model.getFilteredItemList();
 
         if (this.index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
         }
 
-        Item itemToSetReminder = lastShownList.get(this.index.getZeroBased());
-        Item editedItem = itemToSetReminder;
-        editedItem.setReminderThreshold(this.threshold);
+        XpireItem xpireItemToSetReminder = lastShownList.get(this.index.getZeroBased());
+        XpireItem editedXpireItem = xpireItemToSetReminder;
+        editedXpireItem.setReminderThreshold(this.threshold);
 
-        model.setItem(itemToSetReminder, editedItem);
+        model.setItem(xpireItemToSetReminder, editedXpireItem);
         model.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
         return new CommandResult(String.format(MESSAGE_SUCCESS, this.index.getOneBased(), this.threshold));
     }

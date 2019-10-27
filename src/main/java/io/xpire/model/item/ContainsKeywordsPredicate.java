@@ -10,9 +10,9 @@ import java.util.function.Predicate;
 import io.xpire.commons.util.StringUtil;
 
 /**
- * Tests that a {@code Item}'s {@code Name} matches any of the keywords given.
+ * Tests that a {@code XpireItem}'s {@code Name} matches any of the keywords given.
  */
-public class ContainsKeywordsPredicate implements Predicate<Item> {
+public class ContainsKeywordsPredicate implements Predicate<XpireItem> {
     private final List<String> keywords;
 
     public ContainsKeywordsPredicate(List<String> keywords) {
@@ -21,15 +21,15 @@ public class ContainsKeywordsPredicate implements Predicate<Item> {
     }
 
     @Override
-    public boolean test(Item item) {
+    public boolean test(XpireItem xpireItem) {
         boolean keywordsInName;
         boolean keywordsInTags;
 
         for (String keyword: this.keywords) {
-            keywordsInName = StringUtil.containsPhraseIgnoreCase(item.getName().toString(), keyword);
+            keywordsInName = StringUtil.containsPhraseIgnoreCase(xpireItem.getName().toString(), keyword);
             keywordsInTags = keyword.startsWith("#")
                     && keyword.length() > 1
-                    && new HashSet<>(stringifyCollection(item.getTags(), tag -> tag.substring(1, tag.length() - 1)))
+                    && new HashSet<>(stringifyCollection(xpireItem.getTags(), tag -> tag.substring(1, tag.length() - 1)))
                     .contains(keyword.substring(1));
             if (keywordsInName || keywordsInTags) {
                 return true;

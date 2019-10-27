@@ -14,10 +14,10 @@ import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
 /**
- * Represents a Item in Xpire.
+ * Represents a XpireItem in Xpire.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Item {
+public class XpireItem {
     // Identity fields
     private final Name name;
     private final ExpiryDate expiryDate;
@@ -31,7 +31,7 @@ public class Item {
      * Every field must be present and not null.
      * Only called in Tag and Edit commands.
      */
-    public Item(Name name, ExpiryDate expiryDate, Quantity quantity, Set<Tag> tags) {
+    public XpireItem(Name name, ExpiryDate expiryDate, Quantity quantity, Set<Tag> tags) {
         CollectionUtil.requireAllNonNull(name, expiryDate, tags);
         this.name = name;
         this.expiryDate = expiryDate;
@@ -43,7 +43,7 @@ public class Item {
      * Every field must be present and not null.
      * Tags are optional.
      */
-    public Item(Name name, ExpiryDate expiryDate, Quantity quantity) {
+    public XpireItem(Name name, ExpiryDate expiryDate, Quantity quantity) {
         CollectionUtil.requireAllNonNull(name, expiryDate);
         this.name = name;
         this.expiryDate = expiryDate;
@@ -54,7 +54,7 @@ public class Item {
      * Every field must be present and not null.
      * Quantity is optional.
      */
-    public Item(Name name, ExpiryDate expiryDate) {
+    public XpireItem(Name name, ExpiryDate expiryDate) {
         CollectionUtil.requireAllNonNull(name, expiryDate);
         this.name = name;
         this.expiryDate = expiryDate;
@@ -63,8 +63,8 @@ public class Item {
     /**
      * Constructor with all parameters for ItemBuilder class. (Used in testing)
      */
-    public Item(Name name, ExpiryDate expiryDate, Quantity quantity, Set<Tag> tags,
-                ReminderThreshold reminderThreshold) {
+    public XpireItem(Name name, ExpiryDate expiryDate, Quantity quantity, Set<Tag> tags,
+                     ReminderThreshold reminderThreshold) {
         CollectionUtil.requireAllNonNull(name, expiryDate, tags);
         this.name = name;
         this.expiryDate = expiryDate;
@@ -73,12 +73,12 @@ public class Item {
         this.reminderThreshold = reminderThreshold;
     }
 
-    public Item(Item item) {
-        this.name = item.getName();
-        this.expiryDate = item.getExpiryDate();
-        this.quantity = item.getQuantity();
-        this.tags = item.getTags();
-        this.reminderThreshold = item.getReminderThreshold();
+    public XpireItem(XpireItem xpireItem) {
+        this.name = xpireItem.getName();
+        this.expiryDate = xpireItem.getExpiryDate();
+        this.quantity = xpireItem.getQuantity();
+        this.tags = xpireItem.getTags();
+        this.reminderThreshold = xpireItem.getReminderThreshold();
     }
 
     public Name getName() {
@@ -141,7 +141,7 @@ public class Item {
      * Returns true if both items of the same name have at least one other identity field that is the same.
      * This defines a weaker notion of equality between two items.
      */
-    public boolean isSameItem(Item other) {
+    public boolean isSameItem(XpireItem other) {
         if (other == this) {
             return true;
         } else {
@@ -159,10 +159,10 @@ public class Item {
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
-        } else if (!(obj instanceof Item)) {
+        } else if (!(obj instanceof XpireItem)) {
             return false;
         } else {
-            Item other = (Item) obj;
+            XpireItem other = (XpireItem) obj;
             return this.name.equals(other.name)
                     && this.expiryDate.equals(other.expiryDate)
                     && this.tags.equals(other.tags)

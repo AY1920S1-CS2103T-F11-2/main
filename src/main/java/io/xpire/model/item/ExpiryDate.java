@@ -8,7 +8,7 @@ import io.xpire.commons.util.AppUtil;
 import io.xpire.commons.util.DateUtil;
 
 /**
- * Represents an Item's expiry date in xpire.
+ * Represents an XpireItem's expiry date in xpire.
  * Guarantees: immutable; is valid as declared in {@link #isValidFormatExpiryDate(String)} (String)}
  */
 public class ExpiryDate {

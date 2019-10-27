@@ -13,7 +13,7 @@ import io.xpire.logic.parser.XpireParser;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyXpire;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.storage.Storage;
 import javafx.collections.ObservableList;
 
@@ -57,7 +57,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<Item> getFilteredItemList() {
+    public ObservableList<XpireItem> getFilteredItemList() {
         return this.model.getFilteredItemList();
     }
 

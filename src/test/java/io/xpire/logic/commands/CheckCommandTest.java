@@ -69,7 +69,7 @@ public class CheckCommandTest {
         // null -> returns false
         assertFalse(checkReminderCommand.equals(null));
 
-        // different item -> returns false
+        // different xpireItem -> returns false
         assertFalse(checkReminderCommand.equals(checkDaysCommand));
     }
 }

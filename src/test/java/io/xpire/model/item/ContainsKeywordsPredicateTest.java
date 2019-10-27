@@ -34,7 +34,7 @@ public class ContainsKeywordsPredicateTest {
         // null -> returns false
         assertFalse(firstPredicate.equals(null));
 
-        // different item -> returns false
+        // different xpireItem -> returns false
         assertFalse(firstPredicate.equals(secondPredicate));
     }
 

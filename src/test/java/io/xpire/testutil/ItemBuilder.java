@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import io.xpire.model.item.ExpiryDate;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
@@ -13,7 +13,7 @@ import io.xpire.model.tag.TagComparator;
 import io.xpire.model.util.SampleDataUtil;
 
 /**
- * A utility class to help with building Item objects.
+ * A utility class to help with building XpireItem objects.
  */
 public class ItemBuilder {
 
@@ -37,20 +37,20 @@ public class ItemBuilder {
     }
 
     /**
-     * Initializes the ItemBuilder with the data of {@code itemToCopy}.
+     * Initializes the ItemBuilder with the data of {@code xpireItemToCopy}.
      */
-    public ItemBuilder(Item itemToCopy) {
-        name = itemToCopy.getName();
-        expiryDate = itemToCopy.getExpiryDate();
-        quantity = itemToCopy.getQuantity();
+    public ItemBuilder(XpireItem xpireItemToCopy) {
+        name = xpireItemToCopy.getName();
+        expiryDate = xpireItemToCopy.getExpiryDate();
+        quantity = xpireItemToCopy.getQuantity();
         TreeSet<Tag> set = new TreeSet<>(new TagComparator());
-        set.addAll(itemToCopy.getTags());
+        set.addAll(xpireItemToCopy.getTags());
         tags = set;
-        this.reminderThreshold = itemToCopy.getReminderThreshold();
+        this.reminderThreshold = xpireItemToCopy.getReminderThreshold();
     }
 
     /**
-     * Sets the {@code Name} of the {@code Item} that we are building.
+     * Sets the {@code Name} of the {@code XpireItem} that we are building.
      */
     public ItemBuilder withName(String name) {
         this.name = new Name(name);
@@ -58,7 +58,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Item} that we are building.
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code XpireItem} that we are building.
      */
     public ItemBuilder withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
@@ -66,7 +66,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the {@code ExpiryDate} of the {@code Item} that we are building.
+     * Sets the {@code ExpiryDate} of the {@code XpireItem} that we are building.
      */
     public ItemBuilder withExpiryDate(String expiryDate) {
         this.expiryDate = new ExpiryDate(expiryDate);
@@ -74,7 +74,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the {@code ReminderThreshold} of the {@code Item} that we are building.
+     * Sets the {@code ReminderThreshold} of the {@code XpireItem} that we are building.
      */
     public ItemBuilder withReminderThreshold(String threshold) {
         this.reminderThreshold = new ReminderThreshold(threshold);
@@ -82,7 +82,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the {@code Quantity} of the {@code Item} that we are building.
+     * Sets the {@code Quantity} of the {@code XpireItem} that we are building.
      */
     public ItemBuilder withQuantity(String quantity) {
         this.quantity = new Quantity(quantity);
@@ -90,7 +90,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the {@code ReminderThreshold} of the {@code Item} that we are building.
+     * Sets the {@code ReminderThreshold} of the {@code XpireItem} that we are building.
      */
     public ItemBuilder withThreshold(String reminderThreshold) {
         this.reminderThreshold = new ReminderThreshold(reminderThreshold);
@@ -98,12 +98,12 @@ public class ItemBuilder {
     }
 
     /**
-     * Constructs a new {@code Item} with the modified fields.
+     * Constructs a new {@code XpireItem} with the modified fields.
      */
-    public Item build() {
-        Item newItem = new Item(name, expiryDate, quantity, tags);
-        newItem.setReminderThreshold(reminderThreshold);
-        return newItem;
+    public XpireItem build() {
+        XpireItem newXpireItem = new XpireItem(name, expiryDate, quantity, tags);
+        newXpireItem.setReminderThreshold(reminderThreshold);
+        return newXpireItem;
     }
 
 }

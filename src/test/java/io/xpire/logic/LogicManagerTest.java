@@ -27,7 +27,7 @@ import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.UserPrefs;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.storage.JsonUserPrefsStorage;
 import io.xpire.storage.JsonXpireStorage;
 import io.xpire.storage.StorageManager;
@@ -83,9 +83,9 @@ public class LogicManagerTest {
         // Execute add command
         String addCommand = AddCommand.COMMAND_WORD + "|" + VALID_NAME_BANANA + "|" + VALID_EXPIRY_DATE_BANANA
                 + "| " + VALID_QUANTITY_BANANA;
-        Item expectedItem = new ItemBuilder(BANANA).build();
+        XpireItem expectedXpireItem = new ItemBuilder(BANANA).build();
         ModelManager expectedModel = new ModelManager();
-        expectedModel.addItem(expectedItem);
+        expectedModel.addItem(expectedXpireItem);
         String expectedMessage = LogicManager.FILE_OPS_ERROR_MESSAGE + DUMMY_IO_EXCEPTION;
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }

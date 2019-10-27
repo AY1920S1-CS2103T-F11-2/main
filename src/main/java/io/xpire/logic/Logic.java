@@ -8,7 +8,7 @@ import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyXpire;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import javafx.collections.ObservableList;
 
 /**
@@ -33,7 +33,7 @@ public interface Logic {
     ReadOnlyXpire getXpire();
 
     /** Returns an unmodifiable view of the filtered list of items */
-    ObservableList<Item> getFilteredItemList();
+    ObservableList<XpireItem> getFilteredItemList();
 
     /**
      * Returns the user prefs' xpire file path.

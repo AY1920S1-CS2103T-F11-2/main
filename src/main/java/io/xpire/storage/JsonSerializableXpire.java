@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.Xpire;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 
 /**
  * An Immutable Xpire that is serializable to JSON format.
@@ -19,7 +19,7 @@ import io.xpire.model.item.Item;
 @JsonRootName(value = "xpire")
 class JsonSerializableXpire {
 
-    public static final String MESSAGE_DUPLICATE_ITEM = "Items list contains duplicate item(s).";
+    public static final String MESSAGE_DUPLICATE_ITEM = "Items list contains duplicate xpireItem(s).";
 
     private final List<JsonAdaptedItem> items = new ArrayList<>();
 
@@ -48,11 +48,11 @@ class JsonSerializableXpire {
     public Xpire toModelType() throws IllegalValueException {
         Xpire xpire = new Xpire();
         for (JsonAdaptedItem jsonAdaptedItem : items) {
-            Item item = jsonAdaptedItem.toModelType();
-            if (xpire.hasItem(item)) {
+            XpireItem xpireItem = jsonAdaptedItem.toModelType();
+            if (xpire.hasItem(xpireItem)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_ITEM);
             }
-            xpire.addItem(item);
+            xpire.addItem(xpireItem);
         }
         return xpire;
     }

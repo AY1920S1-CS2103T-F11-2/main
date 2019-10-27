@@ -26,7 +26,7 @@ import io.xpire.logic.commands.TagCommand;
 import io.xpire.logic.commands.ViewCommand;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.item.ContainsKeywordsPredicate;
-import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.testutil.ItemBuilder;
 import io.xpire.testutil.ItemUtil;
 
@@ -37,9 +37,9 @@ public class XpireParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Item item = new ItemBuilder().build();
-        AddCommand command = (AddCommand) parser.parseCommand(ItemUtil.getAddCommand(item));
-        assertEquals(new AddCommand(item), command);
+        XpireItem xpireItem = new ItemBuilder().build();
+        AddCommand command = (AddCommand) parser.parseCommand(ItemUtil.getAddCommand(xpireItem));
+        assertEquals(new AddCommand(xpireItem), command);
     }
 
     @Test
