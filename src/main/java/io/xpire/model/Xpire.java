@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.SortedUniqueXpireItemList;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import javafx.collections.ObservableList;
 

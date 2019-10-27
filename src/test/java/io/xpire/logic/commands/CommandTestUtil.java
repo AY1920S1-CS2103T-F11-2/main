@@ -59,7 +59,7 @@ public class CommandTestUtil {
     public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
-        Xpire expectedXpire = new Xpire(actualModel.getXpire());
+        Xpire expectedXpire = new Xpire(actualModel.getXpire()[0]);
         List<XpireItem> expectedFilteredList = new ArrayList<>(actualModel.getFilteredItemList());
 
         Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));

@@ -6,9 +6,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import io.xpire.commons.util.DateUtil;
+import io.xpire.model.ReadOnlyListView;
+import io.xpire.model.ReplenishList;
 import io.xpire.model.Xpire;
+import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 
 /**
@@ -72,13 +74,14 @@ public class TypicalItems {
     /**
      * Returns an {@code Xpire} with all the typical items.
      */
-    public static Xpire getTypicalExpiryDateTracker() {
+    public static ReadOnlyListView<? extends Item>[] getTypicalExpiryDateTracker() {
         Xpire edt = new Xpire();
         for (XpireItem xpireItem : getTypicalItems()) {
             XpireItem copyXpireItem = new XpireItem(xpireItem);
             edt.addItem(copyXpireItem);
         }
-        return edt;
+        ReplenishList replenishList = new ReplenishList();
+        return new ReadOnlyListView[]{edt, replenishList};
     }
 
     public static List<XpireItem> getTypicalItems() {

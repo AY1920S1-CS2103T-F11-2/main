@@ -1,22 +1,26 @@
 package io.xpire.storage;
 
-import io.xpire.commons.exceptions.DataConversionException;
-import io.xpire.model.ReadOnlyListView;
-import io.xpire.model.item.Item;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
+import io.xpire.commons.exceptions.DataConversionException;
+import io.xpire.model.ReadOnlyListView;
+import io.xpire.model.item.Item;
+
+/**
+ *
+ */
 public interface ReplenishStorage {
+
     /**
      * Returns the file path of the data file.
      */
     Path getReplenishFilePath();
 
     /**
-     * Returns ReplenishList data as a {@link ReadOnlyListView<Item>}.
-     *   Returns {@code Optional.empty()} if storage file is not found.
+     * Returns ReplenishList data as a {@link ReadOnlyListView}.
+     * Returns {@code Optional.empty()} if storage file is not found.
      * @throws DataConversionException if the data in storage is not in the expected format.
      * @throws IOException if there was any problem when reading from the storage.
      */

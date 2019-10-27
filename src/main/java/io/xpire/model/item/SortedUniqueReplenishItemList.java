@@ -1,5 +1,10 @@
 package io.xpire.model.item;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.Iterator;
+import java.util.List;
+
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.model.item.exceptions.ItemNotFoundException;
@@ -9,11 +14,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 
-import java.util.Iterator;
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
-
+/**
+ *
+ */
 public class SortedUniqueReplenishItemList implements SortedUniqueList<Item> {
 
     private final ObservableList<Item> internalList = FXCollections.observableArrayList();
@@ -144,7 +147,4 @@ public class SortedUniqueReplenishItemList implements SortedUniqueList<Item> {
     private boolean itemsAreUnique(List<Item> items) {
         return items.size() == items.stream().distinct().count();
     }
-
-
-
 }

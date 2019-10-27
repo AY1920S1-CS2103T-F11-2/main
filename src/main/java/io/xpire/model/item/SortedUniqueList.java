@@ -1,11 +1,14 @@
 package io.xpire.model.item;
 
+import java.util.List;
 
 import io.xpire.model.item.sort.MethodOfSorting;
 import javafx.collections.ObservableList;
 
-import java.util.List;
-
+/**
+ *
+ * @param <T>
+ */
 public interface SortedUniqueList<T extends Item> extends Iterable<T> {
 
     boolean contains(T toCheck);

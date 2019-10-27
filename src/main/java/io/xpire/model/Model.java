@@ -1,25 +1,17 @@
 package io.xpire.model;
 
 import java.nio.file.Path;
-
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-
-import java.util.TreeSet;
 import java.util.function.Predicate;
 
 import io.xpire.commons.core.GuiSettings;
-import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.Item;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
-import io.xpire.model.tag.TagComparator;
 import javafx.collections.ObservableList;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * The API of the Model component.
@@ -70,8 +62,9 @@ public interface Model {
      */
     void setXpire(ReadOnlyListView<XpireItem> xpire);
 
-    /** Returns the xpire */
-    ReadOnlyListView getXpire();
+    /** Returns the xpire
+     * @return*/
+    ReadOnlyListView<? extends Item>[] getXpire();
 
     /**
      * Returns true if an xpireItem with the same identity as {@code xpireItem} exists in xpire.

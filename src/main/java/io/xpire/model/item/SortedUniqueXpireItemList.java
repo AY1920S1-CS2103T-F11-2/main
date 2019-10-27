@@ -16,10 +16,10 @@ import javafx.collections.transformation.SortedList;
 
 /**
  * A list of items that enforces uniqueness between its elements and does not allow nulls.
- * An xpireItem is considered unique by comparing using {@code XpireItem#isSameItem(XpireItem)}. As such, adding and updating of
- * items uses XpireItem#isSameItem(XpireItem) for equality so as to ensure that the xpireItem being added or updated is
- * unique in terms of identity in the SortedUniqueXpireItemList. However, the removal of a xpireItem uses XpireItem#equals(Object) so
- * as to ensure that the xpireItem with exactly the same fields will be removed.
+ * An xpireItem is considered unique by comparing using {@code XpireItem#isSameItem(XpireItem)}. As such, adding and
+ * updating of items uses XpireItem#isSameItem(XpireItem) for equality so as to ensure that the xpireItem being added
+ * or updated is unique in terms of identity in the SortedUniqueXpireItemList. However, the removal of a xpireItem uses
+ * XpireItem#equals(Object) so as to ensure that the xpireItem with exactly the same fields will be removed.
  *
  * Supports a minimal set of list operations.
  *
@@ -28,7 +28,8 @@ import javafx.collections.transformation.SortedList;
 public class SortedUniqueXpireItemList implements Iterable<XpireItem> {
     private final ObservableList<XpireItem> internalList = FXCollections.observableArrayList();
     private XpireMethodOfSorting xpireMethodOfSorting = new XpireMethodOfSorting("name");
-    private final SortedList<XpireItem> sortedInternalList = new SortedList<>(internalList, xpireMethodOfSorting.getComparator());
+    private final SortedList<XpireItem> sortedInternalList = new SortedList<>(internalList,
+            xpireMethodOfSorting.getComparator());
     private final ObservableList<XpireItem> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(this.sortedInternalList);
 

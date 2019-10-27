@@ -94,7 +94,7 @@ public class TagCommandTest {
     public void execute_invalidIndexFilteredList_throwsCommandException() {
         showItemAtIndex(model, INDEX_FIRST_ITEM);
         Index outOfBoundIndex = INDEX_SECOND_ITEM;
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getXpire().getItemList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getXpire()[0].getItemList().size());
         TagCommand tagCommand = new TagCommand(outOfBoundIndex, new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
         assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
     }

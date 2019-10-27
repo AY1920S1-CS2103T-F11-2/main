@@ -60,6 +60,11 @@ public class ReplenishCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS, targetItem.getName()));
     }
 
+    /**
+     * Changes Item to an XpireItem.
+     * @param xpireItem The item to change to an XpireItem.
+     * @return The new XpireItem.
+     */
     private Item adaptItemToToBuy(XpireItem xpireItem) {
         Name itemName = xpireItem.getName();
         Set<Tag> originalTags = xpireItem.getTags();

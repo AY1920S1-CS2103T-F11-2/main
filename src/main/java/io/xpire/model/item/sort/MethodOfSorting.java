@@ -1,9 +1,13 @@
 package io.xpire.model.item.sort;
 
-import io.xpire.model.item.Item;
-
 import java.util.Comparator;
 
+import io.xpire.model.item.Item;
+
+/**
+ *
+ * @param <T>
+ */
 public interface MethodOfSorting<T extends Item> {
 
     String SORT_NAME = "name";
@@ -13,6 +17,5 @@ public interface MethodOfSorting<T extends Item> {
         return (test.equals(SORT_NAME) || test.equals(SORT_DATE));
     }
 
-    public Comparator<T> getComparator();
-
+    Comparator<T> getComparator();
 }

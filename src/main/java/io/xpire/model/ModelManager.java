@@ -15,8 +15,8 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.Item;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
@@ -39,22 +39,22 @@ public class ModelManager implements Model {
     /**
      * Initializes a ModelManager with the given xpire and userPrefs.
      */
-    public ModelManager(ReadOnlyListView<XpireItem> xpire, ReadOnlyListView<Item> replenishList,
+    public ModelManager(ReadOnlyListView<? extends Item>[] xpire,
                         ReadOnlyUserPrefs userPrefs) {
         super();
         CollectionUtil.requireAllNonNull(xpire, userPrefs);
 
         logger.fine("Initializing with xpire: " + xpire + " and user prefs " + userPrefs);
 
-        this.xpire = new Xpire(xpire);
-        this.replenishList = new ReplenishList(replenishList);
+        this.xpire = new Xpire(xpire[0]);
+        this.replenishList = new ReplenishList(xpire[1]);
         this.userPrefs = new UserPrefs(userPrefs);
         this.filteredXpireItems = new FilteredList<>(this.xpire.getItemList());
         this.filteredReplenishItems = new FilteredList<>(this.replenishList.getItemList());
     }
 
     public ModelManager() {
-        this(new Xpire(), new ReplenishList(), new UserPrefs());
+        this(new ReadOnlyListView[]{}, new UserPrefs());
     }
 
     //=========== UserPrefs =========================================================================================
@@ -100,8 +100,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ReadOnlyListView<XpireItem> getXpire() {
-        return this.xpire;
+    public ReadOnlyListView<? extends Item>[] getXpire() {
+        return new ReadOnlyListView[]{this.xpire, this.replenishList};
     }
 
     @Override
@@ -143,7 +143,7 @@ public class ModelManager implements Model {
         return nameSet;
     }
 
-    //=========== replenish list methods  ================================================================================
+    //=========== replenish list methods  ==============================================================================
     @Override
     public void setReplenishList(ReadOnlyListView<Item> replenishList) {
         this.replenishList.resetData(replenishList);
@@ -193,7 +193,7 @@ public class ModelManager implements Model {
         return nameSet;
     }
 
-    //=========== Sorted XpireItem List Accessors ========================================================================
+    //=========== Sorted XpireItem List Accessors ======================================================================
 
     @Override
     public void sortItemList(XpireMethodOfSorting method) {

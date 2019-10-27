@@ -1,9 +1,12 @@
 package io.xpire.model.item.sort;
 
-import io.xpire.model.item.Item;
-
 import java.util.Comparator;
 
+import io.xpire.model.item.Item;
+
+/**
+ *
+ */
 public class ReplenishMethodOfSorting implements MethodOfSorting<Item> {
 
     public static final String MESSAGE_CONSTRAINTS = "Sorting can only be done by 'name'.";

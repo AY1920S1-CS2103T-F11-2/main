@@ -3,8 +3,9 @@ package io.xpire.ui;
 import java.util.Optional;
 
 import io.xpire.commons.util.DateUtil;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.ReminderDate;
+import io.xpire.model.item.XpireItem;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;

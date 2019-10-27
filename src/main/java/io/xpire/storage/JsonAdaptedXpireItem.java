@@ -11,21 +11,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.model.item.ExpiryDate;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
 /**
  * Jackson-friendly version of {@link XpireItem}.
  */
-class JsonAdaptedXpireItem {
+class JsonAdaptedXpireItem extends JsonAdaptedItem {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "XpireItem's %s field is missing!";
 
-    private final String name;
+    private String name;
     private final String expiryDate;
     private final String quantity;
     private final String reminderThreshold;
@@ -40,29 +40,29 @@ class JsonAdaptedXpireItem {
                                 @JsonProperty("quantity") String quantity,
                                 @JsonProperty("reminderThreshold") String reminderThreshold,
                                 @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+        super(name, tags);
         this.name = name;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
         this.reminderThreshold = reminderThreshold;
-        if (tags != null) {
-            this.tags.addAll(tags);
-        }
     }
 
     /**
      * Converts a given {@code XpireItem} into this class for Jackson use.
      */
     public JsonAdaptedXpireItem(XpireItem source) {
+        super(source);
         this.name = source.getName().toString();
-        this.expiryDate = source.getExpiryDate().toString();
-        this.quantity = source.getQuantity().toString();
-        this.reminderThreshold = source.getReminderThreshold().toString();
         this.tags.addAll(source
                 .getTags()
                 .stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        this.expiryDate = source.getExpiryDate().toString();
+        this.quantity = source.getQuantity().toString();
+        this.reminderThreshold = source.getReminderThreshold().toString();
     }
+
 
     /**
      * Converts this Jackson-friendly adapted xpireItem object into the model's {@code XpireItem} object.
