@@ -8,7 +8,7 @@ import java.util.List;
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.model.item.exceptions.ItemNotFoundException;
-import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -27,8 +27,8 @@ import javafx.collections.transformation.SortedList;
  */
 public class SortedUniqueItemList implements Iterable<XpireItem> {
     private final ObservableList<XpireItem> internalList = FXCollections.observableArrayList();
-    private MethodOfSorting methodOfSorting = new MethodOfSorting("name");
-    private final SortedList<XpireItem> sortedInternalList = new SortedList<>(internalList, methodOfSorting.getComparator());
+    private XpireMethodOfSorting xpireMethodOfSorting = new XpireMethodOfSorting("name");
+    private final SortedList<XpireItem> sortedInternalList = new SortedList<>(internalList, xpireMethodOfSorting.getComparator());
     private final ObservableList<XpireItem> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(this.sortedInternalList);
 
@@ -51,7 +51,7 @@ public class SortedUniqueItemList implements Iterable<XpireItem> {
             throw new DuplicateItemException();
         }
         this.internalList.add(toAdd);
-        methodOfSorting = new MethodOfSorting("name");
+        xpireMethodOfSorting = new XpireMethodOfSorting("name");
     }
 
     /**
@@ -105,9 +105,9 @@ public class SortedUniqueItemList implements Iterable<XpireItem> {
     /**
      * Set method of sorting.
      */
-    public void setMethodOfSorting(MethodOfSorting method) {
-        this.methodOfSorting = method;
-        this.sortedInternalList.setComparator(methodOfSorting.getComparator());
+    public void setXpireMethodOfSorting(XpireMethodOfSorting method) {
+        this.xpireMethodOfSorting = method;
+        this.sortedInternalList.setComparator(xpireMethodOfSorting.getComparator());
     }
 
     /**

@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
-import io.xpire.model.item.sort.MethodOfSorting;
 
 
 /**
@@ -40,9 +40,9 @@ public class SortCommandTest {
     @Test
     public void execute_sortByName_showsSortedList() {
         String expectedMessage = SortCommand.MESSAGE_SUCCESS + " by name";
-        MethodOfSorting methodOfSorting = new MethodOfSorting("name");
-        SortCommand command = new SortCommand(methodOfSorting);
-        expectedModel.sortItemList(methodOfSorting);
+        XpireMethodOfSorting xpireMethodOfSorting = new XpireMethodOfSorting("name");
+        SortCommand command = new SortCommand(xpireMethodOfSorting);
+        expectedModel.sortItemList(xpireMethodOfSorting);
         expectedModel.updateFilteredItemList(Model.PREDICATE_SORT_ALL_ITEMS);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
@@ -54,9 +54,9 @@ public class SortCommandTest {
     @Test
     public void execute_sortByDate_showsSortedList() {
         String expectedMessage = SortCommand.MESSAGE_SUCCESS + " by date";
-        MethodOfSorting methodOfSorting = new MethodOfSorting("date");
-        SortCommand command = new SortCommand(methodOfSorting);
-        expectedModel.sortItemList(methodOfSorting);
+        XpireMethodOfSorting xpireMethodOfSorting = new XpireMethodOfSorting("date");
+        SortCommand command = new SortCommand(xpireMethodOfSorting);
+        expectedModel.sortItemList(xpireMethodOfSorting);
         expectedModel.updateFilteredItemList(Model.PREDICATE_SORT_ALL_ITEMS);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(

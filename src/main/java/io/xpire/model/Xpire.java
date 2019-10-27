@@ -6,7 +6,7 @@ import java.util.List;
 
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.SortedUniqueItemList;
-import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import javafx.collections.ObservableList;
 
 /**
@@ -82,8 +82,8 @@ public class Xpire implements ReadOnlyXpire {
     /**
      * Set method of sorting.
      */
-    public void setMethodOfSorting(MethodOfSorting method) {
-        this.items.setMethodOfSorting(method);
+    public void setMethodOfSorting(XpireMethodOfSorting method) {
+        this.items.setXpireMethodOfSorting(method);
     }
 
     //// util methods

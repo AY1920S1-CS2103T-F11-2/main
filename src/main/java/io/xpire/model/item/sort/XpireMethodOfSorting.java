@@ -8,10 +8,10 @@ import io.xpire.commons.util.AppUtil;
 import io.xpire.model.item.XpireItem;
 
 /**
- * Represents a MethodOfSorting in the expiry date tracker.
+ * Represents a XpireMethodOfSorting in the expiry date tracker.
  * Guarantees: immutable; name is valid as declared in {@link #isValidMethodOfSorting(String)}
  */
-public class MethodOfSorting {
+public class XpireMethodOfSorting {
 
     public static final String MESSAGE_CONSTRAINTS = "Sorting can only be done by 'name' or 'date'.";
     public static final String SORT_NAME = "name";
@@ -24,10 +24,10 @@ public class MethodOfSorting {
     private final String method;
 
     /**
-     * Constructs a {@code MethodOfSorting}.
+     * Constructs a {@code XpireMethodOfSorting}.
      * @param method A valid method of sorting.
      */
-    public MethodOfSorting(String method) {
+    public XpireMethodOfSorting(String method) {
         requireNonNull(method);
         AppUtil.checkArgument(isValidMethodOfSorting(method), MESSAGE_CONSTRAINTS);
         this.method = method;
@@ -65,10 +65,10 @@ public class MethodOfSorting {
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
-        } else if (!(obj instanceof MethodOfSorting)) {
+        } else if (!(obj instanceof XpireMethodOfSorting)) {
             return false;
         } else {
-            MethodOfSorting other = (MethodOfSorting) obj;
+            XpireMethodOfSorting other = (XpireMethodOfSorting) obj;
             return this.method.equals(other.method);
         }
     }
