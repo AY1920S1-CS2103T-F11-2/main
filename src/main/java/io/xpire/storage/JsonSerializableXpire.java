@@ -13,10 +13,10 @@ import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.XpireItem;
 
-///**
-// * An Immutable Xpire that is serializable to JSON format.
-// */
-//@JsonRootName(value = "xpire")
+/**
+ * An Immutable Xpire that is serializable to JSON format.
+ */
+@JsonRootName(value = "xpire")
 class JsonSerializableXpire {
 
     public static final String MESSAGE_DUPLICATE_ITEM = "Items list contains duplicate xpireItem(s).";

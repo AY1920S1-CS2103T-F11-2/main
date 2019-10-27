@@ -76,5 +76,4 @@ public class JsonXpireStorage implements XpireStorage {
         FileUtil.createIfMissing(filePath);
         JsonUtil.saveJsonFile(new JsonSerializableXpire(xpire), filePath);
     }
-
 }

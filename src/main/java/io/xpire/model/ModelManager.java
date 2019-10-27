@@ -249,6 +249,14 @@ public class ModelManager implements Model {
         return this.replenishList.getItemList();
     }
 
+    // =========== Item Manager Methods =============================================================
+
+    @Override
+    public void updateItemTags() {
+        this.xpire.checkExpiryDates();
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

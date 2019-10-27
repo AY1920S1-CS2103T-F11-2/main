@@ -47,6 +47,25 @@ public class JsonUtil {
             throws IOException {
         return fromJsonString(FileUtil.readFromFile(jsonFile), classOfObjectToDeserialize);
     }
+//
+//    public static <T> Optional<T> readJsonClass(
+//            Path filePath, Class<T> classOfObjectToDeserialize, String nodeName) throws IOException {
+//        requireNonNull(filePath);
+//        JsonNode listObject = objectMapper.readTree(FileUtil.readFromFile(filePath));
+//        JsonNode targetList = listObject.get(nodeName);
+//        if (!Files.exists(filePath)) {
+//            logger.info("Json file " + filePath + " not found");
+//            return Optional.empty();
+//        }
+//        T jsonObjectString;
+//        try {
+//            jsonFile = deserializeObjectFromJsonFile(filePath, classOfObjectToDeserialize);
+//        } catch (IOException e) {
+//            logger.warning("Error reading from jsonFile file " + filePath + ": " + e);
+//            throw new DataConversionException(e);
+//        }
+//        return Optional.of(jsonFile);
+//    }
 
     /**
      * Returns the Json object from the given file or {@code Optional.empty()} object if the file is not found.
@@ -99,6 +118,7 @@ public class JsonUtil {
     public static <T> T fromJsonString(String json, Class<T> instanceClass) throws IOException {
         return objectMapper.readValue(json, instanceClass);
     }
+
 
     /**
      * Converts a given instance of a class into its JSON data string representation

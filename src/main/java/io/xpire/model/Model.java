@@ -131,24 +131,29 @@ public interface Model {
      */
     void updateFilteredItemList(Predicate<XpireItem> predicate);
 
-    public void setReplenishList(ReadOnlyListView<Item> replenishList);
+    /**
+     * Replaces replenish list data with the data in {@code replenishList}.
+     */
+    void setReplenishList(ReadOnlyListView<Item> replenishList);
 
-    public ReadOnlyListView<Item> getReplenishList();
+    ReadOnlyListView<Item> getReplenishList();
 
-    public boolean hasReplenishItem(Item item);
+    boolean hasReplenishItem(Item item);
 
-    public void deleteReplenishItem(Item target);
+    void deleteReplenishItem(Item target);
 
-    public void addReplenishItem(Item item);
+    void addReplenishItem(Item item);
 
-    public void setReplenishItem(Item target, Item editedItem);
+    void setReplenishItem(Item target, Item editedItem);
 
-    public Set<Tag> getAllReplenishItemTags();
+    Set<Tag> getAllReplenishItemTags();
 
-    public Set<Name> getAllReplenishItemNames();
+    Set<Name> getAllReplenishItemNames();
 
-    public void updateFilteredReplenishItemList(Predicate<Item> predicate);
+    void updateFilteredReplenishItemList(Predicate<Item> predicate);
 
-    public List<Item> getReplenishItemList();
+    List<Item> getReplenishItemList();
+
+    void updateItemTags();
 
 }
