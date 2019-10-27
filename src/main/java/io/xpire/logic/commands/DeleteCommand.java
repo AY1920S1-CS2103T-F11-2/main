@@ -11,8 +11,8 @@ import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Quantity;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 

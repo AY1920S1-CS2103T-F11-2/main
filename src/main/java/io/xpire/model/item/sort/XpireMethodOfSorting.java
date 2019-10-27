@@ -1,6 +1,5 @@
 package io.xpire.model.item.sort;
 
-import static io.xpire.model.item.sort.MethodOfSorting.isValidMethodOfSorting;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Comparator;

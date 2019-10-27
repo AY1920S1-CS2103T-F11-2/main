@@ -8,7 +8,7 @@ import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.UserPrefs;
-import io.xpire.model.item.XpireItem;
+import io.xpire.model.item.Item;
 
 /**
  * API of the Storage component
@@ -25,9 +25,9 @@ public interface Storage extends XpireStorage, ReplenishStorage, UserPrefsStorag
     Path getXpireFilePath();
 
     @Override
-    Optional<ReadOnlyListView<XpireItem>> readXpire() throws DataConversionException, IOException;
+    Optional<ReadOnlyListView<? extends Item>>[] readXpire() throws DataConversionException, IOException;
 
     @Override
-    void saveXpire(ReadOnlyListView<XpireItem> xpire) throws IOException;
+    void saveXpire(ReadOnlyListView<? extends Item>[] xpire) throws IOException;
 
 }

@@ -5,9 +5,9 @@ import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import io.xpire.logic.commands.AddCommand;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.item.ExpiryDate;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
+import io.xpire.model.item.XpireItem;
 
 /**
  * Parses input arguments and creates a new AddCommand object

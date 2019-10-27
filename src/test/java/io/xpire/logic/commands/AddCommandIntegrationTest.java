@@ -38,7 +38,7 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_duplicateItem_throwsCommandException() {
-        XpireItem xpireItemInList = model.getXpire().getItemList().get(0);
+        XpireItem xpireItemInList = (XpireItem) model.getXpire()[0].getItemList().get(0);
         assertCommandFailure(new AddCommand(xpireItemInList), model, AddCommand.MESSAGE_DUPLICATE_ITEM);
     }
 

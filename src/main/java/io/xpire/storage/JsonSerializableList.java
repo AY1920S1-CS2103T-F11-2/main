@@ -3,9 +3,11 @@ package io.xpire.storage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+
 import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.ReplenishList;
@@ -36,7 +38,7 @@ public class JsonSerializableList {
      * @param source future changes to this will not affect the created {@code JsonSerializableXpire}.
      */
     public JsonSerializableList(ReadOnlyListView<? extends Item>[] source) {
-        xpireItems.addAll(source[0].getItemList().stream().map(x-> (XpireItem)x).map(JsonAdaptedXpireItem::new)
+        xpireItems.addAll(source[0].getItemList().stream().map(x-> (XpireItem) x).map(JsonAdaptedXpireItem::new)
                 .collect(Collectors.toList()));
         replenishItems.addAll(source[1].getItemList().stream().map(JsonAdaptedItem::new).collect(Collectors.toList()));
     }

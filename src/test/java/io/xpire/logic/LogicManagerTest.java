@@ -157,7 +157,7 @@ public class LogicManagerTest {
         }
 
         @Override
-        public void saveXpire(ReadOnlyListView xpire, Path filePath) throws IOException {
+        public void saveXpire(ReadOnlyListView[] xpire, Path filePath) throws IOException {
             throw DUMMY_IO_EXCEPTION;
         }
     }

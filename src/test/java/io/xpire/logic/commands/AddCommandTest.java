@@ -15,16 +15,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import io.xpire.model.ReadOnlyListView;
+import io.xpire.model.*;
+import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.logic.commands.exceptions.CommandException;
-import io.xpire.model.Model;
-import io.xpire.model.ReadOnlyUserPrefs;
-import io.xpire.model.Xpire;
 import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
 import io.xpire.testutil.ItemBuilder;
@@ -129,7 +127,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyListView getXpire() {
+        public ReadOnlyListView<? extends Item>[] getXpire() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -216,8 +214,8 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyListView getXpire() {
-            return new Xpire();
+        public ReadOnlyListView<? extends Item>[] getXpire() {
+            return new ReadOnlyListView[]{new Xpire(), new ReplenishList()};
         }
     }
 

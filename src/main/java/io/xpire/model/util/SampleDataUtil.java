@@ -10,9 +10,9 @@ import io.xpire.model.ReplenishList;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Item;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
 
 
@@ -32,8 +32,8 @@ public class SampleDataUtil {
 
     public static Item[] getSampleReplenishItems() {
         return new Item[] {
-                new Item(new Name("Cherry"), getTagSet("Food")),
-                new Item(new Name("Coco Crunch"), getTagSet("Chocolate", "Breakfast"))
+            new Item(new Name("Cherry"), getTagSet("Food")),
+            new Item(new Name("Coco Crunch"), getTagSet("Chocolate", "Breakfast"))
         };
     }
 

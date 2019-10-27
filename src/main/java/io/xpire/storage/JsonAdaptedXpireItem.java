@@ -11,10 +11,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.model.item.ExpiryDate;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -29,7 +29,7 @@ class JsonAdaptedXpireItem extends JsonAdaptedItem {
     private final String expiryDate;
     private final String quantity;
     private final String reminderThreshold;
-    private List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedXpireItem} with the given xpireItem details.
@@ -40,14 +40,11 @@ class JsonAdaptedXpireItem extends JsonAdaptedItem {
                                 @JsonProperty("quantity") String quantity,
                                 @JsonProperty("reminderThreshold") String reminderThreshold,
                                 @JsonProperty("tags") List<JsonAdaptedTag> tags) {
-        //this.name = name;
         super(name, tags);
+        this.name = name;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
         this.reminderThreshold = reminderThreshold;
-//        if (tags != null) {
-//            this.tags.addAll(tags);
-//        }
     }
 
     /**
@@ -55,23 +52,23 @@ class JsonAdaptedXpireItem extends JsonAdaptedItem {
      */
     public JsonAdaptedXpireItem(XpireItem source) {
         super(source);
-        //this.name = source.getName().toString();
+        this.name = source.getName().toString();
+        this.tags.addAll(source
+                .getTags()
+                .stream()
+                .map(JsonAdaptedTag::new)
+                .collect(Collectors.toList()));
         this.expiryDate = source.getExpiryDate().toString();
         this.quantity = source.getQuantity().toString();
         this.reminderThreshold = source.getReminderThreshold().toString();
-//        this.tags.addAll(source
-//                .getTags()
-//                .stream()
-//                .map(JsonAdaptedTag::new)
-//                .collect(Collectors.toList()));
     }
+
 
     /**
      * Converts this Jackson-friendly adapted xpireItem object into the model's {@code XpireItem} object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted xpireItem.
      */
-    @Override
     public XpireItem toModelType() throws IllegalValueException {
 
         if (this.name == null) {

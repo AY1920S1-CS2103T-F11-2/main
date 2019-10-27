@@ -1,13 +1,13 @@
 package io.xpire.model.item;
 
-import io.xpire.commons.util.CollectionUtil;
-import io.xpire.model.tag.Tag;
-import io.xpire.model.tag.TagComparator;
-
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+
+import io.xpire.commons.util.CollectionUtil;
+import io.xpire.model.tag.Tag;
+import io.xpire.model.tag.TagComparator;
 
 /**
  * Represents an item in the replenish list.
@@ -19,7 +19,8 @@ public class Item {
     final Name name;
 
     //data fields
-    Set<Tag> tags = new TreeSet<>(new TagComparator());
+    private Set<Tag> tags = new TreeSet<>(new TagComparator());
+
 
     /**
      * Every field must be present and not null.

@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.Iterator;
 import java.util.List;
 
-import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.SortedUniqueXpireItemList;
 import io.xpire.model.item.sort.XpireMethodOfSorting;

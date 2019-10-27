@@ -15,7 +15,6 @@ import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
 import io.xpire.model.item.sort.MethodOfSorting;
-import io.xpire.model.item.sort.ReplenishMethodOfSorting;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;

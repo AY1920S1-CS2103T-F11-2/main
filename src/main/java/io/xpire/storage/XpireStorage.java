@@ -7,7 +7,7 @@ import java.util.Optional;
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.Xpire;
-import io.xpire.model.item.XpireItem;
+import io.xpire.model.item.Item;
 
 /**
  * Represents a storage for {@link Xpire}.
@@ -25,12 +25,12 @@ public interface XpireStorage {
      * @throws DataConversionException if the data in storage is not in the expected format.
      * @throws IOException if there was any problem when reading from the storage.
      */
-    Optional<ReadOnlyListView<XpireItem>> readXpire() throws DataConversionException, IOException;
+    Optional<ReadOnlyListView<? extends Item>>[] readXpire() throws DataConversionException, IOException;
 
     /**
      * @see #getXpireFilePath()
      */
-    Optional<ReadOnlyListView<XpireItem>> readXpire(Path filePath) throws DataConversionException,
+    Optional<ReadOnlyListView<? extends Item>>[] readXpire(Path filePath) throws DataConversionException,
                                                                IOException;
 
     /**
@@ -38,11 +38,11 @@ public interface XpireStorage {
      * @param xpire cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveXpire(ReadOnlyListView<XpireItem> xpire) throws IOException;
+    void saveXpire(ReadOnlyListView<? extends Item>[] xpire) throws IOException;
 
     /**
-     * @see #saveXpire(ReadOnlyListView)
+     * @see #saveXpire(ReadOnlyListView[])
      */
-    void saveXpire(ReadOnlyListView<XpireItem> xpire, Path filePath) throws IOException;
+    void saveXpire(ReadOnlyListView<? extends Item>[] xpire, Path filePath) throws IOException;
 
 }

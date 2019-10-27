@@ -6,8 +6,8 @@ import java.util.function.Predicate;
 
 import io.xpire.model.Model;
 import io.xpire.model.item.ExpiringSoonPredicate;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.ReminderThresholdExceededPredicate;
+import io.xpire.model.item.XpireItem;
 
 /**
  * Displays all items whose expiry date falls within the specified duration (in days).

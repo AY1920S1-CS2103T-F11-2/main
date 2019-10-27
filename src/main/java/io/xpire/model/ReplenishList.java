@@ -1,14 +1,18 @@
 package io.xpire.model;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.List;
+
 import io.xpire.model.item.Item;
 import io.xpire.model.item.SortedUniqueReplenishItemList;
 import io.xpire.model.item.sort.MethodOfSorting;
 import javafx.collections.ObservableList;
 
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
-
+/**
+ * Wraps all items to be replenished at this ReplenishList level.
+ * Duplicates are not allowed (by .isSameItem comparison).
+ */
 public class ReplenishList implements ReadOnlyListView<Item> {
 
     private final SortedUniqueReplenishItemList items = new SortedUniqueReplenishItemList();
