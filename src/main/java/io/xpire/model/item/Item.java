@@ -89,7 +89,7 @@ public class Item {
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
-        } else if (!(obj instanceof XpireItem)) {
+        } else if (!(obj instanceof Item)) {
             return false;
         } else {
             Item other = (Item) obj;

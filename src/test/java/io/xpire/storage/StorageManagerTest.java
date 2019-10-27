@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.nio.file.Path;
 
+import io.xpire.model.ReadOnlyListView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import io.xpire.commons.core.GuiSettings;
-import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.Xpire;
 import io.xpire.testutil.TypicalItems;
@@ -56,7 +56,7 @@ public class StorageManagerTest {
          */
         Xpire original = TypicalItems.getTypicalExpiryDateTracker();
         storageManager.saveXpire(original);
-        ReadOnlyXpire retrieved = storageManager.readXpire().get();
+        ReadOnlyListView retrieved = storageManager.readXpire().get();
         assertEquals(original.getItemList(), new Xpire(retrieved).getItemList());
     }
 

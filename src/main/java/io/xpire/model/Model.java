@@ -2,17 +2,24 @@ package io.xpire.model;
 
 import java.nio.file.Path;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import java.util.TreeSet;
 import java.util.function.Predicate;
 
 import io.xpire.commons.core.GuiSettings;
+import io.xpire.commons.util.CollectionUtil;
+import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
+import io.xpire.model.tag.TagComparator;
 import javafx.collections.ObservableList;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * The API of the Model component.
@@ -23,6 +30,10 @@ public interface Model {
 
     /** {@code Predicate} that always evaluate to true */
     Predicate<XpireItem> PREDICATE_SORT_ALL_ITEMS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<Item> PREDICATE_SHOW_ALL_REPLENISH_ITEMS = unused -> true;
+
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -57,10 +68,10 @@ public interface Model {
     /**
      * Replaces xpire data with the data in {@code xpire}.
      */
-    void setXpire(ReadOnlyXpire xpire);
+    void setXpire(ReadOnlyListView<XpireItem> xpire);
 
     /** Returns the xpire */
-    ReadOnlyXpire getXpire();
+    ReadOnlyListView getXpire();
 
     /**
      * Returns true if an xpireItem with the same identity as {@code xpireItem} exists in xpire.
@@ -119,5 +130,25 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredItemList(Predicate<XpireItem> predicate);
+
+    public void setReplenishList(ReadOnlyListView<Item> replenishList);
+
+    public ReadOnlyListView<Item> getReplenishList();
+
+    public boolean hasReplenishItem(Item item);
+
+    public void deleteReplenishItem(Item target);
+
+    public void addReplenishItem(Item item);
+
+    public void setReplenishItem(Item target, Item editedItem);
+
+    public Set<Tag> getAllReplenishItemTags();
+
+    public Set<Name> getAllReplenishItemNames();
+
+    public void updateFilteredReplenishItemList(Predicate<Item> predicate);
+
+    public List<Item> getReplenishItemList();
 
 }

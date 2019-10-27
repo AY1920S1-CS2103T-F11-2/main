@@ -1,52 +1,49 @@
 package io.xpire.storage;
 
-import static java.util.Objects.requireNonNull;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Optional;
-import java.util.logging.Logger;
-
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.commons.util.FileUtil;
 import io.xpire.commons.util.JsonUtil;
 import io.xpire.model.ReadOnlyListView;
-import io.xpire.model.item.XpireItem;
+import io.xpire.model.item.Item;
 
-/**
- * A class to access Xpire data stored as a json file on the hard disk.
- */
-public class JsonXpireStorage implements XpireStorage {
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.logging.Logger;
 
+import static java.util.Objects.requireNonNull;
+
+public class JsonReplenishStorage implements ReplenishStorage {
     private static final Logger logger = LogsCenter.getLogger(JsonXpireStorage.class);
 
     private Path filePath;
 
-    public JsonXpireStorage(Path filePath) {
+    public JsonReplenishStorage(Path filePath) {
         this.filePath = filePath;
     }
 
-    public Path getXpireFilePath() {
+    public Path getReplenishFilePath() {
         return this.filePath;
     }
 
     @Override
-    public Optional<ReadOnlyListView<XpireItem>> readXpire() throws DataConversionException {
-        return readXpire(this.filePath);
+    public Optional<ReadOnlyListView<Item>> readReplenishList() throws DataConversionException {
+        return readReplenishList(this.filePath);
     }
 
     /**
-     * Similar to {@link #readXpire()}.
+     * Similar to {@link #readReplenishList()}.
      *
      * @param filePath location of the data. Cannot be null.
      * @throws DataConversionException if the file is not in the correct format.
      */
-    public Optional<ReadOnlyListView<XpireItem>> readXpire(Path filePath) throws DataConversionException {
+    public Optional<ReadOnlyListView<Item>> readReplenishList(Path filePath) throws DataConversionException {
         requireNonNull(filePath);
-        Optional<JsonSerializableXpire> jsonTracker = JsonUtil.readJsonFile(
-                filePath, JsonSerializableXpire.class);
+
+        Optional<JsonSerializableReplenishList> jsonTracker = JsonUtil.readJsonFile(
+                filePath, JsonSerializableReplenishList.class);
         if (jsonTracker.isEmpty()) {
             return Optional.empty();
         }
@@ -60,21 +57,21 @@ public class JsonXpireStorage implements XpireStorage {
     }
 
     @Override
-    public void saveXpire(ReadOnlyListView<XpireItem> xpire) throws IOException {
-        saveXpire(xpire, this.filePath);
+    public void saveReplenishList(ReadOnlyListView<Item> list) throws IOException {
+        saveReplenishList(list, this.filePath);
     }
 
     /**
-     * Similar to {@link #saveXpire(ReadOnlyListView)}.
+     * Similar to {@link #saveReplenishList(ReadOnlyListView)}.
      *
      * @param filePath location of the data. Cannot be null.
      */
-    public void saveXpire(ReadOnlyListView<XpireItem> xpire, Path filePath) throws IOException {
-        requireNonNull(xpire);
+    public void saveReplenishList(ReadOnlyListView<Item> list, Path filePath) throws IOException {
+        requireNonNull(list);
         requireNonNull(filePath);
 
         FileUtil.createIfMissing(filePath);
-        JsonUtil.saveJsonFile(new JsonSerializableXpire(xpire), filePath);
+        JsonUtil.saveJsonFile(new JsonSerializableReplenishList(list), filePath);
     }
 
 }

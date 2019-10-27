@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import io.xpire.model.ReadOnlyListView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -25,7 +26,6 @@ import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
-import io.xpire.model.ReadOnlyXpire;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.item.XpireItem;
 import io.xpire.storage.JsonUserPrefsStorage;
@@ -157,7 +157,7 @@ public class LogicManagerTest {
         }
 
         @Override
-        public void saveXpire(ReadOnlyXpire xpire, Path filePath) throws IOException {
+        public void saveXpire(ReadOnlyListView xpire, Path filePath) throws IOException {
             throw DUMMY_IO_EXCEPTION;
         }
     }

@@ -12,4 +12,7 @@ public interface ReadOnlyUserPrefs {
     GuiSettings getGuiSettings();
 
     Path getXpireFilePath();
+
+    Path getReplenishFilePath();
+
 }

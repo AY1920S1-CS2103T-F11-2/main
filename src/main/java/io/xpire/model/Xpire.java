@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import io.xpire.model.item.XpireItem;
-import io.xpire.model.item.SortedUniqueItemList;
+import io.xpire.model.item.SortedUniqueXpireItemList;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import javafx.collections.ObservableList;
 
@@ -13,16 +13,16 @@ import javafx.collections.ObservableList;
  * Wraps all data at xpire level
  * Duplicates are not allowed (by .isSameItem comparison)
  */
-public class Xpire implements ReadOnlyXpire {
+public class Xpire implements ReadOnlyListView<XpireItem> {
 
-    private final SortedUniqueItemList items = new SortedUniqueItemList();
+    private final SortedUniqueXpireItemList items = new SortedUniqueXpireItemList();
 
     public Xpire() {}
 
     /**
      * Creates a Xpire object using the Items in the {@code toBeCopied}
      */
-    public Xpire(ReadOnlyXpire toBeCopied) {
+    public Xpire(ReadOnlyListView toBeCopied) {
         this();
         this.resetData(toBeCopied);
     }
@@ -40,7 +40,7 @@ public class Xpire implements ReadOnlyXpire {
     /**
      * Resets the existing data of this {@code Xpire} with {@code newData}.
      */
-    public void resetData(ReadOnlyXpire newData) {
+    public void resetData(ReadOnlyListView newData) {
         requireNonNull(newData);
         this.setItems(newData.getItemList());
     }

@@ -20,7 +20,7 @@ import io.xpire.testutil.TypicalItems;
 
 public class SortedUniqueXpireItemListTest {
 
-    private final SortedUniqueItemList uniqueItemList = new SortedUniqueItemList();
+    private final SortedUniqueXpireItemList uniqueItemList = new SortedUniqueXpireItemList();
 
     @Test
     public void contains_nullItem_throwsNullPointerException() {
@@ -63,7 +63,7 @@ public class SortedUniqueXpireItemListTest {
         uniqueItemList.add(TypicalItems.BANANA);
         uniqueItemList.add(TypicalItems.DUCK);
         uniqueItemList.add(TypicalItems.JELLY);
-        SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
+        SortedUniqueXpireItemList expectedUniqueItemList = new SortedUniqueXpireItemList();
         expectedUniqueItemList.add(TypicalItems.BANANA);
         expectedUniqueItemList.add(TypicalItems.DUCK);
         expectedUniqueItemList.add(TypicalItems.JELLY);
@@ -90,7 +90,7 @@ public class SortedUniqueXpireItemListTest {
     public void setItem_editedItemIsSameItem_success() {
         uniqueItemList.add(TypicalItems.KIWI);
         uniqueItemList.setItem(TypicalItems.KIWI, TypicalItems.KIWI);
-        SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
+        SortedUniqueXpireItemList expectedUniqueItemList = new SortedUniqueXpireItemList();
         expectedUniqueItemList.add(TypicalItems.KIWI);
         assertEquals(expectedUniqueItemList, uniqueItemList);
     }
@@ -103,7 +103,7 @@ public class SortedUniqueXpireItemListTest {
                 .withTags(VALID_TAG_FRUIT)
                 .build();
         uniqueItemList.setItem(TypicalItems.KIWI, editedAlice);
-        SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
+        SortedUniqueXpireItemList expectedUniqueItemList = new SortedUniqueXpireItemList();
         expectedUniqueItemList.add(editedAlice);
         assertEquals(expectedUniqueItemList, uniqueItemList);
     }
@@ -112,7 +112,7 @@ public class SortedUniqueXpireItemListTest {
     public void setItem_editedItemHasDifferentIdentity_success() {
         uniqueItemList.add(TypicalItems.KIWI);
         uniqueItemList.setItem(TypicalItems.KIWI, TypicalItems.EXPIRED_APPLE);
-        SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
+        SortedUniqueXpireItemList expectedUniqueItemList = new SortedUniqueXpireItemList();
         expectedUniqueItemList.add(TypicalItems.EXPIRED_APPLE);
         assertEquals(expectedUniqueItemList, uniqueItemList);
     }
@@ -139,19 +139,19 @@ public class SortedUniqueXpireItemListTest {
     public void remove_existingItem_removesItem() {
         uniqueItemList.add(TypicalItems.KIWI);
         uniqueItemList.remove(TypicalItems.KIWI);
-        SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
+        SortedUniqueXpireItemList expectedUniqueItemList = new SortedUniqueXpireItemList();
         assertEquals(expectedUniqueItemList, uniqueItemList);
     }
 
     @Test
     public void setItems_nullUniqueItemList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueItemList.setItems((SortedUniqueItemList) null));
+        assertThrows(NullPointerException.class, () -> uniqueItemList.setItems((SortedUniqueXpireItemList) null));
     }
 
     @Test
     public void setItems_uniqueItemList_replacesOwnListWithProvidedUniqueItemList() {
         uniqueItemList.add(TypicalItems.KIWI);
-        SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
+        SortedUniqueXpireItemList expectedUniqueItemList = new SortedUniqueXpireItemList();
         expectedUniqueItemList.add(TypicalItems.EXPIRED_APPLE);
         uniqueItemList.setItems(expectedUniqueItemList);
         assertEquals(expectedUniqueItemList, uniqueItemList);
@@ -167,7 +167,7 @@ public class SortedUniqueXpireItemListTest {
         uniqueItemList.add(TypicalItems.EXPIRED_APPLE);
         List<XpireItem> xpireItemList = Collections.singletonList(TypicalItems.KIWI);
         uniqueItemList.setItems(xpireItemList);
-        SortedUniqueItemList expectedUniqueItemList = new SortedUniqueItemList();
+        SortedUniqueXpireItemList expectedUniqueItemList = new SortedUniqueXpireItemList();
         expectedUniqueItemList.add(TypicalItems.KIWI);
         assertEquals(expectedUniqueItemList, uniqueItemList);
     }

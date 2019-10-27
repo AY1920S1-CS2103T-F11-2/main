@@ -15,13 +15,18 @@ import io.xpire.logic.Logic;
 import io.xpire.logic.LogicManager;
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
+import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.ReadOnlyUserPrefs;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReplenishList;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.Xpire;
+import io.xpire.model.item.Item;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.util.SampleDataUtil;
+import io.xpire.storage.JsonReplenishStorage;
 import io.xpire.storage.JsonUserPrefsStorage;
 import io.xpire.storage.JsonXpireStorage;
+import io.xpire.storage.ReplenishStorage;
 import io.xpire.storage.Storage;
 import io.xpire.storage.StorageManager;
 import io.xpire.storage.UserPrefsStorage;
@@ -59,7 +64,12 @@ public class MainApp extends Application {
         XpireStorage xpireStorage = new JsonXpireStorage(
                 userPrefs.getXpireFilePath()
         );
-        storage = new StorageManager(xpireStorage, userPrefsStorage);
+
+        ReplenishStorage replenishStorage = new JsonReplenishStorage(
+                userPrefs.getReplenishFilePath()
+        );
+
+        storage = new StorageManager(xpireStorage, replenishStorage, userPrefsStorage);
 
         initLogging(config);
 
@@ -77,23 +87,32 @@ public class MainApp extends Application {
      * {@code storage}'s expiry date tracker.
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
-        Optional<ReadOnlyXpire> expiryDateTrackerOptional;
-        ReadOnlyXpire initialData;
+        Optional<ReadOnlyListView<XpireItem>> expiryDateTrackerOptional;
+        Optional<ReadOnlyListView<Item>> replenishListOptional;
+        ReadOnlyListView<XpireItem> initialTrackerData;
+        ReadOnlyListView<Item> initialReplenishData;
         try {
             expiryDateTrackerOptional = storage.readXpire();
+            replenishListOptional = storage.readReplenishList();
             if (!expiryDateTrackerOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample Expiry Date Tracker");
             }
-            initialData = expiryDateTrackerOptional.orElseGet(SampleDataUtil::getSampleXpire);
+            if (!replenishListOptional.isPresent()) {
+                logger.info("Data file not found. Will be starting with a sample Replenish List");
+            }
+            initialTrackerData = expiryDateTrackerOptional.orElseGet(SampleDataUtil::getSampleXpire);
+            initialReplenishData = replenishListOptional.orElseGet(SampleDataUtil::getSampleReplenishList);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty Expiry Date Tracker");
-            initialData = new Xpire();
+            initialTrackerData = new Xpire();
+            initialReplenishData = new ReplenishList();
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty Expiry Date Tracker");
-            initialData = new Xpire();
+            initialTrackerData = new Xpire();
+            initialReplenishData = new ReplenishList();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        return new ModelManager(initialTrackerData, initialReplenishData, userPrefs);
     }
 
     private void initLogging(Config config) {

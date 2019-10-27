@@ -5,9 +5,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import io.xpire.commons.util.StringUtil;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReadOnlyListView;
+import io.xpire.model.ReplenishList;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.ExpiryDate;
+import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
@@ -18,6 +20,7 @@ import io.xpire.model.tag.Tag;
  * Contains utility methods for populating {@code Xpire} with sample data.
  */
 public class SampleDataUtil {
+
     public static XpireItem[] getSampleItems() {
         return new XpireItem[] {
             new XpireItem(new Name("Ice Cream"), new ExpiryDate("12/10/2019"),
@@ -27,12 +30,27 @@ public class SampleDataUtil {
         };
     }
 
-    public static ReadOnlyXpire getSampleXpire() {
+    public static Item[] getSampleReplenishItems() {
+        return new Item[] {
+                new Item(new Name("Cherry"), getTagSet("Food")),
+                new Item(new Name("Coco Crunch"), getTagSet("Chocolate", "Breakfast"))
+        };
+    }
+
+    public static ReadOnlyListView<XpireItem> getSampleXpire() {
         Xpire sampleXpire = new Xpire();
         for (XpireItem sampleXpireItem : getSampleItems()) {
             sampleXpire.addItem(sampleXpireItem);
         }
         return sampleXpire;
+    }
+
+    public static ReadOnlyListView<Item> getSampleReplenishList() {
+        ReplenishList sampleReplenishList = new ReplenishList();
+        for (Item sampleReplenishItem : getSampleReplenishItems()) {
+            sampleReplenishList.addItem(sampleReplenishItem);
+        }
+        return sampleReplenishList;
     }
 
     /**

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import io.xpire.commons.exceptions.DataConversionException;
-import io.xpire.model.ReadOnlyXpire;
+import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.Xpire;
 
 public class JsonXpireStorageTest {
@@ -28,7 +28,7 @@ public class JsonXpireStorageTest {
         assertThrows(NullPointerException.class, () -> readExpiryDateTracker(null));
     }
 
-    private java.util.Optional<ReadOnlyXpire> readExpiryDateTracker(String filePath) throws Exception {
+    private java.util.Optional<ReadOnlyListView> readExpiryDateTracker(String filePath) throws Exception {
         return new JsonXpireStorage(Paths.get(filePath))
                 .readXpire(addToTestDataPathIfNotNull(filePath));
     }
@@ -70,7 +70,7 @@ public class JsonXpireStorageTest {
 
         // Save in new file and read back
         jsonExpiryDateTrackerStorage.saveXpire(original, filePath);
-        ReadOnlyXpire readBack = jsonExpiryDateTrackerStorage.readXpire(filePath).get();
+        ReadOnlyListView readBack = jsonExpiryDateTrackerStorage.readXpire(filePath).get();
         assertEquals(original.getItemList(), new Xpire(readBack).getItemList());
 
         // Modify data, overwrite exiting file, and read back
@@ -94,7 +94,7 @@ public class JsonXpireStorageTest {
     /**
      * Saves {@code xpire} at the specified {@code filePath}.
      */
-    private void saveExpiryDateTracker(ReadOnlyXpire addressBook, String filePath) {
+    private void saveExpiryDateTracker(ReadOnlyListView addressBook, String filePath) {
         try {
             new JsonXpireStorage(Paths.get(filePath))
                     .saveXpire(addressBook, addToTestDataPathIfNotNull(filePath));

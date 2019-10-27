@@ -18,14 +18,14 @@ import javafx.collections.transformation.SortedList;
  * A list of items that enforces uniqueness between its elements and does not allow nulls.
  * An xpireItem is considered unique by comparing using {@code XpireItem#isSameItem(XpireItem)}. As such, adding and updating of
  * items uses XpireItem#isSameItem(XpireItem) for equality so as to ensure that the xpireItem being added or updated is
- * unique in terms of identity in the SortedUniqueItemList. However, the removal of a xpireItem uses XpireItem#equals(Object) so
+ * unique in terms of identity in the SortedUniqueXpireItemList. However, the removal of a xpireItem uses XpireItem#equals(Object) so
  * as to ensure that the xpireItem with exactly the same fields will be removed.
  *
  * Supports a minimal set of list operations.
  *
- * @see XpireItem#isSameItem(XpireItem)
+ * @see XpireItem#isSameItem(Item)
  */
-public class SortedUniqueItemList implements Iterable<XpireItem> {
+public class SortedUniqueXpireItemList implements Iterable<XpireItem> {
     private final ObservableList<XpireItem> internalList = FXCollections.observableArrayList();
     private XpireMethodOfSorting xpireMethodOfSorting = new XpireMethodOfSorting("name");
     private final SortedList<XpireItem> sortedInternalList = new SortedList<>(internalList, xpireMethodOfSorting.getComparator());
@@ -85,7 +85,7 @@ public class SortedUniqueItemList implements Iterable<XpireItem> {
         }
     }
 
-    public void setItems(SortedUniqueItemList replacement) {
+    public void setItems(SortedUniqueXpireItemList replacement) {
         requireNonNull(replacement);
         this.internalList.setAll(replacement.sortedInternalList);
     }
@@ -126,10 +126,10 @@ public class SortedUniqueItemList implements Iterable<XpireItem> {
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
-        } else if (!(obj instanceof SortedUniqueItemList)) {
+        } else if (!(obj instanceof SortedUniqueXpireItemList)) {
             return false;
         } else {
-            SortedUniqueItemList other = (SortedUniqueItemList) obj;
+            SortedUniqueXpireItemList other = (SortedUniqueXpireItemList) obj;
             return this.internalUnmodifiableList.equals(other.internalUnmodifiableList);
         }
     }
