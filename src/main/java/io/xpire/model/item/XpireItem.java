@@ -3,40 +3,34 @@ package io.xpire.model.item;
 import static io.xpire.model.item.Quantity.DEFAULT_QUANTITY;
 import static io.xpire.model.item.ReminderThreshold.DEFAULT_THRESHOLD;
 
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
 
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.commons.util.DateUtil;
 import io.xpire.model.tag.Tag;
-import io.xpire.model.tag.TagComparator;
 
 /**
- * Represents a XpireItem in Xpire.
+ * Represents an item in the expiry date tracker.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class XpireItem {
+public class XpireItem extends Item {
     // Identity fields
-    private final Name name;
     private final ExpiryDate expiryDate;
 
     // Data fields
     private Quantity quantity = new Quantity(DEFAULT_QUANTITY);
-    private Set<Tag> tags = new TreeSet<>(new TagComparator());
     private ReminderThreshold reminderThreshold = new ReminderThreshold(DEFAULT_THRESHOLD);
 
     /**
      * Every field must be present and not null.
-     * Only called in Tag and Edit commands.
+     * Only called in Tag and Delete commands.
      */
     public XpireItem(Name name, ExpiryDate expiryDate, Quantity quantity, Set<Tag> tags) {
-        CollectionUtil.requireAllNonNull(name, expiryDate, tags);
-        this.name = name;
+        super(name, tags);
+        CollectionUtil.requireAllNonNull(expiryDate);
         this.expiryDate = expiryDate;
         this.quantity = quantity;
-        this.tags.addAll(tags);
     }
 
     /**
@@ -44,8 +38,8 @@ public class XpireItem {
      * Tags are optional.
      */
     public XpireItem(Name name, ExpiryDate expiryDate, Quantity quantity) {
-        CollectionUtil.requireAllNonNull(name, expiryDate);
-        this.name = name;
+        super(name);
+        CollectionUtil.requireAllNonNull(expiryDate, quantity);
         this.expiryDate = expiryDate;
         this.quantity = quantity;
     }
@@ -55,8 +49,8 @@ public class XpireItem {
      * Quantity is optional.
      */
     public XpireItem(Name name, ExpiryDate expiryDate) {
-        CollectionUtil.requireAllNonNull(name, expiryDate);
-        this.name = name;
+        super(name);
+        CollectionUtil.requireAllNonNull(expiryDate);
         this.expiryDate = expiryDate;
     }
 
@@ -65,24 +59,18 @@ public class XpireItem {
      */
     public XpireItem(Name name, ExpiryDate expiryDate, Quantity quantity, Set<Tag> tags,
                      ReminderThreshold reminderThreshold) {
-        CollectionUtil.requireAllNonNull(name, expiryDate, tags);
-        this.name = name;
+        super(name, tags);
+        CollectionUtil.requireAllNonNull(expiryDate);
         this.expiryDate = expiryDate;
         this.quantity = quantity;
-        this.tags.addAll(tags);
         this.reminderThreshold = reminderThreshold;
     }
 
     public XpireItem(XpireItem xpireItem) {
-        this.name = xpireItem.getName();
+        super(xpireItem);
         this.expiryDate = xpireItem.getExpiryDate();
         this.quantity = xpireItem.getQuantity();
-        this.tags = xpireItem.getTags();
         this.reminderThreshold = xpireItem.getReminderThreshold();
-    }
-
-    public Name getName() {
-        return this.name;
     }
 
     public ExpiryDate getExpiryDate() {
@@ -100,23 +88,6 @@ public class XpireItem {
      */
     public void setQuantity(Quantity newQuantity) {
         this.quantity = newQuantity;
-    }
-
-    /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(this.tags);
-    }
-
-    /**
-     * Sets and overrides the tags.
-     *
-     * @param tags tags.
-     */
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
     }
 
     /**
@@ -141,7 +112,14 @@ public class XpireItem {
      * Returns true if both items of the same name have at least one other identity field that is the same.
      * This defines a weaker notion of equality between two items.
      */
-    public boolean isSameItem(XpireItem other) {
+    @Override
+    public boolean isSameItem(Item otherItem) {
+        XpireItem other;
+        try {
+            other = (XpireItem) otherItem;
+        } catch (ClassCastException e) {
+            return false;
+        }
         if (other == this) {
             return true;
         } else {
