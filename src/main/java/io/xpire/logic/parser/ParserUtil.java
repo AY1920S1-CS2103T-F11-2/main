@@ -14,6 +14,8 @@ import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
+import io.xpire.model.item.sort.MethodOfSorting;
+import io.xpire.model.item.sort.ReplenishMethodOfSorting;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
@@ -120,7 +122,7 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String key} into a {@code XpireMethodOfSorting}.
+     * Parses a {@code String key} into a {@code MethodOfSorting}.
      * Leading and trailing whitespaces will be trimmed.
      *
      * @throws ParseException if the given {@code key} is invalid.
@@ -128,7 +130,7 @@ public class ParserUtil {
     public static XpireMethodOfSorting parseMethodOfSorting(String key) throws ParseException {
         requireNonNull(key);
         String trimmedMethodOfSorting = key.trim();
-        if (!XpireMethodOfSorting.isValidMethodOfSorting(trimmedMethodOfSorting)) {
+        if (!MethodOfSorting.isValidMethodOfSorting(trimmedMethodOfSorting)) {
             Set<String> allowedArgs = new TreeSet<>(Arrays.asList(
                     XpireMethodOfSorting.SORT_NAME, XpireMethodOfSorting.SORT_DATE));
             String output = StringUtil.findSimilar(key, allowedArgs, 1);
@@ -136,6 +138,9 @@ public class ParserUtil {
         }
         return new XpireMethodOfSorting(trimmedMethodOfSorting);
     }
+
+    /**
+     * Parse
 
     /**
      * Parses a {@code String reminderThreshold} into an {@code }.

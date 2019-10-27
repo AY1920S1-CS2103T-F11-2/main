@@ -1,5 +1,6 @@
 package io.xpire.model.item.sort;
 
+import static io.xpire.model.item.sort.MethodOfSorting.isValidMethodOfSorting;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Comparator;
@@ -9,18 +10,16 @@ import io.xpire.model.item.XpireItem;
 
 /**
  * Represents a XpireMethodOfSorting in the expiry date tracker.
- * Guarantees: immutable; name is valid as declared in {@link #isValidMethodOfSorting(String)}
+ * Guarantees: immutable
  */
-public class XpireMethodOfSorting {
+public class XpireMethodOfSorting implements MethodOfSorting<XpireItem> {
 
     public static final String MESSAGE_CONSTRAINTS = "Sorting can only be done by 'name' or 'date'.";
-    public static final String SORT_NAME = "name";
-    public static final String SORT_DATE = "date";
     private final Comparator<XpireItem> nameSorter = Comparator.comparing(l->l.getName().toString(),
             String.CASE_INSENSITIVE_ORDER);
     private final Comparator<XpireItem> dateSorter = Comparator.comparing(l->l.getExpiryDate().getDate(),
             Comparator.nullsFirst(Comparator.naturalOrder()));
-    private final Comparator<XpireItem>nameThenDateSorter = nameSorter.thenComparing(dateSorter);
+    private final Comparator<XpireItem> nameThenDateSorter = nameSorter.thenComparing(dateSorter);
     private final String method;
 
     /**
@@ -29,16 +28,10 @@ public class XpireMethodOfSorting {
      */
     public XpireMethodOfSorting(String method) {
         requireNonNull(method);
-        AppUtil.checkArgument(isValidMethodOfSorting(method), MESSAGE_CONSTRAINTS);
+        AppUtil.checkArgument(MethodOfSorting.isValidMethodOfSorting(method), MESSAGE_CONSTRAINTS);
         this.method = method;
     }
 
-    /**
-     * Returns true if a given string is a valid method of sorting.
-     */
-    public static boolean isValidMethodOfSorting(String test) {
-        return (test.equals(SORT_NAME) || test.equals(SORT_DATE));
-    }
 
     /**
      * Returns a comparator for the given method of sorting.
