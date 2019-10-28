@@ -117,7 +117,7 @@ public class MainWindow extends UiPart<Stage> {
         // itemListPanel = new ItemListPanel(logic.getFilteredItemList());
         // itemListPanelPlaceholder.getChildren().add(itemListPanel.getRoot());
 
-        cardListPanel = new CardListPanel(logic.getFilteredItemList());
+        cardListPanel = new CardListPanel(logic.getCurrentFilteredItemList());
         cardListPanelPlaceholder.getChildren().add(cardListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -195,7 +195,7 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
-            cardListPanel.displayItem(logic.getFilteredItemList());
+            cardListPanel.displayItem(logic.getCurrentFilteredItemList());
             cardListPanelPlaceholder.getChildren().remove(cardListPanel.getRoot());
             cardListPanelPlaceholder.getChildren().add(cardListPanel.getRoot());
             //handleResult(commandResult.getFeedbackToUser());

@@ -1,7 +1,6 @@
 package io.xpire.logic;
 
 import java.nio.file.Path;
-
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.logic.commands.CommandResult;
 import io.xpire.logic.commands.exceptions.CommandException;
@@ -9,7 +8,6 @@ import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.item.Item;
-import io.xpire.model.item.XpireItem;
 import javafx.collections.ObservableList;
 
 /**
@@ -34,8 +32,8 @@ public interface Logic {
      */
     ReadOnlyListView<? extends Item>[] getXpire();
 
-    /** Returns an unmodifiable view of the filtered list of items */
-    ObservableList<XpireItem> getFilteredItemList();
+    /** Returns an unmodifiable view of the current filtered list of items */
+    ObservableList<? extends Item> getCurrentFilteredItemList();
 
     /**
      * Returns the user prefs' xpire file path.

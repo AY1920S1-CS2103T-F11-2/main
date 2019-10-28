@@ -108,8 +108,11 @@ public interface Model {
      */
     Set<Tag> getAllItemTags();
 
-    /** Returns an unmodifiable view of the filtered xpireItem list */
+    /** Returns an unmodifiable view of the filtered xpireItem list. */
     ObservableList<XpireItem> getFilteredItemList();
+
+    /** Returns an unmodifiable view of the current item list.*/
+    ObservableList<? extends Item> getCurrentFilteredItemList();
 
     /**
      * Returns a list of all the items.

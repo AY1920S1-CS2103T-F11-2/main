@@ -3,7 +3,6 @@ package io.xpire.logic;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
-
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.logic.commands.Command;
@@ -14,7 +13,6 @@ import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.item.Item;
-import io.xpire.model.item.XpireItem;
 import io.xpire.storage.Storage;
 import javafx.collections.ObservableList;
 
@@ -58,8 +56,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<XpireItem> getFilteredItemList() {
-        return this.model.getFilteredItemList();
+    public ObservableList<? extends Item> getCurrentFilteredItemList() {
+        return this.model.getCurrentFilteredItemList();
     }
 
     @Override
@@ -76,4 +74,5 @@ public class LogicManager implements Logic {
     public void setGuiSettings(GuiSettings guiSettings) {
         this.model.setGuiSettings(guiSettings);
     }
+
 }

@@ -17,16 +17,24 @@ public class ViewCommand extends Command {
             + "Format: view|<key> (where key is 'main' or 'replenish')\n"
             + "Example: " + COMMAND_WORD + "|main";
 
-    private final String method;
+    public final String list;
 
-    public ViewCommand(String method) {
-        this.method = method;
+    public ViewCommand(String list) {
+        this.list = list;
     }
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
-        return new CommandResult(MESSAGE_SUCCESS);
+        switch (list) {
+        case "main":
+            model.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
+            return new CommandResult(MESSAGE_SUCCESS + " in main list.");
+        case "replenish":
+            model.updateFilteredReplenishItemList(Model.PREDICATE_SHOW_ALL_REPLENISH_ITEMS);
+            return new CommandResult(MESSAGE_SUCCESS + " in replenish list");
+        default:
+            return null;
+        }
     }
 }

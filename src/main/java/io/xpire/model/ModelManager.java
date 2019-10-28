@@ -35,6 +35,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<XpireItem> filteredXpireItems;
     private final FilteredList<Item> filteredReplenishItems;
+    private FilteredList<? extends Item> currentFilteredItems;
 
     /**
      * Initializes a ModelManager with the given xpire and userPrefs.
@@ -51,10 +52,11 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         this.filteredXpireItems = new FilteredList<>(this.xpire.getItemList());
         this.filteredReplenishItems = new FilteredList<>(this.replenishList.getItemList());
+        this.currentFilteredItems = this.filteredXpireItems;
     }
 
     public ModelManager() {
-        this(new ReadOnlyListView[]{}, new UserPrefs());
+        this(new ReadOnlyListView[]{new Xpire(), new ReplenishList()}, new UserPrefs());
     }
 
     //=========== UserPrefs =========================================================================================
@@ -213,6 +215,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<? extends Item> getCurrentFilteredItemList() {
+        return this.currentFilteredItems;
+    }
+
+    @Override
     public void updateFilteredItemList(Predicate<XpireItem> predicate) {
         requireNonNull(predicate);
         Predicate<? super XpireItem> p = this.filteredXpireItems.getPredicate();
@@ -223,6 +230,7 @@ public class ModelManager implements Model {
             // search commands have been executed before
             this.filteredXpireItems.setPredicate(predicate.and(p));
         }
+        this.currentFilteredItems = this.filteredXpireItems;
     }
 
 
@@ -235,6 +243,7 @@ public class ModelManager implements Model {
         } else {
             this.filteredReplenishItems.setPredicate(predicate.and(p));
         }
+        this.currentFilteredItems = this.filteredReplenishItems;
     }
 
     // =========== Tag XpireItem List Accessors =============================================================

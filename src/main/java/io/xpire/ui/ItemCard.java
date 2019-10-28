@@ -1,11 +1,10 @@
 package io.xpire.ui;
 
 import java.util.Optional;
-
 import io.xpire.commons.util.DateUtil;
+import io.xpire.model.item.Item;
 import io.xpire.model.item.ReminderDate;
 import io.xpire.model.item.XpireItem;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -27,7 +26,8 @@ public class ItemCard extends UiPart<Region> {
      *
      */
 
-    public final XpireItem xpireItem;
+    public XpireItem xpireItem;
+    public Item replenishItem;
 
     @FXML
     private HBox cardPane;
@@ -63,6 +63,19 @@ public class ItemCard extends UiPart<Region> {
         this.xpireItem.getTags()
                 .forEach(tag -> this.tags.getChildren().add(new Label(tag.getTagName())));
 
+        box.setOnMouseClicked(e -> box.requestFocus());
+    }
+
+    public ItemCard(Item replenishItem, int displayedIndex) {
+        super(FXML);
+        this.replenishItem = replenishItem;
+        this.id.setText(displayedIndex + ". ");
+        this.name.setText(replenishItem.getName().toString());
+        this.expiryDate.setVisible(false);
+        this.quantity.setVisible(false);
+        this.reminder.setVisible(false);
+        this.replenishItem.getTags()
+                      .forEach(tag -> this.tags.getChildren().add(new Label(tag.getTagName())));
         box.setOnMouseClicked(e -> box.requestFocus());
     }
 
