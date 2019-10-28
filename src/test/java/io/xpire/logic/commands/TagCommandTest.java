@@ -16,6 +16,7 @@ import static io.xpire.testutil.TypicalIndexes.INDEX_FIFTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_SECOND_ITEM;
 import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
+import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.xpire.model.item.XpireItem;
+import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,8 +36,6 @@ import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.tag.Tag;
 
-import io.xpire.testutil.ItemBuilder;
-
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
  * {@code TagCommand}.
@@ -46,7 +46,7 @@ public class TagCommandTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+        model = new ModelManager(getTypicalLists(), new UserPrefs());
     }
 
     @Test
@@ -54,8 +54,8 @@ public class TagCommandTest {
         XpireItem xpireItemToTag = model.getFilteredItemList().get(INDEX_FIRST_ITEM.getZeroBased());
         TagCommand tagCommand = new TagCommand(INDEX_FIRST_ITEM, new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.TAG);
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
-        XpireItem expectedXpireItem = new ItemBuilder().withName(VALID_NAME_APPLE)
+        ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
+        XpireItem expectedXpireItem = new XpireItemBuilder().withName(VALID_NAME_APPLE)
                                              .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                                              .withTags(VALID_TAG_FRIDGE, VALID_TAG_FRUIT)
                                              .build();
@@ -77,8 +77,8 @@ public class TagCommandTest {
         XpireItem xpireItemToTag = model.getFilteredItemList().get(INDEX_FIRST_ITEM.getZeroBased());
         TagCommand tagCommand = new TagCommand(INDEX_FIRST_ITEM, new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.TAG);
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
-        XpireItem expectedXpireItem = new ItemBuilder().withName(VALID_NAME_APPLE)
+        ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
+        XpireItem expectedXpireItem = new XpireItemBuilder().withName(VALID_NAME_APPLE)
                                              .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                                              .withTags(VALID_TAG_FRIDGE, VALID_TAG_FRUIT)
                                              .build();
@@ -94,7 +94,7 @@ public class TagCommandTest {
     public void execute_invalidIndexFilteredList_throwsCommandException() {
         showItemAtIndex(model, INDEX_FIRST_ITEM);
         Index outOfBoundIndex = INDEX_SECOND_ITEM;
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getXpire()[0].getItemList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getLists()[0].getItemList().size());
         TagCommand tagCommand = new TagCommand(outOfBoundIndex, new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
         assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
     }
@@ -105,8 +105,8 @@ public class TagCommandTest {
         XpireItem xpireItemToTag = model.getFilteredItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
         TagCommand tagCommand = new TagCommand(INDEX_FIFTH_ITEM, new String[]{VALID_TAG_FRUIT});
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.TAG);
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
-        XpireItem expectedXpireItem = new ItemBuilder().withName(VALID_NAME_JELLY)
+        ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
+        XpireItem expectedXpireItem = new XpireItemBuilder().withName(VALID_NAME_JELLY)
                                              .withExpiryDate(VALID_EXPIRY_DATE_JELLY)
                                              .withQuantity(VALID_QUANTITY_JELLY)
                                              .withTags(VALID_TAG_FRIDGE, VALID_TAG_FRUIT)
@@ -123,8 +123,8 @@ public class TagCommandTest {
         XpireItem xpireItemToTag = model.getFilteredItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
         TagCommand tagCommand = new TagCommand(INDEX_FIFTH_ITEM, new String[]{VALID_TAG_FRIDGE});
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.TAG);
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
-        XpireItem expectedXpireItem = new ItemBuilder().withName(VALID_NAME_JELLY)
+        ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
+        XpireItem expectedXpireItem = new XpireItemBuilder().withName(VALID_NAME_JELLY)
                 .withExpiryDate(VALID_EXPIRY_DATE_JELLY)
                 .withQuantity(VALID_QUANTITY_JELLY)
                 .withTags(VALID_TAG_FRIDGE)
@@ -140,7 +140,7 @@ public class TagCommandTest {
     public void execute_showTags_success() {
         TagCommand tagCommand = new TagCommand();
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.SHOW);
-        ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         List<String> tagList = new ArrayList<>();
         tagList.add((new Tag(VALID_TAG_FRIDGE)).toString());
         tagList.add((new Tag(VALID_TAG_PROTEIN)).toString());

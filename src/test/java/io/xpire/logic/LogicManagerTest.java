@@ -31,7 +31,7 @@ import io.xpire.model.UserPrefs;
 import io.xpire.model.item.XpireItem;
 import io.xpire.storage.JsonUserPrefsStorage;
 import io.xpire.storage.StorageManager;
-import io.xpire.testutil.ItemBuilder;
+import io.xpire.testutil.XpireItemBuilder;
 
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy exception");
@@ -83,7 +83,7 @@ public class LogicManagerTest {
         // Execute add command
         String addCommand = AddCommand.COMMAND_WORD + "|" + VALID_NAME_BANANA + "|" + VALID_EXPIRY_DATE_BANANA
                 + "| " + VALID_QUANTITY_BANANA;
-        XpireItem expectedXpireItem = new ItemBuilder(BANANA).build();
+        XpireItem expectedXpireItem = new XpireItemBuilder(BANANA).build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addItem(expectedXpireItem);
         String expectedMessage = LogicManager.FILE_OPS_ERROR_MESSAGE + DUMMY_IO_EXCEPTION;
@@ -131,7 +131,7 @@ public class LogicManagerTest {
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
             String expectedMessage) {
-        Model expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
 
@@ -157,7 +157,7 @@ public class LogicManagerTest {
         }
 
         @Override
-        public void saveXpire(ReadOnlyListView[] xpire, Path filePath) throws IOException {
+        public void saveList(ReadOnlyListView[] xpire, Path filePath) throws IOException {
             throw DUMMY_IO_EXCEPTION;
         }
     }

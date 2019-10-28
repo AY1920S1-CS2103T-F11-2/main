@@ -86,20 +86,19 @@ public class MainApp extends Application {
      * {@code storage}'s expiry date tracker.
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
-        Optional<ReadOnlyListView<? extends Item>>[] expiryDateTrackerOptional;
-        Optional<ReadOnlyListView<Item>> replenishListOptional;
+        Optional<ReadOnlyListView<? extends Item>>[] listArray;
         ReadOnlyListView<XpireItem> initialTrackerData;
         ReadOnlyListView<Item> initialReplenishData;
         try {
-            expiryDateTrackerOptional = storage.readList();
-            if (!expiryDateTrackerOptional[0].isPresent()) {
+            listArray = storage.readList();
+            if (!listArray[0].isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample Expiry Date Tracker");
             }
-            if (!expiryDateTrackerOptional[1].isPresent()) {
+            if (!listArray[1].isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample Replenish List");
             }
-            initialTrackerData = (Xpire) expiryDateTrackerOptional[0].orElseGet(SampleDataUtil::getSampleXpire);
-            initialReplenishData = (ReplenishList) expiryDateTrackerOptional[1].orElseGet(
+            initialTrackerData = (Xpire) listArray[0].orElseGet(SampleDataUtil::getSampleXpire);
+            initialReplenishData = (ReplenishList) listArray[1].orElseGet(
                     SampleDataUtil::getSampleReplenishList
             );
         } catch (DataConversionException e) {

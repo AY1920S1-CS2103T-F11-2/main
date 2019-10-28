@@ -50,8 +50,10 @@ public class JsonListStorage implements ListStorage {
         if (jsonTracker.isEmpty()) {
             return new Optional[]{Optional.empty(), Optional.empty()};
         }
-
         try {
+            if (jsonTracker.get().toModelType().length != 2) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
             ReadOnlyListView xpire = jsonTracker.get().toModelType()[0];
             ReadOnlyListView replenishList = jsonTracker.get().toModelType()[1];
             return new Optional[]{Optional.of(xpire), Optional.of(replenishList)};

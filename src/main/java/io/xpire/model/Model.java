@@ -55,16 +55,23 @@ public interface Model {
     /**
      * Sets the user prefs' xpire file path.
      */
-    void setXpireFilePath(Path xpireFilePath);
+    void setListFilePath(Path xpireFilePath);
+
+    /**
+     * Returns an array containing xpire and replenish list.
+     */
+    ReadOnlyListView<? extends Item>[] getLists();
 
     /**
      * Replaces xpire data with the data in {@code xpire}.
      */
     void setXpire(ReadOnlyListView<XpireItem> xpire);
 
-    /** Returns the xpire
-     * @return*/
-    ReadOnlyListView<? extends Item>[] getLists();
+
+    /**
+     * Returns an Xpire object.
+     */
+    ReadOnlyListView<XpireItem> getXpire();
 
     /**
      * Returns true if an xpireItem with the same identity as {@code xpireItem} exists in xpire.

@@ -7,6 +7,7 @@ import static io.xpire.testutil.TypicalItems.BANANA;
 import static io.xpire.testutil.TypicalItems.DUCK;
 import static io.xpire.testutil.TypicalItems.JELLY;
 import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
+import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,8 +26,8 @@ import io.xpire.model.item.ContainsKeywordsPredicate;
  * Contains integration tests (interaction with the Model) for {@code SearchCommand}.
  */
 public class SearchCommandTest {
-    private Model model = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalLists(), new UserPrefs());
+    private Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
 
     @Test
     public void equals() {

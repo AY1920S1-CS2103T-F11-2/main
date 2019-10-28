@@ -9,6 +9,7 @@ import static io.xpire.testutil.TypicalItems.EXPIRED_ORANGE;
 import static io.xpire.testutil.TypicalItems.EXPIRING_FISH;
 import static io.xpire.testutil.TypicalItems.JELLY;
 import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
+import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
@@ -33,8 +34,8 @@ public class SortCommandTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
-        expectedModel = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+        model = new ModelManager(getTypicalLists(), new UserPrefs());
+        expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
     }
 
     @Test

@@ -1,5 +1,5 @@
 {
-  "_comment": "Expiry Date Tracker save file which contains the same Item values as in TypicalItems#getTypicalItems()",
+  "_comment": "Expiry Date Tracker save file which contains the same Item values as in TypicalItems#getTypicalXpireItems()",
   "items" : [ {
     "name" : "Apple",
     "expiryDate" : "01/02/2020",

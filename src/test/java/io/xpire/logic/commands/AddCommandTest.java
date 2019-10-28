@@ -25,7 +25,7 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.item.Name;
 import io.xpire.model.tag.Tag;
-import io.xpire.testutil.ItemBuilder;
+import io.xpire.testutil.XpireItemBuilder;
 import javafx.collections.ObservableList;
 
 
@@ -39,7 +39,7 @@ public class AddCommandTest {
     @Test
     public void execute_itemAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingItemAdded modelStub = new ModelStubAcceptingItemAdded();
-        XpireItem kiwi = new ItemBuilder().withName(VALID_NAME_KIWI)
+        XpireItem kiwi = new XpireItemBuilder().withName(VALID_NAME_KIWI)
                                             .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                                             .withQuantity("1").build();
         CommandResult commandResult = new AddCommand(kiwi).execute(modelStub);
@@ -49,7 +49,7 @@ public class AddCommandTest {
 
     @Test
     public void execute_duplicateItem_throwsCommandException() {
-        XpireItem kiwi = new ItemBuilder().withName(VALID_NAME_KIWI)
+        XpireItem kiwi = new XpireItemBuilder().withName(VALID_NAME_KIWI)
                 .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                 .withQuantity("1").build();
         AddCommand addCommand = new AddCommand(kiwi);
@@ -60,8 +60,8 @@ public class AddCommandTest {
 
     @Test
     public void equals() {
-        XpireItem apple = new ItemBuilder().withName("Apple").build();
-        XpireItem banana = new ItemBuilder().withName("Banana").build();
+        XpireItem apple = new XpireItemBuilder().withName("Apple").build();
+        XpireItem banana = new XpireItemBuilder().withName("Banana").build();
         AddCommand addAppleCommand = new AddCommand(apple);
         AddCommand addBananaCommand = new AddCommand(banana);
 
@@ -112,7 +112,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setXpireFilePath(Path xpireFilePath) {
+        public void setListFilePath(Path listFilePath) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -122,12 +122,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setXpire(ReadOnlyListView newData) {
+        public void setXpire(ReadOnlyListView<XpireItem> newData) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ReadOnlyListView<? extends Item>[] getXpire() {
+        public ReadOnlyListView<? extends Item>[] getLists() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ReadOnlyListView<XpireItem> getXpire() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -173,6 +178,71 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredItemList(Predicate<XpireItem> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setReplenishList(ReadOnlyListView<Item> replenishList) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ReadOnlyListView<Item> getReplenishList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasReplenishItem(Item item) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteReplenishItem(Item target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addReplenishItem(Item item) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setReplenishItem(Item target, Item editedItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Set<Tag> getAllReplenishItemTags() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Set<Name> getAllReplenishItemNames() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredReplenishItemList(Predicate<Item> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public List<Item> getReplenishItemList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void shiftItemToReplenishList(XpireItem xpireItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addItemToReplenishList(XpireItem xpireItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void checkItemsForShift() {
             throw new AssertionError("This method should not be called.");
         }
     }

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.model.Model;
+import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.storage.Storage;
 
 /**
