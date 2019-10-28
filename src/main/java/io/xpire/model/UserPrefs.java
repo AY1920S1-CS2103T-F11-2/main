@@ -36,7 +36,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public void resetData(ReadOnlyUserPrefs newUserPrefs) {
         requireNonNull(newUserPrefs);
         setGuiSettings(newUserPrefs.getGuiSettings());
-        setXpireFilePath(newUserPrefs.getXpireFilePath());
+        setXpireFilePath(newUserPrefs.getListFilePath());
     }
 
     public GuiSettings getGuiSettings() {
@@ -49,7 +49,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     }
 
     @Override
-    public Path getXpireFilePath() {
+    public Path getListFilePath() {
         return this.xpireFilePath;
     }
 

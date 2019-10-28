@@ -18,8 +18,8 @@ import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.Xpire;
 
-public class JsonXpireStorageTest {
-    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonXpireStorageTest");
+public class JsonListStorageTest {
+    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonListStorageTest");
 
     @TempDir
     public Path testFolder;
@@ -30,7 +30,7 @@ public class JsonXpireStorageTest {
     }
 
     private java.util.Optional<ReadOnlyListView> readExpiryDateTracker(String filePath) throws Exception {
-        return new JsonXpireStorage(Paths.get(filePath))
+        return new JsonListStorage(Paths.get(filePath))
                 .readXpire(addToTestDataPathIfNotNull(filePath));
     }
 
@@ -67,7 +67,7 @@ public class JsonXpireStorageTest {
     public void readAndSaveExpiryDateTracker_allInOrder_success() throws Exception {
         Path filePath = testFolder.resolve("TempXpire.json");
         ReadOnlyListView<? extends Item>[] bothLists = getTypicalExpiryDateTracker();
-        JsonXpireStorage jsonExpiryDateTrackerStorage = new JsonXpireStorage(filePath);
+        JsonListStorage jsonExpiryDateTrackerStorage = new JsonListStorage(filePath);
         Xpire original = (Xpire) bothLists[0];
 
         // Save in new file and read back
@@ -98,7 +98,7 @@ public class JsonXpireStorageTest {
      */
     private void saveExpiryDateTracker(ReadOnlyListView addressBook, String filePath) {
         try {
-            new JsonXpireStorage(Paths.get(filePath))
+            new JsonListStorage(Paths.get(filePath))
                     .saveXpire(addressBook, addToTestDataPathIfNotNull(filePath));
         } catch (IOException ioe) {
             throw new AssertionError("There should not be an error writing to the file.", ioe);

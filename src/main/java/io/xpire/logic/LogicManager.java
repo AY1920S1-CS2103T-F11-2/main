@@ -44,7 +44,7 @@ public class LogicManager implements Logic {
         commandResult = command.execute(this.model);
 
         try {
-            this.storage.saveXpire(this.model.getXpire());
+            this.storage.saveList(this.model.getLists());
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }
@@ -53,8 +53,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ReadOnlyListView<? extends Item>[] getXpire() {
-        return this.model.getXpire();
+    public ReadOnlyListView<? extends Item>[] getLists() {
+        return this.model.getLists();
     }
 
     @Override
@@ -63,8 +63,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public Path getXpireFilePath() {
-        return this.model.getXpireFilePath();
+    public Path getListFilePath() {
+        return this.model.getListFilePath();
     }
 
     @Override

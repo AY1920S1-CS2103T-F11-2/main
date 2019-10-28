@@ -27,12 +27,12 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
-     * Returns an xpire object.
+     * Returns an array containing both a replenish list object and xpire object.
      *
-     * @see Model#getXpire()
-     * @return
+     * @see Model#getLists()
+     * @return array of ReadOnlyListView objects.
      */
-    ReadOnlyListView<? extends Item>[] getXpire();
+    ReadOnlyListView<? extends Item>[] getLists();
 
     /** Returns an unmodifiable view of the filtered list of items */
     ObservableList<XpireItem> getFilteredItemList();
@@ -40,7 +40,7 @@ public interface Logic {
     /**
      * Returns the user prefs' xpire file path.
      */
-    Path getXpireFilePath();
+    Path getListFilePath();
 
     /**
      * Returns the user prefs' GUI settings.

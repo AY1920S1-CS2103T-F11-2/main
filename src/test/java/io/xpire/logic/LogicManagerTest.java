@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import io.xpire.model.ReadOnlyListView;
+import io.xpire.storage.JsonListStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -29,7 +30,6 @@ import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.item.XpireItem;
 import io.xpire.storage.JsonUserPrefsStorage;
-import io.xpire.storage.JsonXpireStorage;
 import io.xpire.storage.StorageManager;
 import io.xpire.testutil.ItemBuilder;
 
@@ -44,8 +44,8 @@ public class LogicManagerTest {
 
     @BeforeEach
     public void setUp() {
-        JsonXpireStorage addressBookStorage =
-                new JsonXpireStorage(temporaryFolder.resolve("addressBook.json"));
+        JsonListStorage addressBookStorage =
+                new JsonListStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
         logic = new LogicManager(model, storage);
@@ -72,8 +72,8 @@ public class LogicManagerTest {
     @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
         // Setup LogicManager with JsonAddressBookIoExceptionThrowingStub
-        JsonXpireStorage addressBookStorage =
-                new JsonXpireIoExceptionThrowingStub(
+        JsonListStorage addressBookStorage =
+                new JsonListIoExceptionThrowingStub(
                         temporaryFolder.resolve("ioExceptionAddressBook.json"));
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
@@ -151,8 +151,8 @@ public class LogicManagerTest {
     /**
      * A stub class to throw an {@code IOException} when the save method is called.
      */
-    private static class JsonXpireIoExceptionThrowingStub extends JsonXpireStorage {
-        private JsonXpireIoExceptionThrowingStub(Path filePath) {
+    private static class JsonListIoExceptionThrowingStub extends JsonListStorage {
+        private JsonListIoExceptionThrowingStub(Path filePath) {
             super(filePath);
         }
 

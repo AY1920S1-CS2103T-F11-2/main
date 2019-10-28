@@ -33,9 +33,9 @@ public class ItemManager {
      * Adds 'expired' as item tag if expiry date of item is past given expiry date.
      */
     public void updateItemTags() {
-        model.updateItemTags();
+        model.checkItemsForShift();
         try {
-            this.storage.saveXpire(this.model.getXpire());
+            this.storage.saveList(this.model.getLists());
         } catch (IOException ioe) {
             logger.info(FILE_OPS_ERROR_MESSAGE + ioe);
         }

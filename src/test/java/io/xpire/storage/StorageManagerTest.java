@@ -24,7 +24,7 @@ public class StorageManagerTest {
 
     @BeforeEach
     public void setUp() {
-        JsonXpireStorage addressBookStorage = new JsonXpireStorage(getTempFilePath("ab"));
+        JsonListStorage addressBookStorage = new JsonListStorage(getTempFilePath("ab"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
         storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
     }
@@ -62,7 +62,7 @@ public class StorageManagerTest {
 
     @Test
     public void getExpiryDateTrackerFilePath() {
-        assertNotNull(storageManager.getXpireFilePath());
+        assertNotNull(storageManager.getListFilePath());
     }
 
 }

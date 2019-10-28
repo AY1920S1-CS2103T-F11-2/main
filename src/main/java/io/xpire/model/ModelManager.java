@@ -1,16 +1,19 @@
 package io.xpire.model;
 
+import static io.xpire.model.tag.Tag.EXPIRED_TAG;
 import static java.util.Objects.requireNonNull;
 
 import java.nio.file.Path;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.util.CollectionUtil;
@@ -82,8 +85,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Path getXpireFilePath() {
-        return this.userPrefs.getXpireFilePath();
+    public Path getListFilePath() {
+        return this.userPrefs.getListFilePath();
     }
 
     @Override
@@ -100,7 +103,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ReadOnlyListView<? extends Item>[] getXpire() {
+    public ReadOnlyListView<? extends Item>[] getLists() {
         return new ReadOnlyListView[]{this.xpire, this.replenishList};
     }
 
@@ -193,6 +196,31 @@ public class ModelManager implements Model {
         return nameSet;
     }
 
+    @Override
+    public void shiftItemToReplenishList(XpireItem xpireItem) {
+        Item adaptedItem = adaptItemToReplenish(xpireItem);
+        addReplenishItem(adaptedItem);
+        deleteItem(xpireItem);
+    }
+
+    @Override
+    public void addItemToReplenishList(XpireItem xpireItem) {
+        Item adaptedItem = adaptItemToReplenish(xpireItem);
+        addReplenishItem(adaptedItem);
+    }
+
+    private Item adaptItemToReplenish(XpireItem xpireItem) {
+        Name itemName = xpireItem.getName();
+        Set<Tag> originalTags = xpireItem.getTags();
+        Set<Tag> newTags = new TreeSet<>(new TagComparator());
+        for (Tag tag: originalTags) {
+            if (!newTags.contains(tag) && !tag.equals(EXPIRED_TAG)) {
+                newTags.add(tag);
+            }
+        }
+        return new Item(itemName, newTags);
+    }
+
     //=========== Sorted XpireItem List Accessors ======================================================================
 
     @Override
@@ -252,10 +280,17 @@ public class ModelManager implements Model {
     // =========== Item Manager Methods =============================================================
 
     @Override
-    public void updateItemTags() {
-        this.xpire.checkExpiryDates();
+    public void checkItemsForShift() {
+        Iterator<XpireItem> itr = this.xpire.getIterator();
+        XpireItem item;
+        while (itr.hasNext()) {
+            item = itr.next();
+            if (item.isItemExpired()) {
+                xpire.updateItemTag(item);
+                shiftItemToReplenishList(item);
+            }
+        }
     }
-
 
     @Override
     public boolean equals(Object obj) {

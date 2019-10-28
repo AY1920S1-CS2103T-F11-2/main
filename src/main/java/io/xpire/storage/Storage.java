@@ -13,7 +13,7 @@ import io.xpire.model.item.Item;
 /**
  * API of the Storage component
  */
-public interface Storage extends XpireStorage, ReplenishStorage, UserPrefsStorage {
+public interface Storage extends ListStorage, UserPrefsStorage {
 
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataConversionException, IOException;
@@ -22,12 +22,12 @@ public interface Storage extends XpireStorage, ReplenishStorage, UserPrefsStorag
     void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException;
 
     @Override
-    Path getXpireFilePath();
+    Path getListFilePath();
 
     @Override
-    Optional<ReadOnlyListView<? extends Item>>[] readXpire() throws DataConversionException, IOException;
+    Optional<ReadOnlyListView<? extends Item>>[] readList() throws DataConversionException, IOException;
 
     @Override
-    void saveXpire(ReadOnlyListView<? extends Item>[] xpire) throws IOException;
+    void saveList(ReadOnlyListView<? extends Item>[] lists) throws IOException;
 
 }

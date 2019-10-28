@@ -68,7 +68,7 @@ public class ModelManagerTest {
     public void setExpiryDateTrackerFilePath_validPath_setsAddressBookFilePath() {
         Path path = Paths.get("address/book/file/path");
         modelManager.setXpireFilePath(path);
-        assertEquals(path, modelManager.getXpireFilePath());
+        assertEquals(path, modelManager.getListFilePath());
     }
 
     @Test

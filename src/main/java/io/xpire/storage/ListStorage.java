@@ -6,42 +6,43 @@ import java.util.Optional;
 
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyListView;
+import io.xpire.model.Xpire;
 import io.xpire.model.item.Item;
 
 /**
- *
+ * Represents a storage for {@link Xpire}.
  */
-public interface ReplenishStorage {
+public interface ListStorage {
 
     /**
      * Returns the file path of the data file.
      */
-    Path getReplenishFilePath();
+    Path getListFilePath();
 
     /**
-     * Returns ReplenishList data as a {@link ReadOnlyListView}.
-     * Returns {@code Optional.empty()} if storage file is not found.
+     * Returns Xpire data as a {@link ReadOnlyListView}.
+     *   Returns {@code Optional.empty()} if storage file is not found.
      * @throws DataConversionException if the data in storage is not in the expected format.
      * @throws IOException if there was any problem when reading from the storage.
      */
-    Optional<ReadOnlyListView<Item>> readReplenishList() throws DataConversionException, IOException;
+    Optional<ReadOnlyListView<? extends Item>>[] readList() throws DataConversionException, IOException;
 
     /**
-     * @see #getReplenishFilePath()
+     * @see #getListFilePath()
      */
-    Optional<ReadOnlyListView<Item>> readReplenishList(Path filePath) throws DataConversionException,
+    Optional<ReadOnlyListView<? extends Item>>[] readList(Path filePath) throws DataConversionException,
                                                                IOException;
 
     /**
      * Saves the given {@link ReadOnlyListView} to the storage.
-     * @param replenishList cannot be null.
+     * @param lists cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveReplenishList(ReadOnlyListView<Item> replenishList) throws IOException;
+    void saveList(ReadOnlyListView<? extends Item>[] lists) throws IOException;
 
     /**
-     * @see #saveReplenishList(ReadOnlyListView)
+     * @see #saveList(ReadOnlyListView[])
      */
-    void saveReplenishList(ReadOnlyListView<Item> replenishList, Path filePath) throws IOException;
+    void saveList(ReadOnlyListView<? extends Item>[] lists, Path filePath) throws IOException;
 
 }

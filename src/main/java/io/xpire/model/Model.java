@@ -50,7 +50,7 @@ public interface Model {
     /**
      * Returns the user prefs' xpire file path.
      */
-    Path getXpireFilePath();
+    Path getListFilePath();
 
     /**
      * Sets the user prefs' xpire file path.
@@ -64,7 +64,7 @@ public interface Model {
 
     /** Returns the xpire
      * @return*/
-    ReadOnlyListView<? extends Item>[] getXpire();
+    ReadOnlyListView<? extends Item>[] getLists();
 
     /**
      * Returns true if an xpireItem with the same identity as {@code xpireItem} exists in xpire.
@@ -147,6 +147,10 @@ public interface Model {
 
     List<Item> getReplenishItemList();
 
-    void updateItemTags();
+    void shiftItemToReplenishList(XpireItem xpireItem);
+
+    void addItemToReplenishList(XpireItem xpireItem);
+
+    void checkItemsForShift();
 
 }

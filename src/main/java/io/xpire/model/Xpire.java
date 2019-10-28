@@ -1,5 +1,6 @@
 package io.xpire.model;
 
+import static io.xpire.model.tag.Tag.EXPIRED_TAG;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Iterator;
@@ -91,23 +92,31 @@ public class Xpire implements ReadOnlyListView<XpireItem> {
         this.items.setXpireMethodOfSorting(method);
     }
 
+
     /**
      * Checks expiry date of every item in xpire.
      */
     public void checkExpiryDates() {
         Iterator<XpireItem> itr = items.iterator();
         XpireItem item;
-        Set<Tag> newTag = new TreeSet<>(new TagComparator());
         while (itr.hasNext()) {
             item = itr.next();
-            System.out.println(item.isItemExpired());
             if (item.isItemExpired()) {
-                newTag.addAll(item.getNewTagSet(new Tag("Expired")));
-                XpireItem updatedItem = new XpireItem(item.getName(), item.getExpiryDate(), item.getQuantity(),
-                        newTag, item.getReminderThreshold());
-                setItem(item, updatedItem);
+                updateItemTag(item);
             }
         }
+    }
+
+    public Iterator<XpireItem> getIterator() {
+        return items.iterator();
+    }
+
+    public void updateItemTag(XpireItem item) {
+        Set<Tag> newTag = new TreeSet<>(new TagComparator());
+        newTag.addAll(item.getNewTagSet(new Tag(EXPIRED_TAG)));
+        XpireItem updatedItem = new XpireItem(item.getName(), item.getExpiryDate(), item.getQuantity(),
+                newTag, item.getReminderThreshold());
+        setItem(item, updatedItem);
     }
 
     //// util methods

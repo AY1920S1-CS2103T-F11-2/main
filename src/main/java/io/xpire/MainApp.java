@@ -24,11 +24,11 @@ import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.util.SampleDataUtil;
 import io.xpire.storage.JsonUserPrefsStorage;
-import io.xpire.storage.JsonXpireStorage;
+import io.xpire.storage.JsonListStorage;
 import io.xpire.storage.Storage;
 import io.xpire.storage.StorageManager;
 import io.xpire.storage.UserPrefsStorage;
-import io.xpire.storage.XpireStorage;
+import io.xpire.storage.ListStorage;
 import io.xpire.ui.Ui;
 import io.xpire.ui.UiManager;
 import javafx.application.Application;
@@ -60,10 +60,10 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
-        XpireStorage xpireStorage = new JsonXpireStorage(
-                userPrefs.getXpireFilePath()
+        ListStorage listStorage = new JsonListStorage(
+                userPrefs.getListFilePath()
         );
-        storage = new StorageManager(xpireStorage, userPrefsStorage);
+        storage = new StorageManager(listStorage, userPrefsStorage);
 
         initLogging(config);
 
@@ -91,7 +91,7 @@ public class MainApp extends Application {
         ReadOnlyListView<XpireItem> initialTrackerData;
         ReadOnlyListView<Item> initialReplenishData;
         try {
-            expiryDateTrackerOptional = storage.readXpire();
+            expiryDateTrackerOptional = storage.readList();
             if (!expiryDateTrackerOptional[0].isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample Expiry Date Tracker");
             }

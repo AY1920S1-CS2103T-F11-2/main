@@ -18,15 +18,14 @@ import io.xpire.model.item.Item;
 public class StorageManager implements Storage {
 
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
-    private XpireStorage xpireStorage;
-    private ReplenishStorage replenishStorage;
+    private ListStorage listStorage;
     private UserPrefsStorage userPrefsStorage;
 
 
-    public StorageManager(XpireStorage xpireStorage,
+    public StorageManager(ListStorage listStorage,
                           UserPrefsStorage userPrefsStorage) {
         super();
-        this.xpireStorage = xpireStorage;
+        this.listStorage = listStorage;
         this.userPrefsStorage = userPrefsStorage;
     }
 
@@ -51,56 +50,31 @@ public class StorageManager implements Storage {
     // ================ Xpire methods ==============================
 
     @Override
-    public Path getXpireFilePath() {
-        return this.xpireStorage.getXpireFilePath();
+    public Path getListFilePath() {
+        return this.listStorage.getListFilePath();
     }
 
     @Override
-    public Optional<ReadOnlyListView<? extends Item>>[] readXpire() throws DataConversionException, IOException {
-        return readXpire(this.xpireStorage.getXpireFilePath());
+    public Optional<ReadOnlyListView<? extends Item>>[] readList() throws DataConversionException, IOException {
+        return readList(this.listStorage.getListFilePath());
     }
 
     @Override
-    public Optional<ReadOnlyListView<? extends Item>>[] readXpire(Path filePath) throws
+    public Optional<ReadOnlyListView<? extends Item>>[] readList(Path filePath) throws
             DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
-        return this.xpireStorage.readXpire(filePath);
+        return this.listStorage.readList(filePath);
     }
 
     @Override
-    public void saveXpire(ReadOnlyListView<? extends Item>[] xpire) throws IOException {
-        saveXpire(xpire, this.xpireStorage.getXpireFilePath());
+    public void saveList(ReadOnlyListView<? extends Item>[] lists) throws IOException {
+        saveList(lists, this.listStorage.getListFilePath());
     }
 
     @Override
-    public void saveXpire(ReadOnlyListView<? extends Item>[] xpire, Path filePath) throws IOException {
+    public void saveList(ReadOnlyListView<? extends Item>[] lists, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        this.xpireStorage.saveXpire(xpire, filePath);
+        this.listStorage.saveList(lists, filePath);
     }
 
-    @Override
-    public Path getReplenishFilePath() {
-        return null;
-    }
-
-    @Override
-    public Optional<ReadOnlyListView<Item>> readReplenishList() throws DataConversionException, IOException {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<ReadOnlyListView<Item>> readReplenishList(Path filePath) throws DataConversionException,
-            IOException {
-        return Optional.empty();
-    }
-
-    @Override
-    public void saveReplenishList(ReadOnlyListView<Item> replenishList) throws IOException {
-
-    }
-
-    @Override
-    public void saveReplenishList(ReadOnlyListView<Item> replenishList, Path filePath) throws IOException {
-
-    }
 }

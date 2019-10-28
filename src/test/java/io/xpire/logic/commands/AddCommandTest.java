@@ -107,7 +107,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public Path getXpireFilePath() {
+        public Path getListFilePath() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -214,7 +214,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyListView<? extends Item>[] getXpire() {
+        public ReadOnlyListView<? extends Item>[] getLists() {
             return new ReadOnlyListView[]{new Xpire(), new ReplenishList()};
         }
     }
