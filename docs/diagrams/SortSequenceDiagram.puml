@@ -1,0 +1,105 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":XpireParser" as XpireParser LOGIC_COLOR
+participant ":SortCommandParser" as SortCommandParser LOGIC_COLOR
+participant ":ParserUtil" as ParserUtil LOGIC_COLOR
+participant "method:MethodOfSorting" as MethodOfSorting MODEL_COLOR
+participant "s:SortCommand" as SortCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+participant "xpire:Xpire" as Xpire MODEL_COLOR
+participant "items:SortedUniqueItemList" as SortedUniqueItemList MODEL_COLOR
+participant "method:MethodOfSorting" as MethodOfSorting MODEL_COLOR
+end box
+
+[-> LogicManager : execute("sort|date")
+activate LogicManager
+
+LogicManager -> XpireParser : parseCommand("sort|date")
+activate XpireParser
+
+create SortCommandParser
+XpireParser -> SortCommandParser
+activate SortCommandParser
+
+SortCommandParser --> XpireParser
+deactivate SortCommandParser
+
+XpireParser -> SortCommandParser : parse("date")
+activate SortCommandParser
+
+SortCommandParser -> ParserUtil : parseMethodOfSorting("date")
+activate ParserUtil
+
+create MethodOfSorting
+ParserUtil -> MethodOfSorting
+activate MethodOfSorting
+
+MethodOfSorting -> ParserUtil : method
+deactivate MethodOfSorting
+ParserUtil -> SortCommandParser : method
+deactivate ParserUtil
+
+create SortCommand
+SortCommandParser -> SortCommand : method
+activate SortCommand
+
+SortCommand --> SortCommandParser : s
+deactivate SortCommand
+
+SortCommandParser --> XpireParser : s
+deactivate SortCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+SortCommandParser -[hidden]-> XpireParser
+destroy SortCommandParser
+
+XpireParser --> LogicManager : s
+deactivate XpireParser
+
+LogicManager -> SortCommand : execute()
+activate SortCommand
+
+SortCommand -> Model : sortItemList(method)
+activate Model
+
+Model --> SortCommand
+
+
+Model -> Xpire : setMethodOfSorting(method)
+activate Xpire
+
+Xpire -> SortedUniqueItemList : setComparator(method.getComparator())
+activate SortedUniqueItemList
+
+SortedUniqueItemList -> MethodOfSorting : getComparator()
+activate MethodOfSorting
+MethodOfSorting -> SortedUniqueItemList : dateComparator
+deactivate MethodOfSorting
+
+SortedUniqueItemList --> Xpire :
+deactivate SortedUniqueItemList
+Xpire -> Model :
+deactivate Xpire
+
+Model --> SortCommand
+deactivate Model
+
+create CommandResult
+SortCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> SortCommand
+deactivate CommandResult
+
+SortCommand --> LogicManager : result
+deactivate SortCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

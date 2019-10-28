@@ -224,6 +224,39 @@ The following activity diagram summarizes what happens when a user executes a ne
 ** Pros: Slightly more efficient algorithm for adding items in O(1) time.
 ** Cons: Slightly less efficient algorithm for viewing items.
 
+The following sequence diagram shows how the items added are auto-sorted:
+
+image::AutoSortAddSequenceDiagram.png[]
+
+[NOTE]
+Everytime an item is added to the list, the method of sorting is reset to the default, which sorts
+the items by name then date.
+
+The following sequence diagram shows how the sort command changes the default order of how items are displayed:
+
+image::SortSequenceDiagram.png[]
+
+[NOTE]
+When sort is called, the method of sorting is redefined by the user.
+
+`sortedInternalList = new SortedList<>(internalList, methodOfSorting.getComparator());`
+
+[NOTE]
+The SortedList changes accordingly based on the method of sorting specified.
+
+The following sequence diagram shows how the view operation works to display items that are auto-sorted or sorted manually by name or date:
+
+image::AutoSortViewSequenceDiagram.png[]
+
+[NOTE]
+Everytime view is called, the current method of sorting specified is retrieved. If it has not been explicitly specified,
+the default method of sorting is then retrieved.
+
+`this.internalUnmodifiableList = FXCollections.unmodifiableList(this.sortedInternalList);`
+
+[NOTE]
+The list returned is the sortedInternalList wrapped as an unmodifiable list.
+
 ===== Aspect: Data structure to store the auto-sorted items
 * **Alternative 1 (current choice):** `SortedList<Item>`.
 ** Pros: Smooth integration with the internal ObservableList. Comparator can also be easily changed when necessary.
@@ -232,6 +265,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 * **Alternative 2:** `TreeSet<Item>`.
 ** Pros: Disallows addition of identical items to the set.
 ** Cons: May not be as compatible with the internalList which is of type ObservableList.
+
 // end::autosort[]
 
 // tag:setreminder[]
@@ -258,6 +292,7 @@ The reminder is now set up and is reflected in the UI like this:
 The following sequence diagram shows how the operation works:
 
 .SetReminderSequenceDiagram
+
 image::SetReminderSequenceDiagram.png[]
 
 The following activity diagram summarizes what happens when a user executes a set reminder command:
@@ -448,13 +483,33 @@ The spelling correction mechanism is based primarily on the Damerau–Levenshtei
 This distance is based on the number of substitutions, deletions, insertions or transpositions of characters, needed to convert the source string into the target string.
 Relevant functions supporting this operation are implemented in `StringUtil`.
 
-Given below is an example usage scenario and how the mechanism behaves at each step.
+[NOTE]
+The recommendations will be made solely based the list of items previously displayed rather than all items currently in the list.
 
-The following sequence diagram shows how the sort operation works with recommendations:
+//Given below is an example usage scenario and how the mechanism behaves at each step.
 
-The following sequence diagram shows how the search operation works with recommendations:
+The following sequence diagram shows how the sort operation works with recommendations,
+n the case that "date" is misspelled as "dat":
+
+image::RecommendationsSortSequenceDiagram.png[]
+
+The following sequence diagram details findSimilar which is omitted above.
+
+image::FindSimilarSequenceDiagram.png[]
 
 The following activity diagram summarizes what happens when a user executes an unknown command:
+
+image::RecommendationUnknownCommandActivityDiagram.png[]
+
+[NOTE]
+Only keywords with edit distance of less than 2 are recommended, to filter away less similar word recommendations.
+
+The following activity diagram summarizes what happens when a user executes a command with misspelled arguments:
+
+image::RecommendationsSearchSortActivityDiagram.png[]
+
+[NOTE]
+Only search and sort commands support this operation.
 
 ==== Design Considerations
 
