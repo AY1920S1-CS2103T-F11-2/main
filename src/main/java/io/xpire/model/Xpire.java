@@ -4,11 +4,14 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.SortedUniqueXpireItemList;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
+import io.xpire.model.tag.TagComparator;
 import javafx.collections.ObservableList;
 
 /**
@@ -94,10 +97,15 @@ public class Xpire implements ReadOnlyListView<XpireItem> {
     public void checkExpiryDates() {
         Iterator<XpireItem> itr = items.iterator();
         XpireItem item;
+        Set<Tag> newTag = new TreeSet<>(new TagComparator());
         while (itr.hasNext()) {
             item = itr.next();
+            System.out.println(item.isItemExpired());
             if (item.isItemExpired()) {
-                item.addTag(new Tag("Expired"));
+                newTag.addAll(item.getNewTagSet(new Tag("Expired")));
+                XpireItem updatedItem = new XpireItem(item.getName(), item.getExpiryDate(), item.getQuantity(),
+                        newTag, item.getReminderThreshold());
+                setItem(item, updatedItem);
             }
         }
     }

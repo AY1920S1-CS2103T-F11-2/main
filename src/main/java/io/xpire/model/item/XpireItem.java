@@ -9,8 +9,10 @@ import java.util.TreeSet;
 
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.commons.util.DateUtil;
+import io.xpire.logic.commands.TagCommand;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
+import io.xpire.model.tag.TagItemDescriptor;
 
 /**
  * Represents an item in the expiry date tracker.
@@ -115,8 +117,11 @@ public class XpireItem extends Item {
         return this.expiryDate.isExpired(DateUtil.getCurrentDate());
     }
 
-    public void addTag(Tag tag) {
-        this.tags.add(tag);
+    public Set<Tag> getNewTagSet(Tag tag) {
+        Set<Tag> newTagSet = new TreeSet<>(new TagComparator());
+        newTagSet.addAll(this.getTags());
+        newTagSet.add(tag);
+        return newTagSet;
     }
 
 

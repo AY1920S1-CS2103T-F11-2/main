@@ -16,6 +16,7 @@ import io.xpire.model.Model;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
+import io.xpire.model.tag.TagItemDescriptor;
 
 
 /**
@@ -100,6 +101,7 @@ public class TagCommand extends Command {
         throw new CommandException(Messages.MESSAGE_UNKNOWN_COMMAND);
     }
 
+
     /**
      * Appends tags to user feedback to show all tags.
      *
@@ -164,56 +166,6 @@ public class TagCommand extends Command {
                 && tagItemDescriptor.equals(e.tagItemDescriptor)
                 && mode.equals(e.mode);
     }
-
-    /**
-     * Stores the tags to edit the xpireItem with.
-     */
-    public static class TagItemDescriptor {
-        private Set<Tag> tags;
-
-        public TagItemDescriptor() {}
-
-        public TagItemDescriptor(TagItemDescriptor toCopy) {
-            setTags(toCopy.tags);
-        }
-
-        /**
-         * Sets {@code tags} to this object's {@code tags}.
-         * A defensive copy of {@code tags} is used internally.
-         */
-        public void setTags(Set<Tag> tags) {
-            if (tags != null) {
-                TreeSet<Tag> set = new TreeSet<>(new TagComparator());
-                set.addAll(tags);
-                this.tags = set;
-            } else {
-                this.tags = null;
-            }
-        }
-
-        public Set<Tag>getTags() {
-            return (this.tags != null) ? Collections.unmodifiableSet(this.tags) : null;
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            // short circuit if same object
-            if (other == this) {
-                return true;
-            }
-
-            // instanceof handles nulls
-            if (!(other instanceof TagItemDescriptor)) {
-                return false;
-            }
-
-            // state check
-            TagItemDescriptor e = (TagItemDescriptor) other;
-
-            return getTags().equals(e.getTags());
-        }
-    }
-
 
 
 }

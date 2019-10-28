@@ -45,6 +45,9 @@ class JsonAdaptedXpireItem extends JsonAdaptedItem {
         this.expiryDate = expiryDate;
         this.quantity = quantity;
         this.reminderThreshold = reminderThreshold;
+        if (tags != null) {
+            this.tags.addAll(tags);
+        }
     }
 
     /**

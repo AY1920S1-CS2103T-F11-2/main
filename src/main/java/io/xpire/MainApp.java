@@ -71,9 +71,12 @@ public class MainApp extends Application {
 
         logic = new LogicManager(model, storage);
 
+        itemManager = new ItemManager(model, storage);
+
+        initItemManager();
+
         ui = new UiManager(logic);
 
-        itemManager = new ItemManager(model, storage);
     }
 
     /**
@@ -114,6 +117,10 @@ public class MainApp extends Application {
 
     private void initLogging(Config config) {
         LogsCenter.init(config);
+    }
+
+    private void initItemManager() {
+        itemManager.updateItemTags();
     }
 
     /**
