@@ -10,10 +10,7 @@ import java.util.TreeSet;
 import io.xpire.commons.core.index.Index;
 import io.xpire.commons.util.StringUtil;
 import io.xpire.logic.parser.exceptions.ParseException;
-import io.xpire.model.item.ExpiryDate;
-import io.xpire.model.item.Name;
-import io.xpire.model.item.Quantity;
-import io.xpire.model.item.ReminderThreshold;
+import io.xpire.model.item.*;
 import io.xpire.model.item.sort.MethodOfSorting;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
@@ -175,5 +172,23 @@ public class ParserUtil {
         }
         set = ParserUtil.parseTags(Arrays.asList(copiedTags));
         return set;
+    }
+
+    /**
+     * Parses a {@code String list} into a {@code ListToView}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code list} is invalid.
+     */
+    public static ListToView parseListToView(String list) throws ParseException {
+        requireNonNull(list);
+        String trimmedListToView = list.trim();
+        if (!ListToView.isValidListToView(trimmedListToView)) {
+            Set<String> allowedArgs = new TreeSet<>(Arrays.asList(
+                    ListToView.VIEW_MAIN, ListToView.VIEW_REPLENISH));
+            String output = StringUtil.findSimilar(list, allowedArgs, 1);
+            throw new ParseException(ListToView.MESSAGE_CONSTRAINTS + output);
+        }
+        return new ListToView(trimmedListToView);
     }
 }

@@ -39,7 +39,7 @@ public class CardListPanel extends UiPart<AnchorPane> {
     void displayItem(ObservableList<? extends Item> itemList) {
         card.getChildren().clear();
         Collection<ItemCard> cardList;
-        if (itemList.get(0) instanceof XpireItem){
+        if (!itemList.isEmpty() && itemList.get(0) instanceof XpireItem){
             ObservableList<XpireItem> xpireItemList = (ObservableList<XpireItem>) itemList;
             cardList = IntStream.range(0, xpireItemList.size())
                                 .mapToObj(i -> new ItemCard(xpireItemList.get(i), i + 1))

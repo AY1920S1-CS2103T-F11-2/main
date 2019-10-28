@@ -60,24 +60,24 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         Xpire expectedXpire = new Xpire(actualModel.getXpire()[0]);
-        List<XpireItem> expectedFilteredList = new ArrayList<>(actualModel.getFilteredItemList());
+        List<XpireItem> expectedFilteredList = new ArrayList<>(actualModel.getFilteredXpireItemList());
 
         Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedXpire, actualModel.getXpire());
-        assertEquals(expectedFilteredList, actualModel.getFilteredItemList());
+        assertEquals(expectedFilteredList, actualModel.getFilteredXpireItemList());
     }
     /**
      * Updates {@code model}'s filtered list to show only the xpireItem at the given {@code targetIndex} in the
      * {@code model}'s expiry date tracker.
      */
     public static void showItemAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredItemList().size());
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredXpireItemList().size());
 
-        XpireItem xpireItem = model.getFilteredItemList().get(targetIndex.getZeroBased());
+        XpireItem xpireItem = model.getFilteredXpireItemList().get(targetIndex.getZeroBased());
         final String[] splitName = xpireItem.getName().toString().split("\\s+");
         model.updateFilteredItemList(new ContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
-        assertEquals(1, model.getFilteredItemList().size());
+        assertEquals(1, model.getFilteredXpireItemList().size());
     }
 
 }

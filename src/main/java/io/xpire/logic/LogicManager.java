@@ -8,6 +8,8 @@ import io.xpire.commons.core.LogsCenter;
 import io.xpire.logic.commands.Command;
 import io.xpire.logic.commands.CommandResult;
 import io.xpire.logic.commands.exceptions.CommandException;
+import io.xpire.logic.parser.Parser;
+import io.xpire.logic.parser.ReplenishParser;
 import io.xpire.logic.parser.XpireParser;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
@@ -25,7 +27,7 @@ public class LogicManager implements Logic {
 
     private final Model model;
     private final Storage storage;
-    private final XpireParser xpireParser;
+    private Parser xpireParser;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
@@ -38,7 +40,12 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = this.xpireParser.parseCommand(commandText);
+        if (this.model.getCurrentFilteredItemList() == this.model.getFilteredXpireItemList()) {
+            this.xpireParser = new XpireParser();
+        } else {
+            this.xpireParser = new ReplenishParser();
+        }
+        Command command = this.xpireParser.parse(commandText);
         commandResult = command.execute(this.model);
 
         try {
@@ -74,5 +81,4 @@ public class LogicManager implements Logic {
     public void setGuiSettings(GuiSettings guiSettings) {
         this.model.setGuiSettings(guiSettings);
     }
-
 }

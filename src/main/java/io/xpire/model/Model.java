@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.ListToView;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
@@ -18,12 +19,13 @@ import javafx.collections.ObservableList;
  */
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
-    Predicate<XpireItem> PREDICATE_SHOW_ALL_ITEMS = unused -> true;
+//    Predicate<XpireItem> PREDICATE_SHOW_ALL_ITEMS = unused -> true;
 
     /** {@code Predicate} that always evaluate to true */
-    Predicate<XpireItem> PREDICATE_SORT_ALL_ITEMS = unused -> true;
+    Predicate<? extends Item> PREDICATE_SORT_ALL_ITEMS = unused -> true;
 
     /** {@code Predicate} that always evaluate to true */
+    Predicate<? extends Item> PREDICATE_SHOW_ALL_ITEMS = unused -> true;
     Predicate<Item> PREDICATE_SHOW_ALL_REPLENISH_ITEMS = unused -> true;
 
 
@@ -109,7 +111,7 @@ public interface Model {
     Set<Tag> getAllItemTags();
 
     /** Returns an unmodifiable view of the filtered xpireItem list. */
-    ObservableList<XpireItem> getFilteredItemList();
+    ObservableList<XpireItem> getFilteredXpireItemList();
 
     /** Returns an unmodifiable view of the current item list.*/
     ObservableList<? extends Item> getCurrentFilteredItemList();
@@ -122,10 +124,14 @@ public interface Model {
     List<XpireItem> getAllItemList();
 
     /**
-     * Updates the filter of the filtered xpireItem list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered Item list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredItemList(Predicate<XpireItem> predicate);
+    void updateFilteredItemList(Predicate<? extends Item> predicate);
+
+    void updateFilteredXpireItemList(Predicate<XpireItem> predicate);
+
+    void setCurrentFilteredItemList(ListToView list);
 
     public void setReplenishList(ReadOnlyListView<Item> replenishList);
 

@@ -15,6 +15,7 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.Item;
+import io.xpire.model.item.ListToView;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
@@ -210,7 +211,7 @@ public class ModelManager implements Model {
      * {@code versionedXpire}
      */
     @Override
-    public ObservableList<XpireItem> getFilteredItemList() {
+    public ObservableList<XpireItem> getFilteredXpireItemList() {
         return this.filteredXpireItems;
     }
 
@@ -220,7 +221,25 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void updateFilteredItemList(Predicate<XpireItem> predicate) {
+    public void setCurrentFilteredItemList(ListToView list) {
+        if (list.equals(new ListToView("main"))) {
+            this.currentFilteredItems = this.filteredXpireItems;
+        } else {
+            this.currentFilteredItems = this.filteredReplenishItems;
+        }
+    }
+
+    @Override
+    public void updateFilteredItemList(Predicate<? extends Item> predicate) {
+        if (this.currentFilteredItems == this.filteredXpireItems) {
+            updateFilteredXpireItemList((Predicate<XpireItem>) predicate);
+        } else if (this.currentFilteredItems == this.filteredReplenishItems){
+            updateFilteredReplenishItemList((Predicate<Item>) predicate);
+        }
+    }
+
+    @Override
+    public void updateFilteredXpireItemList(Predicate<XpireItem> predicate) {
         requireNonNull(predicate);
         Predicate<? super XpireItem> p = this.filteredXpireItems.getPredicate();
         if (predicate == PREDICATE_SHOW_ALL_ITEMS || p == null) {
@@ -230,7 +249,6 @@ public class ModelManager implements Model {
             // search commands have been executed before
             this.filteredXpireItems.setPredicate(predicate.and(p));
         }
-        this.currentFilteredItems = this.filteredXpireItems;
     }
 
 
@@ -238,12 +256,11 @@ public class ModelManager implements Model {
     public void updateFilteredReplenishItemList(Predicate<Item> predicate) {
         requireNonNull(predicate);
         Predicate<? super Item> p = this.filteredReplenishItems.getPredicate();
-        if (predicate == PREDICATE_SHOW_ALL_REPLENISH_ITEMS || p == null) {
+        if (predicate == PREDICATE_SHOW_ALL_ITEMS || p == null) {
             this.filteredReplenishItems.setPredicate(predicate);
         } else {
             this.filteredReplenishItems.setPredicate(predicate.and(p));
         }
-        this.currentFilteredItems = this.filteredReplenishItems;
     }
 
     // =========== Tag XpireItem List Accessors =============================================================

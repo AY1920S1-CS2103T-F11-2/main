@@ -72,7 +72,7 @@ public class TagCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<XpireItem> lastShownList = model.getFilteredItemList();
+        List<XpireItem> lastShownList = model.getFilteredXpireItemList();
 
         switch (this.mode) {
         case TAG:

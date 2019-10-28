@@ -12,7 +12,7 @@ import io.xpire.commons.util.StringUtil;
 /**
  * Tests that a {@code XpireItem}'s {@code Name} matches any of the keywords given.
  */
-public class ContainsKeywordsPredicate implements Predicate<XpireItem> {
+public class ContainsKeywordsPredicate implements Predicate<Item> {
     private final List<String> keywords;
 
     public ContainsKeywordsPredicate(List<String> keywords) {
@@ -21,7 +21,7 @@ public class ContainsKeywordsPredicate implements Predicate<XpireItem> {
     }
 
     @Override
-    public boolean test(XpireItem xpireItem) {
+    public boolean test(Item xpireItem) {
         boolean keywordsInName;
         boolean keywordsInTags;
 

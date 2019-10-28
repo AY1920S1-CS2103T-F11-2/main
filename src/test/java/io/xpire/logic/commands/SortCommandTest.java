@@ -47,7 +47,7 @@ public class SortCommandTest {
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
                 Arrays.asList(EXPIRED_APPLE, BANANA, DUCK, EXPIRING_FISH, JELLY, EXPIRED_MILK, EXPIRED_ORANGE),
-                model.getFilteredItemList()
+                model.getFilteredXpireItemList()
         );
     }
 
@@ -61,7 +61,7 @@ public class SortCommandTest {
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
                 Arrays.asList(EXPIRED_MILK, EXPIRED_ORANGE, EXPIRED_APPLE, EXPIRING_FISH, BANANA, DUCK, JELLY),
-                model.getFilteredItemList()
+                model.getFilteredXpireItemList()
         );
     }
 }

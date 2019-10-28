@@ -42,7 +42,7 @@ public class ReplenishCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
 
         requireNonNull(model);
-        List<XpireItem> lastShownList = model.getFilteredItemList();
+        List<XpireItem> lastShownList = model.getFilteredXpireItemList();
 
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);

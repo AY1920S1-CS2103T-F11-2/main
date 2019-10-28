@@ -62,7 +62,7 @@ public class SearchCommandTest {
         SearchCommand command = new SearchCommand(predicate);
         expectedModel.updateFilteredItemList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredItemList());
+        assertEquals(Collections.emptyList(), model.getFilteredXpireItemList());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class SearchCommandTest {
         SearchCommand command = new SearchCommand(predicate);
         expectedModel.updateFilteredItemList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredItemList());
+        assertEquals(Collections.emptyList(), model.getFilteredXpireItemList());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class SearchCommandTest {
         SearchCommand command = new SearchCommand(predicate);
         expectedModel.updateFilteredItemList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(DUCK, JELLY), model.getFilteredItemList());
+        assertEquals(Arrays.asList(DUCK, JELLY), model.getFilteredXpireItemList());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class SearchCommandTest {
         SearchCommand command = new SearchCommand(predicate);
         expectedModel.updateFilteredItemList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredItemList());
+        assertEquals(Collections.emptyList(), model.getFilteredXpireItemList());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class SearchCommandTest {
         SearchCommand command = new SearchCommand(predicate);
         expectedModel.updateFilteredItemList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(BANANA, DUCK, JELLY), model.getFilteredItemList());
+        assertEquals(Arrays.asList(BANANA, DUCK, JELLY), model.getFilteredXpireItemList());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class SearchCommandTest {
         SearchCommand command = new SearchCommand(predicate);
         expectedModel.updateFilteredItemList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(BANANA, DUCK), model.getFilteredItemList());
+        assertEquals(Arrays.asList(BANANA, DUCK), model.getFilteredXpireItemList());
     }
 
     /**

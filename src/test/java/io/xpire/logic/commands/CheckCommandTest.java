@@ -38,7 +38,7 @@ public class CheckCommandTest {
         expectedModel.updateFilteredItemList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(EXPIRED_APPLE, EXPIRING_FISH, EXPIRED_MILK, EXPIRED_ORANGE),
-                model.getFilteredItemList());
+                model.getFilteredXpireItemList());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class CheckCommandTest {
         CheckCommand command = new CheckCommand(predicate);
         expectedModel.updateFilteredItemList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(EXPIRED_APPLE, EXPIRED_MILK, EXPIRED_ORANGE), model.getFilteredItemList());
+        assertEquals(Arrays.asList(EXPIRED_APPLE, EXPIRED_MILK, EXPIRED_ORANGE), model.getFilteredXpireItemList());
     }
 
     @Test

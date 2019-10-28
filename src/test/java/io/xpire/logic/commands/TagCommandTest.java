@@ -51,7 +51,7 @@ public class TagCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        XpireItem xpireItemToTag = model.getFilteredItemList().get(INDEX_FIRST_ITEM.getZeroBased());
+        XpireItem xpireItemToTag = model.getFilteredXpireItemList().get(INDEX_FIRST_ITEM.getZeroBased());
         TagCommand tagCommand = new TagCommand(INDEX_FIRST_ITEM, new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.TAG);
         ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
@@ -66,7 +66,7 @@ public class TagCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredItemList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredXpireItemList().size() + 1);
         TagCommand tagCommand = new TagCommand(outOfBoundIndex, new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
         assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
     }
@@ -74,7 +74,7 @@ public class TagCommandTest {
     @Test
     public void execute_validIndexFilteredList_success() {
         showItemAtIndex(model, INDEX_FIRST_ITEM);
-        XpireItem xpireItemToTag = model.getFilteredItemList().get(INDEX_FIRST_ITEM.getZeroBased());
+        XpireItem xpireItemToTag = model.getFilteredXpireItemList().get(INDEX_FIRST_ITEM.getZeroBased());
         TagCommand tagCommand = new TagCommand(INDEX_FIRST_ITEM, new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.TAG);
         ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
@@ -102,7 +102,7 @@ public class TagCommandTest {
     //add tags to an already tagged xpireItem should add on more tags
     @Test
     public void execute_addMoreTags_success() {
-        XpireItem xpireItemToTag = model.getFilteredItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
+        XpireItem xpireItemToTag = model.getFilteredXpireItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
         TagCommand tagCommand = new TagCommand(INDEX_FIFTH_ITEM, new String[]{VALID_TAG_FRUIT});
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.TAG);
         ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
@@ -120,7 +120,7 @@ public class TagCommandTest {
     //adding tags that already exist should not add duplicates or edit the existing tags
     @Test
     public void execute_addDuplicateTags_success() {
-        XpireItem xpireItemToTag = model.getFilteredItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
+        XpireItem xpireItemToTag = model.getFilteredXpireItemList().get(INDEX_FIFTH_ITEM.getZeroBased());
         TagCommand tagCommand = new TagCommand(INDEX_FIFTH_ITEM, new String[]{VALID_TAG_FRIDGE});
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.TAG);
         ModelManager expectedModel = new ModelManager(model.getXpire(), new UserPrefs());

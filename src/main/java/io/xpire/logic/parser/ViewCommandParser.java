@@ -1,9 +1,8 @@
 package io.xpire.logic.parser;
 
-import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import io.xpire.logic.commands.ViewCommand;
 import io.xpire.logic.parser.exceptions.ParseException;
+import io.xpire.model.item.ListToView;
 
 /**
  * Parses input arguments and creates a new ViewCommand object
@@ -17,9 +16,9 @@ public class ViewCommandParser {
     public ViewCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewCommand.MESSAGE_USAGE));
+            return new ViewCommand();
         }
-        return new ViewCommand(trimmedArgs);
+        ListToView list = ParserUtil.parseListToView(trimmedArgs);
+        return new ViewCommand(list);
     }
 }

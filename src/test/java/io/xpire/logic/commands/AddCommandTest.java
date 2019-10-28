@@ -162,7 +162,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<XpireItem> getFilteredItemList() {
+        public ObservableList<XpireItem> getFilteredXpireItemList() {
             throw new AssertionError("This method should not be called.");
         }
 

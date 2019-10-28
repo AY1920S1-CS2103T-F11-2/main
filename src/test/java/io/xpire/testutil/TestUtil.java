@@ -36,20 +36,20 @@ public class TestUtil {
      * Returns the middle index of the xpireItem in the {@code model}'s xpireItem list.
      */
     public static Index getMidIndex(Model model) {
-        return Index.fromOneBased(model.getFilteredItemList().size() / 2);
+        return Index.fromOneBased(model.getFilteredXpireItemList().size() / 2);
     }
 
     /**
      * Returns the last index of the xpireItem in the {@code model}'s xpireItem list.
      */
     public static Index getLastIndex(Model model) {
-        return Index.fromOneBased(model.getFilteredItemList().size());
+        return Index.fromOneBased(model.getFilteredXpireItemList().size());
     }
 
     /**
      * Returns the xpireItem in the {@code model}'s xpireItem list at {@code index}.
      */
     public static XpireItem getItem(Model model, Index index) {
-        return model.getFilteredItemList().get(index.getZeroBased());
+        return model.getFilteredXpireItemList().get(index.getZeroBased());
     }
 }
