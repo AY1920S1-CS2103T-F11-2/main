@@ -1,4 +1,3 @@
-
 package io.xpire.logic.commands;
 
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -29,12 +28,14 @@ public class ViewCommandTest {
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(new ViewCommand(), model, ViewCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ViewCommand(), model, String.format(ViewCommand.MESSAGE_SUCCESS, "the"),
+            expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
         showItemAtIndex(model, INDEX_FIRST_ITEM);
-        assertCommandSuccess(new ViewCommand(), model, ViewCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ViewCommand(), model, String.format(ViewCommand.MESSAGE_SUCCESS, "the"),
+            expectedModel);
     }
 }

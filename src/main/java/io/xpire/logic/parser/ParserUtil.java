@@ -193,6 +193,7 @@ public class ParserUtil {
             String output = StringUtil.findSimilar(list, allowedArgs, 1);
             throw new ParseException(ListToView.MESSAGE_CONSTRAINTS + output);
         }
+        System.out.println(list);
         return new ListToView(trimmedListToView);
     }
 }

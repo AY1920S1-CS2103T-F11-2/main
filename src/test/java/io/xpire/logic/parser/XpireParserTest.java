@@ -106,7 +106,7 @@ public class XpireParserTest {
     @Test
     public void parse_view() throws Exception {
         assertTrue(parser.parse(ViewCommand.COMMAND_WORD) instanceof ViewCommand);
-        assertTrue(parser.parse(ViewCommand.COMMAND_WORD + "|3") instanceof ViewCommand);
+        assertTrue(parser.parse(ViewCommand.COMMAND_WORD + "|replenish") instanceof ViewCommand);
     }
 
     @Test
