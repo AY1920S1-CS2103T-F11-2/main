@@ -7,10 +7,10 @@ public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command.";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_ITEM_DISPLAYED_INDEX = "The xpireItem index provided is invalid.";
+    public static final String MESSAGE_INVALID_ITEM_DISPLAYED_INDEX = "The item index provided is invalid.";
     public static final String MESSAGE_ITEMS_LISTED_OVERVIEW = "%d items listed!";
     public static final String MESSAGE_INVALID_REMINDER_THRESHOLD = "%s is not a valid reminder threshold.";
-    public static final String MESSAGE_INVALID_TAGS = "Tags are not in the xpireItem specified!";
+    public static final String MESSAGE_INVALID_TAGS = "Tags are not in the item specified!";
     public static final String MESSAGE_UNKNOWN_DELETE_MODE = "Unknown Delete mode.";
     public static final String MESSAGE_SUGGESTIONS = " Did you mean %s?";
     public static final String MESSAGE_REPLENISH_SHIFT_SUCCESS = "%s is shifted into the replenish list.";

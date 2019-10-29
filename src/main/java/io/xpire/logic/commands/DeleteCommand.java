@@ -41,13 +41,13 @@ public class DeleteCommand extends Command {
             + "3) Reduces the quantity in the xpireItem identified by the index number. \n"
             + "Format: delete|<index>|<quantity> (quantity must be positive and less than xpireItem's quantity.\n";
 
-    public static final String MESSAGE_DELETE_ITEM_SUCCESS = "Deleted XpireItem: %s";
-    public static final String MESSAGE_DELETE_TAGS_SUCCESS = "Deleted tags from xpireItem: %s";
+    public static final String MESSAGE_DELETE_ITEM_SUCCESS = "Deleted item: %s";
+    public static final String MESSAGE_DELETE_TAGS_SUCCESS = "Deleted tags from item: %s";
     public static final String MESSAGE_DELETE_TAGS_FAILURE = "Did not manage to delete any tags.\n"
-            + "You have specified tag(s) that are not found in xpireItem: %s";
-    public static final String MESSAGE_DELETE_QUANTITY_SUCCESS = "Reduced quantity by %s from xpireItem: %s";
+            + "You have specified tag(s) that are not found in item: %s";
+    public static final String MESSAGE_DELETE_QUANTITY_SUCCESS = "Reduced quantity by %s from item: %s";
     public static final String MESSAGE_DELETE_QUANTITY_FAILURE = "Invalid quantity specified. \n"
-            + "Quantity must be positive and less than xpireItem's quantity.";
+            + "Quantity must be positive and less than item's quantity.";
     public static final String MESSAGE_DELETE_FAILURE = "Did not manage to delete anything";
 
     private final Index targetIndex;

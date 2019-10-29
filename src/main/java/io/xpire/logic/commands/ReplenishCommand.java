@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.XpireItem;
+import io.xpire.model.item.exceptions.ItemNotFoundException;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
@@ -45,25 +47,29 @@ public class ReplenishCommand extends Command {
         List<XpireItem> lastShownList = model.getFilteredXpireItemList();
 
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
         }
 
         XpireItem targetItem = lastShownList.get(this.targetIndex.getZeroBased());
         Item replenishItem = adaptItemToToBuy(targetItem);
         this.replenishItem = replenishItem;
-
         if (model.hasReplenishItem(replenishItem)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ITEM);
+            try {
+                model.deleteItem(targetItem);
+            } catch (ItemNotFoundException e) {
+                throw new CommandException(MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+            }
+        } else {
+            model.addReplenishItem(this.replenishItem);
+            model.deleteItem(targetItem);
         }
-
-        model.addReplenishItem(this.replenishItem);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, targetItem.getName()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, replenishItem.getName()));
     }
 
     /**
-     * Changes Item to an XpireItem.
-     * @param xpireItem The item to change to an XpireItem.
-     * @return The new XpireItem.
+     * Changes an XpireItem to an Item.
+     * @param xpireItem to change into Item.
+     * @return The new Item.
      */
     private Item adaptItemToToBuy(XpireItem xpireItem) {
         Name itemName = xpireItem.getName();

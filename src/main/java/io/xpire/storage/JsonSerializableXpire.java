@@ -19,7 +19,7 @@ import io.xpire.model.item.XpireItem;
 @JsonRootName(value = "xpire")
 class JsonSerializableXpire {
 
-    public static final String MESSAGE_DUPLICATE_ITEM = "Items list contains duplicate xpireItem(s).";
+    public static final String MESSAGE_DUPLICATE_ITEM = "Items list contains duplicate item(s).";
 
     private final List<JsonAdaptedXpireItem> items = new ArrayList<>();
 
