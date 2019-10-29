@@ -8,14 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import io.xpire.commons.util.StringUtil;
-import io.xpire.logic.commands.ClearCommand;
-import io.xpire.logic.commands.Command;
-import io.xpire.logic.commands.ExitCommand;
-import io.xpire.logic.commands.HelpCommand;
-import io.xpire.logic.commands.ReplenishCommand;
-import io.xpire.logic.commands.SearchCommand;
-import io.xpire.logic.commands.TagCommand;
-import io.xpire.logic.commands.ViewCommand;
+import io.xpire.logic.commands.*;
 import io.xpire.logic.parser.exceptions.ParseException;
 
 /**
@@ -67,8 +60,8 @@ public class ReplenishParser implements Parser {
         case TagCommand.COMMAND_WORD:
             return new TagCommandParser().parse(arguments);
 
-        case ReplenishCommand.COMMAND_WORD:
-            return new ReplenishCommandParser().parse(arguments);
+        case ShiftToMainCommand.COMMAND_WORD:
+            return new ShiftToMainCommandParser().parse(arguments);
 
         default:
             return parseUnknownCommandWord(commandWord);

@@ -19,14 +19,14 @@ import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
 /**
- * Adds a {@code ToBuyItem} to the Replenish List.
+ * Adds a {@code XpireItem} to the Replenish List.
  */
-public class ReplenishCommand extends Command {
+public class ShiftToReplenishCommand extends Command {
 
-    public static final String COMMAND_WORD = "replenish";
+    public static final String COMMAND_WORD = "shift";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
-            + "Moves the item identified by the index number to Replenish List.\n"
-            + "Format: replenish|<index> (index must be a positive integer)\n"
+            + "Moves the item identified by the index number to the replenish list.\n"
+            + "Format: shift|<index> (index must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + "|1" + "\n";
     public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists in the Replenish List";
     public static final String MESSAGE_SUCCESS = "%s is moved to the Replenish List";
@@ -35,7 +35,7 @@ public class ReplenishCommand extends Command {
     private Item replenishItem;
     private final Index targetIndex;
 
-    public ReplenishCommand(Index targetIndex) {
+    public ShiftToReplenishCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 

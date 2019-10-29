@@ -185,6 +185,8 @@ public interface Model {
 
     Set<Name> getAllReplenishItemNames();
 
+    ObservableList<Item> getFilteredReplenishItemList();
+
     void updateFilteredReplenishItemList(Predicate<Item> predicate);
 
     List<Item> getReplenishItemList();

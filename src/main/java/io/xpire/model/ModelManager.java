@@ -249,6 +249,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Item> getFilteredReplenishItemList() {
+        return this.filteredReplenishItems;
+    }
+
+
+    @Override
     public ObservableList<? extends Item> getCurrentFilteredItemList() {
         return this.currentFilteredItems;
     }
