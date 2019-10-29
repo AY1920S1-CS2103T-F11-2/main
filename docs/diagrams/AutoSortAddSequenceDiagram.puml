@@ -8,16 +8,17 @@ participant ":CommandResult" as CommandResult LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
-participant "model:Model" as Model MODEL_COLOR
-participant "xpire:Xpire" as Xpire MODEL_COLOR
-participant "items:SortedUniqueItemList" as SortedUniqueItemList MODEL_COLOR
-participant "internalList:ObservableList" as ObservableList MODEL_COLOR
-participant "methodOfSorting:MethodOfSorting" as MethodOfSorting MODEL_COLOR
+participant ":Model" as Model MODEL_COLOR
+participant ":Xpire" as Xpire MODEL_COLOR
+participant ":SortedUniqueItemList" as SortedUniqueItemList MODEL_COLOR
+participant ":ObservableList" as ObservableList MODEL_COLOR
+participant ":MethodOfSorting" as MethodOfSorting MODEL_COLOR
 end box
 
 [-> LogicManager : execute("add Strawberry")
 activate LogicManager
 
+ref over LogicManager, AddCommand : parsing of arguments
 LogicManager -> AddCommand : execute()
 activate AddCommand
 
@@ -29,18 +30,8 @@ activate Xpire
 
 Xpire -> SortedUniqueItemList : add("Strawberry")
 activate SortedUniqueItemList
-SortedUniqueItemList -> ObservableList: add("Strawberry")
-activate ObservableList
 
-ObservableList -> SortedUniqueItemList
-deactivate ObservableList
-
-create MethodOfSorting
-SortedUniqueItemList -> MethodOfSorting : new MethodOfSorting("name")
-activate MethodOfSorting
-
-MethodOfSorting --> SortedUniqueItemList :
-deactivate MethodOfSorting
+ref over SortedUniqueItemList, MethodOfSorting : set method of sorting as default
 
 SortedUniqueItemList --> Xpire :
 deactivate SortedUniqueItemList

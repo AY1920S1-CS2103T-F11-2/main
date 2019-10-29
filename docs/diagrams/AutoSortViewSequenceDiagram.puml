@@ -8,24 +8,25 @@ participant ":CommandResult" as CommandResult LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
-participant "model:Model" as Model MODEL_COLOR
-participant "filteredItems:FilteredList" as FilteredList MODEL_COLOR
-participant "xpire:Xpire" as Xpire MODEL_COLOR
-participant "items:SortedUniqueItemList" as SortedUniqueItemList MODEL_COLOR
-participant "internalUnmodifiableList:ObservableList" as ObservableList MODEL_COLOR
-participant "FXCollections" as FXCollections MODEL_COLOR
-participant "sortedInternalList:SortedList" as SortedList MODEL_COLOR
-participant "methodOfSorting:MethodOfSorting" as MethodOfSorting MODEL_COLOR
+participant ":Model" as Model MODEL_COLOR
+participant ":FilteredList" as FilteredList MODEL_COLOR
+participant ":Xpire" as Xpire MODEL_COLOR
+participant ":SortedUniqueItemList" as SortedUniqueItemList MODEL_COLOR
+participant ":MethodOfSorting" as MethodOfSorting MODEL_COLOR
 end box
 
 [-> LogicManager : execute("view")
 activate LogicManager
 
+ref over LogicManager, ViewCommand : parsing of arguments
+
 LogicManager -> ViewCommand : execute()
 activate ViewCommand
 
 ViewCommand -> Model : updateFilteredItemList(Show all)
+
 activate Model
+
 
 
 Model -> FilteredList : setPredicate(Show all)
@@ -34,39 +35,12 @@ activate FilteredList
 FilteredList -> Xpire : getItemList()
 activate Xpire
 
-Xpire -> SortedUniqueItemList : asUnmodifiableObservableList()
-activate SortedUniqueItemList
+ref over Xpire, MethodOfSorting : retrieve internal sorted list
 
-SortedUniqueItemList -> ObservableList:
-activate ObservableList
-
-ObservableList -> FXCollections : unmodifiableList(this.sortedInternalList)
-activate FXCollections
-
-create SortedList
-FXCollections -> SortedList
-activate SortedList
-
-SortedList -> MethodOfSorting : getComparator()
-activate MethodOfSorting
-MethodOfSorting -> SortedList : nameComparator
-deactivate MethodOfSorting
-
-SortedList -> FXCollections
-deactivate SortedList
-
-FXCollections -> ObservableList
-deactivate FXCollections
-
-ObservableList -> SortedUniqueItemList : internalUnmodifiableList
-deactivate ObservableList
-
-SortedUniqueItemList --> Xpire : internalUnmodifiableList
-deactivate SortedUniqueItemList
-Xpire -> FilteredList : internalUnmodifiableList
+Xpire -> FilteredList : li
 deactivate Xpire
 
-FilteredList -> Model : internalUnmodifiableList
+FilteredList -> Model : li
 deactivate FilteredList
 
 Model --> ViewCommand
