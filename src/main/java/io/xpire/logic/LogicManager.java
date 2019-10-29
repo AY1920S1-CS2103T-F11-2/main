@@ -28,12 +28,12 @@ public class LogicManager implements Logic {
 
     private final Model model;
     private final Storage storage;
-    private Parser xpireParser;
+    private Parser parser;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
-        this.xpireParser = new XpireParser();
+        this.parser = new XpireParser();
     }
 
     @Override
@@ -42,11 +42,11 @@ public class LogicManager implements Logic {
 
         CommandResult commandResult;
         if (this.model.getCurrentFilteredItemList() == this.model.getFilteredXpireItemList()) {
-            this.xpireParser = new XpireParser();
+            this.parser = new XpireParser();
         } else {
-            this.xpireParser = new ReplenishParser();
+            this.parser = new ReplenishParser();
         }
-        Command command = this.xpireParser.parse(commandText);
+        Command command = this.parser.parse(commandText);
         commandResult = command.execute(this.model);
 
         try {
