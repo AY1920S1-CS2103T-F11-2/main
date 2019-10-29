@@ -124,6 +124,21 @@ public class XpireItem extends Item {
 
 
     /**
+     * Returns {@Code true} if the item has expired.
+     */
+    public boolean isExpired() {
+        return this.getExpiryDate().isExpired();
+    }
+
+    /**
+     * Returns {@Code true} if the item has a {@Code ReminderThreshold}.
+     */
+    public boolean hasReminderThreshold() {
+        return !this.reminderThreshold.equals(new ReminderThreshold(DEFAULT_THRESHOLD));
+    }
+
+
+    /**
      * Returns true if both items of the same name have at least one other identity field that is the same.
      * This defines a weaker notion of equality between two items.
      */

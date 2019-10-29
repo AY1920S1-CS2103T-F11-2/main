@@ -212,12 +212,6 @@ public class ModelManager implements Model {
         deleteItem(xpireItem);
     }
 
-    @Override
-    public void addItemToReplenishList(XpireItem xpireItem) {
-        Item adaptedItem = adaptItemToReplenish(xpireItem);
-        addReplenishItem(adaptedItem);
-    }
-
     /**
      * Adapts item to replenish item.
      * @param xpireItem The xpire item to adapt to replenish item.
@@ -317,14 +311,14 @@ public class ModelManager implements Model {
     // =========== Item Manager Methods =============================================================
 
     @Override
-    public void checkItemsForShift() {
+    public void updateItemTags() {
         Iterator<XpireItem> itr = this.xpire.getIterator();
         XpireItem item;
         while (itr.hasNext()) {
             item = itr.next();
             if (item.isItemExpired()) {
                 xpire.updateItemTag(item);
-                addItemToReplenishList(item);
+                //addItemToReplenishList(item);
                 //shiftItemToReplenishList(item);
             }
         }

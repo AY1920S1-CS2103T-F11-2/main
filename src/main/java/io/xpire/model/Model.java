@@ -135,8 +135,16 @@ public interface Model {
      */
     void updateFilteredItemList(Predicate<? extends Item> predicate);
 
+    /**
+     * Updates the filter of the filtered Item list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
     void updateFilteredXpireItemList(Predicate<XpireItem> predicate);
 
+    /**
+     * Sets current filtered list view to the specified list.
+     * @param list that user is viewing.
+     */
     void setCurrentFilteredItemList(ListToView list);
 
     /**
@@ -144,14 +152,33 @@ public interface Model {
      */
     void setReplenishList(ReadOnlyListView<Item> replenishList);
 
+    /**
+     * Returns a ReplenishList object.
+     */
     ReadOnlyListView<Item> getReplenishList();
 
+    /**
+     * Returns true if an item with the same identity as {@code Item} exists in replenish list.
+     */
     boolean hasReplenishItem(Item item);
 
+    /**
+     * Deletes the given item.
+     * The item must exist in replenish list.
+     */
     void deleteReplenishItem(Item target);
 
+    /**
+     * Adds the given item.
+     * {@code Item} must not already exist in replenish list.
+     */
     void addReplenishItem(Item item);
 
+    /**
+     * Replaces the given item {@code target} with {@code editedItem}.
+     * {@code target} must exist in the replenish list.
+     * The Item identity of {@code Item} must not be the same as another existing Item in the replenish list.
+     */
     void setReplenishItem(Item target, Item editedItem);
 
     Set<Tag> getAllReplenishItemTags();
@@ -162,10 +189,12 @@ public interface Model {
 
     List<Item> getReplenishItemList();
 
+    /**
+     * Checks expiry date of XpireItem and updates the item's tags respectively.
+     */
+    void updateItemTags();
+
     void shiftItemToReplenishList(XpireItem xpireItem);
 
-    void addItemToReplenishList(XpireItem xpireItem);
-
-    void checkItemsForShift();
 
 }
