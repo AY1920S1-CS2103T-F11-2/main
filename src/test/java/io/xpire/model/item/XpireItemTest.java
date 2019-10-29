@@ -10,7 +10,6 @@ import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_DRINK;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.xpire.model.tag.Tag;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.testutil.XpireItemBuilder;

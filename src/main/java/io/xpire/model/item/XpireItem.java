@@ -112,7 +112,7 @@ public class XpireItem extends Item {
     }
 
     public boolean isItemExpired() {
-        return this.expiryDate.isExpired(DateUtil.getCurrentDate());
+        return this.expiryDate.isExpired();
     }
 
     public Set<Tag> getNewTagSet(Tag tag) {

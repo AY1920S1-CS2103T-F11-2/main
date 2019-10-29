@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 

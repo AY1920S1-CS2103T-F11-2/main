@@ -74,18 +74,6 @@ public class ItemCard extends UiPart<Region> {
         this.setColor();
     }
 
-    private void setColor() {
-        long remainingDays = Long.parseLong(xpireItem.getExpiryDate().getStatus());
-        int reminderThreshold = xpireItem.getReminderThreshold().getValue();
-        if (xpireItem.isExpired()) {
-            days.getStyleClass().add("expired");
-        } else if (xpireItem.hasReminderThreshold() && remainingDays < reminderThreshold) {
-            days.getStyleClass().add("remind");
-        } else {
-            days.getStyleClass().add("healthy");
-        }
-    }
-
     public ItemCard(Item replenishItem, int displayedIndex) {
         super(FXML);
         this.replenishItem = replenishItem;
@@ -96,8 +84,20 @@ public class ItemCard extends UiPart<Region> {
         this.reminder.setVisible(false);
         this.status.setVisible(false);
         this.replenishItem.getTags()
-                      .forEach(tag -> this.tags.getChildren().add(new Label(tag.getTagName())));
+                .forEach(tag -> this.tags.getChildren().add(new Label(tag.getTagName())));
         box.setOnMouseClicked(e -> box.requestFocus());
+    }
+
+    private void setColor() {
+        long remainingDays = Long.parseLong(xpireItem.getExpiryDate().getStatus());
+        int reminderThreshold = xpireItem.getReminderThreshold().getValue();
+        if (xpireItem.isExpired()) {
+            days.getStyleClass().add("expired");
+        } else if (xpireItem.hasReminderThreshold() && remainingDays < reminderThreshold) {
+            days.getStyleClass().add("remind");
+        } else {
+            days.getStyleClass().add("healthy");
+        }
     }
 
     @Override

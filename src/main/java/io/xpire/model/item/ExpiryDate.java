@@ -49,12 +49,10 @@ public class ExpiryDate {
 
     /**
      * Checks if an item is expired.
-     * @param current date
      * @return true if item is expired; false otherwise.
      */
-    public boolean isExpired(LocalDate current) {
-        long offset = DateUtil.getOffsetDays(current, this.date);
-        return offset <= 0;
+    public boolean isExpired() {
+        return Long.parseLong(getStatus()) <= 0;
     }
 
 
@@ -66,10 +64,6 @@ public class ExpiryDate {
     public String getStatus() {
         long offset = DateUtil.getOffsetDays(DateUtil.getCurrentDate(), this.date);
         return String.valueOf(offset);
-    }
-
-    public boolean isExpired() {
-        return Long.parseLong(getStatus()) <= 0;
     }
 
     public LocalDate getDate() {

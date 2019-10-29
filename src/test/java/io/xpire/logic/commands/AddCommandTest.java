@@ -252,17 +252,12 @@ public class AddCommandTest {
         }
 
         @Override
+        public void updateItemTags() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void shiftItemToReplenishList(XpireItem xpireItem) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addItemToReplenishList(XpireItem xpireItem) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void checkItemsForShift() {
             throw new AssertionError("This method should not be called.");
         }
     }

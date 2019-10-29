@@ -101,12 +101,6 @@ public class XpireParserTest {
         assertTrue(parser.parse(TagCommand.COMMAND_WORD + "|1|#"
                 + VALID_TAG_DRINK) instanceof TagCommand);
     }
-//=======
-//    public void parseCommand_tag() throws Exception {
-//        assertTrue(parser.parseCommand(TagCommand.COMMAND_WORD) instanceof TagCommand);
-//        assertTrue(parser.parseCommand(TagCommand.COMMAND_WORD + "|1|#"
-//                + TypicalItemsFields.VALID_TAG_DRINK) instanceof TagCommand);
-//    }
 
     @Test
     public void parse_view() throws Exception {
