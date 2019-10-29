@@ -5,17 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.nio.file.Path;
 
-import io.xpire.model.ReadOnlyListView;
-import io.xpire.model.ReplenishList;
-import io.xpire.model.item.Item;
-import io.xpire.model.item.XpireItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import io.xpire.commons.core.GuiSettings;
+import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.Xpire;
+import io.xpire.model.item.Item;
 import io.xpire.testutil.TypicalItems;
 
 public class StorageManagerTest {

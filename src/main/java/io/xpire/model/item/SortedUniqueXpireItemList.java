@@ -9,6 +9,7 @@ import io.xpire.commons.util.CollectionUtil;
 import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.model.item.exceptions.ItemNotFoundException;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;

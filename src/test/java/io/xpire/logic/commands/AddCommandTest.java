@@ -15,16 +15,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import io.xpire.model.*;
-import io.xpire.model.item.Item;
-import io.xpire.model.item.ListToView;
-import io.xpire.model.item.XpireItem;
-import io.xpire.model.item.sort.XpireMethodOfSorting;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.logic.commands.exceptions.CommandException;
+import io.xpire.model.Model;
+import io.xpire.model.ReadOnlyListView;
+import io.xpire.model.ReadOnlyUserPrefs;
+import io.xpire.model.ReplenishList;
+import io.xpire.model.Xpire;
+import io.xpire.model.item.Item;
+import io.xpire.model.item.ListToView;
 import io.xpire.model.item.Name;
+import io.xpire.model.item.XpireItem;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.testutil.XpireItemBuilder;
 import javafx.collections.ObservableList;

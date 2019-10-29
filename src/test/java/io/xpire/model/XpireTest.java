@@ -14,11 +14,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import io.xpire.model.item.XpireItem;
-import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.Test;
 
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.exceptions.DuplicateItemException;
+import io.xpire.testutil.XpireItemBuilder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

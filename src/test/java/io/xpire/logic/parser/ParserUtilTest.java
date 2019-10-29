@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
-import io.xpire.model.item.sort.XpireMethodOfSorting;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.logic.parser.exceptions.ParseException;
@@ -31,6 +30,7 @@ import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 

@@ -3,6 +3,9 @@ package io.xpire.testutil;
 import io.xpire.model.ReplenishList;
 import io.xpire.model.item.Item;
 
+/**
+ * Replenish List Builder.
+ */
 public class ReplenishListBuilder {
 
     private ReplenishList replenishList;

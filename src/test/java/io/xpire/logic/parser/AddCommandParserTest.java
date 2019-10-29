@@ -18,14 +18,14 @@ import static io.xpire.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static io.xpire.testutil.TypicalItems.BANANA;
 import static io.xpire.testutil.TypicalItems.KIWI;
 
-import io.xpire.model.item.XpireItem;
-import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.logic.commands.AddCommand;
 import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
+import io.xpire.model.item.XpireItem;
+import io.xpire.testutil.XpireItemBuilder;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();

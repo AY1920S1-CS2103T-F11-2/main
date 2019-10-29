@@ -3,15 +3,15 @@ package io.xpire.logic.commands;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandFailure;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
 
-import io.xpire.model.item.XpireItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
-import io.xpire.testutil.XpireItemBuilder;
+import io.xpire.model.item.XpireItem;
 import io.xpire.testutil.TypicalItems;
+import io.xpire.testutil.XpireItemBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code AddCommand}.

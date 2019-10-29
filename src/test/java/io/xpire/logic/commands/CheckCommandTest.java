@@ -6,7 +6,6 @@ import static io.xpire.testutil.TypicalItems.EXPIRED_APPLE;
 import static io.xpire.testutil.TypicalItems.EXPIRED_MILK;
 import static io.xpire.testutil.TypicalItems.EXPIRED_ORANGE;
 import static io.xpire.testutil.TypicalItems.EXPIRING_FISH;
-import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

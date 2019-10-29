@@ -11,12 +11,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.model.item.exceptions.ItemNotFoundException;
 import io.xpire.testutil.TypicalItems;
+import io.xpire.testutil.XpireItemBuilder;
 
 public class SortedUniqueXpireItemListTest {
 
@@ -174,7 +174,8 @@ public class SortedUniqueXpireItemListTest {
 
     @Test
     public void setItems_listWithDuplicateItems_throwsDuplicateItemException() {
-        List<XpireItem> listWithDuplicateXpireItems = Arrays.asList(TypicalItems.EXPIRED_APPLE, TypicalItems.EXPIRED_APPLE);
+        List<XpireItem> listWithDuplicateXpireItems = Arrays.asList(TypicalItems.EXPIRED_APPLE,
+            TypicalItems.EXPIRED_APPLE);
         assertThrows(DuplicateItemException.class, () -> uniqueItemList.setItems(listWithDuplicateXpireItems));
     }
 

@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
-import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.logic.CommandParserItemUtil;
@@ -29,6 +28,7 @@ import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.item.ContainsKeywordsPredicate;
 import io.xpire.model.item.XpireItem;
 import io.xpire.testutil.ItemUtil;
+import io.xpire.testutil.XpireItemBuilder;
 
 
 public class XpireParserTest {

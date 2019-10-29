@@ -8,15 +8,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import io.xpire.model.item.Item;
-import io.xpire.testutil.ReplenishListBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.model.item.ContainsKeywordsPredicate;
+import io.xpire.model.item.Item;
 import io.xpire.testutil.Assert;
 import io.xpire.testutil.ExpiryDateTrackerBuilder;
+import io.xpire.testutil.ReplenishListBuilder;
 import io.xpire.testutil.TypicalItems;
 
 public class ModelManagerTest {
@@ -107,7 +107,7 @@ public class ModelManagerTest {
         Xpire differentXpire = new Xpire();
         ReplenishList differentReplenishList = new ReplenishList();
         ReadOnlyListView<? extends Item>[] differentLists = new ReadOnlyListView[]{differentXpire,
-                                                                    differentReplenishList};
+            differentReplenishList};
         UserPrefs userPrefs = new UserPrefs();
 
         // same values -> returns true

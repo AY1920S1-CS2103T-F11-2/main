@@ -5,10 +5,11 @@ import static io.xpire.commons.core.Messages.MESSAGE_SUGGESTIONS;
 import static io.xpire.logic.parser.CommandParserTestUtil.assertEqualsParseSuccess;
 import static io.xpire.logic.parser.CommandParserTestUtil.assertParseFailure;
 
-import io.xpire.model.item.sort.XpireMethodOfSorting;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.logic.commands.SortCommand;
+import io.xpire.model.item.sort.XpireMethodOfSorting;
+
 
 public class SortCommandParserTest {
     private SortCommandParser parser = new SortCommandParser();

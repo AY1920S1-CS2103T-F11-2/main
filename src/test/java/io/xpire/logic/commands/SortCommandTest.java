@@ -8,20 +8,18 @@ import static io.xpire.testutil.TypicalItems.EXPIRED_MILK;
 import static io.xpire.testutil.TypicalItems.EXPIRED_ORANGE;
 import static io.xpire.testutil.TypicalItems.EXPIRING_FISH;
 import static io.xpire.testutil.TypicalItems.JELLY;
-import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 
-import io.xpire.model.item.sort.XpireMethodOfSorting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
-
+import io.xpire.model.item.sort.XpireMethodOfSorting;
 
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for

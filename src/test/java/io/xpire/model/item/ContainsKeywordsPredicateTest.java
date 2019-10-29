@@ -7,8 +7,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.Test;
+
+import io.xpire.testutil.XpireItemBuilder;
 
 public class ContainsKeywordsPredicateTest {
 

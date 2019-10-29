@@ -4,8 +4,8 @@ import static io.xpire.logic.commands.CommandTestUtil.assertCommandFailure;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static io.xpire.logic.commands.SetReminderCommand.MESSAGE_SUCCESS;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
-import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -6,7 +6,6 @@ import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static io.xpire.testutil.TypicalItems.BANANA;
 import static io.xpire.testutil.TypicalItems.DUCK;
 import static io.xpire.testutil.TypicalItems.JELLY;
-import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

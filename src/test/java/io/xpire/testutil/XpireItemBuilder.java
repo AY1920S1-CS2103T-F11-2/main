@@ -4,10 +4,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import io.xpire.model.item.ExpiryDate;
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.ReminderThreshold;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 import io.xpire.model.util.SampleDataUtil;

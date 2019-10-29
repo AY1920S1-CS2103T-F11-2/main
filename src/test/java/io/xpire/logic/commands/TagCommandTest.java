@@ -15,26 +15,25 @@ import static io.xpire.logic.commands.CommandTestUtil.showItemAtIndex;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIFTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_SECOND_ITEM;
-import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.xpire.model.item.XpireItem;
-import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
-
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
+import io.xpire.testutil.XpireItemBuilder;
 
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
