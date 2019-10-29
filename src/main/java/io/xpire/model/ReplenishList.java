@@ -6,7 +6,6 @@ import java.util.List;
 
 import io.xpire.model.item.Item;
 import io.xpire.model.item.SortedUniqueReplenishItemList;
-import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.model.item.sort.MethodOfSorting;
 import javafx.collections.ObservableList;
 

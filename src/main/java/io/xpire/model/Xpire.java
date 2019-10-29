@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.SortedUniqueXpireItemList;
+import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
@@ -111,6 +111,10 @@ public class Xpire implements ReadOnlyListView<XpireItem> {
         return items.iterator();
     }
 
+    /**
+     * Updates tags of item specified.
+     * @param item The item to update tags for.
+     */
     public void updateItemTag(XpireItem item) {
         Set<Tag> newTag = new TreeSet<>(new TagComparator());
         newTag.addAll(item.getNewTagSet(new Tag(EXPIRED_TAG)));

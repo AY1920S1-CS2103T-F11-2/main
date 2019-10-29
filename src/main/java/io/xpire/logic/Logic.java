@@ -1,6 +1,7 @@
 package io.xpire.logic;
 
 import java.nio.file.Path;
+
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.logic.commands.CommandResult;
 import io.xpire.logic.commands.exceptions.CommandException;

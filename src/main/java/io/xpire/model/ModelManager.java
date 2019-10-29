@@ -218,6 +218,11 @@ public class ModelManager implements Model {
         addReplenishItem(adaptedItem);
     }
 
+    /**
+     * Adapts item to replenish item.
+     * @param xpireItem The xpire item to adapt to replenish item.
+     * @return The replenish item created.
+     */
     private Item adaptItemToReplenish(XpireItem xpireItem) {
         Name itemName = xpireItem.getName();
         Set<Tag> originalTags = xpireItem.getTags();
@@ -267,7 +272,7 @@ public class ModelManager implements Model {
     public void updateFilteredItemList(Predicate<? extends Item> predicate) {
         if (this.currentFilteredItems == this.filteredXpireItems) {
             updateFilteredXpireItemList((Predicate<XpireItem>) predicate);
-        } else if (this.currentFilteredItems == this.filteredReplenishItems){
+        } else if (this.currentFilteredItems == this.filteredReplenishItems) {
             updateFilteredReplenishItemList((Predicate<Item>) predicate);
         }
     }

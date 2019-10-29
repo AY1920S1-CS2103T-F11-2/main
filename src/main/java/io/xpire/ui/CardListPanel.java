@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
@@ -39,7 +40,7 @@ public class CardListPanel extends UiPart<AnchorPane> {
     void displayItem(ObservableList<? extends Item> itemList) {
         card.getChildren().clear();
         Collection<ItemCard> cardList;
-        if (!itemList.isEmpty() && itemList.get(0) instanceof XpireItem){
+        if (!itemList.isEmpty() && itemList.get(0) instanceof XpireItem) {
             ObservableList<XpireItem> xpireItemList = (ObservableList<XpireItem>) itemList;
             cardList = IntStream.range(0, xpireItemList.size())
                                 .mapToObj(i -> new ItemCard(xpireItemList.get(i), i + 1))

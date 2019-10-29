@@ -26,7 +26,7 @@ import io.xpire.logic.parser.exceptions.ParseException;
 /**
  * Parses user input.
  */
-public class XpireParser implements Parser{
+public class XpireParser implements Parser {
 
     /**
      * Parses user input into command for execution.

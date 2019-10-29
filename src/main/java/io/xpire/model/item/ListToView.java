@@ -4,11 +4,14 @@ import static java.util.Objects.requireNonNull;
 
 import io.xpire.commons.util.AppUtil;
 
+/**
+ * The list to be brought into view.
+ */
 public class ListToView {
 
     public static final String MESSAGE_CONSTRAINTS = "Only two lists (main and replenish) are available to view.";
-    public static String VIEW_MAIN = "main";
-    public static String VIEW_REPLENISH = "replenish";
+    public static final String VIEW_MAIN = "main";
+    public static final String VIEW_REPLENISH = "replenish";
     private final String list;
 
     /**

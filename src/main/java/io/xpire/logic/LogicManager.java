@@ -3,6 +3,7 @@ package io.xpire.logic;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
+
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.logic.commands.Command;

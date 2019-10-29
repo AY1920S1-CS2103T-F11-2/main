@@ -18,7 +18,7 @@ public class ViewCommand extends Command {
             + "Format: view|<key> (where key is 'main' or 'replenish')\n"
             + "Example: " + COMMAND_WORD + "|main";
 
-    public ListToView list = null;
+    private ListToView list = null;
 
     public ViewCommand() {
     }
@@ -37,5 +37,9 @@ public class ViewCommand extends Command {
         }
         model.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
         return new CommandResult(output);
+    }
+
+    public ListToView getList() {
+        return this.list;
     }
 }

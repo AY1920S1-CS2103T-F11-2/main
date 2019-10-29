@@ -13,9 +13,9 @@ public class ClearCommand extends Command {
 
     public static final String COMMAND_WORD = "clear";
     public static final String MESSAGE_SUCCESS = "XpireItem list has been cleared!";
-    public String list;
+    private String list;
 
-    public ClearCommand(String list){
+    public ClearCommand(String list) {
         this.list = list;
     }
 
@@ -33,5 +33,9 @@ public class ClearCommand extends Command {
             break;
         }
         return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+    public String getList() {
+        return this.list;
     }
 }

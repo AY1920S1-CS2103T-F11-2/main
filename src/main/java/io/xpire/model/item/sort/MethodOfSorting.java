@@ -5,8 +5,8 @@ import java.util.Comparator;
 import io.xpire.model.item.Item;
 
 /**
- *
- * @param <T>
+ * The method of sorting.
+ * @param <T> The class item to be sorted.
  */
 public interface MethodOfSorting<T extends Item> {
 

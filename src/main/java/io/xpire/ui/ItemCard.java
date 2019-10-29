@@ -1,6 +1,7 @@
 package io.xpire.ui;
 
 import java.util.Optional;
+
 import io.xpire.commons.util.DateUtil;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.ReminderDate;
@@ -26,8 +27,8 @@ public class ItemCard extends UiPart<Region> {
      *
      */
 
-    public XpireItem xpireItem;
-    public Item replenishItem;
+    private XpireItem xpireItem;
+    private Item replenishItem;
 
     @FXML
     private HBox cardPane;
