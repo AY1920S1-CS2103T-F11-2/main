@@ -12,7 +12,6 @@ participant ":Model" as Model MODEL_COLOR
 participant ":FilteredList" as FilteredList MODEL_COLOR
 participant ":Xpire" as Xpire MODEL_COLOR
 participant ":SortedUniqueItemList" as SortedUniqueItemList MODEL_COLOR
-participant ":MethodOfSorting" as MethodOfSorting MODEL_COLOR
 end box
 
 [-> LogicManager : execute("view")
@@ -35,7 +34,7 @@ activate FilteredList
 FilteredList -> Xpire : getItemList()
 activate Xpire
 
-ref over Xpire, MethodOfSorting : retrieve internal sorted list
+ref over Xpire, SortedUniqueItemList : retrieve internal sorted list
 
 Xpire -> FilteredList : li
 deactivate Xpire

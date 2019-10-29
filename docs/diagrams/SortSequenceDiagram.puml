@@ -6,16 +6,13 @@ participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":XpireParser" as XpireParser LOGIC_COLOR
 participant ":SortCommandParser" as SortCommandParser LOGIC_COLOR
 participant ":ParserUtil" as ParserUtil LOGIC_COLOR
-participant "method:MethodOfSorting" as MethodOfSorting MODEL_COLOR
 participant "s:SortCommand" as SortCommand LOGIC_COLOR
 participant ":CommandResult" as CommandResult LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
 participant ":Model" as Model MODEL_COLOR
-participant "xpire:Xpire" as Xpire MODEL_COLOR
-participant "items:SortedUniqueItemList" as SortedUniqueItemList MODEL_COLOR
-participant "method:MethodOfSorting" as MethodOfSorting MODEL_COLOR
+participant "mtd:MethodOfSorting" as MethodOfSorting MODEL_COLOR
 end box
 
 [-> LogicManager : execute("sort|date")
@@ -41,13 +38,13 @@ create MethodOfSorting
 ParserUtil -> MethodOfSorting
 activate MethodOfSorting
 
-MethodOfSorting -> ParserUtil : method
+MethodOfSorting -> ParserUtil : mtd
 deactivate MethodOfSorting
-ParserUtil -> SortCommandParser : method
+ParserUtil -> SortCommandParser : mtd
 deactivate ParserUtil
 
 create SortCommand
-SortCommandParser -> SortCommand : method
+SortCommandParser -> SortCommand : mtd
 activate SortCommand
 
 SortCommand --> SortCommandParser : s
@@ -68,25 +65,7 @@ activate SortCommand
 SortCommand -> Model : sortItemList(method)
 activate Model
 
-Model --> SortCommand
-
-
-Model -> Xpire : setMethodOfSorting(method)
-activate Xpire
-
-Xpire -> SortedUniqueItemList : setComparator(method.getComparator())
-activate SortedUniqueItemList
-
-SortedUniqueItemList -> MethodOfSorting : getComparator()
-activate MethodOfSorting
-MethodOfSorting -> SortedUniqueItemList : dateComparator
-deactivate MethodOfSorting
-
-SortedUniqueItemList --> Xpire :
-deactivate SortedUniqueItemList
-Xpire -> Model :
-deactivate Xpire
-
+ref over Model, MethodOfSorting : set method of sorting to date
 Model --> SortCommand
 deactivate Model
 

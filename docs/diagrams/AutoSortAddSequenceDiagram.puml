@@ -12,7 +12,6 @@ participant ":Model" as Model MODEL_COLOR
 participant ":Xpire" as Xpire MODEL_COLOR
 participant ":SortedUniqueItemList" as SortedUniqueItemList MODEL_COLOR
 participant ":ObservableList" as ObservableList MODEL_COLOR
-participant ":MethodOfSorting" as MethodOfSorting MODEL_COLOR
 end box
 
 [-> LogicManager : execute("add Strawberry")
@@ -31,7 +30,7 @@ activate Xpire
 Xpire -> SortedUniqueItemList : add("Strawberry")
 activate SortedUniqueItemList
 
-ref over SortedUniqueItemList, MethodOfSorting : set method of sorting as default
+ref over SortedUniqueItemList, ObservableList : set method of sorting as default
 
 SortedUniqueItemList --> Xpire :
 deactivate SortedUniqueItemList

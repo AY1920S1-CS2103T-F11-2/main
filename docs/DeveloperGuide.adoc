@@ -211,6 +211,12 @@ The following sequence diagram shows how the items added are auto-sorted:
 image::AutoSortAddSequenceDiagram.png[]
 
 [NOTE]
+Parsers are omitted from the diagram above to place greater emphasis on the sorting mechanism.
+
+image::AutoSortAddPartSequenceDiagram.png[]
+
+`this.methodOfSorting = new MethodOfSorting("name");`
+[NOTE]
 Everytime an item is added to the list, the method of sorting is reset to the default, which sorts
 the items by name then date.
 
@@ -221,14 +227,25 @@ image::SortSequenceDiagram.png[]
 [NOTE]
 When sort is called, the method of sorting is redefined by the user.
 
+image::SortParserPartSequenceDiagram.png[]
+
+In the above example, the user has specified to sort items by their expiry date, thus a dateComparator is returned.
+
 `sortedInternalList = new SortedList<>(internalList, methodOfSorting.getComparator());`
 
 [NOTE]
 The SortedList changes accordingly based on the method of sorting specified.
 
+image::SortActivityDiagram.png[]
+
 The following sequence diagram shows how the view operation works to display items that are auto-sorted or sorted manually by name or date:
 
 image::AutoSortViewSequenceDiagram.png[]
+
+[NOTE]
+Parsers are omitted from the diagram above to place greater emphasis on the sorting mechanism.
+
+image::AutoSortViewPartSequenceDiagram.png[]
 
 [NOTE]
 Everytime view is called, the current method of sorting specified is retrieved. If it has not been explicitly specified,
@@ -479,17 +496,26 @@ The spelling correction mechanism is based primarily on the Damerau–Levenshtei
 This distance is based on the number of substitutions, deletions, insertions or transpositions of characters, needed to convert the source string into the target string.
 Relevant functions supporting this operation are implemented in `StringUtil`.
 
+The diagram below is a simplified illustration of how the feature works.
+
+image::RecommendationsExample1.png[]
+
 [NOTE]
 The recommendations will be made solely based the list of items previously displayed rather than all items currently in the list.
+
+As shown in the diagram below, `Banana` was not recommended even though it exists in the original list. This is because it had been filtered from the previous list prior to when the second search command was executed.
+On the other hand, if `green` was misspelled as `gren`, the algorithm will be able to identify `green` as the closest match, as `Green Apple` is present in the previous list.
+
+image::RecommendationsExample2.png[]
 
 //Given below is an example usage scenario and how the mechanism behaves at each step.
 
 The following sequence diagram shows how the sort operation works with recommendations,
-n the case that "date" is misspelled as "dat":
+in the case that "date" is misspelled as "dat":
 
 image::RecommendationsSortSequenceDiagram.png[]
 
-The following sequence diagram details findSimilar which is omitted above.
+The following sequence diagram `findSimilar` illustrates the process omitted above.
 
 image::FindSimilarSequenceDiagram.png[]
 
