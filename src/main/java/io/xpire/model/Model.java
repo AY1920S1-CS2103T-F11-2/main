@@ -52,21 +52,28 @@ public interface Model {
     /**
      * Returns the user prefs' xpire file path.
      */
-    Path getXpireFilePath();
+    Path getListFilePath();
 
     /**
      * Sets the user prefs' xpire file path.
      */
-    void setXpireFilePath(Path xpireFilePath);
+    void setListFilePath(Path xpireFilePath);
+
+    /**
+     * Returns an array containing xpire and replenish list.
+     */
+    ReadOnlyListView<? extends Item>[] getLists();
 
     /**
      * Replaces xpire data with the data in {@code xpire}.
      */
     void setXpire(ReadOnlyListView<XpireItem> xpire);
 
-    /** Returns the xpire
-     * @return*/
-    ReadOnlyListView<? extends Item>[] getXpire();
+
+    /**
+     * Returns an Xpire object.
+     */
+    ReadOnlyListView<XpireItem> getXpire();
 
     /**
      * Returns true if an xpireItem with the same identity as {@code xpireItem} exists in xpire.
@@ -133,24 +140,33 @@ public interface Model {
 
     void setCurrentFilteredItemList(ListToView list);
 
-    public void setReplenishList(ReadOnlyListView<Item> replenishList);
+    /**
+     * Replaces replenish list data with the data in {@code replenishList}.
+     */
+    void setReplenishList(ReadOnlyListView<Item> replenishList);
 
-    public ReadOnlyListView<Item> getReplenishList();
+    ReadOnlyListView<Item> getReplenishList();
 
-    public boolean hasReplenishItem(Item item);
+    boolean hasReplenishItem(Item item);
 
-    public void deleteReplenishItem(Item target);
+    void deleteReplenishItem(Item target);
 
-    public void addReplenishItem(Item item);
+    void addReplenishItem(Item item);
 
-    public void setReplenishItem(Item target, Item editedItem);
+    void setReplenishItem(Item target, Item editedItem);
 
-    public Set<Tag> getAllReplenishItemTags();
+    Set<Tag> getAllReplenishItemTags();
 
-    public Set<Name> getAllReplenishItemNames();
+    Set<Name> getAllReplenishItemNames();
 
-    public void updateFilteredReplenishItemList(Predicate<Item> predicate);
+    void updateFilteredReplenishItemList(Predicate<Item> predicate);
 
-    public List<Item> getReplenishItemList();
+    List<Item> getReplenishItemList();
+
+    void shiftItemToReplenishList(XpireItem xpireItem);
+
+    void addItemToReplenishList(XpireItem xpireItem);
+
+    void checkItemsForShift();
 
 }

@@ -67,7 +67,7 @@ public class XpireParser implements Parser{
             return new SearchCommandParser().parse(arguments);
 
         case ViewCommand.COMMAND_WORD:
-            return new ViewCommandParser().parse(arguments);
+            return new ViewCommand();
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
-import io.xpire.testutil.ItemBuilder;
+import io.xpire.testutil.XpireItemBuilder;
 import io.xpire.testutil.TypicalItems;
 
 /**
@@ -22,14 +22,14 @@ public class AddCommandIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(TypicalItems.getTypicalExpiryDateTracker(), new UserPrefs());
+        model = new ModelManager(TypicalItems.getTypicalLists(), new UserPrefs());
     }
 
     @Test
     public void execute_newItem_success() {
-        XpireItem validXpireItem = new ItemBuilder().build();
+        XpireItem validXpireItem = new XpireItemBuilder().build();
 
-        Model expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         expectedModel.addItem(validXpireItem);
 
         assertCommandSuccess(new AddCommand(validXpireItem), model,
@@ -38,7 +38,7 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_duplicateItem_throwsCommandException() {
-        XpireItem xpireItemInList = (XpireItem) model.getXpire()[0].getItemList().get(0);
+        XpireItem xpireItemInList = (XpireItem) model.getLists()[0].getItemList().get(0);
         assertCommandFailure(new AddCommand(xpireItemInList), model, AddCommand.MESSAGE_DUPLICATE_ITEM);
     }
 

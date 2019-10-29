@@ -19,20 +19,20 @@ import static io.xpire.testutil.TypicalItems.BANANA;
 import static io.xpire.testutil.TypicalItems.KIWI;
 
 import io.xpire.model.item.XpireItem;
+import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.logic.commands.AddCommand;
 import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
-import io.xpire.testutil.ItemBuilder;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
-        XpireItem expectedXpireItem = new ItemBuilder(BANANA).build();
+        XpireItem expectedXpireItem = new XpireItemBuilder(BANANA).build();
 
         // whitespace only preamble
         CommandParserTestUtil.assertEqualsParseSuccess(parser, PREAMBLE_WHITESPACE + VALID_NAME_BANANA
@@ -48,7 +48,7 @@ public class AddCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // no quantity specified
-        XpireItem expectedXpireItem = new ItemBuilder(KIWI).withQuantity("1").withReminderThreshold("0").build();
+        XpireItem expectedXpireItem = new XpireItemBuilder(KIWI).withQuantity("1").withReminderThreshold("0").build();
         String userInput = VALID_NAME_KIWI + "|" + VALID_EXPIRY_DATE_KIWI + "|";
         CommandParserTestUtil.assertEqualsParseSuccess(parser, userInput,
                 new AddCommand(expectedXpireItem));

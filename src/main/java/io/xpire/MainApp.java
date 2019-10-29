@@ -24,11 +24,11 @@ import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.util.SampleDataUtil;
 import io.xpire.storage.JsonUserPrefsStorage;
-import io.xpire.storage.JsonXpireStorage;
+import io.xpire.storage.JsonListStorage;
 import io.xpire.storage.Storage;
 import io.xpire.storage.StorageManager;
 import io.xpire.storage.UserPrefsStorage;
-import io.xpire.storage.XpireStorage;
+import io.xpire.storage.ListStorage;
 import io.xpire.ui.Ui;
 import io.xpire.ui.UiManager;
 import javafx.application.Application;
@@ -48,6 +48,7 @@ public class MainApp extends Application {
     protected Storage storage;
     protected Model model;
     protected Config config;
+    protected ItemManager itemManager;
 
     @Override
     public void init() throws Exception {
@@ -59,10 +60,10 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
-        XpireStorage xpireStorage = new JsonXpireStorage(
-                userPrefs.getXpireFilePath()
+        ListStorage listStorage = new JsonListStorage(
+                userPrefs.getListFilePath()
         );
-        storage = new StorageManager(xpireStorage, userPrefsStorage);
+        storage = new StorageManager(listStorage, userPrefsStorage);
 
         initLogging(config);
 
@@ -70,7 +71,12 @@ public class MainApp extends Application {
 
         logic = new LogicManager(model, storage);
 
+        itemManager = new ItemManager(model, storage);
+
+        initItemManager();
+
         ui = new UiManager(logic);
+
     }
 
     /**
@@ -80,20 +86,19 @@ public class MainApp extends Application {
      * {@code storage}'s expiry date tracker.
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
-        Optional<ReadOnlyListView<? extends Item>>[] expiryDateTrackerOptional;
-        Optional<ReadOnlyListView<Item>> replenishListOptional;
+        Optional<ReadOnlyListView<? extends Item>>[] listArray;
         ReadOnlyListView<XpireItem> initialTrackerData;
         ReadOnlyListView<Item> initialReplenishData;
         try {
-            expiryDateTrackerOptional = storage.readXpire();
-            if (!expiryDateTrackerOptional[0].isPresent()) {
+            listArray = storage.readList();
+            if (!listArray[0].isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample Expiry Date Tracker");
             }
-            if (!expiryDateTrackerOptional[1].isPresent()) {
+            if (!listArray[1].isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample Replenish List");
             }
-            initialTrackerData = (Xpire) expiryDateTrackerOptional[0].orElseGet(SampleDataUtil::getSampleXpire);
-            initialReplenishData = (ReplenishList) expiryDateTrackerOptional[1].orElseGet(
+            initialTrackerData = (Xpire) listArray[0].orElseGet(SampleDataUtil::getSampleXpire);
+            initialReplenishData = (ReplenishList) listArray[1].orElseGet(
                     SampleDataUtil::getSampleReplenishList
             );
         } catch (DataConversionException e) {
@@ -111,6 +116,10 @@ public class MainApp extends Application {
 
     private void initLogging(Config config) {
         LogsCenter.init(config);
+    }
+
+    private void initItemManager() {
+        itemManager.updateItemTags();
     }
 
     /**

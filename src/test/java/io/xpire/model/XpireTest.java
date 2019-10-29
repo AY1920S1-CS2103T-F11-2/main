@@ -15,10 +15,10 @@ import java.util.Collections;
 import java.util.List;
 
 import io.xpire.model.item.XpireItem;
+import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.model.item.exceptions.DuplicateItemException;
-import io.xpire.testutil.ItemBuilder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -45,7 +45,7 @@ public class XpireTest {
 
     @Test
     public void resetData_withDuplicateItems_throwsDuplicateItemException() {
-        XpireItem editedApple = new ItemBuilder(EXPIRED_APPLE).withExpiryDate(VALID_EXPIRY_DATE_APPLE)
+        XpireItem editedApple = new XpireItemBuilder(EXPIRED_APPLE).withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                                                          .withQuantity("1").build();
         List<XpireItem> newXpireItems = Arrays.asList(EXPIRED_APPLE, editedApple);
         XpireStub newData = new XpireStub(newXpireItems);
@@ -71,7 +71,7 @@ public class XpireTest {
     @Test
     public void hasItem_itemWithSameIdentityFieldsInExpiryDateTracker_returnsTrue() {
         xpire.addItem(EXPIRED_APPLE);
-        XpireItem editedAlice = new ItemBuilder(EXPIRED_APPLE)
+        XpireItem editedAlice = new XpireItemBuilder(EXPIRED_APPLE)
                 .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                 .withTags(VALID_TAG_FRUIT)
                 .build();

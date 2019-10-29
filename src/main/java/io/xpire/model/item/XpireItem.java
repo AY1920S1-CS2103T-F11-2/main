@@ -3,14 +3,17 @@ package io.xpire.model.item;
 import static io.xpire.model.item.Quantity.DEFAULT_QUANTITY;
 import static io.xpire.model.item.ReminderThreshold.DEFAULT_THRESHOLD;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
 import io.xpire.commons.util.CollectionUtil;
 import io.xpire.commons.util.DateUtil;
+import io.xpire.logic.commands.TagCommand;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
+import io.xpire.model.tag.TagItemDescriptor;
 
 /**
  * Represents an item in the expiry date tracker.
@@ -110,6 +113,18 @@ public class XpireItem extends Item {
     public void setReminderThreshold(ReminderThreshold reminderThreshold) {
         this.reminderThreshold = reminderThreshold;
     }
+
+    public boolean isItemExpired() {
+        return this.expiryDate.isExpired(DateUtil.getCurrentDate());
+    }
+
+    public Set<Tag> getNewTagSet(Tag tag) {
+        Set<Tag> newTagSet = new TreeSet<>(new TagComparator());
+        newTagSet.addAll(this.getTags());
+        newTagSet.add(tag);
+        return newTagSet;
+    }
+
 
     /**
      * Returns true if both items of the same name have at least one other identity field that is the same.

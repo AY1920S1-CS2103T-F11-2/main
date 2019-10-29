@@ -17,8 +17,8 @@ public class AddCommand extends Command {
             + "Format: add|<xpireItem name>|<expiry date>[|<quantity>]\n"
             + "Example: " + COMMAND_WORD + "|Strawberry|11/12/1999|2";
 
-    public static final String MESSAGE_SUCCESS = "New xpireItem added: %s";
-    public static final String MESSAGE_DUPLICATE_ITEM = "This xpireItem already exists";
+    public static final String MESSAGE_SUCCESS = "New item added to tracker: %s";
+    public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists";
 
     private final XpireItem toAdd;
 

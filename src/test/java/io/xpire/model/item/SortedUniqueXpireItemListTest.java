@@ -11,11 +11,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import io.xpire.testutil.XpireItemBuilder;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.model.item.exceptions.ItemNotFoundException;
-import io.xpire.testutil.ItemBuilder;
 import io.xpire.testutil.TypicalItems;
 
 public class SortedUniqueXpireItemListTest {
@@ -41,7 +41,7 @@ public class SortedUniqueXpireItemListTest {
     @Test
     public void contains_itemWithSameIdentityFieldsInList_returnsTrue() {
         uniqueItemList.add(TypicalItems.KIWI);
-        XpireItem editedAlice = new ItemBuilder(TypicalItems.KIWI).withExpiryDate(VALID_EXPIRY_DATE_KIWI)
+        XpireItem editedAlice = new XpireItemBuilder(TypicalItems.KIWI).withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                                                  .build();
         assertTrue(uniqueItemList.contains(editedAlice));
     }
@@ -98,7 +98,7 @@ public class SortedUniqueXpireItemListTest {
     @Test
     public void setItem_editedItemHasSameIdentity_success() {
         uniqueItemList.add(TypicalItems.KIWI);
-        XpireItem editedAlice = new ItemBuilder(TypicalItems.KIWI)
+        XpireItem editedAlice = new XpireItemBuilder(TypicalItems.KIWI)
                 .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                 .withTags(VALID_TAG_FRUIT)
                 .build();

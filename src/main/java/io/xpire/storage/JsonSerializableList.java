@@ -39,7 +39,7 @@ public class JsonSerializableList {
      */
     public JsonSerializableList(ReadOnlyListView<? extends Item>[] source) {
         xpireItems.addAll(source[0].getItemList().stream().map(x-> (XpireItem) x).map(JsonAdaptedXpireItem::new)
-                                   .collect(Collectors.toList()));
+                .collect(Collectors.toList()));
         replenishItems.addAll(source[1].getItemList().stream().map(JsonAdaptedItem::new).collect(Collectors.toList()));
     }
 

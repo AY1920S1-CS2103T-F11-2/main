@@ -13,5 +13,6 @@ public class Messages {
     public static final String MESSAGE_INVALID_TAGS = "Tags are not in the xpireItem specified!";
     public static final String MESSAGE_UNKNOWN_DELETE_MODE = "Unknown Delete mode.";
     public static final String MESSAGE_SUGGESTIONS = " Did you mean %s?";
+    public static final String MESSAGE_REPLENISH_SHIFT_SUCCESS = "%s is shifted into the replenish list.";
 
 }

@@ -22,7 +22,6 @@ import io.xpire.testutil.Assert;
 public class CommandTestUtil {
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
-    public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
     /**
      * Executes the given {@code command}, confirms that <br>
@@ -59,11 +58,11 @@ public class CommandTestUtil {
     public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
-        Xpire expectedXpire = new Xpire(actualModel.getXpire()[0]);
+        Xpire expectedXpire = new Xpire(actualModel.getLists()[0]);
         List<XpireItem> expectedFilteredList = new ArrayList<>(actualModel.getFilteredXpireItemList());
 
         Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
-        assertEquals(expectedXpire, actualModel.getXpire());
+        assertEquals(expectedXpire, actualModel.getLists()[0]);
         assertEquals(expectedFilteredList, actualModel.getFilteredXpireItemList());
     }
     /**

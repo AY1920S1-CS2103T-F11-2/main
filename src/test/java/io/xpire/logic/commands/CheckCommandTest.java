@@ -7,6 +7,7 @@ import static io.xpire.testutil.TypicalItems.EXPIRED_MILK;
 import static io.xpire.testutil.TypicalItems.EXPIRED_ORANGE;
 import static io.xpire.testutil.TypicalItems.EXPIRING_FISH;
 import static io.xpire.testutil.TypicalItems.getTypicalExpiryDateTracker;
+import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,8 +28,8 @@ import io.xpire.model.item.ReminderThresholdExceededPredicate;
  */
 public class CheckCommandTest {
 
-    private Model model = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalExpiryDateTracker(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalLists(), new UserPrefs());
+    private Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
 
     @Test
     public void execute_checkReminder_success() {

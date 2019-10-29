@@ -18,40 +18,42 @@ import io.xpire.model.item.Item;
 /**
  * A class to access Xpire data stored as a json file on the hard disk.
  */
-public class JsonXpireStorage implements XpireStorage {
+public class JsonListStorage implements ListStorage {
 
-    private static final Logger logger = LogsCenter.getLogger(JsonXpireStorage.class);
+    private static final Logger logger = LogsCenter.getLogger(JsonListStorage.class);
 
     private Path filePath;
 
-    public JsonXpireStorage(Path filePath) {
+    public JsonListStorage(Path filePath) {
         this.filePath = filePath;
     }
 
-    public Path getXpireFilePath() {
+    public Path getListFilePath() {
         return this.filePath;
     }
 
     @Override
-    public Optional<ReadOnlyListView<? extends Item>>[] readXpire() throws DataConversionException {
-        return readXpire(this.filePath);
+    public Optional<ReadOnlyListView<? extends Item>>[] readList() throws DataConversionException {
+        return readList(this.filePath);
     }
 
     /**
-     * Similar to {@link #readXpire()}.
+     * Similar to {@link #readList()}.
      *
      * @param filePath location of the data. Cannot be null.
      * @throws DataConversionException if the file is not in the correct format.
      */
-    public Optional<ReadOnlyListView<? extends Item>>[] readXpire(Path filePath) throws DataConversionException {
+    public Optional<ReadOnlyListView<? extends Item>>[] readList(Path filePath) throws DataConversionException {
         requireNonNull(filePath);
         Optional<JsonSerializableList> jsonTracker = JsonUtil.readJsonFile(
                 filePath, JsonSerializableList.class);
         if (jsonTracker.isEmpty()) {
             return new Optional[]{Optional.empty(), Optional.empty()};
         }
-
         try {
+            if (jsonTracker.get().toModelType().length != 2) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
             ReadOnlyListView xpire = jsonTracker.get().toModelType()[0];
             ReadOnlyListView replenishList = jsonTracker.get().toModelType()[1];
             return new Optional[]{Optional.of(xpire), Optional.of(replenishList)};
@@ -62,21 +64,20 @@ public class JsonXpireStorage implements XpireStorage {
     }
 
     @Override
-    public void saveXpire(ReadOnlyListView<? extends Item>[] xpire) throws IOException {
-        saveXpire(xpire, this.filePath);
+    public void saveList(ReadOnlyListView<? extends Item>[] lists) throws IOException {
+        saveList(lists, this.filePath);
     }
 
     /**
-     * Similar to {@link #saveXpire(ReadOnlyListView[])}.
+     * Similar to {@link #saveList(ReadOnlyListView[])}.
      *
      * @param filePath location of the data. Cannot be null.
      */
-    public void saveXpire(ReadOnlyListView<? extends Item>[] xpire, Path filePath) throws IOException {
-        requireNonNull(xpire);
+    public void saveList(ReadOnlyListView<? extends Item>[] lists, Path filePath) throws IOException {
+        requireNonNull(lists);
         requireNonNull(filePath);
 
         FileUtil.createIfMissing(filePath);
-        JsonUtil.saveJsonFile(new JsonSerializableList(xpire), filePath);
+        JsonUtil.saveJsonFile(new JsonSerializableList(lists), filePath);
     }
-
 }

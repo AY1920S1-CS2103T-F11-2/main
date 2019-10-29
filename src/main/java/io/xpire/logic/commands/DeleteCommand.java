@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
+import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
@@ -96,10 +98,12 @@ public class DeleteCommand extends Command {
         case QUANTITY:
             assert this.quantity != null;
             XpireItem newQuantityXpireItem = reduceItemQuantity(targetXpireItem, quantity);
+            Name itemName = newQuantityXpireItem.getName();
             model.setItem(targetXpireItem, newQuantityXpireItem);
-            /* TODO: Transfer to To-Buy-List*/
+            // transfer item to replenish list
             if (Quantity.quantityIsZero(newQuantityXpireItem.getQuantity())) {
-                model.deleteItem(targetXpireItem);
+                model.shiftItemToReplenishList(targetXpireItem);
+                return new CommandResult(String.format(MESSAGE_REPLENISH_SHIFT_SUCCESS, itemName));
             }
             return new CommandResult(
                     String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetXpireItem));

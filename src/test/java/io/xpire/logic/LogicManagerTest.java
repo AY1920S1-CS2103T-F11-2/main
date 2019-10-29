@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import io.xpire.model.ReadOnlyListView;
+import io.xpire.storage.JsonListStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -29,9 +30,8 @@ import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.item.XpireItem;
 import io.xpire.storage.JsonUserPrefsStorage;
-import io.xpire.storage.JsonXpireStorage;
 import io.xpire.storage.StorageManager;
-import io.xpire.testutil.ItemBuilder;
+import io.xpire.testutil.XpireItemBuilder;
 
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy exception");
@@ -44,8 +44,8 @@ public class LogicManagerTest {
 
     @BeforeEach
     public void setUp() {
-        JsonXpireStorage addressBookStorage =
-                new JsonXpireStorage(temporaryFolder.resolve("addressBook.json"));
+        JsonListStorage addressBookStorage =
+                new JsonListStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
         logic = new LogicManager(model, storage);
@@ -72,8 +72,8 @@ public class LogicManagerTest {
     @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
         // Setup LogicManager with JsonAddressBookIoExceptionThrowingStub
-        JsonXpireStorage addressBookStorage =
-                new JsonXpireIoExceptionThrowingStub(
+        JsonListStorage addressBookStorage =
+                new JsonListIoExceptionThrowingStub(
                         temporaryFolder.resolve("ioExceptionAddressBook.json"));
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
@@ -83,7 +83,7 @@ public class LogicManagerTest {
         // Execute add command
         String addCommand = AddCommand.COMMAND_WORD + "|" + VALID_NAME_BANANA + "|" + VALID_EXPIRY_DATE_BANANA
                 + "| " + VALID_QUANTITY_BANANA;
-        XpireItem expectedXpireItem = new ItemBuilder(BANANA).build();
+        XpireItem expectedXpireItem = new XpireItemBuilder(BANANA).build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addItem(expectedXpireItem);
         String expectedMessage = LogicManager.FILE_OPS_ERROR_MESSAGE + DUMMY_IO_EXCEPTION;
@@ -92,7 +92,7 @@ public class LogicManagerTest {
 
     @Test
     public void getFilteredItemList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredItemList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> logic.getCurrentFilteredItemList().remove(0));
     }
 
     /**
@@ -131,7 +131,7 @@ public class LogicManagerTest {
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
             String expectedMessage) {
-        Model expectedModel = new ModelManager(model.getXpire(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
 
@@ -151,13 +151,13 @@ public class LogicManagerTest {
     /**
      * A stub class to throw an {@code IOException} when the save method is called.
      */
-    private static class JsonXpireIoExceptionThrowingStub extends JsonXpireStorage {
-        private JsonXpireIoExceptionThrowingStub(Path filePath) {
+    private static class JsonListIoExceptionThrowingStub extends JsonListStorage {
+        private JsonListIoExceptionThrowingStub(Path filePath) {
             super(filePath);
         }
 
         @Override
-        public void saveXpire(ReadOnlyListView[] xpire, Path filePath) throws IOException {
+        public void saveList(ReadOnlyListView[] xpire, Path filePath) throws IOException {
             throw DUMMY_IO_EXCEPTION;
         }
     }

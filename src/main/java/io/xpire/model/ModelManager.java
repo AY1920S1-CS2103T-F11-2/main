@@ -1,10 +1,12 @@
 package io.xpire.model;
 
+import static io.xpire.model.tag.Tag.EXPIRED_TAG;
 import static java.util.Objects.requireNonNull;
 
 import java.nio.file.Path;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -18,6 +20,7 @@ import io.xpire.model.item.Item;
 import io.xpire.model.item.ListToView;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.XpireItem;
+import io.xpire.model.item.exceptions.DuplicateItemException;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
@@ -41,15 +44,15 @@ public class ModelManager implements Model {
     /**
      * Initializes a ModelManager with the given xpire and userPrefs.
      */
-    public ModelManager(ReadOnlyListView<? extends Item>[] xpire,
+    public ModelManager(ReadOnlyListView<? extends Item>[] lists,
                         ReadOnlyUserPrefs userPrefs) {
         super();
-        CollectionUtil.requireAllNonNull(xpire, userPrefs);
+        CollectionUtil.requireAllNonNull(lists, userPrefs);
 
-        logger.fine("Initializing with xpire: " + xpire + " and user prefs " + userPrefs);
+        logger.fine("Initializing with xpire: " + lists + " and user prefs " + userPrefs);
 
-        this.xpire = new Xpire(xpire[0]);
-        this.replenishList = new ReplenishList(xpire[1]);
+        this.xpire = new Xpire(lists[0]);
+        this.replenishList = new ReplenishList(lists[1]);
         this.userPrefs = new UserPrefs(userPrefs);
         this.filteredXpireItems = new FilteredList<>(this.xpire.getItemList());
         this.filteredReplenishItems = new FilteredList<>(this.replenishList.getItemList());
@@ -85,14 +88,19 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Path getXpireFilePath() {
-        return this.userPrefs.getXpireFilePath();
+    public Path getListFilePath() {
+        return this.userPrefs.getListFilePath();
     }
 
     @Override
-    public void setXpireFilePath(Path xpireFilePath) {
+    public void setListFilePath(Path xpireFilePath) {
         requireNonNull(xpireFilePath);
-        this.userPrefs.setXpireFilePath(xpireFilePath);
+        this.userPrefs.setListFilePath(xpireFilePath);
+    }
+
+    @Override
+    public ReadOnlyListView<? extends Item>[] getLists() {
+        return new ReadOnlyListView[]{this.xpire, this.replenishList};
     }
 
     //=========== expiryDateTracker  ================================================================================
@@ -103,9 +111,10 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ReadOnlyListView<? extends Item>[] getXpire() {
-        return new ReadOnlyListView[]{this.xpire, this.replenishList};
+    public ReadOnlyListView<XpireItem> getXpire() {
+        return this.xpire;
     }
+
 
     @Override
     public boolean hasItem(XpireItem xpireItem) {
@@ -169,7 +178,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void addReplenishItem(Item item) {
+    public void addReplenishItem(Item item) throws DuplicateItemException {
         this.replenishList.addItem(item);
         updateFilteredReplenishItemList(PREDICATE_SHOW_ALL_REPLENISH_ITEMS);
     }
@@ -194,6 +203,31 @@ public class ModelManager implements Model {
         List<Item> replenishItemList = this.replenishList.getItemList();
         replenishItemList.forEach(item -> nameSet.add(item.getName()));
         return nameSet;
+    }
+
+    @Override
+    public void shiftItemToReplenishList(XpireItem xpireItem) throws DuplicateItemException {
+        Item adaptedItem = adaptItemToReplenish(xpireItem);
+        addReplenishItem(adaptedItem);
+        deleteItem(xpireItem);
+    }
+
+    @Override
+    public void addItemToReplenishList(XpireItem xpireItem) {
+        Item adaptedItem = adaptItemToReplenish(xpireItem);
+        addReplenishItem(adaptedItem);
+    }
+
+    private Item adaptItemToReplenish(XpireItem xpireItem) {
+        Name itemName = xpireItem.getName();
+        Set<Tag> originalTags = xpireItem.getTags();
+        Set<Tag> newTags = new TreeSet<>(new TagComparator());
+        for (Tag tag: originalTags) {
+            if (!newTags.contains(tag) && !tag.equals(EXPIRED_TAG)) {
+                newTags.add(tag);
+            }
+        }
+        return new Item(itemName, newTags);
     }
 
     //=========== Sorted XpireItem List Accessors ======================================================================
@@ -273,6 +307,22 @@ public class ModelManager implements Model {
     @Override
     public List<Item> getReplenishItemList() {
         return this.replenishList.getItemList();
+    }
+
+    // =========== Item Manager Methods =============================================================
+
+    @Override
+    public void checkItemsForShift() {
+        Iterator<XpireItem> itr = this.xpire.getIterator();
+        XpireItem item;
+        while (itr.hasNext()) {
+            item = itr.next();
+            if (item.isItemExpired()) {
+                xpire.updateItemTag(item);
+                addItemToReplenishList(item);
+                //shiftItemToReplenishList(item);
+            }
+        }
     }
 
     @Override
