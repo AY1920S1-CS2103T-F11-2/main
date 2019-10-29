@@ -1,15 +1,16 @@
 package io.xpire.model.item;
 
-import static io.xpire.logic.CommandParserItemUtil.VALID_EXPIRY_DATE_KIWI;
-import static io.xpire.logic.CommandParserItemUtil.VALID_NAME_APPLE;
-import static io.xpire.logic.CommandParserItemUtil.VALID_NAME_BANANA;
-import static io.xpire.logic.CommandParserItemUtil.VALID_TAG_DRINK;
 import static io.xpire.testutil.Assert.assertThrows;
 import static io.xpire.testutil.TypicalItems.EXPIRED_APPLE;
 import static io.xpire.testutil.TypicalItems.KIWI;
+import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_KIWI;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_APPLE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_BANANA;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_DRINK;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.xpire.model.tag.Tag;
 import org.junit.jupiter.api.Test;
 
 import io.xpire.testutil.XpireItemBuilder;
@@ -72,19 +73,7 @@ public class XpireItemTest {
         assertFalse(KIWI.equals(editedKiwi));
 
         // different tags -> returns false
-        //        XpireItem duck = new XpireItemBuilder(DUCK).withTags("Poultry").build();
-        //        for (Tag tag: duck.getTags()) {
-        //            System.out.println("the one with poultry: " + tag);
-        //        }
-        //        for (Tag tag: DUCK.getTags()) {
-        //            System.out.println("the one without poultry: " + tag);
-        //        }
-        //        System.out.println(DUCK.getTags().equals(duck.getTags()));
-        //        System.out.println(DUCK.equals(duck));
-        //        editedKiwi = new XpireItemBuilder(KIWI).withTags(VALID_TAG_DRINK).build();
-        //        for (Tag tag: editedKiwi.getTags()) {
-        //            System.out.println("edited item: " + tag);
-        //        }
-        //        assertFalse(KIWI.equals(editedKiwi));
+        editedKiwi = new XpireItemBuilder(KIWI).withTags(VALID_TAG_DRINK).build();
+        assertFalse(KIWI.equals(editedKiwi));
     }
 }

@@ -108,13 +108,11 @@ public class Item {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
+        builder.append(this.name.toString() + "\n");
         if (!this.getTags().isEmpty()) {
-            builder.append(this.name).append("\n")
-                    .append("Tags: ");
-        } else {
-            builder.append(this.name).append("\n");
+            builder.append("\nTags: ");
+            this.getTags().forEach((builder::append));
         }
-        this.getTags().forEach(builder::append);
         return builder.toString();
     }
 }

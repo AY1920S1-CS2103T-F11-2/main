@@ -154,37 +154,46 @@ Classes used by multiple components are in the `io.xpire.commons` package.
 This section describes some noteworthy details on how certain features are implemented.
 
 // tag:tobuylist[]
-=== [Proposed] ToReplenish/ToBuy List
+
+=== [Proposed] Replenish List
 ==== Implementation
-_{Explain here how the ToReplenish/ToBuy List is implemented}_
+//{Explain here how the ToReplenish/ToBuy List is implemented}_
+Items are added to the replenish list by the user using the replenish command.
+When an item expires, the item is automatically tagged as "expired".
+This enables the user to search for a list of expired items by searching for the "expired" tag.
+With this, the user is able to view the list of expired items and decide which items to add to the replenish list.
+On the other hand, when an item has run out, the user is prompted to replenish the item using the replenish command.
 
-Given below is an example usage scenario and how the mechanism behaves at each step.
+image::ItemManagerClassDiagram.png[]
 
-The following sequence diagram shows how the operation works:
+//Given below is an example usage scenario and how the mechanism behaves at each step.
 
-The following activity diagram summarizes what happens when a user executes a new command:
+//The following sequence diagram shows how the operation works:
+
+//The following activity diagram summarizes what happens when a user executes a new command:
 
 ==== Design Considerations
 
-===== Aspect: How ToReplenish/ToBuy List executes
+===== Aspect: How item is added to the replenish list
 
-* **Alternative 1 (current choice):**
-** Pros:
-** Cons:
+* **Alternative 1 (current choice): Once an item expires or runs out,
+the user is prompted to shift the item to the replenish list by typing the replenish command and item index.**
+** Pros: User has flexibility in deciding what to add to the replenish list.
+** Cons: User has to manually type in a short command to add an item to the replenish list.
 
-* **Alternative 2:**
-** Pros:
-** Cons:
+* **Alternative 2: Once an item expires or runs out, item is transferred to the replenish list.**
+** Pros: User need not manually key in item details to transfer it to the replenish list.
+** Cons: User may not want the item in the list and as such would expect a delete functionality for the to-replenish list.
+//
+//===== Aspect: Data structure to store the items
+//* **Alternative 1 (current choice):**
+//** Pros:
+//** Cons:
+//
+//* **Alternative 2:**
+//** Pros:
+//** Cons:
 
-===== Aspect: Data structure to store the items
-* **Alternative 1 (current choice):**
-** Pros:
-** Cons:
-
-* **Alternative 2:**
-** Pros:
-** Cons:
-// end::tobuylist[]
 
 // tag:autosort[]
 === Auto-sorting of items by name then date
@@ -228,13 +237,30 @@ The following activity diagram summarizes what happens when a user executes a ne
 // tag:setreminder[]
 === Set Reminders for expiring items
 ==== Implementation
-_{Explain here how the set reminder feature is implemented}_
+The set reminder function is facilitated by `FilteredItemList`, in which the old item will
+be replaced by a new one with its `reminderThreshold` field updated. It is activated using the command `set reminder`.
 
-Given below is an example usage scenario and how the mechanism behaves at each step.
+You can refer to the example usage scenario given below to see what happens at each stage of the execution.
+
+Scenario: the user wants to activate a reminder for an item with index 1 in the current view of the list
+1 day before its expiry date.
+
+Step 1:
+
+Step 2:
+
+Step 3:
+
+Step 4:
+
+The reminder is now set up and is reflected in the UI like this:
 
 The following sequence diagram shows how the operation works:
 
-The following activity diagram summarizes what happens when a user executes a new command:
+.SetReminderSequenceDiagram
+image::SetReminderSequenceDiagram.png[]
+
+The following activity diagram summarizes what happens when a user executes a set reminder command:
 
 ==== Design Considerations
 
@@ -259,13 +285,13 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 // end::setreminder[]
 
+
 // tag::undoredo[]
 === Undo/Redo feature
 ==== Implementation
 
 The undo/redo mechanism is facilitated by `CloneModel` and `StackManager`.
-It is a separate class that stores a state of the model at any command in time. +
-Internally, it runs three private functions that copy the data over.
+It is a separate class that stores a state of the model at any command in time. Internally, it runs three private functions that copy the data over.
 
 The mechanism is supported by a StackManager which stores internally all the states and +
 decides when to pop or clear, depending on the command.
@@ -308,7 +334,7 @@ image::UndoRedo/UndoRedoStep4.png[]
 [NOTE]
 If there are no commands to undo (e.g. at the start of a new Xpire session), undo will return an Error to the user instead. This is done by checking whether the UndoStack is empty.
 
-The following sequence diagram shows how the undo operation works (TO BE UPDATED):
+The following sequence diagram shows how the undo operation works:
 
 image::UndoSequenceDiagram.png[]
 
@@ -335,7 +361,7 @@ The current state, s1, will then be pushed into the Redo Stack.
 
 image::UndoRedo/UndoRedoStep5b.png[]
 
-Step 5c. The user may also decide to execute some other command (which is the most likely scenario) other than Undo/Redo. For instance, the user inputs `tag|2|#Fruit`
+Step 5c. The user may also decide to execute some other command (which is the most likely scenario) other than Undo/Redo. For instance, the user inputs `tag|2|#Fruit`.
 
 When this happens, the existing states in the Redo Stack will be cleared. The state s1, will then be pushed into the Undo Stack whilst the current state will be the new state s3 that includes the new Tag command.
 
@@ -369,6 +395,18 @@ Hard to do when we are applying stackable search/sort commands.
 ** Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things.
 // end::undoredo[]
+
+=== Search
+
+This feature allows users to filter out specific items either by name or by tag(s) through providing the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel. For search by name, partial words can be matched. For search by tag, only exact words will be matched.
+
+This implementation is under `Logic` and `Model` components.
+
+==== Implementation
+
+Below is the UML sequence diagram of an example usage scenario.
+
+image::SearchCommandSequenceDiagram.png[]
 
 // tag::dataencryption[]
 === [Proposed] Data Encryption
@@ -471,7 +509,33 @@ Refer to the guide <<Testing#, here>>.
 
 == Dev Ops
 
-Refer to the guide <<DevOps#, here>>.
+=== Build Automation
+
+We use Gradle for build automation. See <<UsingGradle#, here>> for more details.
+
+=== Continuous Integration
+
+We use https://travis-ci.org/[Travis CI] to perform _Continuous Integration_ on our project. See <<UsingTravis#, here>> for more details.
+
+=== Documentation Previews
+
+We use https://www.netlify.com/[Netlify] to preview the HTML pages of any modified asciidocs files when reviewing pull requests. See <<UsingNetlify#, here>> for more details.
+
+=== Making a Release
+
+Follow the steps below to make a new release:
+
+.  Update the version number in link:{repoURL}/src/main/java/io/xpire/MainApp.java[`MainApp.java`].
+.  Generate a JAR file <<UsingGradle#creating-the-jar-file, using Gradle>>.
+.  Tag the repo with the version number. e.g. `v1.4`
+.  https://help.github.com/articles/creating-releases/[Create a new release using GitHub] and upload the JAR file you have created.
+
+=== Managing Dependencies
+
+Xpire often depends on third-party libraries. For instance, the https://github.com/FasterXML/jackson[Jackson library] is being used for JSON parsing in Xpire. Below are 2 ways to manage these _dependencies_:
+
+* Use Gradle to manage and automatically download dependencies (Recommended).
+* Manually download and include those libraries in the repo (this requires extra work and bloats the repo size).
 
 [appendix]
 == Product Scope
@@ -788,13 +852,13 @@ _{More to be added}_
 
 |FXML |XML-based user interface markup language for defining user interface of a JaxaFX application
 
-|JavaFX |Software platform for creating and delivering desktop applications and rich Internet applications
-
-|JSON |An open-standard file format that uses human-readable text to transmit data objects consisting of attribute–value pairs and array data types
-
 |ItemCard |UI component that displays information on an item
 
 |CardListPanel |UI component that displays list of items
+
+|JavaFX |Software platform for creating and delivering desktop applications and rich Internet applications
+
+|JSON |An open-standard file format that uses human-readable text to transmit data objects consisting of attribute–value pairs and array data types
 
 |Logic |Handles user input for the application and returns the application's output
 

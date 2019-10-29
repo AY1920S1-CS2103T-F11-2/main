@@ -33,16 +33,17 @@ public class ReminderThresholdExceededPredicateTest {
     @Test
     public void test_nameReminderThresholdExceeded_returnsTrue() {
 
+
         ReminderThresholdExceededPredicate predicate = new ReminderThresholdExceededPredicate();
         LocalDate currentDate = LocalDate.now();
 
         // on the day of reminder
         String expiryDate1 = DateUtil.convertDateToString(currentDate.plusDays(1), DATE_FORMAT);
-        assertTrue(predicate.test(new XpireItemBuilder().withExpiryDate(expiryDate1).withThreshold("1").build()));
+        assertTrue(predicate.test(new XpireItemBuilder().withExpiryDate(expiryDate1).withReminderThreshold("1").build()));
 
         // after the day of reminder
         String expiryDate2 = DateUtil.convertDateToString(currentDate.plusDays(1), DATE_FORMAT);
-        assertTrue(predicate.test(new XpireItemBuilder().withExpiryDate(expiryDate2).withThreshold("2").build()));
+        assertTrue(predicate.test(new XpireItemBuilder().withExpiryDate(expiryDate2).withReminderThreshold("2").build()));
 
         // already expired
         String expiryDate3 = DateUtil.convertDateToString(currentDate.minusDays(1), DATE_FORMAT);
@@ -55,6 +56,6 @@ public class ReminderThresholdExceededPredicateTest {
         ReminderThresholdExceededPredicate predicate = new ReminderThresholdExceededPredicate();
         LocalDate currentDate = LocalDate.now();
         String expiryDate = DateUtil.convertDateToString(currentDate.plusDays(2), DATE_FORMAT);
-        assertFalse(predicate.test(new XpireItemBuilder().withExpiryDate(expiryDate).withThreshold("1").build()));
+        assertFalse(predicate.test(new XpireItemBuilder().withExpiryDate(expiryDate).withReminderThreshold("1").build()));
     }
 }

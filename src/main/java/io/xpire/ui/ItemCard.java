@@ -47,17 +47,17 @@ public class ItemCard extends UiPart<Region> {
     @FXML
     private Label reminder;
 
-    public ItemCard(XpireItem xpireItem, int displayedIndex) {
+    public ItemCard(XpireItem item, int displayedIndex) {
         super(FXML);
-        this.xpireItem = xpireItem;
+        this.xpireItem = item;
         this.id.setText(displayedIndex + ". ");
-        this.name.setText(xpireItem.getName().toString());
-        this.expiryDate.setText(xpireItem.getExpiryDate().toString());
-        this.quantity.setText("Quantity: " + xpireItem.getQuantity().toString());
+        this.name.setText(item.getName().toString());
+        this.expiryDate.setText("Expiry date: " + item.getExpiryDate().toStringWithCountdown());
+        this.quantity.setText("Quantity: " + item.getQuantity().toString());
         Optional<ReminderDate> reminderDate = DateUtil.getReminderDate(
-                xpireItem.getExpiryDate().getDate(), xpireItem.getReminderThreshold().getValue());
+                item.getExpiryDate().getDate(), item.getReminderThreshold().getValue());
         if (reminderDate.isPresent()) {
-            this.reminder.setText(reminderDate.get().toString());
+            this.reminder.setText("Remind me from: " + reminderDate.get().toString());
         } else {
             this.reminder.setVisible(false);
         }

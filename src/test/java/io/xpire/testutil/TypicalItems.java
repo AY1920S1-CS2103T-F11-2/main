@@ -1,6 +1,32 @@
 package io.xpire.testutil;
 
-import static io.xpire.model.item.ExpiryDate.DATE_FORMAT;
+import static io.xpire.model.item.ReminderThresholdExceededPredicateTest.DATE_FORMAT;
+
+import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_CORIANDER;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_APPLE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_BANANA;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_CORIANDER;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_DUCK;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_EXPIRED_MILK;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_EXPIRED_ORANGE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_EXPIRING_FISH;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_JELLY;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_KIWI;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_APPLE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_BANANA;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_CORIANDER;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_EXPIRED_MILK;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_EXPIRED_ORANGE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_EXPIRING_FISH;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_JELLY;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_KIWI;
+import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_CORIANDER;
+import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_EXPIRING_FISH;
+import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_JELLY;
+import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_KIWI;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRIDGE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_HERB;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_PROTEIN;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +45,7 @@ import io.xpire.model.item.XpireItem;
  */
 public class TypicalItems {
 
+
     public static final String TODAY = DateUtil.convertDateToString(LocalDate.now(), DATE_FORMAT);
     public static final String IN_A_WEEK = DateUtil.convertDateToString(LocalDate.now().plusDays(7), DATE_FORMAT);
     public static final String IN_TWO_WEEKS = DateUtil.convertDateToString(LocalDate.now().plusDays(14), DATE_FORMAT);
@@ -28,49 +55,59 @@ public class TypicalItems {
 
     // ====================== Xpire Items ==========================================================================
 
-    public static final XpireItem BANANA = new XpireItemBuilder().withName("Banana")
+    public static final XpireItem BANANA = new XpireItemBuilder().withName(VALID_NAME_BANANA)
                                             .withExpiryDate(IN_TWO_WEEKS)
-                                            .withQuantity("5").build();
+                                            .withQuantity(VALID_QUANTITY_BANANA).build();
 
 
+    public static final XpireItem KIWI = new XpireItemBuilder().withName(VALID_NAME_KIWI)
+                                                .withExpiryDate(IN_A_MONTH)
+                                                      .withQuantity(VALID_QUANTITY_KIWI)
+                                                      .withReminderThreshold(VALID_REMINDER_THRESHOLD_KIWI).build();
 
-    public static final XpireItem KIWI = new XpireItemBuilder().withName("Kiwi")
-                                                      .withExpiryDate(IN_A_MONTH)
-                                                      .withQuantity("2")
-                                                      .withThreshold("20").build();
-
-    //with tags
-    public static final XpireItem DUCK = new XpireItemBuilder().withName("Duck")
-                                                     .withExpiryDate(IN_A_MONTH)
-                                                     .withTags("Fridge", "Protein")
+    public static final XpireItem DUCK = new XpireItemBuilder().withName(VALID_NAME_DUCK)
+                                                   .withExpiryDate(IN_A_MONTH)
+                                                     .withTags(VALID_TAG_FRIDGE, VALID_TAG_PROTEIN)
                                                      .build();
 
     //with all fields (tags, reminder threshold, quantity)
-    public static final XpireItem JELLY = new XpireItemBuilder().withName("Jelly")
+    public static final XpireItem JELLY = new XpireItemBuilder().withName(VALID_NAME_JELLY)
                                                         .withExpiryDate(IN_A_MONTH)
-                                                        .withQuantity("4")
-                                                        .withTags("Fridge")
-                                                        .withReminderThreshold("3")
+                                                        .withQuantity(VALID_QUANTITY_JELLY)
+                                                        .withTags(VALID_TAG_FRIDGE)
+                                                        .withReminderThreshold(VALID_REMINDER_THRESHOLD_JELLY)
                                                         .build();
 
     // expiring soon
-    public static final XpireItem EXPIRING_FISH = new XpireItemBuilder().withName("Fish")
-                                                               .withExpiryDate(IN_A_WEEK)
-                                                               .withQuantity("1")
-                                                               .withThreshold("8").build();
+    public static final XpireItem EXPIRING_FISH = new XpireItemBuilder().withName(VALID_NAME_EXPIRING_FISH)
+                                                                .withExpiryDate(IN_A_WEEK)
+                                                               .withQuantity(VALID_QUANTITY_EXPIRING_FISH)
+                                                               .withReminderThreshold(
+                                                                       VALID_REMINDER_THRESHOLD_EXPIRING_FISH)
+                                                               .build();
     // already expired
-    public static final XpireItem EXPIRED_APPLE = new XpireItemBuilder().withName("Apple")
-                                                              .withExpiryDate(TODAY)
-                                                              .withQuantity("1").build();
+    public static final XpireItem EXPIRED_APPLE = new XpireItemBuilder().withName(VALID_NAME_APPLE)
+                                                                .withExpiryDate(TODAY)
+                                                              .withQuantity(VALID_QUANTITY_APPLE).build();
 
-    public static final XpireItem EXPIRED_ORANGE = new XpireItemBuilder().withName("Orange")
+
+    public static final XpireItem EXPIRED_ORANGE = new XpireItemBuilder().withName(VALID_NAME_EXPIRED_ORANGE)
                                                              .withExpiryDate(PASSED_A_DAY)
-                                                             .withQuantity("1").build();
+                                                             .withQuantity(VALID_QUANTITY_EXPIRED_ORANGE).build();
 
     // expired for a longer time
-    public static final XpireItem EXPIRED_MILK = new XpireItemBuilder().withName("Milk")
+    public static final XpireItem EXPIRED_MILK = new XpireItemBuilder().withName(VALID_NAME_EXPIRED_MILK)
                                                              .withExpiryDate(PASSED_A_WEEK)
-                                                             .withQuantity("2").build();
+                                                             .withQuantity(VALID_QUANTITY_EXPIRED_MILK).build();
+
+    // sample item to test JsonSerializableXpire
+    public static final XpireItem CORIANDER = new XpireItemBuilder().withName(VALID_NAME_CORIANDER)
+                                                          .withExpiryDate(VALID_EXPIRY_DATE_CORIANDER)
+                                                          .withQuantity(VALID_QUANTITY_CORIANDER)
+                                                          .withTags(VALID_TAG_HERB, VALID_TAG_FRIDGE)
+                                                          .withReminderThreshold(VALID_REMINDER_THRESHOLD_CORIANDER)
+                                                          .build();
+
 
 
     //====================== Replenish List Items ====================================================
@@ -107,6 +144,12 @@ public class TypicalItems {
         return new Xpire(edt);
     }
 
+    public static Xpire getSampleTracker() {
+        Xpire edt = new Xpire();
+        edt.addItem(new XpireItem(CORIANDER));
+        return edt;
+    }
+
     public static List<XpireItem> getTypicalXpireItems() {
         return new ArrayList<>(Arrays.asList(EXPIRED_MILK, BANANA, EXPIRED_APPLE, EXPIRED_ORANGE, EXPIRING_FISH, DUCK,
                 JELLY));
@@ -115,7 +158,6 @@ public class TypicalItems {
 
     public static List<Item> getTypicalItems() {
         return new ArrayList<>(Arrays.asList(BAGEL, CHOCOLATE));
-
     }
 
 }

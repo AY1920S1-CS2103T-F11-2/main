@@ -4,6 +4,7 @@ import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static io.xpire.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static io.xpire.testutil.Assert.assertThrows;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_DRINK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -12,7 +13,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import io.xpire.logic.CommandParserItemUtil;
 import io.xpire.logic.commands.AddCommand;
 import io.xpire.logic.commands.CheckCommand;
 import io.xpire.logic.commands.ClearCommand;
@@ -29,7 +29,6 @@ import io.xpire.model.item.ContainsKeywordsPredicate;
 import io.xpire.model.item.XpireItem;
 import io.xpire.testutil.ItemUtil;
 import io.xpire.testutil.XpireItemBuilder;
-
 
 public class XpireParserTest {
 
@@ -100,8 +99,14 @@ public class XpireParserTest {
     public void parse_tag() throws Exception {
         assertTrue(parser.parse(TagCommand.COMMAND_WORD) instanceof TagCommand);
         assertTrue(parser.parse(TagCommand.COMMAND_WORD + "|1|#"
-                + CommandParserItemUtil.VALID_TAG_DRINK) instanceof TagCommand);
+                + VALID_TAG_DRINK) instanceof TagCommand);
     }
+//=======
+//    public void parseCommand_tag() throws Exception {
+//        assertTrue(parser.parseCommand(TagCommand.COMMAND_WORD) instanceof TagCommand);
+//        assertTrue(parser.parseCommand(TagCommand.COMMAND_WORD + "|1|#"
+//                + TypicalItemsFields.VALID_TAG_DRINK) instanceof TagCommand);
+//    }
 
     @Test
     public void parse_view() throws Exception {

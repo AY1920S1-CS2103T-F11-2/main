@@ -158,7 +158,7 @@ public class XpireItem extends Item {
             XpireItem other = (XpireItem) obj;
             return this.name.equals(other.name)
                     && this.expiryDate.equals(other.expiryDate)
-                    && this.tags.equals(other.tags)
+                    && this.getTags().equals(other.getTags())
                     && this.quantity.equals(other.quantity)
                     && this.reminderThreshold.equals(other.reminderThreshold);
         }

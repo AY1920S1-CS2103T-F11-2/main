@@ -32,6 +32,9 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             return deleteTagsCommand(index, splitArgs[1]);
         } else if (containsQuantity(splitArgs)) {
             return deleteQuantityCommand(index, splitArgs[1]);
+        } else if (splitArgs.length > 1) {
+            throw new ParseException(
+                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         } else {
             return deleteItemCommand(index);
         }
@@ -42,8 +45,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
     }
 
     private boolean containsQuantity(String[] args) {
-        return (args.length == 2)
-                ? isIntegerType(args[1]) : false;
+        return (args.length == 2) && isIntegerType(args[1]);
     }
 
     /**
