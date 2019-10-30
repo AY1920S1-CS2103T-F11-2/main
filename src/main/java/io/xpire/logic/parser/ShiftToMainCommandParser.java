@@ -1,7 +1,7 @@
 package io.xpire.logic.parser;
 
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static io.xpire.logic.commands.ShiftToReplenishCommand.MESSAGE_USAGE;
+import static io.xpire.logic.commands.ShiftToMainCommand.MESSAGE_USAGE;
 
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.ShiftToMainCommand;
