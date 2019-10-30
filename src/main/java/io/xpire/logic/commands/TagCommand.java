@@ -80,18 +80,10 @@ public class TagCommand extends Command {
             if (this.index.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
             }
-            if (lastShownList.get(this.index.getZeroBased()) instanceof XpireItem) {
-                XpireItem xpireItemToTag = (XpireItem) lastShownList.get(this.index.getZeroBased());
-                XpireItem taggedXpireItem = createTaggedItem(xpireItemToTag, this.tagItemDescriptor);
-                model.setItem(xpireItemToTag, taggedXpireItem);
-                return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedXpireItem));
-            } else {
-                Item xpireItemToTag = lastShownList.get(this.index.getZeroBased());
-                Item taggedXpireItem = createTaggedReplenishItem(xpireItemToTag, this.tagItemDescriptor);
-                model.setReplenishItem(xpireItemToTag, taggedXpireItem);
-                return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedXpireItem));
-            }
-
+            XpireItem xpireItemToTag = (XpireItem) lastShownList.get(this.index.getZeroBased());
+            XpireItem taggedXpireItem = createTaggedItem(xpireItemToTag, this.tagItemDescriptor);
+            model.setItem(xpireItemToTag, taggedXpireItem);
+            return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedXpireItem));
         case SHOW:
             Set<Tag> tagSet = new TreeSet<>(new TagComparator());
             List<XpireItem> xpireItemList = model.getAllItemList();
