@@ -26,8 +26,8 @@
 <li><a href="#auto-sorting-of-items-by-name-then-date">3.2. Auto-sorting of items by name then date</a></li>
 <li><a href="#set-reminders-for-expiring-items">3.3. Set Reminders for expiring items</a></li>
 <li><a href="#undo-redo-feature">3.4. Undo/Redo feature</a></li>
-<li><a href="#search">3.5. Search</a></li>
-<li><a href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></li>
+<li><a href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></li>
+<li><a href="#search">3.6. Search</a></li>
 <li><a href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a></li>
 <li><a href="#logging">3.8. Logging</a></li>
 <li><a href="#Implementation-Configuration">3.9. Configuration</a></li>
@@ -418,13 +418,146 @@ the user is prompted to shift the item to the replenish list by typing the reple
 <p>In <code>SortedUniqueItemList</code>, items are stored in a <code>SortedList&lt;Item&gt;</code> and sorted based on the comparator specified.</p>
 </div>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the auto-sorting mechanism behaves at each step.</p>
+<p>The following sequence diagram shows how the items added are auto-sorted:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AutoSortAddSequenceDiagram.png" alt="AutoSortAddSequenceDiagram">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Parsers are omitted from the diagram above to place greater emphasis on the sorting mechanism.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AutoSortAddPartSequenceDiagram.png" alt="AutoSortAddPartSequenceDiagram">
+</div>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the auto-sorting mechanism works:</p>
+<p><code>this.methodOfSorting = new MethodOfSorting("name");</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Everytime an item is added to the list, the method of sorting is reset to the default, which sorts
+the items by name then date.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
+<p>The following sequence diagram shows how the sort command changes the default order of how items are displayed:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SortSequenceDiagram.png" alt="SortSequenceDiagram">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When sort is called, the method of sorting is redefined by the user.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SortParserPartSequenceDiagram.png" alt="SortParserPartSequenceDiagram">
+</div>
+</div>
+<div class="paragraph">
+<p>In the above example, the user has specified to sort items by their expiry date, thus a dateComparator is returned.</p>
+</div>
+<div class="paragraph">
+<p><code>sortedInternalList = new SortedList&lt;&gt;(internalList, methodOfSorting.getComparator());</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The SortedList changes accordingly based on the method of sorting specified.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SortActivityDiagram.png" alt="SortActivityDiagram">
+</div>
+</div>
+<div class="paragraph">
+<p>The following sequence diagram shows how the view operation works to display items that are auto-sorted or sorted manually by name or date:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AutoSortViewSequenceDiagram.png" alt="AutoSortViewSequenceDiagram">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Parsers are omitted from the diagram above to place greater emphasis on the sorting mechanism.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AutoSortViewPartSequenceDiagram.png" alt="AutoSortViewPartSequenceDiagram">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Everytime view is called, the current method of sorting specified is retrieved. If it has not been explicitly specified,
+the default method of sorting is then retrieved.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>this.internalUnmodifiableList = FXCollections.unmodifiableList(this.sortedInternalList);</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The list returned is the sortedInternalList wrapped as an unmodifiable list.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -867,27 +1000,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="search"><a class="link" href="#search">3.5. Search</a></h3>
-<div class="paragraph">
-<p>This feature allows users to filter out specific items either by name or by tag(s) through providing the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel. For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
-</div>
-<div class="paragraph">
-<p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
-</div>
-<div class="sect3">
-<h4 id="implementation-6"><a class="link" href="#implementation-6">3.5.1. Implementation</a></h4>
-<div class="paragraph">
-<p>Below is the UML sequence diagram of an example usage scenario.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/SearchCommandSequenceDiagram.png" alt="SearchCommandSequenceDiagram">
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></h3>
+<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></h3>
 <div class="paragraph">
 <p><em>{Explain here how the data encryption feature will be implemented}</em></p>
 </div>
@@ -901,7 +1014,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p>The following activity diagram summarizes what happens when a user executes a new command:</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.6.1. Design Considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.1. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-set-reminder-executes-2"><a class="link" href="#aspect-how-set-reminder-executes-2">Aspect: How set reminder executes</a></h5>
 <div class="ulist">
@@ -971,6 +1084,26 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
+<h3 id="search"><a class="link" href="#search">3.6. Search</a></h3>
+<div class="paragraph">
+<p>This feature allows users to filter out specific items either by name or by tag(s) through providing the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel. For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
+</div>
+<div class="paragraph">
+<p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
+</div>
+<div class="sect3">
+<h4 id="implementation-6"><a class="link" href="#implementation-6">3.6.1. Implementation</a></h4>
+<div class="paragraph">
+<p>Below is the UML sequence diagram of an example usage scenario.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SearchCommandSequenceDiagram.png" alt="SearchCommandSequenceDiagram">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a></h3>
 <div class="sect3">
 <h4 id="implementation-7"><a class="link" href="#implementation-7">3.7.1. Implementation</a></h4>
@@ -980,16 +1113,90 @@ This distance is based on the number of substitutions, deletions, insertions or 
 Relevant functions supporting this operation are implemented in <code>StringUtil</code>.</p>
 </div>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the mechanism behaves at each step.</p>
+<p>The diagram below is a simplified illustration of how the feature works.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RecommendationsExample1.png" alt="RecommendationsExample1">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The recommendations will be made solely based the list of items previously displayed rather than all items currently in the list.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the sort operation works with recommendations:</p>
+<p>As shown in the diagram below, <code>Banana</code> was not recommended even though it exists in the original list. This is because it had been filtered from the previous list prior to when the second search command was executed.
+On the other hand, if <code>green</code> was misspelled as <code>gren</code>, the algorithm will be able to identify <code>green</code> as the closest match, as <code>Green Apple</code> is present in the previous list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RecommendationsExample2.png" alt="RecommendationsExample2">
+</div>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the search operation works with recommendations:</p>
+<p>The following sequence diagram shows how the sort operation works with recommendations,
+in the case that "date" is misspelled as "dat":</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
+</div>
+</div>
+<div class="paragraph">
+<p>The following sequence diagram <code>findSimilar</code> illustrates the process omitted above.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
+</div>
 </div>
 <div class="paragraph">
 <p>The following activity diagram summarizes what happens when a user executes an unknown command:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RecommendationUnknownCommandActivityDiagram.png" alt="RecommendationUnknownCommandActivityDiagram">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only keywords with edit distance of less than 2 are recommended, to filter away less similar word recommendations.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following activity diagram summarizes what happens when a user executes a command with misspelled arguments:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RecommendationsSearchSortActivityDiagram.png" alt="RecommendationsSearchSortActivityDiagram">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only search and sort commands support this operation.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -2093,4 +2300,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-29 18:02:51 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-30 06:35:33 UTC</div></div></div></body></html>
