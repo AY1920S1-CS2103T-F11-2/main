@@ -39,8 +39,9 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<XpireItem> filteredXpireItems;
     private final FilteredList<Item> filteredReplenishItems;
+    private final FilteredList<XpireItem> previousXpireItems;
+    private final FilteredList<Item> previousReplenishItems;
     private FilteredList<? extends Item> currentFilteredItems;
-    private FilteredList<XpireItem> previousXpireItems;
 
     /**
      * Initializes a ModelManager with the given xpire and userPrefs.
@@ -56,9 +57,11 @@ public class ModelManager implements Model {
         this.replenishList = new ReplenishList(lists[1]);
         this.userPrefs = new UserPrefs(userPrefs);
         this.filteredXpireItems = new FilteredList<>(this.xpire.getItemList());
-        this.filteredReplenishItems = new FilteredList<>(this.replenishList.getItemList());
-        this.currentFilteredItems = this.filteredXpireItems;
         this.previousXpireItems = new FilteredList<>(this.xpire.getItemList());
+        this.filteredReplenishItems = new FilteredList<>(this.replenishList.getItemList());
+        this.previousReplenishItems = new FilteredList<>(this.replenishList.getItemList());
+        this.currentFilteredItems = this.filteredXpireItems;
+
     }
 
     public ModelManager() {
@@ -193,7 +196,7 @@ public class ModelManager implements Model {
     public Set<Tag> getAllReplenishItemTags() {
         Set<Tag> tagSet = new TreeSet<>(new TagComparator());
         List<Item> replenishItemList = this.replenishList.getItemList();
-        replenishItemList.forEach(item -> tagSet.addAll(item.getTags()));
+        this.previousReplenishItems.forEach(item -> tagSet.addAll(item.getTags()));
         return tagSet;
     }
 
@@ -201,7 +204,7 @@ public class ModelManager implements Model {
     public Set<Name> getAllReplenishItemNames() {
         Set<Name> nameSet = new TreeSet<>(Comparator.comparing(Name::toString));
         List<Item> replenishItemList = this.replenishList.getItemList();
-        replenishItemList.forEach(item -> nameSet.add(item.getName()));
+        this.previousReplenishItems.forEach(item -> nameSet.add(item.getName()));
         return nameSet;
     }
 
@@ -296,6 +299,7 @@ public class ModelManager implements Model {
     public void updateFilteredReplenishItemList(Predicate<Item> predicate) {
         requireNonNull(predicate);
         Predicate<? super Item> p = this.filteredReplenishItems.getPredicate();
+        this.previousReplenishItems.setPredicate(p);
         if (predicate == PREDICATE_SHOW_ALL_ITEMS || p == null) {
             this.filteredReplenishItems.setPredicate(predicate);
         } else {

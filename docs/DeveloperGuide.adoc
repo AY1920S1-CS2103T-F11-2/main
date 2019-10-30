@@ -868,8 +868,8 @@ Efficiency
 
 Performance
 
-.  The app list should be able to hold up to 1000 items without a noticeable sluggishness in performance for typical usage.
-.  The app should be able to sort up to 1000 items without any sags in performance.
+.  The app list should be able to hold up to 200 items without a noticeable sluggishness in performance for typical usage.
+.  The app should be able to sort up to 200 items without any sags in performance.
 
 Reliability
 

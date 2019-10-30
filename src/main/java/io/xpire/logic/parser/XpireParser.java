@@ -111,7 +111,7 @@ public class XpireParser implements Parser {
             ViewCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD,
             HelpCommand.COMMAND_WORD, SortCommand.COMMAND_WORD,
             SetReminderCommand.COMMAND_WORD, TagCommand.COMMAND_WORD,
-            CheckCommand.COMMAND_WORD
+            CheckCommand.COMMAND_WORD, ShiftToReplenishCommand.COMMAND_WORD
         };
         Set<String> allCommandsSet = new TreeSet<>(Arrays.asList(allCommandWords));
         sb.append(StringUtil.findSimilar(command, allCommandsSet, 1));

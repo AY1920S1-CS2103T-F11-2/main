@@ -8,15 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import io.xpire.commons.util.StringUtil;
-
-import io.xpire.logic.commands.ClearCommand;
-import io.xpire.logic.commands.Command;
-import io.xpire.logic.commands.ExitCommand;
-import io.xpire.logic.commands.HelpCommand;
-import io.xpire.logic.commands.SearchCommand;
-import io.xpire.logic.commands.ShiftToMainCommand;
-import io.xpire.logic.commands.TagCommand;
-import io.xpire.logic.commands.ViewCommand;
+import io.xpire.logic.commands.*;
 import io.xpire.logic.parser.exceptions.ParseException;
 
 /**
@@ -65,9 +57,6 @@ public class ReplenishParser implements Parser {
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
 
-        case TagCommand.COMMAND_WORD:
-            return new TagCommandParser().parse(arguments);
-
         case ShiftToMainCommand.COMMAND_WORD:
             return new ShiftToMainCommandParser().parse(arguments);
 
@@ -89,7 +78,8 @@ public class ReplenishParser implements Parser {
         String[] allCommandWords = new String[]{
             ClearCommand.COMMAND_WORD, SearchCommand.COMMAND_WORD,
             ViewCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD,
-            HelpCommand.COMMAND_WORD, TagCommand.COMMAND_WORD
+            HelpCommand.COMMAND_WORD, TagCommand.COMMAND_WORD,
+            ShiftToMainCommand.COMMAND_WORD
         };
         Set<String> allCommandsSet = new TreeSet<>(Arrays.asList(allCommandWords));
         sb.append(StringUtil.findSimilar(command, allCommandsSet, 1));
