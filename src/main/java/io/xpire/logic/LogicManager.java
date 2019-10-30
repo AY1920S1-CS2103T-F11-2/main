@@ -43,7 +43,7 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        if (this.model.getCurrentFilteredItemList() == this.model.getFilteredXpireItemList()) {
+        if (isXpireListView()) {
             this.parser = xpireParser;
         } else {
             this.parser = replenishParser;
@@ -83,5 +83,9 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         this.model.setGuiSettings(guiSettings);
+    }
+
+    private boolean isXpireListView() {
+        return this.model.getCurrentFilteredItemList().equals(this.model.getFilteredXpireItemList());
     }
 }

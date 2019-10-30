@@ -123,9 +123,9 @@ public interface Model {
     ObservableList<? extends Item> getCurrentFilteredItemList();
 
     /**
-     * Returns a list of all the items.
+     * Returns a list of all the xpire items.
      *
-     * @return List of all items.
+     * @return List of all xpire items.
      */
     List<XpireItem> getAllItemList();
 

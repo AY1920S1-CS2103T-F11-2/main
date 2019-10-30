@@ -1,14 +1,17 @@
 package io.xpire.logic.parser;
 
+import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static io.xpire.logic.commands.ShiftToReplenishCommand.MESSAGE_USAGE;
+
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.ShiftToMainCommand;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Quantity;
 
-import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static io.xpire.logic.commands.ShiftToReplenishCommand.MESSAGE_USAGE;
-
+/**
+ * Parses input arguments and creates a new ShiftToMainCommand object
+ */
 public class ShiftToMainCommandParser implements Parser<ShiftToMainCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the ShiftToMainCommand
@@ -22,16 +25,13 @@ public class ShiftToMainCommandParser implements Parser<ShiftToMainCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
         Index index = ParserUtil.parseIndex(arguments[0]);
-        System.out.println(index.toString());
         ExpiryDate expiryDate = ParserUtil.parseExpiryDate(arguments[1]);
-        System.out.println(expiryDate.toString());
         Quantity quantity;
         if (hasQuantity(arguments)) {
             quantity = ParserUtil.parseQuantity(arguments[2]);
         } else {
             quantity = new Quantity("1");
         }
-        System.out.println(quantity.toString());
         return new ShiftToMainCommand(index, expiryDate, quantity);
     }
 

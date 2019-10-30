@@ -1,19 +1,27 @@
 package io.xpire.logic.commands;
 
-import io.xpire.commons.core.index.Index;
-import io.xpire.logic.commands.exceptions.CommandException;
-import io.xpire.model.Model;
-import io.xpire.model.item.*;
-import io.xpire.model.tag.Tag;
-import io.xpire.model.tag.TagComparator;
+import static io.xpire.commons.core.Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX;
+
+import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static io.xpire.commons.core.Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX;
-import static java.util.Objects.requireNonNull;
+import io.xpire.commons.core.index.Index;
+import io.xpire.logic.commands.exceptions.CommandException;
+import io.xpire.model.Model;
+import io.xpire.model.item.ExpiryDate;
+import io.xpire.model.item.Item;
+import io.xpire.model.item.Name;
+import io.xpire.model.item.Quantity;
+import io.xpire.model.item.XpireItem;
+import io.xpire.model.tag.Tag;
+import io.xpire.model.tag.TagComparator;
 
+/**
+ * Shifts an {@Item} back to the main list.
+ */
 public class ShiftToMainCommand extends Command {
     public static final String COMMAND_WORD = "shift";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
@@ -55,6 +63,13 @@ public class ShiftToMainCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS, toShiftItem.getName()));
     }
 
+    /**
+     * Changes an Item to an XpireItem.
+     * @param item to change into XpireItem.
+     * @param expiryDate of the item.
+     * @param quantity of the item.
+     * @return an XpireItem to be added into the main list.
+     */
     private XpireItem adaptItemToXpire(Item item, ExpiryDate expiryDate, Quantity quantity) {
         Name itemName = item.getName();
         Set<Tag> originalTags = item.getTags();

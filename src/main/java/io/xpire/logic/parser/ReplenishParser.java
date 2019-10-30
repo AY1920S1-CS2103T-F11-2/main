@@ -8,7 +8,15 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import io.xpire.commons.util.StringUtil;
-import io.xpire.logic.commands.*;
+
+import io.xpire.logic.commands.ClearCommand;
+import io.xpire.logic.commands.Command;
+import io.xpire.logic.commands.ExitCommand;
+import io.xpire.logic.commands.HelpCommand;
+import io.xpire.logic.commands.SearchCommand;
+import io.xpire.logic.commands.ShiftToMainCommand;
+import io.xpire.logic.commands.TagCommand;
+import io.xpire.logic.commands.ViewCommand;
 import io.xpire.logic.parser.exceptions.ParseException;
 
 /**

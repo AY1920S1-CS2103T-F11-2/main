@@ -7,7 +7,7 @@ import io.xpire.logic.commands.ShiftToReplenishCommand;
 import io.xpire.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new ReplenishCommand object
+ * Parses input arguments and creates a new ShiftToReplenishCommand object
  */
 public class ShiftToReplenishCommandParser implements Parser<ShiftToReplenishCommand> {
 

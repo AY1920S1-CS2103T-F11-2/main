@@ -9,7 +9,6 @@ import java.util.TreeSet;
 
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
-
 import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.Name;
@@ -18,8 +17,9 @@ import io.xpire.model.item.exceptions.ItemNotFoundException;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 
+
 /**
- * Adds a {@code XpireItem} to the Replenish List.
+ * Shifts a {@code XpireItem} to the Replenish List.
  */
 public class ShiftToReplenishCommand extends Command {
 
@@ -50,7 +50,7 @@ public class ShiftToReplenishCommand extends Command {
         }
 
         XpireItem targetItem = lastShownList.get(this.targetIndex.getZeroBased());
-        Item replenishItem = adaptItemToToBuy(targetItem);
+        Item replenishItem = adaptItemToReplenish(targetItem);
         this.replenishItem = replenishItem;
         if (model.hasReplenishItem(replenishItem)) {
             try {
@@ -70,7 +70,7 @@ public class ShiftToReplenishCommand extends Command {
      * @param xpireItem to change into Item.
      * @return The new Item.
      */
-    private Item adaptItemToToBuy(XpireItem xpireItem) {
+    private Item adaptItemToReplenish(XpireItem xpireItem) {
         Name itemName = xpireItem.getName();
         Set<Tag> originalTags = xpireItem.getTags();
         Set<Tag> newTags = new TreeSet<>(new TagComparator());
