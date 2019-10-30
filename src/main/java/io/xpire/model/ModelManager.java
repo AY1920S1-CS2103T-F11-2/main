@@ -40,6 +40,7 @@ public class ModelManager implements Model {
     private final FilteredList<XpireItem> filteredXpireItems;
     private final FilteredList<Item> filteredReplenishItems;
     private FilteredList<? extends Item> currentFilteredItems;
+    private FilteredList<XpireItem> previousXpireItems;
 
     /**
      * Initializes a ModelManager with the given xpire and userPrefs.
@@ -57,6 +58,7 @@ public class ModelManager implements Model {
         this.filteredXpireItems = new FilteredList<>(this.xpire.getItemList());
         this.filteredReplenishItems = new FilteredList<>(this.replenishList.getItemList());
         this.currentFilteredItems = this.filteredXpireItems;
+        this.previousXpireItems = new FilteredList<>(this.xpire.getItemList());
     }
 
     public ModelManager() {
@@ -142,16 +144,14 @@ public class ModelManager implements Model {
     @Override
     public Set<Tag> getAllItemTags() {
         Set<Tag> tagSet = new TreeSet<>(new TagComparator());
-        List<XpireItem> xpireItemList = this.xpire.getItemList();
-        xpireItemList.forEach(item -> tagSet.addAll(item.getTags()));
+        this.previousXpireItems.forEach(item -> tagSet.addAll(item.getTags()));
         return tagSet;
     }
 
     @Override
     public Set<Name> getAllItemNames() {
         Set<Name> nameSet = new TreeSet<>(Comparator.comparing(Name::toString));
-        List<XpireItem> xpireItemList = this.xpire.getItemList();
-        xpireItemList.forEach(item -> nameSet.add(item.getName()));
+        this.previousXpireItems.forEach(item -> nameSet.add(item.getName()));
         return nameSet;
     }
 
@@ -281,6 +281,7 @@ public class ModelManager implements Model {
     public void updateFilteredXpireItemList(Predicate<XpireItem> predicate) {
         requireNonNull(predicate);
         Predicate<? super XpireItem> p = this.filteredXpireItems.getPredicate();
+        this.previousXpireItems.setPredicate(p);
         if (predicate == PREDICATE_SHOW_ALL_ITEMS || p == null) {
             // a view command or first ever search command
             this.filteredXpireItems.setPredicate(predicate);
