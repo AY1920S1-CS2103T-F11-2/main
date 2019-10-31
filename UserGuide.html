@@ -36,7 +36,7 @@
 <li><a href="#saving-the-data">4.1.8. Saving the data</a></li>
 </ul>
 </li>
-<li><a href="#main-list-features-only">4.2. Main list features only</a>
+<li><a href="#main-tracking-list-features-only">4.2. Main tracking list features only</a>
 <ul class="sectlevel3">
 <li><a href="#adding-an-item-code-add-code">4.2.1. Adding an item: <code>add</code></a></li>
 <li><a href="#deleting-variable-s-code-delete-code">4.2.2. Deleting variable(s): <code>delete</code></a>
@@ -80,7 +80,6 @@
 <li><a href="#command-summary">6. Command Summary</a>
 <ul class="sectlevel2">
 <li><a href="#table-summary">6.1. Table Summary</a></li>
-<li><a href="#list-summary">6.2. List Summary</a></li>
 </ul>
 </li>
 <li><a href="#command-shorthands">7. Command Shorthands</a></li>
@@ -218,6 +217,12 @@ is where you can type your command. The maximum you can type is 60 characters. T
 <h3 id="common-features"><a class="link" href="#common-features">4.1. Common features</a></h3>
 <div class="sect3">
 <h4 id="opening-the-help-window-code-help-code"><a class="link" href="#opening-the-help-window-code-help-code">4.1.1. Opening the help window: <code>help</code></a></h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/help.png" alt="help" width="790">
+</div>
+<div class="title">Figure 1. Help window</div>
+</div>
 <div class="paragraph">
 <p>Displays the help window.<br>
 Format: <code>help</code></p>
@@ -227,6 +232,12 @@ Format: <code>help</code></p>
 <h4 id="viewing-all-items-code-view-code"><a class="link" href="#viewing-all-items-code-view-code">4.1.2. Viewing all items : <code>view</code></a></h4>
 <div class="sect4">
 <h5 id="viewing-all-items-in-the-current-list"><a class="link" href="#viewing-all-items-in-the-current-list">4.1.2.1. Viewing all items in the current list</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/view-current.png" alt="view current" width="790">
+</div>
+<div class="title">Figure 2. Items in current list viewed</div>
+</div>
 <div class="paragraph">
 <p>Shows all items in the current list, which is the main list by default, or the replenish list if otherwise specified.<br>
 All items are sorted by both name (lexicographical order) and date (chronological order).<br>
@@ -235,6 +246,18 @@ Format: <code>view</code></p>
 </div>
 <div class="sect4">
 <h5 id="viewing-all-items-in-another-list"><a class="link" href="#viewing-all-items-in-another-list">4.1.2.2. Viewing all items in another list</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/view-main.png" alt="view main" width="790">
+</div>
+<div class="title">Figure 3. Items in main tracking list viewed</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/view-replenish.png" alt="view replenish" width="790">
+</div>
+<div class="title">Figure 4. Items in replenish list viewed</div>
+</div>
 <div class="paragraph">
 <p>Changes the list to be displayed.<br>
 You can toggle between the main list and the list of items to be replenished with this command.<br>
@@ -259,6 +282,12 @@ Displays all items in the replenish list.</p>
 </div>
 <div class="sect3">
 <h4 id="searching-for-item-s-by-their-name-and-or-tag-code-search-code"><a class="link" href="#searching-for-item-s-by-their-name-and-or-tag-code-search-code">4.1.3. Searching for item(s) by their name and/or tag: <code>search</code></a></h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/search.png" alt="search" width="790">
+</div>
+<div class="title">Figure 5. Items matching #fruit or #chicken shown</div>
+</div>
 <div class="paragraph">
 <p>Searches for items whose names or tag(s) contain any of the given keywords.<br>
 Format: <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</code></p>
@@ -403,6 +432,12 @@ Format: <code>clear</code></p>
 </div>
 <div class="sect3">
 <h4 id="exporting-data-multi-platform-code-export-code"><a class="link" href="#exporting-data-multi-platform-code-export-code">4.1.6. Exporting data (multi-platform) : <code>export</code></a></h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/export.png" alt="export" width="790">
+</div>
+<div class="title">Figure 6. Items in current list exported to QR code</div>
+</div>
 <div class="paragraph">
 <p>Exports the current list of items through a QR code.<br>
 Any device with a QR code reader will be able to download the list of items.<br>
@@ -425,9 +460,15 @@ There is no need to save manually.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="main-list-features-only"><a class="link" href="#main-list-features-only">4.2. Main list features only</a></h3>
+<h3 id="main-tracking-list-features-only"><a class="link" href="#main-tracking-list-features-only">4.2. Main tracking list features only</a></h3>
 <div class="sect3">
 <h4 id="adding-an-item-code-add-code"><a class="link" href="#adding-an-item-code-add-code">4.2.1. Adding an item: <code>add</code></a></h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/add.png" alt="add" width="790">
+</div>
+<div class="title">Figure 7. New item added to main tracking list</div>
+</div>
 <div class="paragraph">
 <p>Adds an item to your tracker.<br>
 Upon addition of the item, the updated list sorted by name then date in chronological order, will be displayed.<br>
@@ -530,6 +571,12 @@ Deletes the tags <code>#Fruit</code> and <code>#Food</code> from the 3rd item in
 </div>
 <div class="sect4">
 <h5 id="reducing-the-quantity-of-an-item"><a class="link" href="#reducing-the-quantity-of-an-item">4.2.2.3. Reducing the quantity of an item</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/delete-quantity.png" alt="delete quantity" width="790">
+</div>
+<div class="title">Figure 8. Item at index 4 reduced in quantity by 1</div>
+</div>
 <div class="paragraph">
 <p>Reduces item quantity by the specified quantity.<br>
 Format <code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p>
@@ -585,6 +632,12 @@ Format: <code>tag</code></p>
 </div>
 <div class="sect4">
 <h5 id="add-new-tag-s-to-an-item"><a class="link" href="#add-new-tag-s-to-an-item">4.2.3.2. Add new tag(s) to an item</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/tag.png" alt="tag" width="790">
+</div>
+<div class="title">Figure 9. Item at index 4 tagged with #Fruit and #Yellow</div>
+</div>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -648,6 +701,12 @@ Tags the 2nd item in the main list with <code>#Nestle</code> and <code>#Caffeine
 <h4 id="Reminder"><a class="link" href="#Reminder">4.2.4. Setting reminder for an item: <code>set reminder</code></a></h4>
 <div class="sect4">
 <h5 id="setting-the-number-of-days-before-an-item-s-expiry-date-to-start-reminding-you"><a class="link" href="#setting-the-number-of-days-before-an-item-s-expiry-date-to-start-reminding-you">4.2.4.1. Setting the number of days before an item&#8217;s expiry date to start reminding you</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/set-reminder.png" alt="set reminder" width="790">
+</div>
+<div class="title">Figure 10. Reminder set for item at index 4</div>
+</div>
 <div class="paragraph">
 <p>Sets a reminder for your item.<br>
 Format: <code>set reminder|&lt;index&gt;|&lt;reminder threshold&gt;</code></p>
@@ -714,6 +773,12 @@ Removes the reminder for the first item in the list.</p>
 <h4 id="listing-expiring-items-code-check-code"><a class="link" href="#listing-expiring-items-code-check-code">4.2.5. Listing expiring items: <code>check</code></a></h4>
 <div class="sect4">
 <h5 id="listing-all-expiring-items-with-activated-reminders"><a class="link" href="#listing-all-expiring-items-with-activated-reminders">4.2.5.1. Listing all expiring items with activated reminders</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/check.png" alt="check" width="790">
+</div>
+<div class="title">Figure 11. Items expiring soon listed</div>
+</div>
 <div class="paragraph">
 <p>Lists items whose reminder has been activated.<br>
 Format: <code>check</code></p>
@@ -775,7 +840,7 @@ Format: <code>sort|&lt;key&gt;</code></p>
 <p>Items can be sorted by either name or date.</p>
 </li>
 <li>
-<p>For example, Apple will sort ahead of Banana, while 1/1/2000 will sort ahead of 1/1/2001.</p>
+<p>For example, Apple will sort ahead of Banana, while 1/1/790 will sort ahead of 1/1/2001.</p>
 </li>
 </ul>
 </div>
@@ -789,6 +854,12 @@ Format: <code>sort|&lt;key&gt;</code></p>
 </div>
 <div class="sect4">
 <h5 id="sorting-all-items-by-their-date"><a class="link" href="#sorting-all-items-by-their-date">4.2.6.2. Sorting all items by their date</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/sort-date.png" alt="sort date" width="790">
+</div>
+<div class="title">Figure 12. Items sorted by their date</div>
+</div>
 <div class="paragraph">
 <p>Format: <code>sort|date</code></p>
 </div>
@@ -986,104 +1057,6 @@ Format: <code>redo</code></p>
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="list-summary"><a class="link" href="#list-summary">6.2. List Summary</a></h3>
-<div class="paragraph">
-<p>The commands listed below are common to both lists.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Help</strong> : <code>help</code></p>
-</li>
-<li>
-<p><strong>View</strong> : <code>view|&lt;list&gt;</code></p>
-</li>
-<li>
-<p><strong>Search</strong> : <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</code><br>
-e.g. <code>search|milk|tea|pearls</code></p>
-</li>
-<li>
-<p><strong>Clear</strong> : <code>clear</code></p>
-</li>
-<li>
-<p><strong>Exit</strong> : <code>exit</code></p>
-</li>
-<li>
-<p><strong>Undo</strong> : <code>undo</code></p>
-</li>
-<li>
-<p><strong>Redo</strong> : <code>redo</code></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The commands listed below can only be used in the main list.</p>
-</div>
-<div class="paragraph">
-<p>Below is a summary of the available commands in Xpire:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Help</strong> : <code>help</code></p>
-</li>
-<li>
-<p><strong>Add</strong> <code>add|&lt;item name&gt;|&lt;expiry date&gt;[|&lt;quantity&gt;]&#8230;&#8203;</code><br>
-e.g. <code>add|durian|30/9/2019</code></p>
-</li>
-<li>
-<p><strong>Delete</strong> : <code>delete|&lt;index&gt;[|&lt;tag&gt; or &lt;quantity&gt;]</code><br>
-e.g. <code>delete|3</code></p>
-</li>
-<li>
-<p><strong>Tag</strong> : <code>tag|&lt;index&gt;|[&lt;tag&gt;]&#8230;&#8203;</code></p>
-</li>
-<li>
-<p><strong>Set reminder</strong> : <code>set reminder|&lt;index&gt;|&lt;reminder threshold&gt;</code><br>
-e.g. <code>set reminder|1|7</code></p>
-</li>
-<li>
-<p><strong>Check</strong> : <code>check[|&lt;days&gt;]</code><br>
-e.g. <code>check|20</code></p>
-</li>
-<li>
-<p><strong>Sort</strong> : <code>sort|&lt;key&gt;</code><br>
-e.g. <code>sort|date</code></p>
-</li>
-<li>
-<p><strong>Shift</strong> : <code>shift|&lt;index&gt;</code><br>
-e.g. <code>shift|2</code></p>
-</li>
-<li>
-<p><strong>Search</strong> : <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</code><br>
-e.g. <code>search|milk|tea|pearls</code></p>
-</li>
-<li>
-<p><strong>Delete</strong> : <code>delete|&lt;index&gt;[|&lt;tag&gt; or &lt;quantity&gt;]</code><br>
-e.g. <code>delete|3</code></p>
-</li>
-<li>
-<p><strong>Tag</strong> : <code>tag|&lt;index&gt;|[&lt;tag&gt;]&#8230;&#8203;</code></p>
-</li>
-<li>
-<p><strong>Undo</strong> : <code>undo</code></p>
-</li>
-<li>
-<p><strong>Redo</strong> : <code>redo</code></p>
-</li>
-<li>
-<p><strong>Clear</strong> : <code>clear</code></p>
-</li>
-<li>
-<p><strong>Export</strong> : <code>export</code></p>
-</li>
-<li>
-<p><strong>Exit</strong> : <code>exit</code></p>
-</li>
-</ul>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -1139,4 +1112,4 @@ e.g. <code>delete|3</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-31 15:57:13 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-31 17:09:39 UTC</div></div></div></body></html>
