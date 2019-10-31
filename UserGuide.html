@@ -70,6 +70,8 @@
 <li><a href="#sorting-all-items-by-their-date">4.2.6.2. Sorting all items by their date</a></li>
 </ul>
 </li>
+<li><a href="#undo-previous-command-code-undo-code">4.2.7. Undo previous command : <code>undo</code></a></li>
+<li><a href="#redo-an-earlier-command-code-redo-code">4.2.8. Redo an earlier command : <code>redo</code></a></li>
 </ul>
 </li>
 </ul>
@@ -616,6 +618,12 @@ Format: <code>tag|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</c
 <p>Tags must be prefixed with a '#'.</p>
 </li>
 <li>
+<p>Only a maximum of 5 tags allowed per item.</p>
+</li>
+<li>
+<p>Tag lengths are restricted to 20 characters. So make use of those 20 characters wisely!</p>
+</li>
+<li>
 <p>Tags will be formatted in Sentence-Case (i.e. first letter will be upper-case while the rest of the letters are lower-case).</p>
 </li>
 </ul>
@@ -786,6 +794,35 @@ Format: <code>sort|&lt;key&gt;</code></p>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="undo-previous-command-code-undo-code"><a class="link" href="#undo-previous-command-code-undo-code">4.2.7. Undo previous command : <code>undo</code></a></h4>
+<div class="paragraph">
+<p>Undo the previous command that you have entered in.<br>
+Format: <code>undo</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<code>undo</code> only works on commands that alter your items. Thus, commands such as <code>help</code> and <code>sort</code> are not undoable.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="redo-an-earlier-command-code-redo-code"><a class="link" href="#redo-an-earlier-command-code-redo-code">4.2.8. Redo an earlier command : <code>redo</code></a></h4>
+<div class="paragraph">
+<p>Redo an earlier command that you have entered in.<br>
+Format: <code>redo</code></p>
+</div>
+<div class="paragraph">
+<p>This command works in the opposite direction as <code>undo</code>, it will redo any command that you have undid so you are able to see the changes.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -823,6 +860,16 @@ Format: <code>sort|&lt;key&gt;</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Help</strong></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>help</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Undo</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>undo</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Redo</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>redo</code></p></td>
 <td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
@@ -962,6 +1009,12 @@ e.g. <code>search|milk|tea|pearls</code></p>
 <li>
 <p><strong>Exit</strong> : <code>exit</code></p>
 </li>
+<li>
+<p><strong>Undo</strong> : <code>undo</code></p>
+</li>
+<li>
+<p><strong>Redo</strong> : <code>redo</code></p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -1012,6 +1065,12 @@ e.g. <code>delete|3</code></p>
 </li>
 <li>
 <p><strong>Tag</strong> : <code>tag|&lt;index&gt;|[&lt;tag&gt;]&#8230;&#8203;</code></p>
+</li>
+<li>
+<p><strong>Undo</strong> : <code>undo</code></p>
+</li>
+<li>
+<p><strong>Redo</strong> : <code>redo</code></p>
 </li>
 <li>
 <p><strong>Clear</strong> : <code>clear</code></p>
@@ -1080,4 +1139,4 @@ e.g. <code>delete|3</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-31 15:02:33 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-31 15:33:30 UTC</div></div></div></body></html>
