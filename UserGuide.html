@@ -137,16 +137,24 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 <p><code><strong>delete</strong>|3</code> : deletes the 3rd item shown in the current list</p>
 </li>
 <li>
-<p><code><strong>shift</strong>|1|</code> : add the 1st item to the replenish list</p>
-</li>
-<li>
 <p><code><strong>exit</strong></code> : exits the app</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Refer to <a href="#Features">Section 4, &#8220;Features&#8221;</a> for details of each command.</p>
+<p>Xpire not only has a list to track you perishable items, but also a <strong>to-buy</strong> list (replenish list). You can move your items from the
+tracking list to the replenish list once they are consumed or expired.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code><strong>shift</strong>|1</code> : moves the 1st item from the tracking list (main list) to the replenish list</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Some commands are only applicable for items in the tracking list. Refer to <a href="#Features">Section 4, &#8220;Features&#8221;</a> for details of each command.</p>
 </li>
 </ol>
 </div>
@@ -155,35 +163,114 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 <div class="sect1">
 <h2 id="graphic-user-interface"><a class="link" href="#graphic-user-interface">3. Graphic User Interface</a></h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>There are two lists shown on the Graphic User Interface(GUI), <code>View</code> and <code>All items</code>. On the left which is the <code>View</code> list.
-This list shows you the current view of items. As you manipulate the items using
-<code>search</code>, or <code>check</code>, <code>View</code> list will change accordingly to show you only the items you want to see.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/GUI.png" alt="GUI" width="790">
+</div>
 </div>
 <div class="paragraph">
-<p>This is how your item will look like in the <code>View</code> list. The colour of the card changes according to
-the status of your item.<br>
-An expired item will be red.<br>
-An item that is going to expire soon will be yellow. You can set when to mark an item yellow based
-on individual cases. See more information here: <a href="#Reminder">Section 4.2.4, &#8220;Setting reminder for an item: <code>set reminder</code>&#8221;</a>.<br>
-An item that has not expired and is not going to expire soon will be green.</p>
+<p>There are two lists shown on the Graphic User Interface(GUI), <code>View</code> and <code>All Items</code>. On the left is the <code>View</code> list.
+This is an active list that shows you the current view of items. As you manipulate the items using
+<code>search</code>, or <code>check</code>, <code>View</code> list will change accordingly to show you only the items you want to see.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ItemCard.png" alt="ItemCard" width="710">
+</div>
+</div>
+<div class="paragraph">
+<p>This is how your item will look like in the <code>View</code> list. The number on the right is the number of days left before the item expires.</p>
+</div>
+<div class="paragraph">
+<p>The colour of the item card changes according to
+the status of your item.<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An <strong>expired</strong> item will be red.<br></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/Expired.png" alt="Expired" width=""500">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An item that is <strong>expiring soon</strong> will be yellow. You can set when to mark an item yellow based
+on individual cases. See more information here: <a href="#Reminder">Section 4.2.4, &#8220;Setting reminder for an item: <code>set reminder</code>&#8221;</a>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ReminderCard.png" alt="ReminderCard" width=""500">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An item that has <strong>not expired</strong> and is not going to expire soon will be green.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ItemCard.png" alt="ItemCard" width="710">
+</div>
 </div>
 <div class="paragraph">
 <p>If the name or other details of the item is shortened with <code>&#8230;&#8203;</code>, you can click on the card to expand it.</p>
 </div>
-<div class="paragraph">
-<p>You can find all your items on the right, in the <code>All items</code> list. Here items are categorized into tracked items and to-buy items. You can click on the list
-name to view items in the list, or click again to collapse the list. Clicking on the item name will show you the
-expiry date of the item if it has one. The <code>All items</code> list provides you with a static view of all your items in the app in alphabetical order.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/ShortenedCard.png" alt="ShortenedCard" width="500">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ExpandCard.png" alt="ExpandCard" width="500">
+</div>
 </div>
 <div class="paragraph">
-<p>Below the <code>View</code> list panel, you can find a rectangle box which acts like a "feedback window". Any feedback on
-the successful execution of the command will be displayed in this box. If you type something wrongly, you will
+<p>You can find all your items on the right, in the <code>All Items</code> list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AllItems.png" alt="AllItems" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>All Items</code> list provides you with a static view of all your items in the app in alphabetical order. Here items are categorized into tracked items and to-buy items. You can click on the list
+name to view items in the list, or click again to collapse the list. Clicking on the item name will show you the
+expiry date of the item if it has one.</p>
+</div>
+<div class="paragraph">
+<p>Below the <code>View</code> list panel, you can find a rectangle box which acts like a "feedback window".</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/FeedbackBox.png" alt="FeedbackBox" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>Any feedback on
+the successful execution of the command will be displayed in this box. If an illegal command is entered, you will
 also be able to see a failure message and relevant suggestions in the box.</p>
 </div>
 <div class="paragraph">
-<p>Finally, at the very bottom, you can find a small rounded rectangle box that says "Enter command here&#8230;&#8203;". This
-is where you can type your command. The maximum you can type is 60 characters. Try typing <code>add|Banana|1/11/2020</code> and press <kbd>enter</kbd>, there you go the first item in your tracking list!</p>
+<p>Finally, at the very bottom, you can find a small rounded rectangle box that says "Enter command here&#8230;&#8203;".</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/CommandBox.png" alt="CommandBox" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>This is where you can type your command. The maximum you can type is 60 characters. Try typing <code>add|Banana|1/11/2020</code> and press <kbd>enter</kbd>, and you will see it appears in your <code>View</code> list!</p>
 </div>
 </div>
 </div>
@@ -1112,4 +1199,4 @@ Format: <code>redo</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-31 17:09:39 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-31 20:00:18 UTC</div></div></div></body></html>
