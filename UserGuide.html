@@ -312,13 +312,84 @@ Returns any items with names containing <code>milk</code> or <code>tea</code>, o
 </div>
 <div class="sect3">
 <h4 id="shifting-an-item-from-one-list-to-another-code-shift-code"><a class="link" href="#shifting-an-item-from-one-list-to-another-code-shift-code">4.1.4. Shifting an item from one list to another: <code>shift</code></a></h4>
+<div class="paragraph">
+<p>Transfers items from main list to replenish list, or from replenish list to main list.</p>
+</div>
 <div class="sect4">
 <h5 id="shifting-an-item-from-the-main-list-to-the-replenish-list"><a class="link" href="#shifting-an-item-from-the-main-list-to-the-replenish-list">4.1.4.1. Shifting an item from the main list to the replenish list</a></h5>
-
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use this to shift any expired items (tagged as <code>#Expired</code>  by the system) to the replenish list.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Format: <code>shift|&lt;index&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>shift|2</code><br>
+Transfers the 2nd item in the main list to the replenish list.</p>
+</li>
+</ul>
+</div>
 </div>
 <div class="sect4">
 <h5 id="shifting-an-item-from-the-replenish-list-to-the-main-list"><a class="link" href="#shifting-an-item-from-the-replenish-list-to-the-main-list">4.1.4.2. Shifting an item from the replenish list to the main list</a></h5>
-
+<div class="paragraph">
+<p>Format: <code>shift|&lt;index&gt;|&lt;expiry date&gt;[|quantity]</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>shift|3|29/3/2020</code> (without quantity)<br>
+Transfers the 3rd item from the replenish list to the main list with expiry date <code>29/3/2020</code> and quantity <code>1</code></p>
+</li>
+<li>
+<p><code>shift|2|11/2/2020|4</code><br>
+Transfers the 2nd item from the replenish list to the main list with expiry date <code>11/2/2020</code> and quantity <code>4</code></p>
+</li>
+</ul>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Item quantity <strong>must be a positive integer</strong> 1,2,3&#8230;&#8203;</p>
+</li>
+<li>
+<p>When not specified, the item quantity is assumed to be 1.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+For items with single quantity, you can save time by keying in only the item name and expiry date.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -774,15 +845,6 @@ Format: <code>sort|&lt;key&gt;</code></p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>search|#fruit #sweet</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock"><strong>Shift</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>shift|&lt;index&gt;</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>shift|2</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>shift|&lt;index&gt;|&lt;expiry date&gt;|&lt;quantity&gt;</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>shift|2|1/1/2020|2</code></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Clear</strong></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>clear</code></p></td>
 <td class="tableblock halign-left valign-middle"></td>
@@ -831,11 +893,11 @@ Format: <code>sort|&lt;key&gt;</code></p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>delete|3</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>delete|&lt;index&gt;|&lt;tag&gt;]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>delete|&lt;index&gt;|&lt;tag&gt;</code></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>delete|3|#fruit</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>delete|&lt;index&gt;|[&lt;quantity&gt;]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>delete|3|2</code></p></td>
 </tr>
 <tr>
@@ -858,8 +920,13 @@ Format: <code>sort|&lt;key&gt;</code></p>
 <td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>check[|&lt;days&gt;]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>check|&lt;days&gt;</code></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>check|20</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shift</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>shift|&lt;index&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>shift|2</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock"><strong>Sort</strong></p></td>
@@ -930,6 +997,10 @@ e.g. <code>check|20</code></p>
 <li>
 <p><strong>Sort</strong> : <code>sort|&lt;key&gt;</code><br>
 e.g. <code>sort|date</code></p>
+</li>
+<li>
+<p><strong>Shift</strong> : <code>shift|&lt;index&gt;</code><br>
+e.g. <code>shift|2</code></p>
 </li>
 <li>
 <p><strong>Search</strong> : <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</code><br>
@@ -1009,4 +1080,4 @@ e.g. <code>delete|3</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-31 14:56:30 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-10-31 15:02:33 UTC</div></div></div></body></html>
