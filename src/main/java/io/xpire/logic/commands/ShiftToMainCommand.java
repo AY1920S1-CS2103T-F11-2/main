@@ -40,6 +40,7 @@ public class ShiftToMainCommand extends Command {
     private final Index targetIndex;
     private final ExpiryDate expiryDate;
     private final Quantity quantity;
+    private String result = "";
 
     public ShiftToMainCommand(Index targetIndex, ExpiryDate expiryDate, Quantity quantity) {
         this.targetIndex = targetIndex;
@@ -66,7 +67,8 @@ public class ShiftToMainCommand extends Command {
             model.addItem(toShiftItem);
             model.deleteReplenishItem(targetItem);
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toShiftItem.getName()));
+        this.result = String.format(MESSAGE_SUCCESS, toShiftItem.getName());
+        return new CommandResult(this.result);
     }
 
     /**
@@ -86,5 +88,10 @@ public class ShiftToMainCommand extends Command {
             }
         }
         return new XpireItem(itemName, expiryDate, quantity, newTags);
+    }
+
+    @Override
+    public String toString() {
+        return "the following Shift command:\n" + this.result;
     }
 }

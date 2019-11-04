@@ -24,6 +24,7 @@ public class AddCommand extends Command {
     public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists";
 
     private final XpireItem toAdd;
+    private String result = "";
 
     /**
      * Creates an AddCommand to add the specified {@code XpireItem}
@@ -48,9 +49,9 @@ public class AddCommand extends Command {
         if (model.hasItem(this.toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_ITEM);
         }
-
         model.addItem(this.toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, this.toAdd));
+        this.result = String.format(MESSAGE_SUCCESS, this.toAdd);
+        return new CommandResult(result);
     }
 
     @Override
@@ -72,6 +73,6 @@ public class AddCommand extends Command {
 
     @Override
     public String toString() {
-        return "Add Command: " + this.toAdd;
+        return "the following Add command:\n" + result;
     }
 }

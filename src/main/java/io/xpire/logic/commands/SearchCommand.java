@@ -70,6 +70,6 @@ public class SearchCommand extends Command {
 
     @Override
     public String toString() {
-        return "Search Command";
+        return "Search command.";
     }
 }

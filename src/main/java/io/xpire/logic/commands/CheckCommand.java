@@ -18,7 +18,7 @@ public class CheckCommand extends Command {
     public static final String COMMAND_WORD = "check";
     public static final String COMMAND_SHORTHAND = "ch";
 
-    public static final String MESSAGE_SUCCESS = "Item(s) expiring soon";
+    public static final String MESSAGE_SUCCESS = "Item(s) expiring soon.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Displays all items whose expiry date is within"
             + "the specified duration (in days). Expired items, if any, are also included in the list.\n"
@@ -28,15 +28,18 @@ public class CheckCommand extends Command {
             + "has been activated will be displayed.";
 
     public static final String MESSAGE_EXCEEDED_MAX = "Maximum number of days that can be checked is 36500 days";
+    private String result;
 
     private final Predicate<XpireItem> predicate;
 
-    public CheckCommand(ExpiringSoonPredicate predicate) {
+    public CheckCommand(ExpiringSoonPredicate predicate, int days) {
         this.predicate = predicate;
+        this.result = String.format("Check items with %d days left before their expiry date.", days);
     }
 
     public CheckCommand(ReminderThresholdExceededPredicate predicate) {
         this.predicate = predicate;
+        this.result = "Check items according to their reminder dates.";
     }
 
     @Override
@@ -67,6 +70,6 @@ public class CheckCommand extends Command {
 
     @Override
     public String toString() {
-        return "Check Command";
+        return "the following Check command:\n" + this.result;
     }
 }

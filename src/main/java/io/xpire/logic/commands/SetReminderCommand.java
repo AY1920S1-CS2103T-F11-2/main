@@ -31,9 +31,9 @@ public class SetReminderCommand extends Command {
             + "Existing threshold will be overwritten by the input.\n"
             + "Format: set reminder|<index>|<threshold> (both index and threshold must be positive numbers)\n"
             + "Example: " + COMMAND_WORD + "|1|7";
-    public static final String MESSAGE_SUCCESS_SET = "Reminder for item %d has been set to %s day(s)"
+    public static final String MESSAGE_SUCCESS_SET = "Reminder for item %s has been set to %s day(s)"
             + " before expiry date";
-    public static final String MESSAGE_SUCCESS_RESET = "Disabled reminder for item %d";
+    public static final String MESSAGE_SUCCESS_RESET = "Disabled reminder for item %s";
 
     private final Index index;
     private final ReminderThreshold threshold;
@@ -77,8 +77,8 @@ public class SetReminderCommand extends Command {
             return new CommandResult(String.format(MESSAGE_REMINDER_THRESHOLD_EXCEEDED, daysLeft));
         } else {
             return new CommandResult(this.threshold.getValue() > 0
-                    ? String.format(MESSAGE_SUCCESS_SET, this.index.getOneBased(), this.threshold)
-                    : String.format(MESSAGE_SUCCESS_RESET, this.index.getOneBased()));
+                    ? String.format(MESSAGE_SUCCESS_SET, this.item.getName(), this.threshold)
+                    : String.format(MESSAGE_SUCCESS_RESET, this.item.getName()));
         }
     }
 
@@ -111,6 +111,11 @@ public class SetReminderCommand extends Command {
 
     @Override
     public String toString() {
-        return "SetReminder Command: " + this.item.getName() + " Set for " + this.threshold + " days";
+        if (this.threshold.getValue() == 0) {
+            return "the following Set Reminder command:\nThe Item " + this.item.getName()
+                    + "'s reminder has been disabled.";
+        }
+        return "the following Set Reminder command:\nThe Item " + this.item.getName() + "'s reminder "
+                + "has been set for " + this.threshold + " day(s).";
     }
 }

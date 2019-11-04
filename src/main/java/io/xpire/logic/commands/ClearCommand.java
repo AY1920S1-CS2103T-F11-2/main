@@ -48,7 +48,7 @@ public class ClearCommand extends Command {
 
     @Override
     public String toString() {
-        return "Clear Command";
+        return "Clear command.";
     }
 
     public String getList() {

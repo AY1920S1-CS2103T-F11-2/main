@@ -50,6 +50,6 @@ public class ViewCommand extends Command {
 
     @Override
     public String toString() {
-        return "View Command";
+        return "View command.";
     }
 }

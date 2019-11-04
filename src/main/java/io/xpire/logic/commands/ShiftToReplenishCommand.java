@@ -38,6 +38,7 @@ public class ShiftToReplenishCommand extends Command {
 
     private Item replenishItem;
     private final Index targetIndex;
+    private String result = "";
 
     public ShiftToReplenishCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
@@ -67,7 +68,8 @@ public class ShiftToReplenishCommand extends Command {
             model.addReplenishItem(this.replenishItem);
             model.deleteItem(targetItem);
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS, replenishItem.getName()));
+        this.result = String.format(MESSAGE_SUCCESS, replenishItem.getName());
+        return new CommandResult(this.result);
     }
 
     /**
@@ -85,5 +87,10 @@ public class ShiftToReplenishCommand extends Command {
             }
         }
         return new Item(itemName, newTags);
+    }
+
+    @Override
+    public String toString() {
+        return "the following Shift command:\n" + this.result;
     }
 }

@@ -56,6 +56,7 @@ public class TagCommand extends Command {
     private final TagMode mode;
     private boolean containsLongTags = false;
     private Item item = null;
+    private String result = "";
 
 
 
@@ -101,9 +102,11 @@ public class TagCommand extends Command {
             stackManager.saveState(new State(model));
             model.setItem(xpireItemToTag, taggedXpireItem);
             if (containsLongTags) {
-                return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS_TRUNCATION_WARNING, taggedXpireItem));
+                this.result = String.format(MESSAGE_TAG_ITEM_SUCCESS_TRUNCATION_WARNING, taggedXpireItem);
+                return new CommandResult(this.result);
             }
-            return new CommandResult(String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedXpireItem));
+            this.result = String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedXpireItem);
+            return new CommandResult(this.result);
 
         case SHOW:
             Set<Tag> tagSet = new TreeSet<>(new TagComparator());

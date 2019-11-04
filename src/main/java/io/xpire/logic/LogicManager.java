@@ -8,6 +8,8 @@ import io.xpire.commons.core.GuiSettings;
 import io.xpire.commons.core.LogsCenter;
 import io.xpire.logic.commands.Command;
 import io.xpire.logic.commands.CommandResult;
+import io.xpire.logic.commands.RedoCommand;
+import io.xpire.logic.commands.UndoCommand;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.parser.Parser;
 import io.xpire.logic.parser.ReplenishParser;
@@ -16,6 +18,7 @@ import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.StackManager;
+import io.xpire.model.history.CommandHistory;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.storage.Storage;
@@ -35,6 +38,7 @@ public class LogicManager implements Logic {
     private final XpireParser xpireParser = new XpireParser();
     private final ReplenishParser replenishParser = new ReplenishParser();
     private final StackManager stackManager = new StackManager();
+    private final CommandHistory commandHistory = new CommandHistory();
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
@@ -71,6 +75,15 @@ public class LogicManager implements Logic {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }
 
+        if (command instanceof UndoCommand) {
+            Command previousCommand = commandHistory.retrievePreviousCommand();
+            commandResult = new CommandResult(String.format(commandResult.getFeedbackToUser(), previousCommand));
+        } else if (command instanceof RedoCommand) {
+            Command nextCommand = commandHistory.retrieveNextCommand();
+            commandResult = new CommandResult(String.format(commandResult.getFeedbackToUser(), nextCommand));
+        } else {
+            commandHistory.addCommand(command);
+        }
         return commandResult;
     }
 
