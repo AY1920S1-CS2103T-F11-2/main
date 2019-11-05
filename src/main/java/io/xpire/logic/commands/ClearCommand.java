@@ -49,7 +49,7 @@ public class ClearCommand extends Command {
 
     @Override
     public String toString() {
-        return "Clear command.";
+        return "Clear command";
     }
 
     public String getList() {
