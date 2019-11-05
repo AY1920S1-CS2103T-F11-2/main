@@ -40,7 +40,7 @@ public class TagCommand extends Command {
 
             + ": Tags the xpireItem identified by the index number used in the displayed item list.\n"
             + "Note that only 5 tags are allowed per item. \n"
-            + "Format: <index>|<tag>[<other tags>]...\n"
+            + "Format: tag|<index>|<tag>[<other tags>]...\n"
             + "(index must be a positive integer; each tag must be prefixed with a '#')\n"
             + "Example: " + COMMAND_WORD + "|1|#Food #Fruit";
 
