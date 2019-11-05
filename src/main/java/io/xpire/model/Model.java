@@ -214,4 +214,6 @@ public interface Model {
 
     ListToView getListToView();
 
+    XpireItem getXpireItem(XpireItem xpireItem);
+
 }

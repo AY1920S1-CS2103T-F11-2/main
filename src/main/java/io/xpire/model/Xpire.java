@@ -84,6 +84,13 @@ public class Xpire implements ReadOnlyListView<XpireItem> {
         this.items.remove(key);
     }
 
+    /**
+     * Returns item from this {@code Xpire}.
+     */
+    public XpireItem getItem(XpireItem item) {
+        return this.items.getItemInList(item);
+    }
+
     //@@author febee99
     /**
      * Set method of sorting.

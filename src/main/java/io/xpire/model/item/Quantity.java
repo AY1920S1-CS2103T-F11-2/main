@@ -17,7 +17,8 @@ public class Quantity {
     public static final String DEFAULT_QUANTITY = "1";
     public static final String MESSAGE_CONSTRAINTS =
             "Quantity added should be a positive integer and should not be blank";
-    public static final String MESSAGE_QUANTITY_LIMIT = "Quantity exceeds maximum input quantity of 100000";
+    public static final String MESSAGE_QUANTITY_LIMIT = "Quantity will exceed maximum allowed quantity of 100000";
+
     public static final int MAX_VALUE = 100000;
     private static final String INTERNAL_MESSAGE_CONSTRAINTS =
             "Quantity added should be a non-negative integer and should not be blank";
@@ -113,6 +114,22 @@ public class Quantity {
     public Quantity deductQuantity(Quantity deductAmount) throws ParseException {
         Quantity newQuantity;
         newQuantity = new Quantity(this.quantity - deductAmount.quantity);
+        return newQuantity;
+    }
+
+    /**
+     * Reduces quantity by specified amount.
+     *
+     * @param increaseAmount quantity to be increased.
+     * @return new Quantity of item.
+     * @throws ParseException if new quantity is not within valid range.
+     */
+    public Quantity increaseQuantity(Quantity increaseAmount) throws ParseException {
+        Quantity newQuantity;
+        if ((increaseAmount.quantity + this.quantity) >= MAX_VALUE) {
+            throw new ParseException(MESSAGE_QUANTITY_LIMIT);
+        }
+        newQuantity = new Quantity(this.quantity + increaseAmount.quantity);
         return newQuantity;
     }
 

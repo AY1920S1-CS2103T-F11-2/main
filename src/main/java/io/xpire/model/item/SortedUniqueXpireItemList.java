@@ -44,6 +44,20 @@ public class SortedUniqueXpireItemList implements Iterable<XpireItem> {
     }
 
     /**
+     * Returns index of target item.
+     */
+    public XpireItem getItemInList(XpireItem toCheck) {
+        requireNonNull(toCheck);
+        int index = -1;
+        for (int i = 0; i < internalList.size(); i++) {
+            if (internalList.get(i).isSameItem(toCheck)) {
+                index = i;
+            }
+        }
+        return internalList.get(index);
+    }
+
+    /**
      * Adds an xpireItem to the list.
      * The xpireItem must not already exist in the list.
      */
@@ -75,6 +89,7 @@ public class SortedUniqueXpireItemList implements Iterable<XpireItem> {
 
         this.internalList.set(index, editedXpireItem);
     }
+
 
     /**
      * Removes the equivalent xpireItem from the list.

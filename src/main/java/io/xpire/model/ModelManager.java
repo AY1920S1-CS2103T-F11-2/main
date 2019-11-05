@@ -406,4 +406,9 @@ public class ModelManager implements Model {
     public ListToView getListToView() {
         return this.listToView;
     }
+
+    @Override
+    public XpireItem getXpireItem(XpireItem xpireItem) {
+        return this.xpire.getItem(xpireItem);
+    }
 }
