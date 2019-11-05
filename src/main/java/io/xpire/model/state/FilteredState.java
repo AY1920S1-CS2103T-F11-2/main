@@ -5,7 +5,8 @@ import io.xpire.model.Model;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 
 /**
- * State that stores the previous model's Xpire, UserPrefs and the FilteredList.
+ * State that stores the previous model's Xpire, UserPrefs and the FilteredList. FilteredState denotes
+ * a state in which the current view has been modified but not the items.
  */
 public class FilteredState implements State {
 

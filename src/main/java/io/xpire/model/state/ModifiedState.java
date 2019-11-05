@@ -5,7 +5,8 @@ import io.xpire.model.Model;
 import io.xpire.model.item.sort.XpireMethodOfSorting;
 
 /**
- * State that stores the previous model's Xpire, UserPrefs and the FilteredList.
+ * State that stores the previous model's Xpire, UserPrefs and the FilteredList. ModifiedState denotes
+ * a state in which all the lists have been modified.
  */
 public class ModifiedState implements State {
 
