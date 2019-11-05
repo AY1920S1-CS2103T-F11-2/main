@@ -486,7 +486,9 @@ Undo the previous command that you have entered in. +
 Format: `undo`
 
 [TIP]
-`undo` only works on commands that alter your items or the current view list. Thus, commands such as `help` and `export` are not undoable as they do not alter items or the current view list.
+`undo` only works on commands that alter your items or the current view list. +
+Thus, commands such as `help` and `export` are not undoable as they do not alter items or the current view list. +
+Also, `undo` only works for the last 10 commands. Therefore, use the application wisely!
 
 ==== Redo an earlier command : `redo`
 Redo an earlier command that you have entered in. +

@@ -5,6 +5,7 @@ package io.xpire.model.state;
  */
 public class StateManager {
 
+    public static final int MAX_STACK_SIZE = 10;
     private StackManager stackManager = new StackManager();
 
     public void saveState(State state) {

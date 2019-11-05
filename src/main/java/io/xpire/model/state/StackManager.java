@@ -1,5 +1,6 @@
 package io.xpire.model.state;
 
+import java.util.ArrayDeque;
 import java.util.Stack;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Stack;
 public class StackManager {
 
     private static State current;
-    private Stack<State> undoStack = new Stack<>();
+    private ArrayDeque<State> undoStack = new ArrayDeque<>();
     private Stack<State> redoStack = new Stack<>();
 
     /**
@@ -50,6 +51,9 @@ public class StackManager {
     void saveState(State currentState) {
         redoStack.clear();
         undoStack.push(currentState);
+        if (undoStack.size() > StateManager.MAX_STACK_SIZE) {
+            undoStack.removeLast();
+        }
     }
 
     /**
