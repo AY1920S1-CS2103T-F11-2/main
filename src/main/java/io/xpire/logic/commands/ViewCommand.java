@@ -41,7 +41,7 @@ public class ViewCommand extends Command {
             model.setCurrentFilteredItemList(list);
         }
         model.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
-        this.showInHistory = true;
+        setShowInHistory(true);
         return new CommandResult(output);
     }
 

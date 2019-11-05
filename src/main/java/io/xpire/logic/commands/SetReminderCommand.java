@@ -73,10 +73,11 @@ public class SetReminderCommand extends Command {
         this.item = xpireItemToSetReminder;
         model.setItem(targetItem, xpireItemToSetReminder);
         model.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
-        this.showInHistory = true;
         if (isThresholdExceeded(daysLeft)) {
+            setShowInHistory(true);
             return new CommandResult(String.format(MESSAGE_REMINDER_THRESHOLD_EXCEEDED, daysLeft));
         } else {
+            setShowInHistory(true);
             return new CommandResult(this.threshold.getValue() > 0
                     ? String.format(MESSAGE_SUCCESS_SET, this.item.getName(), this.threshold)
                     : String.format(MESSAGE_SUCCESS_RESET, this.item.getName()));

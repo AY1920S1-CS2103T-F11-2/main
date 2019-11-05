@@ -69,7 +69,7 @@ public class ShiftToReplenishCommand extends Command {
             model.deleteItem(targetItem);
         }
         this.result = String.format(MESSAGE_SUCCESS, replenishItem.getName());
-        this.showInHistory = true;
+        setShowInHistory(true);
         return new CommandResult(this.result);
     }
 

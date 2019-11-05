@@ -43,7 +43,7 @@ public class ClearCommand extends Command {
         default:
             break;
         }
-        this.showInHistory = true;
+        setShowInHistory(true);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

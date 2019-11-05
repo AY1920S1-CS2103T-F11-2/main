@@ -51,7 +51,7 @@ public class AddCommand extends Command {
         }
         model.addItem(this.toAdd);
         this.result = String.format(MESSAGE_SUCCESS, this.toAdd);
-        this.showInHistory = true;
+        setShowInHistory(true);
         return new CommandResult(result);
     }
 

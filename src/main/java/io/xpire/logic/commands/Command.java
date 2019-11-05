@@ -10,7 +10,8 @@ import io.xpire.model.StackManager;
  */
 public abstract class Command {
 
-    boolean showInHistory = false;
+    private boolean showInHistory = false;
+
     /**
      * Executes the command and returns the result message.
      *
@@ -27,6 +28,15 @@ public abstract class Command {
      * @return whether the command should be kept in CommandHistory.
      */
     public boolean isShowInHistory() {
-        return showInHistory;
+        return this.showInHistory;
+    }
+
+    /**
+     * Sets showInHistory.
+     *
+     * @param showInHistory appropriate boolean value for showInHistory.
+     */
+    public void setShowInHistory(boolean showInHistory) {
+        this.showInHistory = showInHistory;
     }
 }

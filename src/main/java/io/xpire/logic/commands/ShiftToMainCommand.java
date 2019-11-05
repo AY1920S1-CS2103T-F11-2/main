@@ -68,7 +68,7 @@ public class ShiftToMainCommand extends Command {
             model.deleteReplenishItem(targetItem);
         }
         this.result = String.format(MESSAGE_SUCCESS, toShiftItem.getName());
-        this.showInHistory = true;
+        setShowInHistory(true);
         return new CommandResult(this.result);
     }
 

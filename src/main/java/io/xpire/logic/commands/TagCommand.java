@@ -101,12 +101,13 @@ public class TagCommand extends Command {
             }
             stackManager.saveState(new State(model));
             model.setItem(xpireItemToTag, taggedXpireItem);
-            this.showInHistory = true;
             if (containsLongTags) {
                 this.result = String.format(MESSAGE_TAG_ITEM_SUCCESS_TRUNCATION_WARNING, taggedXpireItem);
+                setShowInHistory(true);
                 return new CommandResult(this.result);
             }
             this.result = String.format(MESSAGE_TAG_ITEM_SUCCESS, taggedXpireItem);
+            setShowInHistory(true);
             return new CommandResult(this.result);
 
         case SHOW:
