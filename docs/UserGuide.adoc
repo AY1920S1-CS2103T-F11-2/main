@@ -486,13 +486,13 @@ Undo the previous command that you have entered in. +
 Format: `undo`
 
 [TIP]
-`undo` only works on commands that alter your items or the current view list. Thus, commands such as `help` and `sort` are not undoable as they do not alter items or the current view list.
+`undo` only works on commands that alter your items or the current view list. Thus, commands such as `help` and `export` are not undoable as they do not alter items or the current view list.
 
 ==== Redo an earlier command : `redo`
 Redo an earlier command that you have entered in. +
 Format: `redo`
 
-This command works in the opposite direction as `undo`, it will redo any command that you have undid so you are able to see the changes.
+This command works in the opposite direction as `undo`, it will redo any command that you have undid so that you are able to see the changes.
 
 == FAQ
 
@@ -611,5 +611,7 @@ Below is a list of commands and their corresponding command shorthands:
 * `delete` : `d`
 * `tag` : `t`
 * `clear` : `cl`
+* `undo` : `u`
+* `redo` : `r`
 * `export` : `ex`
 * `exit` : `x`

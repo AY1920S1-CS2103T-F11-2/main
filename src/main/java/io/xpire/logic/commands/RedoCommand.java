@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
-import io.xpire.model.StackManager;
 import io.xpire.model.state.State;
+import io.xpire.model.state.StateManager;
 
 /**
  * Redo the previous Undo Command.
@@ -13,16 +13,17 @@ import io.xpire.model.state.State;
 public class RedoCommand extends Command {
 
     public static final String COMMAND_WORD = "redo";
+    public static final String COMMAND_SHORTHAND = "r";
     public static final String MESSAGE_REDO_SUCCESS = "Redo %s";
     public static final String MESSAGE_REDO_FAILURE = "There are no commands to redo.";
 
     @Override
-    public CommandResult execute(Model model, StackManager stackManager) throws CommandException {
+    public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireNonNull(model);
-        if (stackManager.isRedoStackEmpty()) {
+        if (stateManager.isRedoStackEmpty()) {
             throw new CommandException(MESSAGE_REDO_FAILURE);
         }
-        State succeedingState = stackManager.redo();
+        State succeedingState = stateManager.redo();
         model.update(succeedingState);
         return new CommandResult(MESSAGE_REDO_SUCCESS);
     }

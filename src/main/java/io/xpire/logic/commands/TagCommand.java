@@ -12,10 +12,10 @@ import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
-import io.xpire.model.StackManager;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
-import io.xpire.model.state.State;
+import io.xpire.model.state.ModifiedState;
+import io.xpire.model.state.StateManager;
 import io.xpire.model.tag.Tag;
 import io.xpire.model.tag.TagComparator;
 import io.xpire.model.tag.TagItemDescriptor;
@@ -84,7 +84,7 @@ public class TagCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model, StackManager stackManager) throws CommandException {
+    public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireNonNull(model);
         List<? extends Item> lastShownList = model.getCurrentFilteredItemList();
 
@@ -99,7 +99,7 @@ public class TagCommand extends Command {
             if (this.tagItemDescriptor.getTags().stream().anyMatch(Tag::isTruncated)) {
                 this.containsLongTags = true;
             }
-            stackManager.saveState(new State(model));
+            stateManager.saveState(new ModifiedState(model));
             model.setItem(xpireItemToTag, taggedXpireItem);
             if (containsLongTags) {
                 this.result = String.format(MESSAGE_TAG_ITEM_SUCCESS_TRUNCATION_WARNING, taggedXpireItem);
@@ -112,7 +112,7 @@ public class TagCommand extends Command {
 
         case SHOW:
             Set<Tag> tagSet = new TreeSet<>(new TagComparator());
-            List<XpireItem> xpireItemList = model.getAllItemList();
+            List<XpireItem> xpireItemList = model.getXpire().getItemList();
             xpireItemList.forEach(item -> tagSet.addAll(item.getTags()));
             if (tagSet.isEmpty()) {
                 return new CommandResult(MESSAGE_TAG_SHOW_FAILURE);

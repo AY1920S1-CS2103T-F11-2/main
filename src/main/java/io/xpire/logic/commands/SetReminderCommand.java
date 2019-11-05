@@ -11,10 +11,10 @@ import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
-import io.xpire.model.StackManager;
 import io.xpire.model.item.ReminderThreshold;
 import io.xpire.model.item.XpireItem;
-import io.xpire.model.state.State;
+import io.xpire.model.state.ModifiedState;
+import io.xpire.model.state.StateManager;
 
 
 /**
@@ -51,9 +51,9 @@ public class SetReminderCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model, StackManager stackManager) throws CommandException {
+    public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireNonNull(model);
-        stackManager.saveState(new State(model));
+        stateManager.saveState(new ModifiedState(model));
         List<XpireItem> lastShownList = model.getFilteredXpireItemList();
 
         if (this.index.getZeroBased() >= lastShownList.size()) {

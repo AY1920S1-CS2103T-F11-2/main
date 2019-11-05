@@ -17,10 +17,10 @@ import io.xpire.logic.parser.XpireParser;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyListView;
-import io.xpire.model.StackManager;
 import io.xpire.model.history.CommandHistory;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
+import io.xpire.model.state.StateManager;
 import io.xpire.storage.Storage;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -37,7 +37,7 @@ public class LogicManager implements Logic {
     private Parser parser;
     private final XpireParser xpireParser = new XpireParser();
     private final ReplenishParser replenishParser = new ReplenishParser();
-    private final StackManager stackManager = new StackManager();
+    private final StateManager stateManager = new StateManager();
     private final CommandHistory commandHistory = new CommandHistory();
 
     public LogicManager(Model model, Storage storage) {
@@ -58,7 +58,7 @@ public class LogicManager implements Logic {
             this.parser = replenishParser;
         }
         Command command = this.parser.parse(commandText);
-        commandResult = command.execute(this.model, this.stackManager);
+        commandResult = command.execute(this.model, this.stateManager);
 
         //System.out.println("ALLITEMS");
         //this.model.getXpire().getItemList().forEach(System.out::println);
