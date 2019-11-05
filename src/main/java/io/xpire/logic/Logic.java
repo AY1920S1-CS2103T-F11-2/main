@@ -1,6 +1,7 @@
 package io.xpire.logic;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import io.xpire.commons.core.GuiSettings;
 import io.xpire.logic.commands.CommandResult;
@@ -10,7 +11,6 @@ import io.xpire.model.Model;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
 /**
@@ -39,10 +39,11 @@ public interface Logic {
     FilteredList<? extends Item> getCurrentFilteredItemList();
 
     /** Returns an unmodifiable view of the current list of tracked items */
-    ObservableList<XpireItem> getXpireItemList();
+    List<XpireItem> getXpireItemList();
 
-    /** Returns an unmodifiable view of the current list of to-buy items */
-    ObservableList<Item> getReplenishItemList();
+    /** Returns an unmodifiable view of the current list of to-buy items
+     * @return*/
+    List<Item> getReplenishItemList();
 
     /**
      * Returns the user prefs' xpire file path.

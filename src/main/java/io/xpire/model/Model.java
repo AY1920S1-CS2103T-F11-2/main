@@ -194,6 +194,8 @@ public interface Model {
 
     List<Item> getReplenishItemList();
 
+    List<XpireItem> getXpireItemList();
+
     /**
      * Checks expiry date of XpireItem and updates the item's tags respectively.
      */

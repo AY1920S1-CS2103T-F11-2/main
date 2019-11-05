@@ -2,6 +2,7 @@ package io.xpire.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.logging.Logger;
 
 import io.xpire.commons.core.GuiSettings;
@@ -22,7 +23,6 @@ import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.state.StateManager;
 import io.xpire.storage.Storage;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
 /**
@@ -90,13 +90,13 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<XpireItem> getXpireItemList() {
-        return this.model.getFilteredXpireItemList();
+    public List<XpireItem> getXpireItemList() {
+        return this.model.getXpireItemList();
     }
 
     @Override
-    public ObservableList<Item> getReplenishItemList() {
-        return this.model.getFilteredReplenishItemList();
+    public List<Item> getReplenishItemList() {
+        return this.model.getReplenishItemList();
     }
 
     @Override

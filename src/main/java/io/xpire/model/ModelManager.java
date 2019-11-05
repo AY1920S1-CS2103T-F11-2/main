@@ -346,6 +346,11 @@ public class ModelManager implements Model {
         return this.replenishList.getItemList();
     }
 
+    @Override
+    public List<XpireItem> getXpireItemList() {
+        return this.xpire.getItemList();
+    }
+
     // =========== Item Manager Methods =============================================================
 
     @Override
