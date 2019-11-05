@@ -73,6 +73,7 @@ public class SetReminderCommand extends Command {
         this.item = xpireItemToSetReminder;
         model.setItem(targetItem, xpireItemToSetReminder);
         model.updateFilteredItemList(Model.PREDICATE_SHOW_ALL_ITEMS);
+        this.showInHistory = true;
         if (isThresholdExceeded(daysLeft)) {
             return new CommandResult(String.format(MESSAGE_REMINDER_THRESHOLD_EXCEEDED, daysLeft));
         } else {
@@ -114,8 +115,9 @@ public class SetReminderCommand extends Command {
         if (this.threshold.getValue() == 0) {
             return "the following Set Reminder command:\nThe Item " + this.item.getName()
                     + "'s reminder has been disabled.";
+        } else {
+            return "the following Set Reminder command:\nThe Item " + this.item.getName() + "'s reminder "
+                    + "has been set for " + this.threshold + " day(s).";
         }
-        return "the following Set Reminder command:\nThe Item " + this.item.getName() + "'s reminder "
-                + "has been set for " + this.threshold + " day(s).";
     }
 }

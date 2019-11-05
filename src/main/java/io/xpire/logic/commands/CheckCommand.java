@@ -48,6 +48,7 @@ public class CheckCommand extends Command {
         State test = new State(model);
         stackManager.saveState(test);
         model.updateFilteredItemList(this.predicate);
+        this.showInHistory = true;
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

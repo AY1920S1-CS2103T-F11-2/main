@@ -48,6 +48,7 @@ public class SearchCommand extends Command {
             });
         }
         //@@author
+        this.showInHistory = true;
         return new CommandResult(sb.toString());
     }
 

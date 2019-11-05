@@ -81,7 +81,7 @@ public class LogicManager implements Logic {
         } else if (command instanceof RedoCommand) {
             Command nextCommand = commandHistory.retrieveNextCommand();
             commandResult = new CommandResult(String.format(commandResult.getFeedbackToUser(), nextCommand));
-        } else {
+        } else if (command.isShowInHistory()) {
             commandHistory.addCommand(command);
         }
         return commandResult;

@@ -101,6 +101,7 @@ public class TagCommand extends Command {
             }
             stackManager.saveState(new State(model));
             model.setItem(xpireItemToTag, taggedXpireItem);
+            this.showInHistory = true;
             if (containsLongTags) {
                 this.result = String.format(MESSAGE_TAG_ITEM_SUCCESS_TRUNCATION_WARNING, taggedXpireItem);
                 return new CommandResult(this.result);
@@ -202,6 +203,11 @@ public class TagCommand extends Command {
         return index.equals(e.index)
                 && tagItemDescriptor.equals(e.tagItemDescriptor)
                 && mode.equals(e.mode);
+    }
+
+    @Override
+    public String toString() {
+        return "the following Tag command:\n" + this.result;
     }
 
 }

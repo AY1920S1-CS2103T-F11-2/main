@@ -95,12 +95,14 @@ public class DeleteCommand extends Command {
         case ITEM:
             model.deleteItem(targetXpireItem);
             this.result = String.format(MESSAGE_DELETE_ITEM_SUCCESS, targetXpireItem);
+            this.showInHistory = true;
             return new CommandResult(this.result);
         case TAGS:
             assert this.tagSet != null;
             XpireItem newTaggedXpireItem = removeTagsFromItem(new XpireItem(targetXpireItem), this.tagSet);
             model.setItem(targetXpireItem, newTaggedXpireItem);
             this.result = String.format(MESSAGE_DELETE_TAGS_SUCCESS, newTaggedXpireItem);
+            this.showInHistory = true;
             return new CommandResult(this.result);
         case QUANTITY:
             assert this.quantity != null;
@@ -115,6 +117,7 @@ public class DeleteCommand extends Command {
                 return new CommandResult(this.result);
             }
             this.result = String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetXpireItem);
+            this.showInHistory = true;
             return new CommandResult(this.result);
         default:
             throw new CommandException(Messages.MESSAGE_UNKNOWN_DELETE_MODE);
@@ -182,6 +185,6 @@ public class DeleteCommand extends Command {
 
     @Override
     public String toString() {
-        return "the following Delete command:\n" + result;
+        return "the following Delete command:\n" + this.result;
     }
 }

@@ -10,6 +10,7 @@ import io.xpire.model.StackManager;
  */
 public abstract class Command {
 
+    boolean showInHistory = false;
     /**
      * Executes the command and returns the result message.
      *
@@ -20,4 +21,12 @@ public abstract class Command {
     public abstract CommandResult execute(Model model,
                                           StackManager stackManager) throws CommandException, ParseException;
 
+    /**
+     * Denotes if the command should be stored in history.
+     *
+     * @return whether the command should be kept in CommandHistory.
+     */
+    public boolean isShowInHistory() {
+        return showInHistory;
+    }
 }
