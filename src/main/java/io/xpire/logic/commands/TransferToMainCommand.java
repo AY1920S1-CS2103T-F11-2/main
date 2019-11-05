@@ -25,9 +25,9 @@ import io.xpire.model.tag.TagComparator;
 /**
  * Shifts an {@Item} back to the main list.
  */
-public class ShiftToMainCommand extends Command {
-    public static final String COMMAND_WORD = "shift";
-    public static final String COMMAND_SHORTHAND = "sh";
+public class TransferToMainCommand extends Command {
+    public static final String COMMAND_WORD = "transfer";
+    public static final String COMMAND_SHORTHAND = "tr";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Moves the item identified by the index number to the main list.\n"
@@ -41,7 +41,7 @@ public class ShiftToMainCommand extends Command {
     private final ExpiryDate expiryDate;
     private final Quantity quantity;
 
-    public ShiftToMainCommand(Index targetIndex, ExpiryDate expiryDate, Quantity quantity) {
+    public TransferToMainCommand(Index targetIndex, ExpiryDate expiryDate, Quantity quantity) {
         this.targetIndex = targetIndex;
         this.expiryDate = expiryDate;
         this.quantity = quantity;

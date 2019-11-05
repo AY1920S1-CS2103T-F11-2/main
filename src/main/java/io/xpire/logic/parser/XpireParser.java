@@ -19,7 +19,7 @@ import io.xpire.logic.commands.HelpCommand;
 import io.xpire.logic.commands.RedoCommand;
 import io.xpire.logic.commands.SearchCommand;
 import io.xpire.logic.commands.SetReminderCommand;
-import io.xpire.logic.commands.ShiftToReplenishCommand;
+import io.xpire.logic.commands.TransferToReplenishCommand;
 import io.xpire.logic.commands.SortCommand;
 import io.xpire.logic.commands.TagCommand;
 import io.xpire.logic.commands.UndoCommand;
@@ -118,10 +118,10 @@ public class XpireParser implements Parser {
         case RedoCommand.COMMAND_WORD:
             return new RedoCommand();
 
-        case ShiftToReplenishCommand.COMMAND_WORD:
+        case TransferToReplenishCommand.COMMAND_WORD:
             //fallthrough
-        case ShiftToReplenishCommand.COMMAND_SHORTHAND:
-            return new ShiftToReplenishCommandParser().parse(arguments);
+        case TransferToReplenishCommand.COMMAND_SHORTHAND:
+            return new TransferToReplenishCommandParser().parse(arguments);
 
         case ExportCommand.COMMAND_WORD:
             //fallthrough
@@ -150,7 +150,7 @@ public class XpireParser implements Parser {
             ViewCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD,
             HelpCommand.COMMAND_WORD, SortCommand.COMMAND_WORD,
             SetReminderCommand.COMMAND_WORD, TagCommand.COMMAND_WORD,
-            CheckCommand.COMMAND_WORD, ShiftToReplenishCommand.COMMAND_WORD,
+            CheckCommand.COMMAND_WORD, TransferToReplenishCommand.COMMAND_WORD,
             ExportCommand.COMMAND_WORD
         };
         Set<String> allCommandsSet = new TreeSet<>(Arrays.asList(allCommandWords));

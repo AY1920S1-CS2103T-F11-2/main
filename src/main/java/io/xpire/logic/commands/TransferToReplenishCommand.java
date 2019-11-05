@@ -23,10 +23,10 @@ import io.xpire.model.tag.TagComparator;
 /**
  * Shifts a {@code XpireItem} to the Replenish List.
  */
-public class ShiftToReplenishCommand extends Command {
+public class TransferToReplenishCommand extends Command {
 
-    public static final String COMMAND_WORD = "shift";
-    public static final String COMMAND_SHORTHAND = "sh";
+    public static final String COMMAND_WORD = "transfer";
+    public static final String COMMAND_SHORTHAND = "tr";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Moves the item identified by the index number to the replenish list.\n"
@@ -39,7 +39,7 @@ public class ShiftToReplenishCommand extends Command {
     private Item replenishItem;
     private final Index targetIndex;
 
-    public ShiftToReplenishCommand(Index targetIndex) {
+    public TransferToReplenishCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 

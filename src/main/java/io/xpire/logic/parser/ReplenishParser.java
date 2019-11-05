@@ -20,7 +20,7 @@ import io.xpire.logic.commands.HelpCommand;
 import io.xpire.logic.commands.RedoCommand;
 import io.xpire.logic.commands.SearchCommand;
 import io.xpire.logic.commands.SetReminderCommand;
-import io.xpire.logic.commands.ShiftToMainCommand;
+import io.xpire.logic.commands.TransferToMainCommand;
 import io.xpire.logic.commands.SortCommand;
 import io.xpire.logic.commands.TagCommand;
 import io.xpire.logic.commands.UndoCommand;
@@ -90,10 +90,10 @@ public class ReplenishParser implements Parser {
         case RedoCommand.COMMAND_WORD:
             return new RedoCommand();
 
-        case ShiftToMainCommand.COMMAND_WORD:
+        case TransferToMainCommand.COMMAND_WORD:
             //fallthrough
-        case ShiftToMainCommand.COMMAND_SHORTHAND:
-            return new ShiftToMainCommandParser().parse(arguments);
+        case TransferToMainCommand.COMMAND_SHORTHAND:
+            return new TransferToMainCommandParser().parse(arguments);
 
         case ExportCommand.COMMAND_WORD:
             //fallthrough
@@ -126,7 +126,7 @@ public class ReplenishParser implements Parser {
         String[] allCommandWords = new String[]{
             ClearCommand.COMMAND_WORD, SearchCommand.COMMAND_WORD,
             ViewCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD,
-            HelpCommand.COMMAND_WORD, ShiftToMainCommand.COMMAND_WORD,
+            HelpCommand.COMMAND_WORD, TransferToMainCommand.COMMAND_WORD,
             ExportCommand.COMMAND_WORD
         };
         Set<String> allCommandsSet = new TreeSet<>(Arrays.asList(allCommandWords));
