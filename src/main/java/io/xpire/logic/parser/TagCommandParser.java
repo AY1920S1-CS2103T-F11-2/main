@@ -26,14 +26,13 @@ public class TagCommandParser implements Parser<TagCommand> {
         requireNonNull(args);
         String[] splitArgs = args.split("\\|", 2);
         Index index;
-        if (splitArgs[0].isEmpty()) {
+        if (args.isEmpty()) {
             return new TagCommand();
         }
         try {
             index = ParserUtil.parseIndex(splitArgs[0]);
         } catch (ParseException pe) {
-            throw new ParseException(String
-                    .format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, TagCommand.MESSAGE_USAGE), pe);
+            throw new ParseException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
         }
         Set<Tag> set;
         TagItemDescriptor tagItemDescriptor = new TagItemDescriptor();

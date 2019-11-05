@@ -38,7 +38,7 @@ public class DeleteCommand extends Command {
             + "1) Deletes the item identified by the index number.\n"
             + "Format: delete|<index> (index must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + "|1" + "\n"
-            + "2) Deletes all tags in the item identified by the index number.\n"
+            + "2) Deletes 1 or more tags specified from the item identified by the index number.\n"
             + "Format: delete|<index>|<tag>[<other tags>]...\n"
             + "Example: " + COMMAND_WORD + "|1" + "|#Fruit #Food"
             + "3) Reduces the quantity in the item identified by the index number. \n"

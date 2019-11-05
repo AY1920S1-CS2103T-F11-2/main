@@ -366,7 +366,7 @@ Format: `tag`
 image::tag.png[width="790"]
 
 [TIP]
-An item can have any number of tags (including 0)
+An item can have a maximum of 5 tags.
 
 Tags an item from the list according to user input +
 Format: `tag|<index>|<tag>[<other tags>]...`

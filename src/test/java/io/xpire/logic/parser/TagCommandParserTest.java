@@ -31,7 +31,7 @@ public class TagCommandParserTest {
     @Test
     public void parse_invalidIndex_throwsParserException() {
         assertParseFailure(parser, "-1", String
-                .format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, TagCommand.MESSAGE_USAGE));
+                .format(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX, TagCommand.MESSAGE_USAGE));
     }
 
     @Test
