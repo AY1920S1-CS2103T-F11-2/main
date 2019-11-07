@@ -37,63 +37,139 @@ Responsibilities: Code Quality + Scheduling and Tracking</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement</strong>: added <strong>the ability to undo/redo previous commands</strong></p>
+<p><strong>Major enhancement</strong>: added <strong>the ability to view different lists and execute only commands permissible for the list specified</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: allows the user to undo all previous commands one at a time. Preceding undo commands can be reversed by using the redo command.</p>
+<p>What it does: allows the user to view the list of items to be replenished from the main tracking list of items and vice versa. In the replenish list, certain commands are intentionally prohibited.</p>
 </li>
 <li>
-<p>Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them.</p>
+<p>Justification: This feature improves the product significantly because a user can view and search for his or her items that have run out and replenish them as soon as possible. Items in the replenish list
+are also differentiated from the items in the main tracking list, by limiting the commands available. This is founded on the basis that certain commands such as sorting by date would be rendered irrelevant as
+items to be replenished do not have an expiry date or quantity unlike those in the main list.</p>
 </li>
 <li>
-<p>Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.</p>
-</li>
-<li>
-<p>Credits: <em>{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}</em></p>
+<p>Highlights: This enhancement works with existing as well as future commands. An in-depth analysis of design alternatives was necessary to avoid making major changes to existing commands and littering of duplicate code
+chunks. The implementation was also challenging because it requires a good command of generics to ensure that existing commands would work well with both items in the main tracking list and items to be
+replenished, without making drastic changes to the code base.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>: added a history command that allows the user to navigate to previous commands using up/down keys.</p>
+<p><strong>Major enhancement</strong>: added <strong>the ability to recommend similar words for correction if any when a user makes mistakes in his or her input</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: recommends closely-related words detected in comparison to the user input</p>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
+<p>Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them. With spelling corrections, they can now easily identify
+their input mistakes and correct them with ease.</p>
+</li>
+<li>
+<p>Highlights: This enhancement works with existing as well as future commands. An in-depth analysis of design alternatives was necessary to avoid major lags in the performance
+of existing commands.</p>
+</li>
+<li>
+<p>Credits: [<a href="https://github.com/crwohlfeil/damerau-levenshtein/blob/master/src/main/java/com/codeweasel/DamerauLevenshtein.java">Damerau-Levenshten algorithm</a>]</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: added the ability to store both the main list and replenish list in one single json object. This allows the user to retrieve previous entries created and edit them.
+A user can also now read and write to the json file from the command-line interface for both lists.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: made certain commands such as sort and search stackable. This would have greater utility in cases where there are hundreds of items, and 1 search is deemed insufficient to sieve out an item.
+This allows users to narrow down to items with greater ease, by sorting or searching the results of previous searches.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: added the ability to auto-sort items in both lists by their name (lexicographical order) and date (chronological order),
+allowing the user to add items and have them arranged in an organised fashion.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: added a sort command that allows the user to sort items by their name or date.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: added expiry date and quantity fields to item, and disallowed expiry dates before today.</p>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://nus-cs2103-ay1920s1.github.io/tp-dashboard/#search=f11&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2019-09-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=authorship&amp;tabAuthor=febee99&amp;tabRepo=AY1920S1-CS2103T-F11-2%2Fmain%5Bmaster%5D">Reposense</a>]
+[<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Project management:</p>
+<p>Team tasks:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Managed releases <code>v1.3</code> - <code>v1.5rc</code> (3 releases) on GitHub</p>
+<p>Refactor Person to Item (Pull request <a href="https://github.com">#3</a>)</p>
+</li>
+<li>
+<p>Set up and maintaining the issue tracker, assign issues to team members for each milestone</p>
 </li>
 </ul>
 </div>
 </li>
+<li>
+<p>Project management:</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p>Enhancements to existing features:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Updated the GUI color scheme (Pull requests <a href="https://github.com">#33</a>, <a href="https://github.com">#34</a>)</p>
+<p>Add functionality to view different lists, edit fxml files (Pull request <a href="https://github.com">#122</a>)</p>
 </li>
 <li>
-<p>Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests <a href="https://github.com">#36</a>, <a href="https://github.com">#38</a>)</p>
+<p>Restrict commands for replenish list with new parser created (Pull request <a href="https://github.com">#122</a>)</p>
+</li>
+<li>
+<p>Allow storage of both lists in a single json object (Pull request <a href="https://github.com">#122</a>)</p>
+</li>
+<li>
+<p>Suggest closely related words when command executed displays no results (Pull requests <a href="https://github.com">#92</a>, <a href="https://github.com">#121</a>)</p>
+</li>
+<li>
+<p>Add Sort Command (Pull requests <a href="https://github.com">#7</a>, <a href="https://github.com">#16</a>)</p>
+</li>
+<li>
+<p>Wrote tests for sort command and its dependencies (Pull request <a href="https://github.com">#82</a>)</p>
+</li>
+<li>
+<p>Render commands stackable (Pull requests <a href="https://github.com">#71</a>)</p>
+</li>
+<li>
+<p>Auto-sort items added (Pull requests <a href="https://github.com">#51</a>, <a href="https://github.com">#79</a>)</p>
+</li>
+<li>
+<p>Disallow expiry dates before today (Pull request <a href="https://github.com">#53</a>)</p>
 </li>
 </ul>
 </div>
 </li>
+</ul>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p>Documentation:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Did cosmetic tweaks to existing contents of the User Guide: <a href="https://github.com">#14</a></p>
+<p>Add sub-headings for commands with usage variations and a command summary table, re-ordered content: <a href="https://github.com">#126</a></p>
 </li>
 </ul>
 </div>
@@ -106,13 +182,7 @@ Responsibilities: Code Quality + Scheduling and Tracking</p>
 <p>PRs reviewed (with non-trivial review comments): <a href="https://github.com">#12</a>, <a href="https://github.com">#32</a>, <a href="https://github.com">#19</a>, <a href="https://github.com">#42</a></p>
 </li>
 <li>
-<p>Contributed to forum discussions (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>, <a href="https://github.com">4</a>)</p>
-</li>
-<li>
 <p>Reported bugs and suggestions for other teams in the class (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>)</p>
-</li>
-<li>
-<p>Some parts of the history feature I added was adopted by several other class mates (<a href="https://github.com">1</a>, <a href="https://github.com">2</a>)</p>
 </li>
 </ul>
 </div>
@@ -122,13 +192,7 @@ Responsibilities: Code Quality + Scheduling and Tracking</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Integrated a third party library (Natty) to the project (<a href="https://github.com">#42</a>)</p>
-</li>
-<li>
-<p>Integrated a new Github plugin (CircleCI) to the team repo</p>
-</li>
-</ul>
-</div>
+<p>Integrated the team repo with Github&#8217;s project board</p>
 </li>
 </ul>
 </div>
@@ -154,106 +218,243 @@ Responsibilities: Code Quality + Scheduling and Tracking</p>
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="deleting-variable-s-code-delete-code"><a class="link" href="#deleting-variable-s-code-delete-code">Deleting variable(s): <code>delete</code></a></h4>
+<h4 id="viewing-all-items-code-view-code"><a class="link" href="#viewing-all-items-code-view-code">Viewing all items : <code>view</code></a></h4>
 <div class="sect4">
-<h5 id="deleting-an-item"><a class="link" href="#deleting-an-item">Deleting an item</a></h5>
-<div class="paragraph">
-<p>Deletes the specified item from your list.<br>
-Format: <code>delete|&lt;index&gt;</code><br></p>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view|main</code><br>
-<code>delete|2</code><br>
-Deletes the 2nd item in the main list.</p>
-</li>
-<li>
-<p><code>sort|name</code><br>
-<code>delete|3</code><br>
-Deletes the 3rd item in the sorted main list.</p>
-</li>
-<li>
-<p><code>search|potato</code><br>
-<code>delete|1</code><br>
-Deletes the 1st item in the results of the <code>search</code> command.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="deleting-certain-tags-from-an-item"><a class="link" href="#deleting-certain-tags-from-an-item">Deleting certain tags from an item</a></h5>
-<div class="paragraph">
-<p>Deletes tag(s) from the specified item.<br>
-Format: <code>delete|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code><br></p>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view|main</code><br>
-<code>delete|3|#Fruit #Food</code><br>
-Deletes the tags <code>#Fruit</code> and <code>#Food</code> from the 3rd item in the main list.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="reducing-the-quantity-of-an-item"><a class="link" href="#reducing-the-quantity-of-an-item">Reducing the quantity of an item</a></h5>
+<h5 id="viewing-all-items-in-the-current-list"><a class="link" href="#viewing-all-items-in-the-current-list">Viewing all items in the current list</a></h5>
 <div class="imageblock">
 <div class="content">
-<img src="../images/delete-quantity.png" alt="delete quantity" width="790">
+<img src="../images/view-current.png" alt="view current" width="790">
 </div>
-<div class="title">Figure 1. Item at index 4 reduced in quantity by 1</div>
+<div class="title">Figure 1. Items in current list viewed</div>
 </div>
 <div class="paragraph">
-<p>Reduces item quantity by the specified quantity.<br>
-Format <code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p>
+<p>Shows all items in the current list, which is the main list by default, or the replenish list if otherwise specified.<br>
+All items are sorted by both name (lexicographical order) and date (chronological order).<br>
+Format: <code>view</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="viewing-all-items-in-another-list"><a class="link" href="#viewing-all-items-in-another-list">Viewing all items in another list</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="../images/view-main.png" alt="view main" width="790">
+</div>
+<div class="title">Figure 2. Items in main tracking list viewed</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/view-replenish.png" alt="view replenish" width="790">
+</div>
+<div class="title">Figure 3. Items in replenish list viewed</div>
+</div>
+<div class="paragraph">
+<p>Changes the list to be displayed.<br>
+You can toggle between the main list and the list of items to be replenished with this command.<br>
+Format: <code>view|&lt;list to view&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>view|main</code><br>
+Displays all items in the main list.</p>
+</li>
+<li>
+<p><code>view|replenish</code><br>
+Displays all items in the replenish list.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="sorting-all-items-code-sort-code"><a class="link" href="#sorting-all-items-code-sort-code">Sorting all items : <code>sort</code></a></h4>
+<div class="paragraph">
+<p>Sorts all items in your list by their name or date.<br>
+Format: <code>sort|&lt;key&gt;</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>The index refers to the index number shown on the list.</p>
+<p>Items can be sorted by either name or date.</p>
 </li>
 <li>
-<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
-</li>
-<li>
-<p>Tags must be prefixed with a '#'.</p>
-</li>
-<li>
-<p>The item must contain the tags to be deleted.</p>
-</li>
-<li>
-<p>The quantity <strong>must be a positive integer</strong> 1, 2 ,3&#8230;&#8203;</p>
-</li>
-<li>
-<p>The quantity specified must be more than the item&#8217;s current quantity.</p>
+<p>For example, Apple will sort ahead of Banana, while an item that expires on 1/1/2020 will sort ahead of another that expires on 1/1/2022.</p>
 </li>
 </ul>
 </div>
 </div>
+</div>
+<div class="sect4">
+<h5 id="sorting-all-items-by-their-name"><a class="link" href="#sorting-all-items-by-their-name">Sorting all items by their name</a></h5>
+<div class="paragraph">
+<p>Format: <code>sort|name</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="sorting-all-items-by-their-date"><a class="link" href="#sorting-all-items-by-their-date">Sorting all items by their date</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="../images/sort-date.png" alt="sort date" width="790">
+</div>
+<div class="title">Figure 4. Items sorted by their date</div>
 </div>
 <div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view|main</code><br>
-<code>delete|4|1</code><br>
-Reduces the quantity of the 4th item by 1.</p>
-</li>
-</ul>
+<p>Format: <code>sort|date</code></p>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="table-summary"><a class="link" href="#table-summary">Table Summary</a></h3>
+<div class="paragraph">
+<p>The table below summarises the common commands available for use in both lists.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-middle">Format</th>
+<th class="tableblock halign-left valign-middle">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Help</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>help</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Undo</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>undo</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Redo</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>redo</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock"><strong>View</strong></p></td>
+<td class="tableblock halign-left valign-middle" rowspan="2"><p class="tableblock"><code>view|&lt;list&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>view|main</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>view|replenish</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="3"><p class="tableblock"><strong>Search</strong></p></td>
+<td class="tableblock halign-left valign-middle" rowspan="3"><p class="tableblock"><code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>search|milk|tea|pearls</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>search|#drink|mango pudding</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>search|#fruit #sweet</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Clear</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>clear</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Export</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>export</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Exit</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>exit</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The table below summarises the commands only available for use in the main list.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-middle">Format</th>
+<th class="tableblock halign-left valign-middle">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock"><strong>Add</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>add|&lt;item name&gt;|&lt;expiry date&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>add|durian|30/9/2019</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add|&lt;item name&gt;|&lt;expiry date&gt;|&lt;quantity&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>add|durian|30/9/2019|8</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="3"><p class="tableblock"><strong>Delete</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>delete|&lt;index&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>delete|3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>delete|&lt;index&gt;|&lt;tag&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>delete|3|#fruit</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>delete|3|2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock"><strong>Tag</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>tag</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tag|&lt;index&gt;|[&lt;tag&gt;]&#8230;&#8203;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>tag|2|#drink #healthy</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Set reminder</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>set reminder|&lt;index&gt;|&lt;reminder threshold&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>set reminder|1|7</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock"><strong>Check</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>check</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>check|&lt;days&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>check|20</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Shift</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>shift|&lt;index&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>shift|2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock"><strong>Sort</strong></p></td>
+<td class="tableblock halign-left valign-middle" rowspan="2"><p class="tableblock"><code>sort|&lt;key&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>sort|name</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort|date</code></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -271,59 +472,33 @@ Reduces the quantity of the 4th item by 1.</p>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">Undo/Redo feature</a></h3>
+<h3 id="auto-sorting-of-items-by-name-then-date"><a class="link" href="#auto-sorting-of-items-by-name-then-date">Auto-sorting of items by name then date</a></h3>
 <div class="sect3">
 <h4 id="implementation"><a class="link" href="#implementation">Implementation</a></h4>
 <div class="paragraph">
-<p>The undo/redo mechanism is facilitated by <code>CloneModel</code> and <code>StackManager</code>.
-It is a separate class that stores a state of the model at any command in time. Internally, it runs three private functions that copy the data over.</p>
+<p>The auto-sorting mechanism is facilitated by <code>SortedUniqueItemList</code> which replaces <code>UniqueItemList</code>.</p>
 </div>
 <div class="paragraph">
-<p>The mechanism is supported by a StackManager which stores internally all the states and<br>
-decides when to pop or clear, depending on the command.
-There are two stacks that are stored in StackManager internally, the Undo and the Redo stack.
-These stacks are initialised and cleared upon beginning/ending every session.</p>
+<p><code>SortedUniqueItemList</code> supports the following new function(s):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SortedUniqueItemList#setMethodOfSorting()</code>&#8201;&#8212;&#8201;Specifies the MethodOfSorting and comparator to be used for the list.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>At every command (Other than undo/redo/help/exit), the state is stored internally.<br>
-When an undo command is executed, it will pop the previous state and update the model via <code>updateModel</code>.<br>
-The state that was undid will then be pushed into the Redo stack, should the user types in a redo command.</p>
+<p>In <code>SortedUniqueItemList</code>, items are stored in a <code>SortedList&lt;Item&gt;</code> and sorted based on the comparator specified.</p>
 </div>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>Step 1. The user launches the application for the first time. The two internal stacks in <code>StackManager</code> will be initialised.</p>
-</div>
-<div class="paragraph">
-<p>Both stacks should be empty as there are no previous commands by the user. The current state is s0, the initial state of Xpire.</p>
+<p>The following sequence diagram shows how items added are auto-sorted:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedo/UndoRedoStep1.png" alt="UndoRedoStep1">
+<img src="../images/AutoSortAddSequenceDiagram.png" alt="AutoSortAddSequenceDiagram">
 </div>
-</div>
-<div class="paragraph">
-<p>Step 2. The user executes <code>delete|5</code> command to delete the 5th item in Xpire. The <code>delete</code> will then save the previous state, s0 by pushing it into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current state will be the new state <code>s1</code> that has the 5th item in Xpire deleted.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep2.png" alt="UndoRedoStep2">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 3. The user executes <code>add|Apple|30/10/2019|3</code> to add a new item. Similar to Step 2, The <code>add</code> command will then save the previous state, s1 by pushing it into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current state will be the new state <code>s2</code> with the item Apple added.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep3.png" alt="UndoRedoStep3">
-</div>
+<div class="title">Figure 5. Sequence Diagram modelling how items added are auto-sorted</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -332,21 +507,19 @@ The state that was undid will then be pushed into the Redo stack, should the use
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If a command fails its execution, it will not save the previous state, thus the Xpire state will not be pushed into the UndoStack.
+Parsers are omitted from the diagram above to place greater emphasis on the sorting mechanism.
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>Step 4. The user now decides that adding the item was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will then update the current model with the model in the previous state.</p>
-</div>
-<div class="paragraph">
-<p>Internally within StackManager, the most recent state, s1, will be popped from the Undo Stack to become the current state. At the same time, s2, the new state with the added item, will be pushed into the Redo Stack.</p>
-</div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedo/UndoRedoStep4.png" alt="UndoRedoStep4">
+<img src="../images/AutoSortAddPartSequenceDiagram.png" alt="AutoSortAddPartSequenceDiagram">
 </div>
+<div class="title">Figure 6. Sequence Diagram: set method of sorting as default</div>
+</div>
+<div class="paragraph">
+<p><code>this.methodOfSorting = new MethodOfSorting("name");</code></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -355,18 +528,20 @@ If a command fails its execution, it will not save the previous state, thus the 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If there are no commands to undo (e.g. at the start of a new Xpire session), undo will return an Error to the user instead. This is done by checking whether the UndoStack is empty.
+Everytime an item is added to the list, the method of sorting is reset to the default, which sorts
+the items by name then date.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the undo operation works:</p>
+<p>The following sequence diagram shows how the sort command changes the default order of how items are displayed:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoSequenceDiagram.png" alt="UndoSequenceDiagram">
+<img src="../images/SortSequenceDiagram.png" alt="SortSequenceDiagram">
 </div>
+<div class="title">Figure 7. Sequence Diagram showing how sort command changes order of items</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -375,13 +550,22 @@ If there are no commands to undo (e.g. at the start of a new Xpire session), und
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The lifeline for <code>UndoCommand</code> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+When sort is called, the method of sorting is redefined by the user.
 </td>
 </tr>
 </table>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SortPartSequenceDiagram.png" alt="SortPartSequenceDiagram">
+</div>
+<div class="title">Figure 8. Sequence Diagram : set method of sorting to date</div>
+</div>
 <div class="paragraph">
-<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;It will pop the latest state from the Redo Stack and set it as the current state whilst pushing the current state into the Undo Stack.</p>
+<p>In the above example, the user has specified to sort items by their expiry date, thus a dateComparator is returned.</p>
+</div>
+<div class="paragraph">
+<p><code>sortedInternalList = new SortedList&lt;&gt;(internalList, methodOfSorting.getComparator());</code></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -390,52 +574,25 @@ The lifeline for <code>UndoCommand</code> should end at the destroy marker (X) b
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Similarly, if there are no commands to redo, redo will return an Error to the user. This is done by checking if the Redo Stack is empty.
+The SortedList changes accordingly based on the method of sorting specified.
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>From Step 4, there are 3 scenarios which showcases the behaviour of StackManager after an Undo Command has been executed.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SortActivityDiagram.png" alt="SortActivityDiagram">
+</div>
+<div class="title">Figure 9. Activity Diagram showing the control flow of a sort command executed by the user</div>
 </div>
 <div class="paragraph">
-<p>Step 5a. The user suddenly decides that he should not have undid the previous AddCommand, thus he wants to redo the action. This is done by inputting 'redo' in Xpire.</p>
-</div>
-<div class="paragraph">
-<p>Internally within Stack Manager, the current state will be the popped state, s2, from the Redo Stack. The current state, s1, will then be psuehd back into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current states and their locations should be the same as after the execution of the Add command in Step 3.</p>
+<p>The following sequence diagram shows how the view operation works to display items that are auto-sorted or sorted manually by name or date:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedo/UndoRedoStep5a.png" alt="UndoRedoStep5a">
+<img src="../images/AutoSortViewSequenceDiagram.png" alt="AutoSortViewSequenceDiagram">
 </div>
-</div>
-<div class="paragraph">
-<p>Step 5b. The user decides to further undo his actions, which now includes the first Delete command. The initial state, s0, will then be popped from the Undo Stack and set as the current state.</p>
-</div>
-<div class="paragraph">
-<p>The current state, s1, will then be pushed into the Redo Stack.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep5b.png" alt="UndoRedoStep5b">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 5c. The user may also decide to execute some other command (which is the most likely scenario) other than Undo/Redo. For instance, the user inputs <code>tag|2|#Fruit</code>.</p>
-</div>
-<div class="paragraph">
-<p>When this happens, the existing states in the Redo Stack will be cleared. The state s1, will then be pushed into the Undo Stack whilst the current state will be the new state s3 that includes the new Tag command.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep5c.png" alt="UndoRedoStep5c">
-</div>
-</div>
-<div class="paragraph">
-<p>[PROPOSED] A CommandHistory will also be integrated into the application so that it delivers feedback on what commands it has undo/redo.</p>
+<div class="title">Figure 10. Sequence Diagram showing how the view operation displays items in order</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -444,49 +601,74 @@ Similarly, if there are no commands to redo, redo will return an Error to the us
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Not all commands will save states to StackManager. Exit and Help commands will not save states. Undo and Redo commands should only act on commands that update the items or change the view of the items to the user.
+Parsers are omitted from the diagram above to place greater emphasis on the sorting mechanism.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/AutoSortViewPartSequenceDiagram.png" alt="AutoSortViewPartSequenceDiagram">
+</div>
+<div class="title">Figure 11. Sequence Diagram : retrieve internal sorted list</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Everytime view is called, the current method of sorting specified is retrieved. If it has not been explicitly specified,
+the default method of sorting is then retrieved.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>The following activity diagram summarises what happens when a user executes a new command:</p>
+<p><code>this.internalUnmodifiableList = FXCollections.unmodifiableList(this.sortedInternalList);</code></p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram">
-</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The list returned is the sortedInternalList wrapped as an unmodifiable list.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
 <h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
+<h5 id="aspect-how-auto-sorting-executes"><a class="link" href="#aspect-how-auto-sorting-executes">Aspect: How auto-sorting executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Saves the entire model.</p>
+<p><strong>Alternative 1 (current choice):</strong> Automatic sorting with the addition of every item.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Easy to implement.</p>
+<p>Pros: Slightly more efficient algorithm for viewing items in O(1) time.</p>
 </li>
 <li>
-<p>Cons: May have performance issues in terms of memory usage.</p>
+<p>Cons: Slightly less efficient algorithm for adding items.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Individual command knows how to undo/redo by itself.</p>
+<p><strong>Alternative 2:</strong> Sort only when items are viewed.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Will use less memory (e.g. for <code>delete</code>, just save the item being deleted).</p>
+<p>Pros: Slightly more efficient algorithm for adding items in O(1) time.</p>
 </li>
 <li>
-<p>Cons: We must ensure that the implementation of each individual command are correct.<br>
-Hard to do when we are applying stackable search/sort commands.</p>
+<p>Cons: Slightly less efficient algorithm for viewing items.</p>
 </li>
 </ul>
 </div>
@@ -495,31 +677,31 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">Aspect: Data structure to support the undo/redo commands</a></h5>
+<h5 id="aspect-data-structure-to-store-the-auto-sorted-items"><a class="link" href="#aspect-data-structure-to-store-the-auto-sorted-items">Aspect: Data structure to store the auto-sorted items</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Use a list to store the history of model states.</p>
+<p><strong>Alternative 1 (current choice):</strong> <code>SortedList&lt;Item&gt;</code>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.</p>
+<p>Pros: Smooth integration with the internal ObservableList. Comparator can also be easily changed when necessary.</p>
 </li>
 <li>
-<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update the filtered list shown to the user and the backend Xpire data.</p>
+<p>Cons: Sorted List can only be viewed when <code>asUnmodifiableObservableList()</code> in <code>SortedUniqueItemList</code> is called.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo</p>
+<p><strong>Alternative 2:</strong> <code>TreeSet&lt;Item&gt;</code>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.</p>
+<p>Pros: Disallows addition of identical items to the set.</p>
 </li>
 <li>
-<p>Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as <code>HistoryManager</code> now needs to do two different things.</p>
+<p>Cons: May not be as compatible with the internalList which is of type ObservableList.</p>
 </li>
 </ul>
 </div>
@@ -530,47 +712,135 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">[Proposed] Data Encryption</a></h3>
+<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">Spelling correction with alternative recommendations</a></h3>
+<div class="sect3">
+<h4 id="implementation-2"><a class="link" href="#implementation-2">Implementation</a></h4>
 <div class="paragraph">
-<p><em>{Explain here how the data encryption feature will be implemented}</em></p>
+<p>The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
+This distance is based on the number of substitutions, deletions, insertions or transpositions of characters, needed to convert the source string into the target string.
+Relevant functions supporting this operation are implemented in <code>StringUtil</code>.</p>
 </div>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the mechanism behaves at each step.</p>
+<p>The diagram below is a simplified illustration of how the feature works.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendationsExample1.png" alt="RecommendationsExample1">
+</div>
+<div class="title">Figure 12. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The recommendations will be made solely based the list of items previously displayed rather than all items currently in the list.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the operation works:</p>
+<p>As shown in the diagram below, <code>Banana</code> was not recommended even though it exists in the original list. This is because it had been filtered from the previous list prior to when the second search command was executed.
+On the other hand, if <code>green</code> was misspelled as <code>gren</code>, the algorithm will be able to identify <code>green</code> as the closest match, as <code>Green Apple</code> is present in the previous list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendationsExample2.png" alt="RecommendationsExample2">
+</div>
+<div class="title">Figure 13. Example illustrating that recommendations are solely based on the previous list</div>
 </div>
 <div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
+<p>The following sequence diagram shows how the sort operation works with recommendations,
+in the case that "date" is misspelled as "dat":</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
+</div>
+<div class="title">Figure 14. Sequence diagram illustrating the correction mechanism for command "sort|dat"</div>
+</div>
+<div class="paragraph">
+<p>The following sequence diagram <code>find similar words</code> illustrates the process omitted above.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
+</div>
+<div class="title">Figure 15. Sequence diagram showing how "date" is found to be the most similar word to "dat"</div>
+</div>
+<div class="paragraph">
+<p>The following activity diagram summarizes what happens when a user executes an unknown command:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendationUnknownCommandActivityDiagram.png" alt="RecommendationUnknownCommandActivityDiagram">
+</div>
+<div class="title">Figure 16. Activity diagram showing what happens when an unknown command is executed</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only keywords with edit distance of less than 2 are recommended, to filter away less similar word recommendations.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following activity diagram summarizes what happens when a user executes a command with misspelled arguments:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendationsSearchSortActivityDiagram.png" alt="RecommendationsSearchSortActivityDiagram">
+</div>
+<div class="title">Figure 17. Activity diagram showing what happens when an a command is executed with misspelled arguments</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only search and sort commands support this operation.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">Aspect: How set reminder executes</a></h5>
+<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">Aspect: How recommendations execute</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong></p>
+<p><strong>Alternative 1 (current choice):</strong> Displays recommendations after user inputs command that fails to produce results.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros:</p>
+<p>Pros: Simpler and straightforward implementation.</p>
 </li>
 <li>
-<p>Cons:</p>
+<p>Cons: May be less intuitive to the user as opposed to auto-completed commands.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong></p>
+<p><strong>Alternative 2:</strong> Auto-completion of commands.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros:</p>
+<p>Pros: Lowers likelihood of spelling mistakes in user input to begin with.</p>
 </li>
 <li>
-<p>Cons:</p>
+<p>Cons: We must ensure that the structure of every single command and their variations are taken into consideration.</p>
 </li>
 </ul>
 </div>
@@ -579,48 +849,40 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect"><a class="link" href="#aspect">Aspect:</a></h5>
+<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">Aspect: Data structure to store the recommendations</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong></p>
+<p><strong>Alternative 1 (current choice):</strong> Use a TreeMap to store entries that comprise a set of recommendations and their corresponding edit distance.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros:</p>
+<p>Pros: Entries are automatically sorted by their edit distance, thus words with a smaller edit distance will be recommended first. Duplicate entries are also prohibited.</p>
 </li>
 <li>
-<p>Cons:</p>
+<p>Cons: May have performance issues in terms of memory usage.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong></p>
+<p><strong>Alternative 2:</strong> Store all possible recommendations in a long list.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros:</p>
+<p>Pros: Simpler implementation.</p>
 </li>
 <li>
-<p>Cons:</p>
+<p>Cons: Not closely related words may also be recommended to the user.</p>
 </li>
 </ul>
 </div>
 </li>
 </ul>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="project-powerpointlabs"><a class="link" href="#project-powerpointlabs">PROJECT: PowerPointLabs</a></h2>
-<div class="sectionbody">
 <hr>
-<div class="paragraph">
-<p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-07 13:55:55 UTC</div></div></div></body></html>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-07 14:10:54 UTC</div></div></div></body></html>

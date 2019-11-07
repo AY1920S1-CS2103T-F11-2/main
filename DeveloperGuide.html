@@ -24,13 +24,14 @@
 <ul class="sectlevel2">
 <li><a href="#replenish-list">3.1. Replenish List</a></li>
 <li><a href="#auto-sorting-of-items-by-name-then-date">3.2. Auto-sorting of items by name then date</a></li>
-<li><a href="#reminders-for-expiring-items">3.3. Reminders for expiring items</a></li>
-<li><a href="#undo-redo-feature">3.4. Undo/Redo feature</a></li>
-<li><a href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></li>
-<li><a href="#search">3.6. Search</a></li>
-<li><a href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a></li>
-<li><a href="#logging">3.8. Logging</a></li>
-<li><a href="#Implementation-Configuration">3.9. Configuration</a></li>
+<li><a href="#set-reminders-for-expiring-items">3.3. Set Reminders for expiring items</a></li>
+<li><a href="#reminders-for-expiring-items">3.4. Reminders for expiring items</a></li>
+<li><a href="#undo-redo-feature">3.5. Undo/Redo feature</a></li>
+<li><a href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></li>
+<li><a href="#search">3.7. Search</a></li>
+<li><a href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a></li>
+<li><a href="#logging">3.9. Logging</a></li>
+<li><a href="#Implementation-Configuration">3.10. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a></li>
@@ -312,9 +313,6 @@ The following class plays an important role at the architecture level:</p>
 When an item expires, the item is automatically tagged as <code>#Expired</code>.
 By searching for the <code>#Expired</code> tag using the <code>SearchCommand</code>, the user is able to retrieve a list of expired items.</p>
 </div>
-<div class="paragraph">
-<p>The sequence diagram below demonstrates how the auto-tagging mechanism occurs.</p>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/ItemManagerSequenceDiagram.png" alt="ItemManagerSequenceDiagram">
@@ -369,6 +367,39 @@ the item is automatically tagged as <code>#Expired</code>.</strong></p>
 </ul>
 </div>
 </div>
+<div class="sect4">
+<h5 id="aspect-how-commands-are-executed-in-the-list"><a class="link" href="#aspect-how-commands-are-executed-in-the-list">Aspect: How commands are executed in the list</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice): Create two separate parsers, one for the main tracking list and another for the replenish list.</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: This allows us to reuse existing commands that are currently functional for the main tracking list in the replenish list as well, without extensive repetition of code.</p>
+</li>
+<li>
+<p>Cons: This would require us to check which parser is to be used every time a command is executed.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2: Create two versions of each command, one for each list.</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: This allows us to greatly customise the command for each list.</p>
+</li>
+<li>
+<p>Cons: This however would lead to unnecessary repetition of code across the code base.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -392,12 +423,13 @@ the item is automatically tagged as <code>#Expired</code>.</strong></p>
 <p>In <code>SortedUniqueItemList</code>, items are stored in a <code>SortedList&lt;Item&gt;</code> and sorted based on the comparator specified.</p>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the items added are auto-sorted:</p>
+<p>The following sequence diagram shows how items added are auto-sorted:</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/AutoSortAddSequenceDiagram.png" alt="AutoSortAddSequenceDiagram">
 </div>
+<div class="title">Figure 11. Sequence Diagram modelling how items added are auto-sorted</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -415,6 +447,7 @@ Parsers are omitted from the diagram above to place greater emphasis on the sort
 <div class="content">
 <img src="images/AutoSortAddPartSequenceDiagram.png" alt="AutoSortAddPartSequenceDiagram">
 </div>
+<div class="title">Figure 12. Sequence Diagram: set method of sorting as default</div>
 </div>
 <div class="paragraph">
 <p><code>this.methodOfSorting = new MethodOfSorting("name");</code></p>
@@ -439,6 +472,7 @@ the items by name then date.
 <div class="content">
 <img src="images/SortSequenceDiagram.png" alt="SortSequenceDiagram">
 </div>
+<div class="title">Figure 13. Sequence Diagram showing how sort command changes order of items</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -454,8 +488,9 @@ When sort is called, the method of sorting is redefined by the user.
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/SortParserPartSequenceDiagram.png" alt="SortParserPartSequenceDiagram">
+<img src="images/SortPartSequenceDiagram.png" alt="SortPartSequenceDiagram">
 </div>
+<div class="title">Figure 14. Sequence Diagram : set method of sorting to date</div>
 </div>
 <div class="paragraph">
 <p>In the above example, the user has specified to sort items by their expiry date, thus a dateComparator is returned.</p>
@@ -479,6 +514,7 @@ The SortedList changes accordingly based on the method of sorting specified.
 <div class="content">
 <img src="images/SortActivityDiagram.png" alt="SortActivityDiagram">
 </div>
+<div class="title">Figure 15. Activity Diagram showing the control flow of a sort command executed by the user</div>
 </div>
 <div class="paragraph">
 <p>The following sequence diagram shows how the view operation works to display items that are auto-sorted or sorted manually by name or date:</p>
@@ -487,6 +523,7 @@ The SortedList changes accordingly based on the method of sorting specified.
 <div class="content">
 <img src="images/AutoSortViewSequenceDiagram.png" alt="AutoSortViewSequenceDiagram">
 </div>
+<div class="title">Figure 16. Sequence Diagram showing how the view operation displays items in order</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -504,6 +541,7 @@ Parsers are omitted from the diagram above to place greater emphasis on the sort
 <div class="content">
 <img src="images/AutoSortViewPartSequenceDiagram.png" alt="AutoSortViewPartSequenceDiagram">
 </div>
+<div class="title">Figure 17. Sequence Diagram : retrieve internal sorted list</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -605,7 +643,11 @@ The list returned is the sortedInternalList wrapped as an unmodifiable list.
 </div>
 </div>
 <div class="sect2">
-<h3 id="reminders-for-expiring-items"><a class="link" href="#reminders-for-expiring-items">3.3. Reminders for expiring items</a></h3>
+<h3 id="set-reminders-for-expiring-items"><a class="link" href="#set-reminders-for-expiring-items">3.3. Set Reminders for expiring items</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="reminders-for-expiring-items"><a class="link" href="#reminders-for-expiring-items">3.4. Reminders for expiring items</a></h3>
 <div class="paragraph">
 <p>The reminder function comprises two parts. Firstly, user sets a date designated to active the reminder through the command
 <code>set reminder</code>. Then, user will be able to find all items whose reminder has been activated at present through the command <code>check</code>.<br>
@@ -613,7 +655,7 @@ There is also an enhanced function which allows the user to find all items expir
  through the <code>check|&lt;days&gt;</code> command.</p>
 </div>
 <div class="sect3">
-<h4 id="implementation-4"><a class="link" href="#implementation-4">3.3.1. Implementation</a></h4>
+<h4 id="implementation-4"><a class="link" href="#implementation-4">3.4.1. Implementation</a></h4>
 <div class="sect4">
 <h5 id="set-reminder"><a class="link" href="#set-reminder">Set reminder</a></h5>
 <div class="paragraph">
@@ -651,7 +693,7 @@ in the <code>Xpire</code> by <code>ModelManager</code>.</p>
 <div class="content">
 <img src="images/SetReminderUML.png" alt="SetReminderUML">
 </div>
-<div class="title">Figure 11. SetReminderSequenceDiagram</div>
+<div class="title">Figure 18. SetReminderSequenceDiagram</div>
 </div>
 </div>
 <div class="sect4">
@@ -671,7 +713,7 @@ The predicate used by the filtering method is named <code>ReminderThresholdExcee
 <div class="content">
 <img src="images/CheckCommandNoArgUML.png" alt="CheckCommandNoArgUML">
 </div>
-<div class="title">Figure 12. CheckSequenceDiagram</div>
+<div class="title">Figure 19. CheckSequenceDiagram</div>
 </div>
 </div>
 <div class="sect4">
@@ -688,12 +730,12 @@ done by predicate named <code>ExpiringSoonPredicate</code>.</p>
 <div class="content">
 <img src="images/CheckCommandArgUML.png" alt="CheckCommandArgUML">
 </div>
-<div class="title">Figure 13. CheckDaysSequenceDiagram</div>
+<div class="title">Figure 20. CheckDaysSequenceDiagram</div>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.3.2. Design Considerations</a></h4>
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.4.2. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">Aspect: How set reminder executes</a></h5>
 <div class="ulist">
@@ -764,9 +806,9 @@ change in the user&#8217;s operating system.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">3.4. Undo/Redo feature</a></h3>
+<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">3.5. Undo/Redo feature</a></h3>
 <div class="sect3">
-<h4 id="implementation-5"><a class="link" href="#implementation-5">3.4.1. Implementation</a></h4>
+<h4 id="implementation-5"><a class="link" href="#implementation-5">3.5.1. Implementation</a></h4>
 <div class="paragraph">
 <p>The undo/redo mechanism is facilitated by <code>CloneModel</code> and <code>StackManager</code>.
 It is a separate class that stores a state of the model at any command in time. Internally, it runs three private functions that copy the data over.</p>
@@ -952,7 +994,7 @@ Not all commands will save states to StackManager. Exit and Help commands will n
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.4.2. Design Considerations</a></h4>
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.5.2. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
 <div class="ulist">
@@ -1023,7 +1065,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></h3>
+<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></h3>
 <div class="paragraph">
 <p><em>{Explain here how the data encryption feature will be implemented}</em></p>
 </div>
@@ -1037,7 +1079,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p>The following activity diagram summarizes what happens when a user executes a new command:</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.1. Design Considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.6.1. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-set-reminder-executes-2"><a class="link" href="#aspect-how-set-reminder-executes-2">Aspect: How set reminder executes</a></h5>
 <div class="ulist">
@@ -1107,7 +1149,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="search"><a class="link" href="#search">3.6. Search</a></h3>
+<h3 id="search"><a class="link" href="#search">3.7. Search</a></h3>
 <div class="paragraph">
 <p>This feature allows users to filter out specific items either by name or by tag(s) through providing the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel. For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
 </div>
@@ -1115,7 +1157,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
 </div>
 <div class="sect3">
-<h4 id="implementation-6"><a class="link" href="#implementation-6">3.6.1. Implementation</a></h4>
+<h4 id="implementation-6"><a class="link" href="#implementation-6">3.7.1. Implementation</a></h4>
 <div class="paragraph">
 <p>Below is the UML sequence diagram of an example usage scenario.</p>
 </div>
@@ -1127,9 +1169,9 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a></h3>
+<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a></h3>
 <div class="sect3">
-<h4 id="implementation-7"><a class="link" href="#implementation-7">3.7.1. Implementation</a></h4>
+<h4 id="implementation-7"><a class="link" href="#implementation-7">3.8.1. Implementation</a></h4>
 <div class="paragraph">
 <p>The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
 This distance is based on the number of substitutions, deletions, insertions or transpositions of characters, needed to convert the source string into the target string.
@@ -1142,6 +1184,7 @@ Relevant functions supporting this operation are implemented in <code>StringUtil
 <div class="content">
 <img src="images/RecommendationsExample1.png" alt="RecommendationsExample1">
 </div>
+<div class="title">Figure 21. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1163,6 +1206,7 @@ On the other hand, if <code>green</code> was misspelled as <code>gren</code>, th
 <div class="content">
 <img src="images/RecommendationsExample2.png" alt="RecommendationsExample2">
 </div>
+<div class="title">Figure 22. Example illustrating that recommendations are solely based on the previous list</div>
 </div>
 <div class="paragraph">
 <p>The following sequence diagram shows how the sort operation works with recommendations,
@@ -1172,14 +1216,16 @@ in the case that "date" is misspelled as "dat":</p>
 <div class="content">
 <img src="images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
 </div>
+<div class="title">Figure 23. Sequence diagram illustrating the correction mechanism for command "sort|dat"</div>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram <code>findSimilar</code> illustrates the process omitted above.</p>
+<p>The following sequence diagram <code>find similar words</code> illustrates the process omitted above.</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
 </div>
+<div class="title">Figure 24. Sequence diagram showing how "date" is found to be the most similar word to "dat"</div>
 </div>
 <div class="paragraph">
 <p>The following activity diagram summarizes what happens when a user executes an unknown command:</p>
@@ -1188,6 +1234,7 @@ in the case that "date" is misspelled as "dat":</p>
 <div class="content">
 <img src="images/RecommendationUnknownCommandActivityDiagram.png" alt="RecommendationUnknownCommandActivityDiagram">
 </div>
+<div class="title">Figure 25. Activity diagram showing what happens when an unknown command is executed</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1208,6 +1255,7 @@ Only keywords with edit distance of less than 2 are recommended, to filter away 
 <div class="content">
 <img src="images/RecommendationsSearchSortActivityDiagram.png" alt="RecommendationsSearchSortActivityDiagram">
 </div>
+<div class="title">Figure 26. Activity diagram showing what happens when an a command is executed with misspelled arguments</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1223,7 +1271,7 @@ Only search and sort commands support this operation.
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.7.2. Design Considerations</a></h4>
+<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.8.2. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">Aspect: How recommendations execute</a></h5>
 <div class="ulist">
@@ -1293,14 +1341,14 @@ Only search and sort commands support this operation.
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.8. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.9. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.9, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.10, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -1331,7 +1379,7 @@ Only search and sort commands support this operation.
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.9. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.10. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2339,4 +2387,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-07 13:55:55 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-07 14:10:54 UTC</div></div></div></body></html>
