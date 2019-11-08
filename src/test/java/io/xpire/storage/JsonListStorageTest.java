@@ -19,6 +19,7 @@ import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.ReplenishList;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.Item;
+import javafx.util.Pair;
 
 public class JsonListStorageTest {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonListStorageTest");
@@ -31,7 +32,8 @@ public class JsonListStorageTest {
         assertThrows(NullPointerException.class, () -> readBothLists(null));
     }
 
-    private Optional<ReadOnlyListView<? extends Item>>[] readBothLists(String filePath) throws Exception {
+    private Pair<Optional<ReadOnlyListView>, Optional<ReadOnlyListView>> readBothLists(String filePath)
+            throws Exception {
         return new JsonListStorage(Paths.get(filePath))
                 .readList(addToTestDataPathIfNotNull(filePath));
     }
@@ -44,7 +46,7 @@ public class JsonListStorageTest {
 
     @Test
     public void read_missingFile_emptyResult() throws Exception {
-        assertFalse(readBothLists("NonExistentFile.json")[0].isPresent());
+        assertFalse(readBothLists("NonExistentFile.json").getKey().isPresent());
     }
 
     @Test
@@ -68,24 +70,24 @@ public class JsonListStorageTest {
     @Test
     public void readAndSaveExpiryDateTracker_allInOrder_success() throws Exception {
         Path filePath = testFolder.resolve("TempXpire.json");
-        ReadOnlyListView<? extends Item>[] bothLists = getTypicalLists();
+        ReadOnlyListView[] bothLists = getTypicalLists();
         JsonListStorage jsonExpiryDateTrackerStorage = new JsonListStorage(filePath);
         Xpire original = (Xpire) bothLists[0];
 
         // Save in new file and read back
         jsonExpiryDateTrackerStorage.saveList(bothLists, filePath);
-        ReadOnlyListView readBack = jsonExpiryDateTrackerStorage.readList(filePath)[0].get();
+        ReadOnlyListView readBack = jsonExpiryDateTrackerStorage.readList(filePath).getKey().get();
         assertEquals(original.getItemList(), new Xpire(readBack).getItemList());
 
         // Modify data, overwrite exiting file, and read back
         original.addItem(KIWI);
         jsonExpiryDateTrackerStorage.saveList(bothLists, filePath);
-        readBack = jsonExpiryDateTrackerStorage.readList(filePath)[0].get();
+        readBack = jsonExpiryDateTrackerStorage.readList(filePath).getKey().get();
         assertEquals(original.getItemList(), new Xpire(readBack).getItemList());
 
         // Save and read without specifying file path
         jsonExpiryDateTrackerStorage.saveList(bothLists); // file path not specified
-        readBack = jsonExpiryDateTrackerStorage.readList()[0].get(); // file path not specified
+        readBack = jsonExpiryDateTrackerStorage.readList().getKey().get(); // file path not specified
         assertEquals(original.getItemList(), new Xpire(readBack).getItemList());
 
     }
@@ -109,7 +111,7 @@ public class JsonListStorageTest {
 
     @Test
     public void saveList_nullFilePath_throwsNullPointerException() {
-        ReadOnlyListView<? extends Item>[] lists = new ReadOnlyListView[]{new Xpire(), new ReplenishList()};
+        ReadOnlyListView[] lists = new ReadOnlyListView[]{new Xpire(), new ReplenishList()};
         assertThrows(NullPointerException.class, () -> saveList(lists, null));
     }
 }

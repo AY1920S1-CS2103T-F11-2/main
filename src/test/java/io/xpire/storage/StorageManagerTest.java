@@ -57,7 +57,7 @@ public class StorageManagerTest {
          */
         ReadOnlyListView<? extends Item>[] original = TypicalItems.getTypicalLists();
         storageManager.saveList(original);
-        ReadOnlyListView<? extends Item> retrieved = storageManager.readList()[0].get();
+        ReadOnlyListView retrieved = storageManager.readList().getKey().get();
         Xpire retrievedXpire = (Xpire) retrieved;
         assertEquals(retrieved.getItemList(), new Xpire(retrieved).getItemList());
     }

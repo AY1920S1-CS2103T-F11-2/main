@@ -9,6 +9,7 @@ import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.item.Item;
+import javafx.util.Pair;
 
 /**
  * API of the Storage component
@@ -25,7 +26,7 @@ public interface Storage extends ListStorage, UserPrefsStorage {
     Path getListFilePath();
 
     @Override
-    Optional<ReadOnlyListView<? extends Item>>[] readList() throws DataConversionException, IOException;
+    Pair<Optional<ReadOnlyListView>, Optional<ReadOnlyListView>> readList() throws DataConversionException, IOException;
 
     @Override
     void saveList(ReadOnlyListView<? extends Item>[] lists) throws IOException;

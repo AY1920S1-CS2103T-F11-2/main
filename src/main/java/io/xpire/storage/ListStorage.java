@@ -8,6 +8,7 @@ import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.Xpire;
 import io.xpire.model.item.Item;
+import javafx.util.Pair;
 
 /**
  * Represents a storage for {@link Xpire}.
@@ -25,12 +26,12 @@ public interface ListStorage {
      * @throws DataConversionException if the data in storage is not in the expected format.
      * @throws IOException if there was any problem when reading from the storage.
      */
-    Optional<ReadOnlyListView<? extends Item>>[] readList() throws DataConversionException, IOException;
+    Pair<Optional<ReadOnlyListView>, Optional<ReadOnlyListView>> readList() throws DataConversionException, IOException;
 
     /**
      * @see #getListFilePath()
      */
-    Optional<ReadOnlyListView<? extends Item>>[] readList(Path filePath) throws DataConversionException,
+    Pair<Optional<ReadOnlyListView>, Optional<ReadOnlyListView>> readList(Path filePath) throws DataConversionException,
                                                                IOException;
 
     /**
