@@ -18,7 +18,6 @@ import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.ReplenishList;
 import io.xpire.model.Xpire;
-import io.xpire.model.item.Item;
 import javafx.util.Pair;
 
 public class JsonListStorageTest {
@@ -100,7 +99,7 @@ public class JsonListStorageTest {
     /**
      * Saves {@code xpire} at the specified {@code filePath}.
      */
-    private void saveList(ReadOnlyListView<? extends Item>[] lists, String filePath) {
+    private void saveList(ReadOnlyListView[] lists, String filePath) {
         try {
             new JsonListStorage(Paths.get(filePath))
                     .saveList(lists, addToTestDataPathIfNotNull(filePath));

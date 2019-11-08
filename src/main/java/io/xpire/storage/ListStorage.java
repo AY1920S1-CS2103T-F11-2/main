@@ -7,7 +7,6 @@ import java.util.Optional;
 import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.Xpire;
-import io.xpire.model.item.Item;
 import javafx.util.Pair;
 
 /**
@@ -39,11 +38,11 @@ public interface ListStorage {
      * @param lists cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveList(ReadOnlyListView<? extends Item>[] lists) throws IOException;
+    void saveList(ReadOnlyListView[] lists) throws IOException;
 
     /**
      * @see #saveList(ReadOnlyListView[])
      */
-    void saveList(ReadOnlyListView<? extends Item>[] lists, Path filePath) throws IOException;
+    void saveList(ReadOnlyListView[] lists, Path filePath) throws IOException;
 
 }

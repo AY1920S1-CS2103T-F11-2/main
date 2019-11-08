@@ -10,7 +10,6 @@ import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.UserPrefs;
-import io.xpire.model.item.Item;
 import javafx.util.Pair;
 
 /**
@@ -69,12 +68,12 @@ public class StorageManager implements Storage {
     }
 
     @Override
-    public void saveList(ReadOnlyListView<? extends Item>[] lists) throws IOException {
+    public void saveList(ReadOnlyListView[] lists) throws IOException {
         saveList(lists, this.listStorage.getListFilePath());
     }
 
     @Override
-    public void saveList(ReadOnlyListView<? extends Item>[] lists, Path filePath) throws IOException {
+    public void saveList(ReadOnlyListView[] lists, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         this.listStorage.saveList(lists, filePath);
     }

@@ -8,7 +8,6 @@ import io.xpire.commons.exceptions.DataConversionException;
 import io.xpire.model.ReadOnlyListView;
 import io.xpire.model.ReadOnlyUserPrefs;
 import io.xpire.model.UserPrefs;
-import io.xpire.model.item.Item;
 import javafx.util.Pair;
 
 /**
@@ -29,6 +28,6 @@ public interface Storage extends ListStorage, UserPrefsStorage {
     Pair<Optional<ReadOnlyListView>, Optional<ReadOnlyListView>> readList() throws DataConversionException, IOException;
 
     @Override
-    void saveList(ReadOnlyListView<? extends Item>[] lists) throws IOException;
+    void saveList(ReadOnlyListView[] lists) throws IOException;
 
 }

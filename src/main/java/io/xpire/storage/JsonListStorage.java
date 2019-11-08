@@ -13,7 +13,6 @@ import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.commons.util.FileUtil;
 import io.xpire.commons.util.JsonUtil;
 import io.xpire.model.ReadOnlyListView;
-import io.xpire.model.item.Item;
 import javafx.util.Pair;
 
 /**
@@ -68,7 +67,7 @@ public class JsonListStorage implements ListStorage {
     }
 
     @Override
-    public void saveList(ReadOnlyListView<? extends Item>[] lists) throws IOException {
+    public void saveList(ReadOnlyListView[] lists) throws IOException {
         saveList(lists, this.filePath);
     }
 
@@ -77,7 +76,7 @@ public class JsonListStorage implements ListStorage {
      *
      * @param filePath location of the data. Cannot be null.
      */
-    public void saveList(ReadOnlyListView<? extends Item>[] lists, Path filePath) throws IOException {
+    public void saveList(ReadOnlyListView[] lists, Path filePath) throws IOException {
         requireNonNull(lists);
         requireNonNull(filePath);
 
