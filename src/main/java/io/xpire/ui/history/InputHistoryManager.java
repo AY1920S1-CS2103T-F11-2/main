@@ -3,8 +3,10 @@ package io.xpire.ui.history;
 import io.xpire.model.history.History;
 
 /**
- * Stores user input String history.
+ * Stores user input String history. Written by xiaoyu-nus.
+ * @@author xiaoyu-nus
  */
+
 public class InputHistoryManager<String> extends History<String> {
 
     private static final int MAX_RETRIEVAL_SIZE = 20;

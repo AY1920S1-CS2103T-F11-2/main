@@ -2,6 +2,7 @@ package io.xpire.model.history;
 import io.xpire.model.state.StackManager;
 /**
  * A history that contains elements that are undoable (can be reversed or fast-forwarded with Undo/Redo Command).
+ * @@author Kalsyc
  */
 public class UndoableHistoryManager<T> extends History<T> {
 

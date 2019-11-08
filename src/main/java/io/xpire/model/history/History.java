@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * Generic abstract class that contains a LinkedList of type T and provides abstract methods to retrieve previous/next
  * elements in History.
- *
+ * @@author Kalsyc
  * @param <T> Type to be stored in History.
  */
 public abstract class History<T> {
