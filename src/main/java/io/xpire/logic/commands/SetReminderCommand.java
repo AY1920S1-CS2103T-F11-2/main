@@ -54,7 +54,7 @@ public class SetReminderCommand extends Command {
     @Override
     public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireNonNull(model);
-        stateManager.saveState(new ModifiedState(model));
+
         ObservableList<? extends Item> currentList = model.getCurrentList();
 
         if (this.index.getZeroBased() >= currentList.size()) {
@@ -75,11 +75,13 @@ public class SetReminderCommand extends Command {
             ReminderThreshold newThreshold = new ReminderThreshold(daysLeft);
             xpireItemToSetReminder.setReminderThreshold(newThreshold);
             this.item = xpireItemToSetReminder;
+            stateManager.saveState(new ModifiedState(model));
             model.setItem(XPIRE, targetItem, xpireItemToSetReminder);
             return new CommandResult(String.format(MESSAGE_REMINDER_THRESHOLD_EXCEEDED, daysLeft));
         } else {
             xpireItemToSetReminder.setReminderThreshold(this.threshold);
             this.item = xpireItemToSetReminder;
+            stateManager.saveState(new ModifiedState(model));
             model.setItem(XPIRE, targetItem, xpireItemToSetReminder);
             return new CommandResult(this.threshold.getValue() > 0
                     ? String.format(MESSAGE_SUCCESS_SET, this.item.getName(), this.threshold)

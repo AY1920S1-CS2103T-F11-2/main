@@ -47,7 +47,6 @@ public class ShiftToMainCommand extends Command {
     @Override
     public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireNonNull(model);
-        stateManager.saveState(new ModifiedState(model));
 
         List<? extends Item> lastShownList = model.getCurrentList();
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
@@ -60,6 +59,7 @@ public class ShiftToMainCommand extends Command {
         if (model.hasItem(XPIRE, remodelledItem)) {
             throw new CommandException(MESSAGE_DUPLICATE_ITEM);
         } else {
+            stateManager.saveState(new ModifiedState(model));
             model.addItem(XPIRE, remodelledItem);
             model.deleteItem(REPLENISH, targetItem);
         }
