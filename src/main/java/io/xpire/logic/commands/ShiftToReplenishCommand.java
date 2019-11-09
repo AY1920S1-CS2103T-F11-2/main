@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_DUPLICATE_ITEM_REPLENISH;
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
@@ -45,26 +46,16 @@ public class ShiftToReplenishCommand extends Command {
 
     @Override
     public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
-
         requireNonNull(model);
         stateManager.saveState(new ModifiedState(model));
         List<? extends Item> lastShownList = model.getCurrentList();
-
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
         }
-
         XpireItem targetItem = (XpireItem) lastShownList.get(this.targetIndex.getZeroBased());
-        Item remodelledItem = targetItem.remodel();
-        Set<Tag> tags = new HashSet<>(remodelledItem.getTags());
-        tags.remove(EXPIRED_TAG);
-        remodelledItem.setTags(tags);
+        Item remodelledItem = remodelItem(targetItem);
         if (model.hasItem(REPLENISH, remodelledItem)) {
-            try {
-                model.deleteItem(XPIRE, targetItem);
-            } catch (ItemNotFoundException e) {
-                throw new CommandException(MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
-            }
+            throw new CommandException(MESSAGE_DUPLICATE_ITEM_REPLENISH);
         } else {
             model.addItem(REPLENISH, remodelledItem);
             model.deleteItem(XPIRE, targetItem);
@@ -72,6 +63,13 @@ public class ShiftToReplenishCommand extends Command {
         this.result = String.format(MESSAGE_SUCCESS, remodelledItem.getName());
         setShowInHistory(true);
         return new CommandResult(this.result);
+    }
+
+    private Item remodelItem(XpireItem item) {
+        Item remodelledItem = item.remodel();
+        Set<Tag> tags = new HashSet<>(remodelledItem.getTags());
+        remodelledItem.setTags(tags);
+        return remodelledItem;
     }
 
     @Override

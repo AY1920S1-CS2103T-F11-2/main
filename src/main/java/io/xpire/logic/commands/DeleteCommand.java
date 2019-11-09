@@ -1,5 +1,6 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.commons.core.Messages.MESSAGE_DUPLICATE_ITEM_REPLENISH;
 import static io.xpire.commons.core.Messages.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
@@ -58,7 +59,7 @@ public class DeleteCommand extends Command {
     private final Quantity quantity;
     private final DeleteMode mode;
     private final ListType listType;
-    private Item item = null;
+    private Item item;
     private String result = "";
 
     public DeleteCommand(ListType listType, Index targetIndex) {
@@ -120,7 +121,7 @@ public class DeleteCommand extends Command {
      */
     private CommandResult executeDeleteQuantity(Model model, Item targetItem) throws CommandException, ParseException {
         assert this.quantity != null;
-        XpireItem updatedItem = reduceItemQuantity(new XpireItem((XpireItem) targetItem), this.quantity);
+        XpireItem updatedItem = reduceItemQuantity((XpireItem) targetItem, this.quantity);
         model.setItem(listType, targetItem, updatedItem);
         // transfer item to replenish list
         if (Quantity.quantityIsZero(updatedItem.getQuantity())) {
@@ -130,7 +131,7 @@ public class DeleteCommand extends Command {
             setShowInHistory(true);
             return new CommandResult(this.result);
         }
-        this.result = String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetItem);
+        this.result = String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), updatedItem);
         setShowInHistory(true);
         return new CommandResult(this.result);
     }
@@ -146,11 +147,7 @@ public class DeleteCommand extends Command {
     private CommandResult executeDeleteTags(Model model, Item targetItem) throws CommandException {
         Item newTaggedItem;
         assert this.tagSet != null;
-        if (targetItem instanceof XpireItem) {
-            newTaggedItem = removeTagsFromXpireItem(new XpireItem((XpireItem) targetItem), this.tagSet);
-        } else {
-            newTaggedItem = removeTagsFromReplenishItem(new Item(targetItem), this.tagSet);
-        }
+        newTaggedItem = removeTagsFromItem(targetItem, this.tagSet);
         model.setItem(listType, targetItem, newTaggedItem);
         this.result = String.format(MESSAGE_DELETE_TAGS_SUCCESS, newTaggedItem);
         setShowInHistory(true);
@@ -172,36 +169,20 @@ public class DeleteCommand extends Command {
     }
 
     /**
-     * Removes Tag(s) from target xpireItem.
-     *
-     * @param targetXpireItem The specified xpireItem that tags are to be removed.
-     * @param tagSet Set of tags to remove.
-     * @return Original xpireItem with removed tags.
-     */
-    private XpireItem removeTagsFromXpireItem(XpireItem targetXpireItem, Set<Tag> tagSet) throws CommandException {
-        Set<Tag> originalTags = targetXpireItem.getTags();
-        Set<Tag> newTags = new TreeSet<>(new TagComparator());
-        if (!originalTags.containsAll(tagSet)) {
-            throw new CommandException(Messages.MESSAGE_INVALID_TAGS);
-        }
-        for (Tag tag: originalTags) {
-            if (!tagSet.contains(tag)) {
-                newTags.add(tag);
-            }
-        }
-        targetXpireItem.setTags(newTags);
-        return targetXpireItem;
-    }
-
-    /**
      * Removes Tag(s) from target replenishItem.
      *
-     * @param targetReplenishItem The specified replenishItem that tags are to be removed.
+     * @param targetItem The specified replenishItem that tags are to be removed.
      * @param tagSet Set of tags to remove.
-     * @return Original xpireItem with removed tags.
+     * @return item copy with removed tags.
      */
-    private Item removeTagsFromReplenishItem(Item targetReplenishItem, Set<Tag> tagSet) throws CommandException {
-        Set<Tag> originalTags = targetReplenishItem.getTags();
+    private Item removeTagsFromItem(Item targetItem, Set<Tag> tagSet) throws CommandException {
+        Item targetItemCopy;
+        if (targetItem instanceof XpireItem) {
+            targetItemCopy = new XpireItem((XpireItem) targetItem);
+        } else {
+            targetItemCopy = new Item(targetItem);
+        }
+        Set<Tag> originalTags = targetItemCopy.getTags();
         Set<Tag> newTags = new TreeSet<>(new TagComparator());
         if (!originalTags.containsAll(tagSet)) {
             throw new CommandException(Messages.MESSAGE_INVALID_TAGS);
@@ -211,8 +192,8 @@ public class DeleteCommand extends Command {
                 newTags.add(tag);
             }
         }
-        targetReplenishItem.setTags(newTags);
-        return targetReplenishItem;
+        targetItem.setTags(newTags);
+        return targetItem;
     }
 
     /**
@@ -223,24 +204,28 @@ public class DeleteCommand extends Command {
      * @return The new XpireItem with its quantity reduced.
      * @throws ParseException if new item quantity is invalid.
      */
-    private XpireItem reduceItemQuantity(XpireItem targetXpireItem, Quantity reduceByQuantity) throws CommandException,
-                                                                                                      ParseException {
-        Quantity originalQuantity = targetXpireItem.getQuantity();
+    private XpireItem reduceItemQuantity(XpireItem targetXpireItem, Quantity reduceByQuantity) throws CommandException, ParseException {
+        XpireItem targetItemCopy = new XpireItem(targetXpireItem);
+        Quantity originalQuantity = targetItemCopy.getQuantity();
         if (originalQuantity.isLessThan(reduceByQuantity)) {
             throw new CommandException(MESSAGE_DELETE_QUANTITY_FAILURE);
         }
         Quantity updatedQuantity = originalQuantity.deductQuantity(reduceByQuantity);
-        targetXpireItem.setQuantity(updatedQuantity);
-        return targetXpireItem;
+        targetItemCopy.setQuantity(updatedQuantity);
+        return targetItemCopy;
     }
 
     /**
      * Shifts Item to ReplenishList.
      */
-    private void shiftItemToReplenishList(Model model, XpireItem itemToShift) {
+    private void shiftItemToReplenishList(Model model, XpireItem itemToShift) throws CommandException {
         Item remodelledItem = itemToShift.remodel();
-        model.addItem(REPLENISH, remodelledItem);
-        model.deleteItem(XPIRE, itemToShift);
+        if (model.hasItem(REPLENISH, remodelledItem)) {
+            throw new CommandException(MESSAGE_DUPLICATE_ITEM_REPLENISH);
+        } else {
+            model.addItem(REPLENISH, remodelledItem);
+            model.deleteItem(XPIRE, itemToShift);
+        }
     }
 
     @Override

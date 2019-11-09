@@ -9,6 +9,7 @@ import java.util.List;
 
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
+import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Item;
@@ -29,8 +30,9 @@ public class ShiftToMainCommand extends Command {
             + "Moves the item identified by the index number to the main list.\n"
             + "Format: shift|<index>|<expiry date>[|<quantity>] (index must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + "|1|11/2/1997|3" + "\n";
-    public static final String MESSAGE_DUPLICATE_ITEM = "This item already exists in the main list";
-    public static final String MESSAGE_SUCCESS = "%s is moved to the main list";
+    public static final String MESSAGE_SUCCESS_SHIFT = "%s is moved to the main list";
+    public static final String MESSAGE_SUCCESS_UPDATE_QUANTITY =
+            "Quantity for %s in the main list is increased to %s.\n" + "Original tags are retained. \n";
 
     private final Index targetIndex;
     private final ExpiryDate expiryDate;
@@ -45,7 +47,7 @@ public class ShiftToMainCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
+    public CommandResult execute(Model model, StateManager stateManager) throws CommandException, ParseException {
         requireNonNull(model);
         stateManager.saveState(new ModifiedState(model));
 
@@ -53,18 +55,19 @@ public class ShiftToMainCommand extends Command {
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
         }
-
         Item targetItem = lastShownList.get(this.targetIndex.getZeroBased());
         XpireItem remodelledItem = targetItem.remodel(this.expiryDate, this.quantity);
-
         if (model.hasItem(XPIRE, remodelledItem)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ITEM);
+            XpireItem itemToReplace = retrieveXpireItem(remodelledItem, model.getItemList(XPIRE));
+            XpireItem itemWithUpdatedQuantity = increaseItemQuantity(itemToReplace, this.quantity);
+            model.setItem(XPIRE, itemToReplace, itemWithUpdatedQuantity);
+            this.result = String.format(MESSAGE_SUCCESS_UPDATE_QUANTITY, remodelledItem.getName(),
+                    itemWithUpdatedQuantity.getQuantity());
         } else {
             model.addItem(XPIRE, remodelledItem);
             model.deleteItem(REPLENISH, targetItem);
+            this.result = String.format(MESSAGE_SUCCESS_SHIFT, remodelledItem.getName());
         }
-
-        this.result = String.format(MESSAGE_SUCCESS, remodelledItem.getName());
         setShowInHistory(true);
         return new CommandResult(this.result);
     }
@@ -72,5 +75,39 @@ public class ShiftToMainCommand extends Command {
     @Override
     public String toString() {
         return "Shift command";
+    }
+
+    /**
+     * Retrieves item that is the same as item inputted by user.
+     *
+     * @param item existing in the tracking list.
+     * @param list where item is retrieved from.
+     * @return exact item which is the same as input item.
+     **/
+    private XpireItem retrieveXpireItem(XpireItem item, List<? extends Item> list) {
+        requireNonNull(item);
+        int index = -1;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).isSameItem(item)) {
+                index = i;
+            }
+        }
+        return (XpireItem) list.get(index);
+    }
+
+    /**
+     * Increases the item quantity for any duplicate items.
+     *
+     * @param targetItem the target item to increase the quantity of.
+     * @param quantity how much to increase the item quantity by.
+     * @return The new item with revised quantity.
+     * @throws ParseException if the input quantity results in the new quantity to exceed the maximum limit.
+     */
+    private XpireItem increaseItemQuantity(XpireItem targetItem, Quantity quantity) throws ParseException {
+        XpireItem targetItemCopy = new XpireItem(targetItem);
+        Quantity prevQuantity = targetItemCopy.getQuantity();
+        Quantity updatedQuantity = prevQuantity.increaseQuantity(quantity);
+        targetItemCopy.setQuantity(updatedQuantity);
+        return targetItemCopy;
     }
 }

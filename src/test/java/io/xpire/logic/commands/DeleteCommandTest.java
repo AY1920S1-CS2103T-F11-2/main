@@ -245,7 +245,6 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_deleteQuantityMoreThanXpireItemQuantityFromXpireItem_throwsCommandException() {
-        XpireItem xpireItemToDelete = (XpireItem) model.getCurrentList().get(INDEX_THIRD_ITEM.getZeroBased());
         Quantity quantityToDeduct = new Quantity("3");
         DeleteCommand deleteCommand = new DeleteCommand(XPIRE, INDEX_THIRD_ITEM, quantityToDeduct);
         assertCommandFailure(deleteCommand, model, DeleteCommand.MESSAGE_DELETE_QUANTITY_FAILURE);
