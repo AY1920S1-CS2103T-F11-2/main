@@ -98,7 +98,6 @@ public class LogicManager implements Logic {
         return this.model.getCurrentList();
     }
 
-    // @author xiaoyu
     @SuppressWarnings("unchecked")
     @Override
     public ObservableList<XpireItem> getXpireItemList() {
@@ -110,7 +109,6 @@ public class LogicManager implements Logic {
         }
     }
 
-    // @author xiaoyu
     @SuppressWarnings("unchecked")
     @Override
     public ObservableList<Item> getReplenishItemList() {
@@ -122,6 +120,7 @@ public class LogicManager implements Logic {
         }
     }
 
+    //@@author
     @Override
     public Path getListFilePath() {
         return this.model.getListFilePath();

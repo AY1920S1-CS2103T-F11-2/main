@@ -18,7 +18,7 @@ import io.xpire.model.ListType;
 /**
  * Parses input arguments and creates a new ViewCommand object
  */
-public class ViewCommandParser {
+public class ViewCommandParser implements Parser<ViewCommand> {
 
     private static final String EMPTY_STRING = "";
     private static final String XPIRE_VIEW = "main";
@@ -32,7 +32,7 @@ public class ViewCommandParser {
     /**
      * Parses the given {@code String} of arguments in the context of the ViewCommand
      * and returns a ViewCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public ViewCommand parse(String args) throws ParseException {
         requireNonNull(args);
