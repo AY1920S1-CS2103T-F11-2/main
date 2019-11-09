@@ -128,10 +128,7 @@ public class CommandTestUtil {
      */
     public static void executeCommandAndUpdateStateManager(Model model, Command command, StateManager stateManager)
             throws CommandException, ParseException {
-        model.getXpire().getItemList().forEach(System.out::println);
         command.execute(model, stateManager);
-        System.out.println("Ahoy! hehehehehehehhe");
-        model.getXpire().getItemList().forEach(System.out::println);
     }
 
 }

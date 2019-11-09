@@ -1,20 +1,25 @@
 package io.xpire.logic.commands;
 
+import static io.xpire.logic.commands.CommandTestUtil.assertCommandFailure;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static io.xpire.logic.commands.CommandTestUtil.executeCommandAndUpdateStateManager;
+import static io.xpire.logic.commands.UndoCommand.MESSAGE_UNDO_FAILURE;
 import static io.xpire.logic.commands.UndoCommand.MESSAGE_UNDO_SUCCESS;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
+import static io.xpire.testutil.TypicalIndexes.INDEX_FOURTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_SECOND_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_THIRD_ITEM;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
+import static io.xpire.testutil.TypicalItemsFields.IN_A_MONTH;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_KIWI;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_KIWI;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_KIWI;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRIDGE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRUIT;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_PROTEIN;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_SWEET;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -220,12 +225,176 @@ public class UndoCommandTest {
     }
 
     //--------------------REPLENISH VIEW-----------------------------------------------------------------------
+    //Testing Undo for ClearCommand
+    @Test
+    public void execute_undoClearReplenish_success() throws CommandException, ParseException {
+        model.setCurrentList(REPLENISH);
+        ClearCommand clearCommand = new ClearCommand(REPLENISH);
+        executeCommandAndUpdateStateManager(model, clearCommand, stateManager);
+        Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
+        expectedModel.setCurrentList(REPLENISH);
+        UndoCommand undoCommand = new UndoCommand();
+        CommandResult expectedMessage = new CommandResult(MESSAGE_UNDO_SUCCESS);
+        assertCommandSuccess(undoCommand, model, expectedMessage, expectedModel, stateManager);
+    }
+
+    //Testing Undo for SearchCommand
+    @Test
+    public void execute_undoSearchReplenish_success() throws CommandException, ParseException {
+        model.setCurrentList(REPLENISH);
+        ContainsKeywordsPredicate predicate = new ContainsKeywordsPredicate(Arrays.asList("#Sweet|Bagel"
+                .split("\\|")));
+        SearchCommand searchCommand = new SearchCommand(REPLENISH, predicate);
+        executeCommandAndUpdateStateManager(model, searchCommand, stateManager);
+        Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
+        expectedModel.setCurrentList(REPLENISH);
+        UndoCommand undoCommand = new UndoCommand();
+        CommandResult expectedMessage = new CommandResult(MESSAGE_UNDO_SUCCESS);
+        assertCommandSuccess(undoCommand, model, expectedMessage, expectedModel, stateManager);
+    }
+
+    //Testing Undo for DeleteCommand(Item)
+    @Test
+    public void execute_undoDeleteItemReplenish_success() throws CommandException, ParseException {
+        model.setCurrentList(REPLENISH);
+        DeleteCommand deleteCommand = new DeleteCommand(REPLENISH, INDEX_FIRST_ITEM);
+        executeCommandAndUpdateStateManager(model, deleteCommand, stateManager);
+        Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
+        expectedModel.setCurrentList(REPLENISH);
+        UndoCommand undoCommand = new UndoCommand();
+        CommandResult expectedMessage = new CommandResult(MESSAGE_UNDO_SUCCESS);
+        assertCommandSuccess(undoCommand, model, expectedMessage, expectedModel, stateManager);
+    }
+
+    //Testing Undo for DeleteCommand(Tag)
+    @Test
+    public void execute_undoDeleteTagsReplenish_success() throws CommandException, ParseException {
+        model.setCurrentList(REPLENISH);
+        Set<Tag> set = new TreeSet<>(new TagComparator());
+        set.add(new Tag(VALID_TAG_SWEET));
+        DeleteCommand deleteCommand = new DeleteCommand(REPLENISH, INDEX_FOURTH_ITEM, set);
+        executeCommandAndUpdateStateManager(model, deleteCommand, stateManager);
+        Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
+        expectedModel.setCurrentList(REPLENISH);
+        UndoCommand undoCommand = new UndoCommand();
+        CommandResult expectedMessage = new CommandResult(MESSAGE_UNDO_SUCCESS);
+        assertCommandSuccess(undoCommand, model, expectedMessage, expectedModel, stateManager);
+    }
+
+    //Testing Undo for TagCommand
+    @Test
+    public void execute_undoTagReplenish_success() throws CommandException, ParseException {
+        model.setCurrentList(REPLENISH);
+        TagCommand tagCommand = new TagCommand(REPLENISH, INDEX_FIRST_ITEM,
+                new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
+        executeCommandAndUpdateStateManager(model, tagCommand, stateManager);
+        Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
+        expectedModel.setCurrentList(REPLENISH);
+        UndoCommand undoCommand = new UndoCommand();
+        CommandResult expectedMessage = new CommandResult(MESSAGE_UNDO_SUCCESS);
+        assertCommandSuccess(undoCommand, model, expectedMessage, expectedModel, stateManager);
+    }
+
+    //Testing Undo for ViewCommand
+    @Test
+    public void execute_undoViewReplenish_success() throws CommandException, ParseException {
+        model.setCurrentList(REPLENISH);
+        ViewCommand viewCommand = new ViewCommand(XPIRE);
+        executeCommandAndUpdateStateManager(model, viewCommand, stateManager);
+        Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
+        expectedModel.setCurrentList(REPLENISH);
+        UndoCommand undoCommand = new UndoCommand();
+        CommandResult expectedMessage = new CommandResult(MESSAGE_UNDO_SUCCESS);
+        assertCommandSuccess(undoCommand, model, expectedMessage, expectedModel, stateManager);
+    }
+
     //Testing Undo for ShiftToMainCommand
+    @Test
+    public void execute_undoShiftToMain_success() throws CommandException, ParseException {
+        model.setCurrentList(REPLENISH);
+        ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(INDEX_FIRST_ITEM,
+                new ExpiryDate(IN_A_MONTH), new Quantity("3"));
+        executeCommandAndUpdateStateManager(model, shiftToMainCommand, stateManager);
+        Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
+        expectedModel.setCurrentList(REPLENISH);
+        UndoCommand undoCommand = new UndoCommand();
+        CommandResult expectedMessage = new CommandResult(MESSAGE_UNDO_SUCCESS);
+        assertCommandSuccess(undoCommand, model, expectedMessage, expectedModel, stateManager);
+    }
+
     //Testing Undo for Multiple Commands
-    //Testing Undo for RedoCommand(Should not Undo)
+    @Test
+    public void execute_undoMultipleCommands_success() throws CommandException, ParseException {
+
+        Set<Tag> set = new TreeSet<>(new TagComparator());
+        set.add(new Tag(VALID_TAG_FRIDGE));
+        set.add(new Tag(VALID_TAG_PROTEIN));
+        DeleteCommand deleteCommand = new DeleteCommand(XPIRE, INDEX_THIRD_ITEM, set);
+        AddCommand addCommand = new AddCommand(new Name(VALID_NAME_KIWI), new ExpiryDate(VALID_EXPIRY_DATE_KIWI),
+                new Quantity(VALID_QUANTITY_KIWI));
+        ViewCommand viewCommand = new ViewCommand(REPLENISH);
+        ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(INDEX_FIRST_ITEM,
+                new ExpiryDate(IN_A_MONTH), new Quantity("3"));
+
+        executeCommandAndUpdateStateManager(model, deleteCommand, stateManager);
+        executeCommandAndUpdateStateManager(model, addCommand, stateManager);
+        executeCommandAndUpdateStateManager(model, viewCommand, stateManager);
+        executeCommandAndUpdateStateManager(model, shiftToMainCommand, stateManager);
+
+        Model expectedModel = new ModelManager(getTypicalLists(), new UserPrefs());
+        UndoCommand undoCommand = new UndoCommand();
+
+        executeCommandAndUpdateStateManager(model, undoCommand, stateManager);
+        executeCommandAndUpdateStateManager(model, undoCommand, stateManager);
+        executeCommandAndUpdateStateManager(model, undoCommand, stateManager);
+
+        CommandResult expectedMessage = new CommandResult(MESSAGE_UNDO_SUCCESS);
+        assertCommandSuccess(undoCommand, model, expectedMessage, expectedModel, stateManager);
+    }
+
+    //--------------------NON-UNDOABLE COMMANDS--------------------------------------------------------------------
+
     //Testing Undo for TagCommand(Show)(Should not Undo)
+    @Test
+    public void execute_undoTagShow_throwsCommandException() throws CommandException, ParseException {
+        TagCommand tagCommand = new TagCommand(XPIRE);
+        UndoCommand undoCommand = new UndoCommand();
+        executeCommandAndUpdateStateManager(model, tagCommand, stateManager);
+        assertCommandFailure(undoCommand, model, MESSAGE_UNDO_FAILURE);
+    }
+
     //Testing Undo for ExitCommand(Should not Undo)
+    @Test
+    public void execute_undoExit_throwsCommandException() throws CommandException, ParseException {
+        ExitCommand exitCommand = new ExitCommand();
+        UndoCommand undoCommand = new UndoCommand();
+        executeCommandAndUpdateStateManager(model, exitCommand, stateManager);
+        assertCommandFailure(undoCommand, model, MESSAGE_UNDO_FAILURE);
+    }
+
     //Testing Undo for HelpCommand(Should not Undo)
+    @Test
+    public void execute_undoHelp_throwsCommandException() throws CommandException, ParseException {
+        HelpCommand helpCommand = new HelpCommand();
+        UndoCommand undoCommand = new UndoCommand();
+        executeCommandAndUpdateStateManager(model, helpCommand, stateManager);
+        assertCommandFailure(undoCommand, model, MESSAGE_UNDO_FAILURE);
+    }
+
     //Testing Undo for ExportCommand(Should not Undo)
+    @Test
+    public void execute_undoExport_throwsCommandException() throws CommandException, ParseException {
+        ExportCommand exportCommand = new ExportCommand();
+        UndoCommand undoCommand = new UndoCommand();
+        executeCommandAndUpdateStateManager(model, exportCommand, stateManager);
+        assertCommandFailure(undoCommand, model, MESSAGE_UNDO_FAILURE);
+    }
+
     //Testing Undo if there are no Undoable States
+    @Test
+    public void execute_noUndoableStates_throwsCommandException() throws CommandException, ParseException {
+        UndoCommand undoCommand = new UndoCommand();
+        assertCommandFailure(undoCommand, model, MESSAGE_UNDO_FAILURE);
+    }
+
 }
