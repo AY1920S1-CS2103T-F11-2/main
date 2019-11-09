@@ -102,7 +102,6 @@ public class ParserUtil {
             throw new ParseException(Quantity.MESSAGE_QUANTITY_LIMIT);
         }
         return new Quantity(trimmedQuantity);
-        
     }
 
     //@@author Kalsyc

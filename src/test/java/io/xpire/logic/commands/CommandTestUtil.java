@@ -27,7 +27,6 @@ import io.xpire.testutil.Assert;
  */
 public class CommandTestUtil {
 
-    public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     private static StateManager stateManager = new StackManager();
 
     /**

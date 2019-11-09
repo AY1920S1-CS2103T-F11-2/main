@@ -69,7 +69,8 @@ public class AddCommandTest {
                 .withQuantity(VALID_QUANTITY_BANANA).build();
         AddCommand addCommand = new AddCommand(new Name(VALID_NAME_BANANA), new ExpiryDate(VALID_EXPIRY_DATE_BANANA),
                 new Quantity(VALID_QUANTITY_BANANA));
-        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS_ITEM_UPDATED, new Quantity("10"));
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS_ITEM_UPDATED,
+                VALID_NAME_BANANA, new Quantity("10"));
         //retrieves banana
         XpireItem itemToUpdate = (XpireItem) expectedModel.getItemList(XPIRE).get(1);
         XpireItem newItem = new XpireItemBuilder().withName(VALID_NAME_BANANA)

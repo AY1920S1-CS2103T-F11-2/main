@@ -1,18 +1,20 @@
 package io.xpire.logic.commands.util;
 
+import static io.xpire.model.ListType.REPLENISH;
+import static io.xpire.model.ListType.XPIRE;
+import static java.util.Objects.requireNonNull;
+
+import java.util.List;
+
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.XpireItem;
 
-import java.util.List;
-
-import static io.xpire.commons.core.Messages.MESSAGE_DUPLICATE_ITEM_REPLENISH;
-import static io.xpire.model.ListType.REPLENISH;
-import static io.xpire.model.ListType.XPIRE;
-import static java.util.Objects.requireNonNull;
-
+/**
+ * Helper functions for commands.
+ */
 public class CommandUtil {
 
     public static final String MESSAGE_INVALID_REDUCE_QUANTITY = "Invalid quantity specified. \n"
@@ -21,10 +23,16 @@ public class CommandUtil {
     public static final String MESSAGE_INVALID_INCREASE_QUANTITY =
             "Quantity specified would cause item quantity to exceed maximum limit. \n";
 
+    public static final String MESSAGE_DUPLICATE_ITEM_REPLENISH =
+            "A similar item has already been added to the replenish list.\n"
+                    + "To add this item, please delete the existing item on the replenish list.\n";
+
+    public static final String MESSAGE_REPLENISH_SHIFT_SUCCESS = "%s is shifted into the replenish list.";
+
     /**
      * Updates item quantity of an existing item on the list.
-     * @param model
-     * @param existingItem
+     * @param model {@code Model} which the command should operate on.
+     * @param existingItem item that exists on the list.
      * @return item with updated quantity.
      * @throws CommandException if the resulting quantity exceeds the maximum limit.
      */
@@ -39,12 +47,13 @@ public class CommandUtil {
     /**
      * Reduces xpireItem's quantity by amount specified.
      *
-     * @param targetXpireItem XpireItem which amount will be reduced.
+     * @param targetXpireItem XpireItem whose amount will be reduced.
      * @param reduceByQuantity Quantity to be reduced.
      * @return The new XpireItem with its quantity reduced.
      * @throws CommandException if new item quantity is invalid.
      */
-    public static XpireItem reduceItemQuantity(XpireItem targetXpireItem, Quantity reduceByQuantity) throws CommandException {
+    public static XpireItem reduceItemQuantity(XpireItem targetXpireItem, Quantity reduceByQuantity)
+            throws CommandException {
         XpireItem targetItemCopy = new XpireItem(targetXpireItem);
         Quantity originalQuantity = targetItemCopy.getQuantity();
         if (originalQuantity.isLessThan(reduceByQuantity)) {

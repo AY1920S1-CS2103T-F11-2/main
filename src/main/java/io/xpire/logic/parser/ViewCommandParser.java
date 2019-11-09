@@ -1,6 +1,6 @@
 package io.xpire.logic.parser;
 
-import static io.xpire.commons.core.Messages.MESSAGE_VIEW_OPTIONS;
+import static io.xpire.logic.commands.ViewCommand.MESSAGE_VIEW_OPTIONS;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
 import static java.util.Objects.requireNonNull;

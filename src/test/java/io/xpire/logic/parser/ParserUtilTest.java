@@ -6,7 +6,6 @@ import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_EXPIRY_DATE;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_EXPIRY_DATE_RANGE;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_NAME;
-import static io.xpire.testutil.TypicalItemsFields.INVALID_QUANTITY_INTEGER;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_REMINDER_THRESHOLD;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_TAG;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_KIWI;
@@ -65,7 +64,7 @@ public class ParserUtilTest {
         assertEquals(INDEX_FIRST_ITEM, ParserUtil.parseIndex("  1  "));
     }
 
-    //----------------------------- Tests for parseName ------------------------------------------------------
+    //----------------------------- Tests for parseName --------------------------------------------------
     @Test
     public void parseName_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parseName(null));
@@ -233,7 +232,7 @@ public class ParserUtilTest {
     }
 
 
-    //----------------------------- Tests for parseReminderThreshold  ------------------------------------------------------
+    //----------------------------- Tests for parseReminderThreshold  --------------------------------------------
 
 
     @Test
@@ -248,7 +247,7 @@ public class ParserUtilTest {
     }
 
 
-    //----------------------------- Tests for parseMethodOfSorting  ------------------------------------------------------
+    //----------------------------- Tests for parseMethodOfSorting  --------------------------------------------
 
 
     @Test

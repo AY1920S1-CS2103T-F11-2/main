@@ -1,10 +1,10 @@
 package io.xpire.logic.commands;
 
-import static io.xpire.commons.core.Messages.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandFailure;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static io.xpire.logic.commands.CommandTestUtil.showReplenishItemAtIndex;
 import static io.xpire.logic.commands.CommandTestUtil.showXpireItemAtIndex;
+import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIFTH_ITEM;
@@ -47,6 +47,7 @@ import org.junit.jupiter.api.Test;
 
 import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
+import io.xpire.logic.commands.util.CommandUtil;
 import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
@@ -247,7 +248,7 @@ public class DeleteCommandTest {
     public void execute_deleteQuantityMoreThanXpireItemQuantityFromXpireItem_throwsCommandException() {
         Quantity quantityToDeduct = new Quantity("3");
         DeleteCommand deleteCommand = new DeleteCommand(XPIRE, INDEX_THIRD_ITEM, quantityToDeduct);
-        assertCommandFailure(deleteCommand, model, DeleteCommand.MESSAGE_DELETE_QUANTITY_FAILURE);
+        assertCommandFailure(deleteCommand, model, CommandUtil.MESSAGE_INVALID_REDUCE_QUANTITY);
     }
 
     //---------------- Tests for Replenish List -----------------------------------------------------------------------

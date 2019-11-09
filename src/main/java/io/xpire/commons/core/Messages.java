@@ -12,13 +12,9 @@ public class Messages {
     public static final String MESSAGE_ITEMS_LISTED_OVERVIEW = "%d items listed!";
     public static final String MESSAGE_INVALID_REMINDER_THRESHOLD = "%s is not a valid reminder threshold.";
     public static final String MESSAGE_INVALID_TAGS = "Tags are not in the item specified!";
-    public static final String MESSAGE_UNKNOWN_DELETE_MODE = "Unknown Delete mode.";
     public static final String MESSAGE_SUGGESTIONS = " Did you mean %s?";
-    public static final String MESSAGE_REPLENISH_SHIFT_SUCCESS = "%s is shifted into the replenish list.";
     public static final String MESSAGE_REMINDER_THRESHOLD_EXCEEDED =
             "The item has only %s day(s) left before expiring. \nReminder will start from today!";
     public static final String MESSAGE_THRESHOLD_ITEM_EXPIRED = "Cannot set reminder for expired item!";
-    public static final String MESSAGE_VIEW_OPTIONS = "Only two lists (main and replenish) are available to view.";
-    public static final String MESSAGE_DUPLICATE_ITEM_REPLENISH = "A similar item has already been added to the replenish list.\n"
-            + "To add this item, please delete the existing item on the replenish list.\n";
+
 }

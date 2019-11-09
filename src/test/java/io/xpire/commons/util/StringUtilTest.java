@@ -284,7 +284,7 @@ public class StringUtilTest {
 
     }
 
-    //--------------------Tests for isUnsignedNumericWithoutLeadingZeroes-----------------------------------------------------
+    //--------------------Tests for isUnsignedNumericWithoutLeadingZeroes-------------------------------------------
     @Test
     public void isUnsignedNumericWithoutLeadingZeroes() {
         // not a number -> false

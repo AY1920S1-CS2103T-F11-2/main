@@ -1,6 +1,7 @@
 package io.xpire.logic.commands;
 
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX;
+import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
@@ -27,7 +28,6 @@ public class ShiftToReplenishCommand extends Command {
             + "Moves the item identified by the index number to the replenish list.\n"
             + "Format: shift|<index> (index must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + "|1" + "\n";
-    public static final String MESSAGE_SUCCESS = "%s is moved to the Replenish List";
 
     private final Index targetIndex;
     private String result;
@@ -47,7 +47,7 @@ public class ShiftToReplenishCommand extends Command {
         }
         XpireItem targetItem = (XpireItem) lastShownList.get(this.targetIndex.getZeroBased());
         CommandUtil.shiftItemToReplenishList(model, targetItem);
-        this.result = String.format(MESSAGE_SUCCESS, targetItem.getName());
+        this.result = String.format(MESSAGE_REPLENISH_SHIFT_SUCCESS, targetItem.getName());
         setShowInHistory(true);
         return new CommandResult(this.result);
     }

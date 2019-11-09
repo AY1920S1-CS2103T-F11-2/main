@@ -1,6 +1,6 @@
 package io.xpire.logic.commands;
 
-import static io.xpire.commons.core.Messages.MESSAGE_REPLENISH_SHIFT_SUCCESS;
+import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Set;
@@ -34,6 +34,7 @@ public class DeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
     public static final String COMMAND_SHORTHAND = "d";
+    public static final String MESSAGE_UNKNOWN_DELETE_MODE = "Unknown Delete mode.";
 
     public static final String MESSAGE_USAGE =
             "Three formats available for " + COMMAND_WORD + ":\n"
@@ -103,7 +104,7 @@ public class DeleteCommand extends Command {
         case QUANTITY:
             return executeDeleteQuantity(model, targetItem);
         default:
-            throw new CommandException(Messages.MESSAGE_UNKNOWN_DELETE_MODE);
+            throw new CommandException(MESSAGE_UNKNOWN_DELETE_MODE);
         }
     }
 
@@ -127,7 +128,7 @@ public class DeleteCommand extends Command {
             setShowInHistory(true);
             return new CommandResult(this.result);
         }
-        this.result = String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), updatedItem);
+        this.result = String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetItem);
         setShowInHistory(true);
         return new CommandResult(this.result);
     }
