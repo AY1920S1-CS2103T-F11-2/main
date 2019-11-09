@@ -1,24 +1,18 @@
 package io.xpire.logic.commands;
 
-import static io.xpire.commons.core.Messages.MESSAGE_DUPLICATE_ITEM_REPLENISH;
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX;
-import static io.xpire.model.ListType.REPLENISH;
-import static io.xpire.model.ListType.XPIRE;
 import static java.util.Objects.requireNonNull;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
+import io.xpire.logic.commands.util.CommandUtil;
 import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
-import io.xpire.model.item.exceptions.ItemNotFoundException;
 import io.xpire.model.state.ModifiedState;
 import io.xpire.model.state.StateManager;
-import io.xpire.model.tag.Tag;
 
 //@@author liawsy
 /**
@@ -34,7 +28,6 @@ public class ShiftToReplenishCommand extends Command {
             + "Format: shift|<index> (index must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + "|1" + "\n";
     public static final String MESSAGE_SUCCESS = "%s is moved to the Replenish List";
-    private static final Tag EXPIRED_TAG = new Tag("Expired");
 
     private final Index targetIndex;
     private String result;
@@ -53,23 +46,10 @@ public class ShiftToReplenishCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
         }
         XpireItem targetItem = (XpireItem) lastShownList.get(this.targetIndex.getZeroBased());
-        Item remodelledItem = remodelItem(targetItem);
-        if (model.hasItem(REPLENISH, remodelledItem)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ITEM_REPLENISH);
-        } else {
-            model.addItem(REPLENISH, remodelledItem);
-            model.deleteItem(XPIRE, targetItem);
-        }
-        this.result = String.format(MESSAGE_SUCCESS, remodelledItem.getName());
+        CommandUtil.shiftItemToReplenishList(model, targetItem);
+        this.result = String.format(MESSAGE_SUCCESS, targetItem.getName());
         setShowInHistory(true);
         return new CommandResult(this.result);
-    }
-
-    private Item remodelItem(XpireItem item) {
-        Item remodelledItem = item.remodel();
-        Set<Tag> tags = new HashSet<>(remodelledItem.getTags());
-        remodelledItem.setTags(tags);
-        return remodelledItem;
     }
 
     @Override

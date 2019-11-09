@@ -9,6 +9,7 @@ import java.util.List;
 
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
+import io.xpire.logic.commands.util.CommandUtil;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.item.ExpiryDate;
@@ -50,26 +51,12 @@ public class ShiftToMainCommand extends Command {
     public CommandResult execute(Model model, StateManager stateManager) throws CommandException, ParseException {
         requireNonNull(model);
         stateManager.saveState(new ModifiedState(model));
-
         List<? extends Item> lastShownList = model.getCurrentList();
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
         }
         Item targetItem = lastShownList.get(this.targetIndex.getZeroBased());
-        XpireItem remodelledItem = targetItem.remodel(this.expiryDate, this.quantity);
-        if (model.hasItem(XPIRE, remodelledItem)) {
-            XpireItem itemToReplace = retrieveXpireItem(remodelledItem, model.getItemList(XPIRE));
-            XpireItem itemWithUpdatedQuantity = increaseItemQuantity(itemToReplace, this.quantity);
-            model.setItem(XPIRE, itemToReplace, itemWithUpdatedQuantity);
-            this.result = String.format(MESSAGE_SUCCESS_UPDATE_QUANTITY, remodelledItem.getName(),
-                    itemWithUpdatedQuantity.getQuantity());
-        } else {
-            model.addItem(XPIRE, remodelledItem);
-            model.deleteItem(REPLENISH, targetItem);
-            this.result = String.format(MESSAGE_SUCCESS_SHIFT, remodelledItem.getName());
-        }
-        setShowInHistory(true);
-        return new CommandResult(this.result);
+        return shiftItemToMain(model, targetItem);
     }
 
     @Override
@@ -78,36 +65,27 @@ public class ShiftToMainCommand extends Command {
     }
 
     /**
-     * Retrieves item that is the same as item inputted by user.
+     * Shifts an item to the replenish list.
      *
-     * @param item existing in the tracking list.
-     * @param list where item is retrieved from.
-     * @return exact item which is the same as input item.
-     **/
-    private XpireItem retrieveXpireItem(XpireItem item, List<? extends Item> list) {
-        requireNonNull(item);
-        int index = -1;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).isSameItem(item)) {
-                index = i;
-            }
+     * @param model {@code Model} which the command should operate on.
+     * @param item target item to increase the quantity of.
+     * @return feedback message of the operation result for display.
+     * @throws CommandException if the resulting quantity exceeds the maximum limit.
+     */
+    private CommandResult shiftItemToMain(Model model, Item item) throws CommandException {
+        XpireItem remodelledItem = item.remodel(this.expiryDate, this.quantity);
+        if (model.hasItem(XPIRE, remodelledItem)) {
+            XpireItem itemWithUpdatedQuantity = CommandUtil.updateItemQuantity(model, remodelledItem);
+            model.deleteItem(REPLENISH, item);
+            this.result = String.format(MESSAGE_SUCCESS_UPDATE_QUANTITY, remodelledItem.getName(),
+                    itemWithUpdatedQuantity.getQuantity());
+        } else {
+            model.addItem(XPIRE, remodelledItem);
+            model.deleteItem(REPLENISH, item);
+            this.result = String.format(MESSAGE_SUCCESS_SHIFT, remodelledItem.getName());
         }
-        return (XpireItem) list.get(index);
+        setShowInHistory(true);
+        return new CommandResult(this.result);
     }
 
-    /**
-     * Increases the item quantity for any duplicate items.
-     *
-     * @param targetItem the target item to increase the quantity of.
-     * @param quantity how much to increase the item quantity by.
-     * @return The new item with revised quantity.
-     * @throws ParseException if the input quantity results in the new quantity to exceed the maximum limit.
-     */
-    private XpireItem increaseItemQuantity(XpireItem targetItem, Quantity quantity) throws ParseException {
-        XpireItem targetItemCopy = new XpireItem(targetItem);
-        Quantity prevQuantity = targetItemCopy.getQuantity();
-        Quantity updatedQuantity = prevQuantity.increaseQuantity(quantity);
-        targetItemCopy.setQuantity(updatedQuantity);
-        return targetItemCopy;
-    }
 }

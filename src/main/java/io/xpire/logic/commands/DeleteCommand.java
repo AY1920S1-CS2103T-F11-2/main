@@ -1,9 +1,6 @@
 package io.xpire.logic.commands;
 
-import static io.xpire.commons.core.Messages.MESSAGE_DUPLICATE_ITEM_REPLENISH;
 import static io.xpire.commons.core.Messages.MESSAGE_REPLENISH_SHIFT_SUCCESS;
-import static io.xpire.model.ListType.REPLENISH;
-import static io.xpire.model.ListType.XPIRE;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Set;
@@ -12,6 +9,7 @@ import java.util.TreeSet;
 import io.xpire.commons.core.Messages;
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
+import io.xpire.logic.commands.util.CommandUtil;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.ListType;
 import io.xpire.model.Model;
@@ -51,8 +49,6 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_ITEM_SUCCESS = "Deleted item: %s";
     public static final String MESSAGE_DELETE_TAGS_SUCCESS = "Deleted tags from item: %s";
     public static final String MESSAGE_DELETE_QUANTITY_SUCCESS = "Reduced quantity by %s from item: %s";
-    public static final String MESSAGE_DELETE_QUANTITY_FAILURE = "Invalid quantity specified. \n"
-            + "Quantity must be positive and less than or equals to item's quantity.";
 
     private final Index targetIndex;
     private final Set<Tag> tagSet;
@@ -115,17 +111,17 @@ public class DeleteCommand extends Command {
      * Executes the command and returns the result message.
      *
      * @param model model {@code Model} which the command should operate on.
-     * @param targetItem target item to reduce the quantity of,
+     * @param targetItem target item to reduce the quantity of.
      * @return feedback message of the operation result for display.
      * @throws CommandException If an error occurs during command execution.
      */
     private CommandResult executeDeleteQuantity(Model model, Item targetItem) throws CommandException, ParseException {
         assert this.quantity != null;
-        XpireItem updatedItem = reduceItemQuantity((XpireItem) targetItem, this.quantity);
+        XpireItem updatedItem = CommandUtil.reduceItemQuantity((XpireItem) targetItem, this.quantity);
         model.setItem(listType, targetItem, updatedItem);
         // transfer item to replenish list
         if (Quantity.quantityIsZero(updatedItem.getQuantity())) {
-            shiftItemToReplenishList(model, updatedItem);
+            CommandUtil.shiftItemToReplenishList(model, updatedItem);
             this.result = String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetItem)
                     + "\n" + String.format(MESSAGE_REPLENISH_SHIFT_SUCCESS, updatedItem.getName());
             setShowInHistory(true);
@@ -194,38 +190,6 @@ public class DeleteCommand extends Command {
         }
         targetItem.setTags(newTags);
         return targetItem;
-    }
-
-    /**
-     * Reduces xpireItem's quantity by amount specified.
-     *
-     * @param targetXpireItem XpireItem which amount will be reduced.
-     * @param reduceByQuantity Quantity to be reduced.
-     * @return The new XpireItem with its quantity reduced.
-     * @throws ParseException if new item quantity is invalid.
-     */
-    private XpireItem reduceItemQuantity(XpireItem targetXpireItem, Quantity reduceByQuantity) throws CommandException, ParseException {
-        XpireItem targetItemCopy = new XpireItem(targetXpireItem);
-        Quantity originalQuantity = targetItemCopy.getQuantity();
-        if (originalQuantity.isLessThan(reduceByQuantity)) {
-            throw new CommandException(MESSAGE_DELETE_QUANTITY_FAILURE);
-        }
-        Quantity updatedQuantity = originalQuantity.deductQuantity(reduceByQuantity);
-        targetItemCopy.setQuantity(updatedQuantity);
-        return targetItemCopy;
-    }
-
-    /**
-     * Shifts Item to ReplenishList.
-     */
-    private void shiftItemToReplenishList(Model model, XpireItem itemToShift) throws CommandException {
-        Item remodelledItem = itemToShift.remodel();
-        if (model.hasItem(REPLENISH, remodelledItem)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ITEM_REPLENISH);
-        } else {
-            model.addItem(REPLENISH, remodelledItem);
-            model.deleteItem(XPIRE, itemToShift);
-        }
     }
 
     @Override

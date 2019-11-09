@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import io.xpire.commons.util.AppUtil;
 import io.xpire.commons.util.StringUtil;
-import io.xpire.logic.parser.exceptions.ParseException;
 
 /**
  * Represents the quantity of an xpireItem.
@@ -33,10 +32,7 @@ public class Quantity {
         this.quantity = Integer.parseInt(trimmedQuantity);
     }
 
-    private Quantity(int quantity) throws ParseException {
-        if (quantity < 0) {
-            throw new ParseException(MESSAGE_CONSTRAINTS);
-        }
+    private Quantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -65,32 +61,32 @@ public class Quantity {
         return this.quantity < deductAmount.quantity;
     }
 
+    public boolean sumExceedsMaximumLimit(Quantity quantity) {
+        return this.quantity + quantity.quantity > MAX_VALUE;
+    }
+
     /**
      * Reduces quantity by specified amount.
+     * Guarantees: new quantity should be non-negative.
      *
      * @param deductAmount Amount to be deducted.
      * @return Quantity to be deducted.
-     * @throws ParseException if new quantity is negative.
      */
-    public Quantity deductQuantity(Quantity deductAmount) throws ParseException {
+    public Quantity deductQuantity(Quantity deductAmount) {
         Quantity newQuantity;
         newQuantity = new Quantity(this.quantity - deductAmount.quantity);
         return newQuantity;
     }
 
     /**
-     * Reduces quantity by specified amount.
+     * Increases quantity by specified amount.
+     * Guarantees: new quantity should not exceed maximum limit.
      *
      * @param increaseAmount quantity to be increased.
      * @return new Quantity of item.
-     * @throws ParseException if new quantity is not within valid range.
      */
-    public Quantity increaseQuantity(Quantity increaseAmount) throws ParseException {
-        Quantity newQuantity;
-        if ((increaseAmount.quantity + this.quantity) > MAX_VALUE) {
-            throw new ParseException(MESSAGE_QUANTITY_LIMIT);
-        }
-        newQuantity = new Quantity(this.quantity + increaseAmount.quantity);
+    public Quantity increaseQuantity(Quantity increaseAmount) {
+        Quantity newQuantity = new Quantity(this.quantity + increaseAmount.quantity);
         return newQuantity;
     }
 
