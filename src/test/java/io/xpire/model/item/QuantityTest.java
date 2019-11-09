@@ -48,13 +48,53 @@ public class QuantityTest {
 
         //input is greater than maximum allowed value
         assertFalse(Quantity.isValidQuantity("100001"));
+
+        //input is greater than maximum allowed value
+        assertFalse(Quantity.isNumericButExceedQuantity("999999"));
+    }
+
+    @Test
+    public void isNumericButExceedQuantity() {
+
+        //input exceeds accepted input length -> true
+        assertTrue(Quantity.isNumericButExceedQuantity("1000000"));
+
+        //input is signed and exceeds accepted input length -> false
+        assertFalse(Quantity.isNumericButExceedQuantity("-1000000"));
+
+        //input is of accepted input length -> false
+        assertFalse(Quantity.isNumericButExceedQuantity("999999"));
+
+        //input is of accepted input length -> false
+        assertFalse(Quantity.isNumericButExceedQuantity("000000"));
+
+        //input is of accepted input length but signed -> false
+        assertFalse(Quantity.isNumericButExceedQuantity("-1"));
+
+    }
+
+
+    @Test
+    public void isLessThan() {
+
+        Quantity toCompare = new Quantity("10");
+
+        // toCompare is more than input quantity -> false
+        assertFalse(toCompare.isLessThan(new Quantity("2")));
+
+        // toCompare is equals to input quantity -> true
+        assertFalse(toCompare.isLessThan(new Quantity("10")));
+
+        // toCompare is less than input quantity -> true
+        assertTrue(toCompare.isLessThan(new Quantity("11")));
+
     }
 
     @Test
     public void quantityIsZero() {
 
         //quantity is zero -> returns true
-        assertTrue(Quantity.quantityIsZero(new Quantity("0", true)));
+        assertTrue(Quantity.quantityIsZero(new Quantity("0")));
 
         //quantity is positive integer -> returns false
         assertFalse(Quantity.quantityIsZero(new Quantity("2")));
@@ -67,17 +107,30 @@ public class QuantityTest {
 
         Quantity testQuantity = new Quantity("3");
 
-        //quantityToDeduct is greater than xpireItem quantity -> throws exception
+        // quantityToDeduct is greater than xpireItem quantity -> throws exception
         assertThrows(ParseException.class, ()-> testQuantity.deductQuantity(new Quantity("4")));
 
-        //quantityToDeduct is equal to xpireItem quantity -> returns 0 for quantity
+        // quantityToDeduct is equal to xpireItem quantity -> returns 0 for quantity
         Quantity toDeduct = new Quantity("3");
-        Quantity expectedQuantity = new Quantity("0", true);
+        Quantity expectedQuantity = new Quantity("0");
         assertTrue(expectedQuantity.equals(testQuantity.deductQuantity(toDeduct)));
 
-        //quantityToDeduct is less than xpireItem quantity -> returns a valid quantity
+        // quantityToDeduct is less than xpireItem quantity -> returns a valid quantity
         toDeduct = new Quantity("1");
         expectedQuantity = new Quantity("2");
         assertTrue(expectedQuantity.equals(testQuantity.deductQuantity(toDeduct)));
     }
+
+    @Test
+    public void increaseQuantity() throws ParseException {
+        Quantity testQuantity = new Quantity("6");
+
+        // quantity added results in quantity greater than maximum limit -> throws exception
+        assertThrows(ParseException.class, () -> testQuantity.increaseQuantity(new Quantity("99995")));
+
+        // quantity added results in maximum possible quantity -> returns valid quantity
+        Quantity expectedQuantity = new Quantity("100000");
+        assertTrue(expectedQuantity.equals(testQuantity.increaseQuantity(new Quantity("99994"))));
+    }
+
 }

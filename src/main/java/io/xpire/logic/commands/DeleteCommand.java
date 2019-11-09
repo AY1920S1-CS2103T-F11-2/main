@@ -221,7 +221,7 @@ public class DeleteCommand extends Command {
      * @param targetXpireItem XpireItem which amount will be reduced.
      * @param reduceByQuantity Quantity to be reduced.
      * @return The new XpireItem with its quantity reduced.
-     * @throws ParseException if
+     * @throws ParseException if new item quantity is invalid.
      */
     private XpireItem reduceItemQuantity(XpireItem targetXpireItem, Quantity reduceByQuantity) throws CommandException,
                                                                                                       ParseException {

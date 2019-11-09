@@ -16,39 +16,21 @@ public class Quantity {
 
     public static final String DEFAULT_QUANTITY = "1";
     public static final String MESSAGE_CONSTRAINTS =
-            "Quantity added should be a positive integer and should not be blank";
+            "Quantity provided should be an unsigned positive integer with no leading 0s";
     public static final String MESSAGE_QUANTITY_LIMIT = "Quantity exceeds maximum input quantity of 100000";
     public static final int MAX_VALUE = 100000;
-    private static final String INTERNAL_MESSAGE_CONSTRAINTS =
-            "Quantity added should be a non-negative integer and should not be blank";
     private int quantity;
-
 
     /**
      * Constructs a {@code Quantity}.
      *
-     * @param quantity A valid input quantity, i.e. positive integer not exceeding maximum allowed limit.
+     * @param quantity A valid input quantity, i.e. non-negative integer not exceeding maximum allowed limit.
      */
     public Quantity(String quantity) {
         String trimmedQuantity = quantity.trim();
         requireNonNull(trimmedQuantity);
-        AppUtil.checkArgument(isPositiveIntegerQuantity(trimmedQuantity), MESSAGE_CONSTRAINTS);
-        AppUtil.checkArgument(isAcceptedRange(trimmedQuantity), MESSAGE_QUANTITY_LIMIT);
+        AppUtil.checkArgument(isValidQuantity(trimmedQuantity), MESSAGE_CONSTRAINTS);
         this.quantity = Integer.parseInt(trimmedQuantity);
-    }
-
-    /**
-     * Constructs a {@code Quantity}.
-     *
-     * @param quantity A valid quantity, i.e. a non-negative integer.
-     */
-    public Quantity(String quantity, boolean internalCall) {
-        requireNonNull(quantity);
-        String trimmedQuantity = quantity.trim();
-        if (internalCall) {
-            AppUtil.checkArgument(isValidQuantity(trimmedQuantity), INTERNAL_MESSAGE_CONSTRAINTS);
-            this.quantity = Integer.parseInt(trimmedQuantity);
-        }
     }
 
     private Quantity(int quantity) throws ParseException {
@@ -58,39 +40,19 @@ public class Quantity {
         this.quantity = quantity;
     }
 
-
     /**
-     * Returns true if a given input string is a valid quantity.
+     * Returns true if a given input string is a valid quantity, i.e. quantity that is positive.
      */
     public static boolean isValidQuantity(String test) {
-        return StringUtil.isNonNegativeInteger(test) && Integer.parseInt(test) <= MAX_VALUE;
-    }
-
-    /**
-     * Returns true if a given input string lies below the maximum value.
-     */
-    public static boolean isAcceptedRange(String test) {
-        return Integer.parseInt(test) <= MAX_VALUE;
-    }
-
-
-    /**
-     * Returns true if a given input string is a valid integer.
-     */
-    public static boolean isPositiveIntegerQuantity(String test) {
-        return StringUtil.isNonZeroUnsignedInteger(test);
+        return StringUtil.isNonZeroUnsignedInteger(test) && Integer.parseInt(test) <= MAX_VALUE;
     }
 
     /**
      * Returns true if a given input string is numeric but exceeds given range.
      */
     public static boolean isNumericButExceedQuantity(String test) {
-        return StringUtil.isNumeric(test) && test.length() > 6;
+        return StringUtil.isUnsignedNumericWithoutLeadingZeroes(test) && test.length() > 6;
     }
-
-    /**
-     * Returns true if a given input string is a valid input.
-     */
 
     /**
      * Returns true if quantity is zero.
@@ -125,7 +87,7 @@ public class Quantity {
      */
     public Quantity increaseQuantity(Quantity increaseAmount) throws ParseException {
         Quantity newQuantity;
-        if ((increaseAmount.quantity + this.quantity) >= MAX_VALUE) {
+        if ((increaseAmount.quantity + this.quantity) > MAX_VALUE) {
             throw new ParseException(MESSAGE_QUANTITY_LIMIT);
         }
         newQuantity = new Quantity(this.quantity + increaseAmount.quantity);

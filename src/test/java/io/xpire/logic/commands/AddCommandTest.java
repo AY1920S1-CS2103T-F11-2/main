@@ -62,6 +62,24 @@ public class AddCommandTest {
     }
 
     @Test
+    public void execute_duplicateItemAcceptedByModel_addSuccessful() {
+        ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
+        XpireItem banana = new XpireItemBuilder().withName(VALID_NAME_BANANA)
+                .withExpiryDate(VALID_EXPIRY_DATE_BANANA)
+                .withQuantity(VALID_QUANTITY_BANANA).build();
+        AddCommand addCommand = new AddCommand(new Name(VALID_NAME_BANANA), new ExpiryDate(VALID_EXPIRY_DATE_BANANA),
+                new Quantity(VALID_QUANTITY_BANANA));
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS_ITEM_UPDATED, new Quantity("10"));
+        //retrieves banana
+        XpireItem itemToUpdate = (XpireItem) expectedModel.getItemList(XPIRE).get(1);
+        XpireItem newItem = new XpireItemBuilder().withName(VALID_NAME_BANANA)
+                .withExpiryDate(VALID_EXPIRY_DATE_BANANA)
+                .withQuantity("10").build();
+        expectedModel.setItem(XPIRE, itemToUpdate, newItem);
+        assertCommandSuccess(addCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void equals() {
         XpireItem apple = new XpireItemBuilder().withName("Apple").build();
         XpireItem banana = new XpireItemBuilder().withName("Banana").build();

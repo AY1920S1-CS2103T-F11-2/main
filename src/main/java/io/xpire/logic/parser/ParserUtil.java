@@ -92,16 +92,17 @@ public class ParserUtil {
     public static Quantity parseQuantity(String quantity) throws ParseException {
         requireNonNull(quantity);
         String trimmedQuantity = quantity.trim();
+        if (!StringUtil.isUnsignedNumericWithoutLeadingZeroes(trimmedQuantity)) {
+            throw new ParseException(Quantity.MESSAGE_CONSTRAINTS);
+        }
         if (Quantity.isNumericButExceedQuantity(trimmedQuantity)) {
             throw new ParseException(Quantity.MESSAGE_QUANTITY_LIMIT);
         }
-        if (!Quantity.isPositiveIntegerQuantity(trimmedQuantity)) {
-            throw new ParseException(Quantity.MESSAGE_CONSTRAINTS);
-        }
-        if (!Quantity.isAcceptedRange(trimmedQuantity)) {
+        if (!Quantity.isValidQuantity(trimmedQuantity)) {
             throw new ParseException(Quantity.MESSAGE_QUANTITY_LIMIT);
         }
         return new Quantity(trimmedQuantity);
+        
     }
 
     //@@author Kalsyc

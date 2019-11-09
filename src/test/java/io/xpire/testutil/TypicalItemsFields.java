@@ -76,7 +76,7 @@ public class TypicalItemsFields {
     public static final String INVALID_EXPIRY_DATE_UPPER = "1/1/9999";
     public static final String INVALID_EXPIRY_DATE_LOWER = "1/1/1000";
     public static final String INVALID_TAG = "$cold";
-    public static final String INVALID_QUANTITY = "-2";
+    public static final String INVALID_QUANTITY_INTEGER = "-2";
     public static final String INVALID_REMINDER_THRESHOLD = "-5";
     public static final String INVALID_REMINDER_THRESHOLD_RANGE = "30000";
 

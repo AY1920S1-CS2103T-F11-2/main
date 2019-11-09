@@ -4,7 +4,7 @@ import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static io.xpire.testutil.TypicalItems.BANANA;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_EXPIRY_DATE;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_NAME;
-import static io.xpire.testutil.TypicalItemsFields.INVALID_QUANTITY;
+import static io.xpire.testutil.TypicalItemsFields.INVALID_QUANTITY_INTEGER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_KIWI;
@@ -66,7 +66,7 @@ public class AddCommandParserTest {
 
         // invalid quantity
         CommandParserTestUtil.assertParseFailure(parser, VALID_NAME_BANANA + "|" + VALID_EXPIRY_DATE_BANANA
-                + "|" + INVALID_QUANTITY, Quantity.MESSAGE_CONSTRAINTS);
+                + "|" + INVALID_QUANTITY_INTEGER, Quantity.MESSAGE_CONSTRAINTS);
 
         // two invalid values, only first invalid value reported
         CommandParserTestUtil.assertParseFailure(parser, INVALID_NAME + "|" + VALID_EXPIRY_DATE_BANANA

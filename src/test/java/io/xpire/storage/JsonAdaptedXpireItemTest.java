@@ -7,7 +7,7 @@ import static io.xpire.testutil.TypicalItemsFields.INVALID_EXPIRY_DATE;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_EXPIRY_DATE_LOWER;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_EXPIRY_DATE_UPPER;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_NAME;
-import static io.xpire.testutil.TypicalItemsFields.INVALID_QUANTITY;
+import static io.xpire.testutil.TypicalItemsFields.INVALID_QUANTITY_INTEGER;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_REMINDER_THRESHOLD;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_REMINDER_THRESHOLD_RANGE;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_TAG;
@@ -105,7 +105,7 @@ public class JsonAdaptedXpireItemTest {
     @Test
     public void toModelType_invalidQuantity_throwsIllegalValueException() {
         JsonAdaptedXpireItem item =
-                new JsonAdaptedXpireItem(VALID_NAME_JELLY, VALID_EXPIRY_DATE_JELLY, INVALID_QUANTITY,
+                new JsonAdaptedXpireItem(VALID_NAME_JELLY, VALID_EXPIRY_DATE_JELLY, INVALID_QUANTITY_INTEGER,
                         VALID_REMINDER_THRESHOLD_JELLY, VALID_TAGS);
         String expectedMessage = Quantity.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, item::toModelType);
