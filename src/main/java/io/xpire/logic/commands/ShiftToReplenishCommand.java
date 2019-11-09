@@ -60,6 +60,7 @@ public class ShiftToReplenishCommand extends Command {
         remodelledItem.setTags(tags);
         if (model.hasItem(REPLENISH, remodelledItem)) {
             try {
+                stateManager.saveState(new ModifiedState(model));
                 model.deleteItem(XPIRE, targetItem);
             } catch (ItemNotFoundException e) {
                 throw new CommandException(MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);

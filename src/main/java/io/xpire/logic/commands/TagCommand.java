@@ -111,7 +111,7 @@ public class TagCommand extends Command {
      * @return feedback message of the operation result for display
      */
     private CommandResult executeShowTags(Model model) {
-        Set<Tag> allTags = model.getItemList(this.listType)
+        Set<Tag> allTags = model.getCurrentList()
                                 .stream()
                                 .flatMap(item -> item.getTags().stream())
                                 .collect(Collectors.toSet());

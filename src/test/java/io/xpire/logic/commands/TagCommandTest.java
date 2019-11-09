@@ -295,6 +295,8 @@ public class TagCommandTest {
         TagCommand tagCommand = new TagCommand(REPLENISH);
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.SHOW);
         ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
+        expectedModel.setCurrentList(REPLENISH);
+        model.setCurrentList(REPLENISH);
         List<String> tagList = new ArrayList<>();
         tagList.add((new Tag(VALID_TAG_CADBURY)).toString());
         tagList.add((new Tag(VALID_TAG_SWEET)).toString());
