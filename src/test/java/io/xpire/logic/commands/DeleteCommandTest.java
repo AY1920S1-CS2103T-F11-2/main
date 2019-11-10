@@ -380,6 +380,7 @@ public class DeleteCommandTest {
         //---------------- Tests for Xpire List ----------------------------------------------------------------
         DeleteCommand deleteXpireFirstCommand = new DeleteCommand(XPIRE, INDEX_FIRST_ITEM);
         DeleteCommand deleteXpireSecondCommand = new DeleteCommand(XPIRE, INDEX_SECOND_ITEM);
+        DeleteCommand deleteXpireFirstQuantityCommand = new DeleteCommand(XPIRE, INDEX_FIRST_ITEM, new Quantity("1"));
 
         // same object -> returns true
         assertTrue(deleteXpireFirstCommand.equals(deleteXpireFirstCommand));
@@ -396,6 +397,9 @@ public class DeleteCommandTest {
 
         // different xpireItem -> returns false
         assertFalse(deleteXpireFirstCommand.equals(deleteXpireSecondCommand));
+
+        // different delete modes -> returns false
+        assertFalse(deleteXpireFirstCommand.equals(deleteXpireFirstQuantityCommand));
 
         //---------------- Tests for Replenish List ----------------------------------------------------------------
         DeleteCommand deleteReplenishListFirstCommand = new DeleteCommand(REPLENISH, INDEX_FIRST_ITEM);

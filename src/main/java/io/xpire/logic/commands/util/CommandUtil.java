@@ -32,6 +32,7 @@ public class CommandUtil {
 
     /**
      * Updates item quantity of an existing item on the list.
+     *
      * @param model {@code Model} which the command should operate on.
      * @param existingItem item that exists on the list.
      * @return item with updated quantity.
@@ -107,7 +108,11 @@ public class CommandUtil {
     }
 
     /**
-     * Shifts Item to ReplenishList.
+     * Shifts an {@code XpireItem} to the Replenish List.
+     *
+     * @param model {@code Model} which the command should operate on.
+     * @param itemToShift to be shifted to the{@code ReplenishList}.
+     * @throws CommandException when a similar item already exists on the Replenish List.
      */
     public static void shiftItemToReplenishList(Model model, XpireItem itemToShift) throws CommandException {
         Item remodelledItem = itemToShift.remodel();

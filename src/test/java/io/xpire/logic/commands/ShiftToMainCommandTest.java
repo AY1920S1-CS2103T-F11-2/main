@@ -13,11 +13,14 @@ import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_SECOND_ITEM;
 import static io.xpire.testutil.TypicalItems.IN_TWO_WEEKS;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
+import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_APPLE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRUIT;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -153,7 +156,30 @@ public class ShiftToMainCommandTest {
 
     @Test
     public void equals() {
-
+        ShiftToMainCommand shiftPapayaCommand = new ShiftToMainCommand(INDEX_FIFTH_ITEM,
+                new ExpiryDate(VALID_EXPIRY_DATE_PAPAYA), new Quantity(VALID_QUANTITY_PAPAYA));
+        // same object -> returns true
+        assertTrue(shiftPapayaCommand.equals(shiftPapayaCommand));
+        // same values -> returns true
+        ShiftToMainCommand shiftPapayaCommandCopy = new ShiftToMainCommand(INDEX_FIFTH_ITEM,
+                new ExpiryDate(VALID_EXPIRY_DATE_PAPAYA), new Quantity(VALID_QUANTITY_PAPAYA));
+        assertTrue(shiftPapayaCommand.equals(shiftPapayaCommandCopy));
+        // different types -> returns false
+        assertFalse(shiftPapayaCommand.equals(1));
+        // null -> returns false
+        assertFalse(shiftPapayaCommand == null);
+        // different index -> returns false
+        ShiftToMainCommand editedShiftPapayaCommand = new ShiftToMainCommand(INDEX_FIRST_ITEM,
+                new ExpiryDate(VALID_EXPIRY_DATE_PAPAYA), new Quantity(VALID_QUANTITY_PAPAYA));
+        assertFalse(shiftPapayaCommand.equals(editedShiftPapayaCommand));
+        // different expiry date -> returns false
+        editedShiftPapayaCommand = new ShiftToMainCommand(INDEX_FIFTH_ITEM,
+                new ExpiryDate(VALID_EXPIRY_DATE_BANANA), new Quantity(VALID_QUANTITY_PAPAYA));
+        assertFalse(shiftPapayaCommand.equals(editedShiftPapayaCommand));
+        // different quantity -> returns false
+        editedShiftPapayaCommand = new ShiftToMainCommand(INDEX_FIFTH_ITEM,
+                new ExpiryDate(VALID_EXPIRY_DATE_PAPAYA), new Quantity(VALID_QUANTITY_BANANA));
+        assertFalse(shiftPapayaCommand.equals(editedShiftPapayaCommand));
     }
 
 }

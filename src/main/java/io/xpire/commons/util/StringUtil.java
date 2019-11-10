@@ -63,6 +63,7 @@ public class StringUtil {
         return t.getMessage() + "\n" + sw.toString();
     }
 
+    //@author liawsy
     /**
      * Returns true if {@code s} is an unsigned number with no leading 0s.
      *
@@ -80,7 +81,7 @@ public class StringUtil {
     public static boolean isNumeric(String s) {
         return s.matches(NUMERIC_VALIDATION_REGEX);
     }
-
+    //@author
 
     /**
      * Returns true if {@code s} represents a non-zero unsigned integer.

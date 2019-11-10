@@ -21,7 +21,7 @@ import io.xpire.model.state.StateManager;
 
 //@@author liawsy
 /**
- * Shifts an {@Item} back to the main list.
+ * Shifts an {@Item} from the replenish list back to the main list.
  */
 public class ShiftToMainCommand extends Command {
     public static final String COMMAND_WORD = "shift";

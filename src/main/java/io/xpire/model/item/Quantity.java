@@ -7,9 +7,7 @@ import io.xpire.commons.util.StringUtil;
 
 /**
  * Represents the quantity of an xpireItem.
- * Users are only allowed to key in positive integers.
- * Internally, there can be quantity of value 0.
- * Guarantees: immutable and valid.
+ * Only positive integers are accepted as the input quantity.
  */
 public class Quantity {
 
@@ -57,10 +55,22 @@ public class Quantity {
         return quantity.quantity == 0;
     }
 
+    /**
+     * Checks if an item's quantity is less than the input quantity for validity.
+     *
+     * @param deductAmount Quantity to be deducted from item.
+     * @return true if this quantity is less than the input quantity for deduction.
+     */
     public boolean isLessThan(Quantity deductAmount) {
         return this.quantity < deductAmount.quantity;
     }
 
+    /**
+     * Checks if the sum of this quantity and the input quantity exceeds the maximum limit.
+     *
+     * @param quantity input quantity to be added to this quantity.
+     * @return true if their sum exceeds the maximum allowed quantity.
+     */
     public boolean sumExceedsMaximumLimit(Quantity quantity) {
         return this.quantity + quantity.quantity > MAX_VALUE;
     }

@@ -20,7 +20,7 @@ public class SetReminderCommandParser implements Parser<SetReminderCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the SetReminderCommand
      * and returns a SetCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform the expected format.
      */
     @Override
     public SetReminderCommand parse(String args) throws ParseException {

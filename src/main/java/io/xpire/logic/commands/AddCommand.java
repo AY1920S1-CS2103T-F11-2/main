@@ -36,7 +36,7 @@ public class AddCommand extends Command {
     private final ExpiryDate expiryDate;
 
     /**
-     * Creates an AddCommand to add the specified {@code XpireItem}
+     * Creates an AddCommand to add the specified {@code XpireItem}.
      */
     public AddCommand(Name name, ExpiryDate expiryDate, Quantity quantity) {
         this.name = name;
