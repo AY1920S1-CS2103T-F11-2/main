@@ -145,11 +145,59 @@ public class DeleteCommand extends Command {
     private CommandResult executeDeleteTags(Model model, Item targetItem) throws CommandException {
         Item newTaggedItem;
         assert this.tagSet != null;
-        newTaggedItem = removeTagsFromItem(targetItem, this.tagSet);
+        if (targetItem instanceof XpireItem) {
+            newTaggedItem = removeTagsFromXpireItem(new XpireItem((XpireItem) targetItem), this.tagSet);
+        } else {
+            newTaggedItem = removeTagsFromReplenishItem(new Item(targetItem), this.tagSet);
+        }
         model.setItem(listType, targetItem, newTaggedItem);
         this.result = String.format(MESSAGE_DELETE_TAGS_SUCCESS, newTaggedItem);
         setShowInHistory(true);
         return new CommandResult(this.result);
+    }
+
+    /**
+     * Removes Tag(s) from target xpireItem.
+     *
+     * @param targetXpireItem The specified xpireItem that tags are to be removed.
+     * @param tagSet Set of tags to remove.
+     * @return Original xpireItem with removed tags.
+     */
+    private XpireItem removeTagsFromXpireItem(XpireItem targetXpireItem, Set<Tag> tagSet) throws CommandException {
+        Set<Tag> originalTags = targetXpireItem.getTags();
+        Set<Tag> newTags = new TreeSet<>(new TagComparator());
+        if (!originalTags.containsAll(tagSet)) {
+            throw new CommandException(Messages.MESSAGE_INVALID_TAGS);
+        }
+        for (Tag tag: originalTags) {
+            if (!tagSet.contains(tag)) {
+                newTags.add(tag);
+            }
+        }
+        targetXpireItem.setTags(newTags);
+        return targetXpireItem;
+    }
+
+    /**
+     * Removes Tag(s) from target replenishItem.
+     *
+     * @param targetReplenishItem The specified replenishItem that tags are to be removed.
+     * @param tagSet Set of tags to remove.
+     * @return Original xpireItem with removed tags.
+     */
+    private Item removeTagsFromReplenishItem(Item targetReplenishItem, Set<Tag> tagSet) throws CommandException {
+        Set<Tag> originalTags = targetReplenishItem.getTags();
+        Set<Tag> newTags = new TreeSet<>(new TagComparator());
+        if (!originalTags.containsAll(tagSet)) {
+            throw new CommandException(Messages.MESSAGE_INVALID_TAGS);
+        }
+        for (Tag tag: originalTags) {
+            if (!tagSet.contains(tag)) {
+                newTags.add(tag);
+            }
+        }
+        targetReplenishItem.setTags(newTags);
+        return targetReplenishItem;
     }
 
     /**

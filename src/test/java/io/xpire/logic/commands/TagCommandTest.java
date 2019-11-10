@@ -178,7 +178,6 @@ public class TagCommandTest {
         assertEquals(tagCommand.getMode(), TagCommand.TagMode.SHOW);
         ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         List<String> tagList = new ArrayList<>();
-        tagList.add((new Tag(VALID_TAG_FRUIT)).toString());
         tagList.add((new Tag(VALID_TAG_PROTEIN)).toString());
         tagList.add((new Tag(VALID_TAG_FRIDGE)).toString());
         String expectedMessage = TagCommand.appendTagsToFeedback(tagList,

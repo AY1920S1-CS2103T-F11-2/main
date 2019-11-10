@@ -33,7 +33,6 @@ public class CommandTestUtil {
         stateManager = new StackManager();
     }
 
-
     /**
      * Executes the given {@code command}, confirms that <br>
      * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
@@ -71,7 +70,7 @@ public class CommandTestUtil {
      * that takes a string {@code expectedMessage}.
      */
     public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage,
-            Model expectedModel) {
+                                            Model expectedModel) {
         initialise();
         CommandResult expectedCommandResult = new CommandResult(expectedMessage);
         assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
@@ -90,6 +89,7 @@ public class CommandTestUtil {
         Xpire expectedXpire = new Xpire(actualModel.getLists()[0]);
         @SuppressWarnings ("unchecked")
         List<XpireItem> expectedFilteredList = new ArrayList<>((Collection<XpireItem>) actualModel.getCurrentList());
+
         Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel, stateManager));
         assertEquals(expectedXpire, actualModel.getLists()[0]);
         assertEquals(expectedFilteredList, actualModel.getCurrentList());
@@ -109,7 +109,6 @@ public class CommandTestUtil {
 
         assertEquals(1, model.getCurrentList().size());
     }
-
 
     /**
      * Updates {@code model}'s filtered list to show only the replenishItem at the given {@code targetIndex} in the

@@ -19,7 +19,7 @@ import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_EGG;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_PAPAYA;
-import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRUIT;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRIDGE;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -75,7 +75,7 @@ public class ShiftToMainCommandTest {
         XpireItem expectedUpdatedItem = new XpireItemBuilder().withName(VALID_NAME_PAPAYA)
                                             .withExpiryDate(VALID_EXPIRY_DATE_PAPAYA)
                                             .withQuantity("2")
-                                            .withTags(VALID_TAG_FRUIT).build();
+                                            .withTags(VALID_TAG_FRIDGE).build();
         XpireItem itemToUpdate = (XpireItem) expectedModel.getItemList(XPIRE).get(INDEX_TENTH_ITEM.getZeroBased());
         expectedModel.setItem(XPIRE, itemToUpdate, expectedUpdatedItem);
         expectedModel.deleteItem(REPLENISH, itemToShift);
@@ -124,7 +124,7 @@ public class ShiftToMainCommandTest {
         XpireItem expectedUpdatedItem = new XpireItemBuilder().withName(VALID_NAME_PAPAYA)
                 .withExpiryDate(VALID_EXPIRY_DATE_PAPAYA)
                 .withQuantity("2")
-                .withTags(VALID_TAG_FRUIT).build();
+                .withTags(VALID_TAG_FRIDGE).build();
         XpireItem itemToUpdate = (XpireItem) expectedModel.getItemList(XPIRE).get(INDEX_TENTH_ITEM.getZeroBased());
         expectedModel.setItem(XPIRE, itemToUpdate, expectedUpdatedItem);
         expectedModel.deleteItem(REPLENISH, itemToShift);

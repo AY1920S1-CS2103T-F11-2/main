@@ -40,7 +40,6 @@ import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_PAPA
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_CADBURY;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_COCOA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRIDGE;
-import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRUIT;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_HERB;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_PROTEIN;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_SWEET;
@@ -136,7 +135,7 @@ public class TypicalItems {
     public static final XpireItem PAPAYA_XPIRE = new XpireItemBuilder().withName(VALID_NAME_PAPAYA)
                                                         .withExpiryDate(VALID_EXPIRY_DATE_PAPAYA)
                                                         .withQuantity(VALID_QUANTITY_PAPAYA)
-                                                        .withTags(VALID_TAG_FRUIT)
+                                                        .withTags(VALID_TAG_FRIDGE)
                                                         .withReminderThreshold(VALID_REMINDER_THRESHOLD_PAPAYA)
                                                         .build();
 
