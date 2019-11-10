@@ -139,7 +139,7 @@ public class DeleteCommand extends Command {
 
     /**
      * Executes the command and returns the result message.
-     *
+     * @@@author Kalsyc
      * @param model model {@code Model} which the command should operate on.
      * @param targetItem target item to delete tags from.
      * @return feedback message of the operation result for display.
