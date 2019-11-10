@@ -271,340 +271,70 @@ Reduces the quantity of the 4th item by 1.</p>
 </tr>
 </tbody>
 </table>
-<div class="sect2">
-<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">Undo/Redo feature</a></h3>
 <div class="sect3">
-<h4 id="implementation"><a class="link" href="#implementation">Implementation</a></h4>
-<div class="paragraph">
-<p>The undo/redo mechanism is facilitated by <code>CloneModel</code> and <code>StackManager</code>.
-It is a separate class that stores a state of the model at any command in time. Internally, it runs three private functions that copy the data over.</p>
-</div>
-<div class="paragraph">
-<p>The mechanism is supported by a StackManager which stores internally all the states and<br>
-decides when to pop or clear, depending on the command.
-There are two stacks that are stored in StackManager internally, the Undo and the Redo stack.
-These stacks are initialised and cleared upon beginning/ending every session.</p>
-</div>
-<div class="paragraph">
-<p>At every command (Other than undo/redo/help/exit), the state is stored internally.<br>
-When an undo command is executed, it will pop the previous state and update the model via <code>updateModel</code>.<br>
-The state that was undid will then be pushed into the Redo stack, should the user types in a redo command.</p>
-</div>
-<div class="paragraph">
-<p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>Step 1. The user launches the application for the first time. The two internal stacks in <code>StackManager</code> will be initialised.</p>
-</div>
-<div class="paragraph">
-<p>Both stacks should be empty as there are no previous commands by the user. The current state is s0, the initial state of Xpire.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep1.png" alt="UndoRedoStep1">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 2. The user executes <code>delete|5</code> command to delete the 5th item in Xpire. The <code>delete</code> will then save the previous state, s0 by pushing it into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current state will be the new state <code>s1</code> that has the 5th item in Xpire deleted.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep2.png" alt="UndoRedoStep2">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 3. The user executes <code>add|Apple|30/10/2019|3</code> to add a new item. Similar to Step 2, The <code>add</code> command will then save the previous state, s1 by pushing it into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current state will be the new state <code>s2</code> with the item Apple added.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep3.png" alt="UndoRedoStep3">
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If a command fails its execution, it will not save the previous state, thus the Xpire state will not be pushed into the UndoStack.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Step 4. The user now decides that adding the item was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will then update the current model with the model in the previous state.</p>
-</div>
-<div class="paragraph">
-<p>Internally within StackManager, the most recent state, s1, will be popped from the Undo Stack to become the current state. At the same time, s2, the new state with the added item, will be pushed into the Redo Stack.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep4.png" alt="UndoRedoStep4">
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If there are no commands to undo (e.g. at the start of a new Xpire session), undo will return an Error to the user instead. This is done by checking whether the UndoStack is empty.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram shows how the undo operation works:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoSequenceDiagram.png" alt="UndoSequenceDiagram">
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The lifeline for <code>UndoCommand</code> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;It will pop the latest state from the Redo Stack and set it as the current state whilst pushing the current state into the Undo Stack.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Similarly, if there are no commands to redo, redo will return an Error to the user. This is done by checking if the Redo Stack is empty.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>From Step 4, there are 3 scenarios which showcases the behaviour of StackManager after an Undo Command has been executed.</p>
-</div>
-<div class="paragraph">
-<p>Step 5a. The user suddenly decides that he should not have undid the previous AddCommand, thus he wants to redo the action. This is done by inputting 'redo' in Xpire.</p>
-</div>
-<div class="paragraph">
-<p>Internally within Stack Manager, the current state will be the popped state, s2, from the Redo Stack. The current state, s1, will then be psuehd back into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current states and their locations should be the same as after the execution of the Add command in Step 3.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep5a.png" alt="UndoRedoStep5a">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 5b. The user decides to further undo his actions, which now includes the first Delete command. The initial state, s0, will then be popped from the Undo Stack and set as the current state.</p>
-</div>
-<div class="paragraph">
-<p>The current state, s1, will then be pushed into the Redo Stack.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep5b.png" alt="UndoRedoStep5b">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 5c. The user may also decide to execute some other command (which is the most likely scenario) other than Undo/Redo. For instance, the user inputs <code>tag|2|#Fruit</code>.</p>
-</div>
-<div class="paragraph">
-<p>When this happens, the existing states in the Redo Stack will be cleared. The state s1, will then be pushed into the Undo Stack whilst the current state will be the new state s3 that includes the new Tag command.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep5c.png" alt="UndoRedoStep5c">
-</div>
-</div>
-<div class="paragraph">
-<p>[PROPOSED] A CommandHistory will also be integrated into the application so that it delivers feedback on what commands it has undo/redo.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Not all commands will save states to StackManager. Exit and Help commands will not save states. Undo and Redo commands should only act on commands that update the items or change the view of the items to the user.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The following activity diagram summarises what happens when a user executes a new command:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram">
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<h4 id="items-in-the-replenish-list"><a class="link" href="#items-in-the-replenish-list">Items in the replenish list</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong> Saves the entire model.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy to implement.</p>
-</li>
-<li>
-<p>Cons: May have performance issues in terms of memory usage.</p>
-</li>
-</ul>
+<h5 id="implementation"><a class="link" href="#implementation">Implementation</a></h5>
+<div class="paragraph">
+<p>Items are added to the replenish list by the user using the <code>ShiftCommand</code>.
+When an item expires, the item is automatically tagged as <code>#Expired</code>.</p>
 </div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> Individual command knows how to undo/redo by itself.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Will use less memory (e.g. for <code>delete</code>, just save the item being deleted).</p>
-</li>
-<li>
-<p>Cons: We must ensure that the implementation of each individual command are correct.<br>
-Hard to do when we are applying stackable search/sort commands.</p>
-</li>
-</ul>
+<div class="imageblock">
+<div class="content">
+<img src="../images/expired_tags.png" alt="expired tags">
 </div>
-</li>
-</ul>
+<div class="title">Figure 2. All expired items are automatically tagged with the <code>Expired</code> tag (circled in figure).</div>
+</div>
+<div class="paragraph">
+<p>By searching for the <code>Expired</code> tag using the <code>SearchCommand</code>, the user is able to retrieve a list of expired items.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ItemManagerSequenceDiagram.png" alt="ItemManagerSequenceDiagram">
+</div>
+<div class="title">Figure 3. Sequence Diagram for ItemManager Class</div>
+</div>
+<div class="paragraph">
+<p>On the other hand, when an item has run out, an item is automatically added to the replenish list.
+This occurs when the user uses the <code>DeleteCommand</code> to
+The following sequence diagram summarises how this operation works:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/AutoShiftSequenceDiagram.png" alt="AutoShiftSequenceDiagram">
+</div>
+<div class="title">Figure 4. Sequence Diagram when item quantity is reduced to 0 via the Delete Command</div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">Aspect: Data structure to support the undo/redo commands</a></h5>
+<h5 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h5>
+<div class="sect5">
+<h6 id="aspect-how-expired-items-are-being-handled"><a class="link" href="#aspect-how-expired-items-are-being-handled">Aspect: How expired items are being handled</a></h6>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Use a list to store the history of model states.</p>
+<p><strong>Alternative 1 (current choice): Once an item expires,
+the item is automatically tagged as <code>#Expired</code>.</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.</p>
+<p>Pros: Makes good use of existing <code>SearchCommand</code>, where user can search for the <code>#Expired</code> tag to view list of expired items.</p>
 </li>
 <li>
-<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update the filtered list shown to the user and the backend Xpire data.</p>
+<p>Cons: User has to manually type in a short command to add an item to the replenish list.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo</p>
+<p><strong>Alternative 2: Once an item expires, item is automatically transferred to the replenish list.</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.</p>
+<p>Pros: User need not manually key in item details to transfer it to the replenish list.</p>
 </li>
 <li>
-<p>Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as <code>HistoryManager</code> now needs to do two different things.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">[Proposed] Data Encryption</a></h3>
-<div class="paragraph">
-<p><em>{Explain here how the data encryption feature will be implemented}</em></p>
-</div>
-<div class="paragraph">
-<p>Given below is an example usage scenario and how the mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram shows how the operation works:</p>
-</div>
-<div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
-</div>
-<div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">Aspect: How set reminder executes</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros:</p>
-</li>
-<li>
-<p>Cons:</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros:</p>
-</li>
-<li>
-<p>Cons:</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="aspect"><a class="link" href="#aspect">Aspect:</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros:</p>
-</li>
-<li>
-<p>Cons:</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros:</p>
-</li>
-<li>
-<p>Cons:</p>
+<p>Cons: User does not have the flexibility to pick which items to transfer to the replenish list.</p>
 </li>
 </ul>
 </div>
@@ -624,4 +354,4 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 09:00:55 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 09:06:27 UTC</div></div></div></body></html>

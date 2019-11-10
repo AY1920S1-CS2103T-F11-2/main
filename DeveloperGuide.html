@@ -22,14 +22,96 @@
 </li>
 <li><a href="#implementation">3. Implementation</a>
 <ul class="sectlevel2">
-<li><a href="#replenish-list">3.1. Replenish List</a></li>
-<li><a href="#auto-sorting-of-items-by-name-then-date">3.2. Auto-sorting of items by name then date</a></li>
+<li><a href="#replenish-list">3.1. Replenish List</a>
+<ul class="sectlevel3">
+<li><a href="#items-in-the-replenish-list">3.1.1. Items in the replenish list</a>
+<ul class="sectlevel4">
+<li><a href="#implementation-2">3.1.1.1. Implementation</a></li>
+<li><a href="#design-considerations">3.1.1.2. Design Considerations</a>
+<ul class="sectlevel5">
+<li><a href="#aspect-how-expired-items-are-being-handled">3.1.1.2.1. Aspect: How expired items are being handled</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#commands-in-the-replenish-list">3.1.2. Commands in the replenish list</a>
+<ul class="sectlevel4">
+<li><a href="#implementation-3">3.1.2.1. Implementation</a></li>
+<li><a href="#design-considerations-2">3.1.2.2. Design Considerations</a>
+<ul class="sectlevel5">
+<li><a href="#aspect-how-commands-are-executed-in-the-list">3.1.2.2.1. Aspect: How commands are executed in the list</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#auto-sorting-of-items-by-name-then-date">3.2. Auto-sorting of items by name then date</a>
+<ul class="sectlevel3">
+<li><a href="#implementation-4">3.2.1. Implementation</a></li>
+<li><a href="#design-considerations-3">3.2.2. Design Considerations</a>
+<ul class="sectlevel4">
+<li><a href="#aspect-when-items-auto-sorted-by-their-names-are-displayed">3.2.2.1. Aspect: When items auto-sorted by their names are displayed</a></li>
+<li><a href="#aspect-data-structure-to-store-the-auto-sorted-items">3.2.2.2. Aspect: Data structure to store the auto-sorted items</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#set-reminders-for-expiring-items">3.3. Set Reminders for expiring items</a></li>
-<li><a href="#reminders-for-expiring-items">3.4. Reminders for expiring items</a></li>
-<li><a href="#undo-redo-feature">3.5. Undo/Redo feature</a></li>
-<li><a href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></li>
-<li><a href="#search">3.7. Search</a></li>
-<li><a href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a></li>
+<li><a href="#reminders-for-expiring-items">3.4. Reminders for expiring items</a>
+<ul class="sectlevel3">
+<li><a href="#implementation-5">3.4.1. Implementation</a>
+<ul class="sectlevel4">
+<li><a href="#set-reminder">3.4.1.1. Set reminder</a></li>
+<li><a href="#check">3.4.1.2. Check</a></li>
+<li><a href="#check-with-days">3.4.1.3. Check with days</a></li>
+</ul>
+</li>
+<li><a href="#design-considerations-4">3.4.2. Design Considerations</a>
+<ul class="sectlevel4">
+<li><a href="#aspect-how-set-reminder-executes">3.4.2.1. Aspect: How set reminder executes</a></li>
+<li><a href="#aspect-active-notification">3.4.2.2. Aspect: Active notification</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#undo-redo-feature">3.5. Undo/Redo feature</a>
+<ul class="sectlevel3">
+<li><a href="#implementation-6">3.5.1. Implementation</a></li>
+<li><a href="#design-considerations-5">3.5.2. Design Considerations</a>
+<ul class="sectlevel4">
+<li><a href="#aspect-how-undo-redo-executes">3.5.2.1. Aspect: How undo &amp; redo executes</a></li>
+<li><a href="#aspect-data-structure-to-support-the-undo-redo-commands">3.5.2.2. Aspect: Data structure to support the undo/redo commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a>
+<ul class="sectlevel3">
+<li><a href="#design-considerations-6">3.6.1. Design Considerations</a>
+<ul class="sectlevel4">
+<li><a href="#aspect-how-set-reminder-executes-2">3.6.1.1. Aspect: How set reminder executes</a></li>
+<li><a href="#aspect">3.6.1.2. Aspect:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#search">3.7. Search</a>
+<ul class="sectlevel3">
+<li><a href="#implementation-7">3.7.1. Implementation</a></li>
+</ul>
+</li>
+<li><a href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a>
+<ul class="sectlevel3">
+<li><a href="#implementation-8">3.8.1. Implementation</a></li>
+<li><a href="#design-considerations-7">3.8.2. Design Considerations</a>
+<ul class="sectlevel4">
+<li><a href="#aspect-how-recommendations-execute">3.8.2.1. Aspect: How recommendations execute</a></li>
+<li><a href="#aspect-data-structure-to-store-the-recommendations">3.8.2.2. Aspect: Data structure to store the recommendations</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#logging">3.9. Logging</a></li>
 <li><a href="#Implementation-Configuration">3.10. Configuration</a></li>
 </ul>
@@ -308,7 +390,9 @@ The following class plays an important role at the architecture level:</p>
 <div class="sect2">
 <h3 id="replenish-list"><a class="link" href="#replenish-list">3.1. Replenish List</a></h3>
 <div class="sect3">
-<h4 id="implementation-2"><a class="link" href="#implementation-2">3.1.1. Implementation</a></h4>
+<h4 id="items-in-the-replenish-list"><a class="link" href="#items-in-the-replenish-list">3.1.1. Items in the replenish list</a></h4>
+<div class="sect4">
+<h5 id="implementation-2"><a class="link" href="#implementation-2">3.1.1.1. Implementation</a></h5>
 <div class="paragraph">
 <p>Items are added to the replenish list by the user using the <code>ShiftCommand</code>.
 When an item expires, the item is automatically tagged as <code>#Expired</code>.</p>
@@ -340,10 +424,10 @@ The following sequence diagram summarises how this operation works:</p>
 <div class="title">Figure 11. Sequence Diagram when item quantity is reduced to 0 via the Delete Command</div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">3.1.2. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-expired-items-are-being-handled"><a class="link" href="#aspect-how-expired-items-are-being-handled">Aspect: How expired items are being handled</a></h5>
+<h5 id="design-considerations"><a class="link" href="#design-considerations">3.1.1.2. Design Considerations</a></h5>
+<div class="sect5">
+<h6 id="aspect-how-expired-items-are-being-handled"><a class="link" href="#aspect-how-expired-items-are-being-handled">3.1.1.2.1. Aspect: How expired items are being handled</a></h6>
 <div class="ulist">
 <ul>
 <li>
@@ -376,8 +460,54 @@ the item is automatically tagged as <code>#Expired</code>.</strong></p>
 </ul>
 </div>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="commands-in-the-replenish-list"><a class="link" href="#commands-in-the-replenish-list">3.1.2. Commands in the replenish list</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-commands-are-executed-in-the-list"><a class="link" href="#aspect-how-commands-are-executed-in-the-list">Aspect: How commands are executed in the list</a></h5>
+<h5 id="implementation-3"><a class="link" href="#implementation-3">3.1.2.1. Implementation</a></h5>
+<div class="paragraph">
+<p>As shown in the snippet of the <code>Logic</code> class diagram below, both <code>XpireParser</code> and <code>ReplenishParser</code> implement the interface <code>Parser</code>.
+<code>ReplenishParser</code> parses and handles the commands in the replenish list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ParserClassDiagram.png" alt="ParserClassDiagram">
+</div>
+<div class="title">Figure 12. Snippet of Logic class diagram to highlight the relationship between the parsers</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Certain commands such as sorting by date, or deleting
+of item quantities are not permitted, as items in the replenish list do not have expiry dates or quantities.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The activity diagram below follows the general path of a command executed in either the main tracking list <code>Xpire</code>, or the
+replenish list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ParseCommandActivityDiagram.png" alt="ParseCommandActivityDiagram">
+</div>
+<div class="title">Figure 13. Activity Diagram for general parsing of commands</div>
+</div>
+<div class="paragraph">
+<p>In the event that <code>ReplenishParser</code> is selected, it will prevent any invalid or prohibited commands and also check for spelling mistakes in the user input.
+This will be further explained in a <a href="#spelling-correction-with-alternative-recommendations">later section</a>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.1.2.2. Design Considerations</a></h5>
+<div class="sect5">
+<h6 id="aspect-how-commands-are-executed-in-the-list"><a class="link" href="#aspect-how-commands-are-executed-in-the-list">3.1.2.2.1. Aspect: How commands are executed in the list</a></h6>
 <div class="ulist">
 <ul>
 <li>
@@ -411,128 +541,35 @@ the item is automatically tagged as <code>#Expired</code>.</strong></p>
 </div>
 </div>
 </div>
+</div>
 <div class="sect2">
 <h3 id="auto-sorting-of-items-by-name-then-date"><a class="link" href="#auto-sorting-of-items-by-name-then-date">3.2. Auto-sorting of items by name then date</a></h3>
 <div class="sect3">
-<h4 id="implementation-3"><a class="link" href="#implementation-3">3.2.1. Implementation</a></h4>
+<h4 id="implementation-4"><a class="link" href="#implementation-4">3.2.1. Implementation</a></h4>
 <div class="paragraph">
-<p>The auto-sorting mechanism is facilitated by <code>SortedUniqueItemList</code> which replaces <code>UniqueItemList</code>.</p>
-</div>
-<div class="paragraph">
-<p><code>SortedUniqueItemList</code> supports the following new function(s):</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>SortedUniqueItemList#setMethodOfSorting()</code>&#8201;&#8212;&#8201;Specifies the MethodOfSorting and comparator to be used for the list.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In <code>SortedUniqueItemList</code>, items are stored in a <code>SortedList&lt;Item&gt;</code> and sorted based on the comparator specified.</p>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram shows how items added are auto-sorted:</p>
+<p>Items in both lists are automatically sorted by their name then date in chronological order.
+This auto-sorting mechanism is facilitated by <code>SortedUniqueXpireItemList</code> and <code>SortedUniqueReplenishItemList</code>
+that both implement <code>SortedUniqueItemList</code>, in a relationship summarised in the diagram below.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/AutoSortAddSequenceDiagram.png" alt="AutoSortAddSequenceDiagram">
+<img src="images/SortedUniqueItemListClassDiagram.png" alt="SortedUniqueItemListClassDiagram">
 </div>
-<div class="title">Figure 12. Sequence Diagram modelling how items added are auto-sorted</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Parsers are omitted from the diagram above to place greater emphasis on the sorting mechanism.
-</td>
-</tr>
-</table>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/AutoSortAddPartSequenceDiagram.png" alt="AutoSortAddPartSequenceDiagram">
-</div>
-<div class="title">Figure 13. Sequence Diagram: set method of sorting as default</div>
+<div class="title">Figure 14. Snippet of Model class diagram to bring attention to the relationship between internal sorted lists</div>
 </div>
 <div class="paragraph">
-<p><code>this.methodOfSorting = new MethodOfSorting("name");</code></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Everytime an item is added to the list, the method of sorting is reset to the default, which sorts
-the items by name then date.
-</td>
-</tr>
-</table>
+<p>In both <code>SortedUniqueXpireItemList</code> and <code>SortedUniqueReplenishItemList</code>, items are stored in a <code>SortedList&lt;Item&gt;</code> and
+subsequently sorted based on the comparator defined. <code>SortedUniqueXpireItemList</code> supports a new function, <code>SortedUniqueItemList#setMethodOfSorting()</code>, that specifies the
+<code>MethodOfSorting</code> and comparator to be used for the list.</p>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the sort command changes the default order of how items are displayed:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/SortSequenceDiagram.png" alt="SortSequenceDiagram">
-</div>
-<div class="title">Figure 14. Sequence Diagram showing how sort command changes order of items</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-When sort is called, the method of sorting is redefined by the user.
-</td>
-</tr>
-</table>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/SortPartSequenceDiagram.png" alt="SortPartSequenceDiagram">
-</div>
-<div class="title">Figure 15. Sequence Diagram : set method of sorting to date</div>
-</div>
-<div class="paragraph">
-<p>In the above example, the user has specified to sort items by their expiry date, thus a dateComparator is returned.</p>
-</div>
-<div class="paragraph">
-<p><code>sortedInternalList = new SortedList&lt;&gt;(internalList, methodOfSorting.getComparator());</code></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The SortedList changes accordingly based on the method of sorting specified.
-</td>
-</tr>
-</table>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/SortActivityDiagram.png" alt="SortActivityDiagram">
-</div>
-<div class="title">Figure 16. Activity Diagram showing the control flow of a sort command executed by the user</div>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram shows how the view operation works to display items that are auto-sorted or sorted manually by name or date:</p>
+<p>The following sequence diagrams break down the intricacies in the view operation that works to display the sorted items in each list:</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/AutoSortViewSequenceDiagram.png" alt="AutoSortViewSequenceDiagram">
 </div>
-<div class="title">Figure 17. Sequence Diagram showing how the view operation displays items in order</div>
+<div class="title">Figure 15. Sequence Diagram illustrating how the view operation displays items in order</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -541,16 +578,36 @@ The SortedList changes accordingly based on the method of sorting specified.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Parsers are omitted from the diagram above to place greater emphasis on the sorting mechanism.
+Parsers are omitted from the diagram above to place greater emphasis on the parser selection process and sorting mechanism.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>The figure above shows a <code>view|replenish</code> command executed to change the current view from that of the main tracking list <code>Xpire</code>
+to the replenish list, while the figure below initialises this process.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ViewSetParserSequenceDiagram.png" alt="ViewSetParserSequenceDiagram">
+</div>
+<div class="title">Figure 16. Sequence Diagram : setting the parser</div>
+</div>
+<div class="paragraph">
+<p><code>LogicManager</code> creates and allocates a parser to parse commands entered by the user each time. It does so by first identifying the current view
+displayed. In this example, the current view is found to be <code>XPIRE</code>, and thus <code>XpireParser</code> is selected. Following that,
+new objects <code>ViewCommandParser</code> and <code>ViewCommand</code> are created and returned to <code>LogicManager</code> to be used in the execution of the <code>view|replenish</code> command.
+The figure below pictures the process of retrieving the internal sorted list of items in <code>ReplenishList</code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/AutoSortViewPartSequenceDiagram.png" alt="AutoSortViewPartSequenceDiagram">
 </div>
-<div class="title">Figure 18. Sequence Diagram : retrieve internal sorted list</div>
+<div class="title">Figure 17. Sequence Diagram : retrieve internal sorted list</div>
+</div>
+<div class="paragraph">
+<p>As items in the replenish list lack expiry dates, the command to sort by date is rendered irrelevant and thereby disallowed entirely in the replenish list.
+Instead, items are automatically sorted by their names. Therefore, in the diagram above, a <code>nameComparator</code> is always returned by default.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -559,8 +616,7 @@ Parsers are omitted from the diagram above to place greater emphasis on the sort
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Everytime view is called, the current method of sorting specified is retrieved. If it has not been explicitly specified,
-the default method of sorting is then retrieved.
+The list returned is the sortedInternalList wrapped as an unmodifiable list.
 </td>
 </tr>
 </table>
@@ -575,49 +631,128 @@ the default method of sorting is then retrieved.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The list returned is the sortedInternalList wrapped as an unmodifiable list.
+Every time view is called, the current method of sorting specified is retrieved. If it has not been explicitly specified,
+the default method of sorting is then retrieved.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following sequence diagram demonstrates how the sort command changes the default order of items displayed:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SortSequenceDiagram.png" alt="SortSequenceDiagram">
+</div>
+<div class="title">Figure 18. Sequence Diagram showing how sort command changes the order of items</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When sort is called, the method of sorting is redefined by the user.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In this example, the user has chosen to re-sort the items by date. As indicated above, <code>ParserUtil</code> primarily verifies that the method of sorting is valid, i.e. either name or date. Next, <code>s</code>,
+the <code>SortCommand</code> object created executes the <code>sort|date</code> command. The figure below exhibits the specific process which sorts the items by their expiry dates.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SortPartSequenceDiagram.png" alt="SortPartSequenceDiagram">
+</div>
+<div class="title">Figure 19. Sequence Diagram : set method of sorting to date</div>
+</div>
+<div class="paragraph">
+<p>In the above example, the user has specified to sort items by their expiry date, thus a dateComparator is returned.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The SortedList changes accordingly based on the method of sorting specified.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>sortedInternalList = new SortedList&lt;&gt;(internalList, methodOfSorting.getComparator());</code></p>
+</div>
+<div class="paragraph">
+<p>The activity diagram below details the explicit steps in the execution of a sort command.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SortActivityDiagram.png" alt="SortActivityDiagram">
+</div>
+<div class="title">Figure 20. Activity Diagram showing the control flow of a sort command executed by the user</div>
+</div>
+<div class="paragraph">
+<p>If a <code>sort|date</code> command is executed, the comparator of the internal sorted list is set to be that of a <code>dateComparator</code>,
+and the list of items are updated accordingly.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The ability to check for spelling errors of command arguments is explained in a <a href="#spelling-correction-with-alternative-recommendations">later section</a>.
 </td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.2.2. Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-auto-sorting-executes"><a class="link" href="#aspect-how-auto-sorting-executes">Aspect: How auto-sorting executes</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong> Automatic sorting with the addition of every item.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Slightly more efficient algorithm for viewing items in O(1) time.</p>
-</li>
-<li>
-<p>Cons: Slightly less efficient algorithm for adding items.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> Sort only when items are viewed.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Slightly more efficient algorithm for adding items in O(1) time.</p>
-</li>
-<li>
-<p>Cons: Slightly less efficient algorithm for viewing items.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.2.2. Design Considerations</a></h4>
+<div class="paragraph">
+<p>In the process of actualising this feature, I contemplated on when items should be automatically sorted by name and displayed.
+I also tried and tested varied options to derive an optimal data structure to store the sorted items. The following is a brief summary of my analysis and decisions.</p>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-store-the-auto-sorted-items"><a class="link" href="#aspect-data-structure-to-store-the-auto-sorted-items">Aspect: Data structure to store the auto-sorted items</a></h5>
+<h5 id="aspect-when-items-auto-sorted-by-their-names-are-displayed"><a class="link" href="#aspect-when-items-auto-sorted-by-their-names-are-displayed">3.2.2.1. Aspect: When items auto-sorted by their names are displayed</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Display the sorted list of items when items are viewed.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Does not reset the method of sorting back to name by default with the addition of every item.</p>
+</li>
+<li>
+<p>Cons: The user might not be able to find items added solely by their names.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Display the sorted list of items with the addition of every item.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Allows the user to find any added item with ease as items are sorted by their name in chronological order.</p>
+</li>
+<li>
+<p>Cons: Resets the method of sorting back to name by default every time an item is added.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-data-structure-to-store-the-auto-sorted-items"><a class="link" href="#aspect-data-structure-to-store-the-auto-sorted-items">3.2.2.2. Aspect: Data structure to store the auto-sorted items</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -664,9 +799,9 @@ There is also an enhanced function which allows the user to find all items expir
  through the <code>check|&lt;days&gt;</code> command.</p>
 </div>
 <div class="sect3">
-<h4 id="implementation-4"><a class="link" href="#implementation-4">3.4.1. Implementation</a></h4>
+<h4 id="implementation-5"><a class="link" href="#implementation-5">3.4.1. Implementation</a></h4>
 <div class="sect4">
-<h5 id="set-reminder"><a class="link" href="#set-reminder">Set reminder</a></h5>
+<h5 id="set-reminder"><a class="link" href="#set-reminder">3.4.1.1. Set reminder</a></h5>
 <div class="paragraph">
 <p>The set reminder function is facilitated by <code>FilteredItemList</code>, in which the old item will
 be replaced by a new one with its <code>reminderThreshold</code> field updated. It is activated using the command <code>set reminder</code>.</p>
@@ -702,11 +837,11 @@ in the <code>Xpire</code> by <code>ModelManager</code>.</p>
 <div class="content">
 <img src="images/SetReminderUML.png" alt="SetReminderUML">
 </div>
-<div class="title">Figure 19. SetReminderSequenceDiagram</div>
+<div class="title">Figure 21. SetReminderSequenceDiagram</div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="check"><a class="link" href="#check">Check</a></h5>
+<h5 id="check"><a class="link" href="#check">3.4.1.2. Check</a></h5>
 <div class="paragraph">
 <p>The check function uses the <code>updateFilteredItemList</code> method provided by model to filter items whose reminder has been activated.
 The predicate used by the filtering method is named <code>ReminderThresholdExceededPredicate</code>.</p>
@@ -722,11 +857,11 @@ The predicate used by the filtering method is named <code>ReminderThresholdExcee
 <div class="content">
 <img src="images/CheckCommandNoArgUML.png" alt="CheckCommandNoArgUML">
 </div>
-<div class="title">Figure 20. CheckSequenceDiagram</div>
+<div class="title">Figure 22. CheckSequenceDiagram</div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="check-with-days"><a class="link" href="#check-with-days">Check with days</a></h5>
+<h5 id="check-with-days"><a class="link" href="#check-with-days">3.4.1.3. Check with days</a></h5>
 <div class="paragraph">
 <p>The enhanced check function also uses the <code>updateFilteredItemList</code> method provided by model to filter items. The condition
 for filtering is that the user input number of days is smaller than the number of days to an item&#8217;s expiry date. This is
@@ -739,14 +874,14 @@ done by predicate named <code>ExpiringSoonPredicate</code>.</p>
 <div class="content">
 <img src="images/CheckCommandArgUML.png" alt="CheckCommandArgUML">
 </div>
-<div class="title">Figure 21. CheckDaysSequenceDiagram</div>
+<div class="title">Figure 23. CheckDaysSequenceDiagram</div>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.4.2. Design Considerations</a></h4>
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.4.2. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">Aspect: How set reminder executes</a></h5>
+<h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">3.4.2.1. Aspect: How set reminder executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -779,7 +914,7 @@ done by predicate named <code>ExpiringSoonPredicate</code>.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-active-notification"><a class="link" href="#aspect-active-notification">Aspect: Active notification</a></h5>
+<h5 id="aspect-active-notification"><a class="link" href="#aspect-active-notification">3.4.2.2. Aspect: Active notification</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -817,7 +952,7 @@ change in the user&#8217;s operating system.</p>
 <div class="sect2">
 <h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">3.5. Undo/Redo feature</a></h3>
 <div class="sect3">
-<h4 id="implementation-5"><a class="link" href="#implementation-5">3.5.1. Implementation</a></h4>
+<h4 id="implementation-6"><a class="link" href="#implementation-6">3.5.1. Implementation</a></h4>
 <div class="paragraph">
 <p>The undo/redo mechanism is facilitated by <code>CloneModel</code> and <code>StackManager</code>.
 It is a separate class that stores a state of the model at any command in time. Internally, it runs three private functions that copy the data over.</p>
@@ -1003,9 +1138,9 @@ Not all commands will save states to StackManager. Exit and Help commands will n
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.5.2. Design Considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.2. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
+<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">3.5.2.1. Aspect: How undo &amp; redo executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1039,7 +1174,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">Aspect: Data structure to support the undo/redo commands</a></h5>
+<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">3.5.2.2. Aspect: Data structure to support the undo/redo commands</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1088,9 +1223,9 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p>The following activity diagram summarizes what happens when a user executes a new command:</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.6.1. Design Considerations</a></h4>
+<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.6.1. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-set-reminder-executes-2"><a class="link" href="#aspect-how-set-reminder-executes-2">Aspect: How set reminder executes</a></h5>
+<h5 id="aspect-how-set-reminder-executes-2"><a class="link" href="#aspect-how-set-reminder-executes-2">3.6.1.1. Aspect: How set reminder executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1123,7 +1258,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect"><a class="link" href="#aspect">Aspect:</a></h5>
+<h5 id="aspect"><a class="link" href="#aspect">3.6.1.2. Aspect:</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1166,7 +1301,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
 </div>
 <div class="sect3">
-<h4 id="implementation-6"><a class="link" href="#implementation-6">3.7.1. Implementation</a></h4>
+<h4 id="implementation-7"><a class="link" href="#implementation-7">3.7.1. Implementation</a></h4>
 <div class="paragraph">
 <p>Below is the UML sequence diagram of an example usage scenario.</p>
 </div>
@@ -1180,70 +1315,12 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <div class="sect2">
 <h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a></h3>
 <div class="sect3">
-<h4 id="implementation-7"><a class="link" href="#implementation-7">3.8.1. Implementation</a></h4>
+<h4 id="implementation-8"><a class="link" href="#implementation-8">3.8.1. Implementation</a></h4>
 <div class="paragraph">
-<p>The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
+<p>Invalid commands are checked for spelling mistakes.
+The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
 This distance is based on the number of substitutions, deletions, insertions or transpositions of characters, needed to convert the source string into the target string.
 Relevant functions supporting this operation are implemented in <code>StringUtil</code>.</p>
-</div>
-<div class="paragraph">
-<p>The diagram below is a simplified illustration of how the feature works.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/RecommendationsExample1.png" alt="RecommendationsExample1">
-</div>
-<div class="title">Figure 22. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The recommendations will be made solely based the list of items previously displayed rather than all items currently in the list.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>As shown in the diagram below, <code>Banana</code> was not recommended even though it exists in the original list. This is because it had been filtered from the previous list prior to when the second search command was executed.
-On the other hand, if <code>green</code> was misspelled as <code>gren</code>, the algorithm will be able to identify <code>green</code> as the closest match, as <code>Green Apple</code> is present in the previous list.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/RecommendationsExample2.png" alt="RecommendationsExample2">
-</div>
-<div class="title">Figure 23. Example illustrating that recommendations are solely based on the previous list</div>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram shows how the sort operation works with recommendations,
-in the case that "date" is misspelled as "dat":</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
-</div>
-<div class="title">Figure 24. Sequence diagram illustrating the correction mechanism for command "sort|dat"</div>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram <code>find similar words</code> illustrates the process omitted above.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
-</div>
-<div class="title">Figure 25. Sequence diagram showing how "date" is found to be the most similar word to "dat"</div>
-</div>
-<div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes an unknown command:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/RecommendationUnknownCommandActivityDiagram.png" alt="RecommendationUnknownCommandActivityDiagram">
-</div>
-<div class="title">Figure 26. Activity diagram showing what happens when an unknown command is executed</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1258,11 +1335,56 @@ Only keywords with edit distance of less than 2 are recommended, to filter away 
 </table>
 </div>
 <div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a command with misspelled arguments:</p>
+<p>The diagram below is a simplified illustration of how the feature works.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/RecommendationsSearchSortActivityDiagram.png" alt="RecommendationsSearchSortActivityDiagram">
+<img src="images/RecommendationsExample1.png" alt="RecommendationsExample1">
+</div>
+<div class="title">Figure 24. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The recommendations will be made solely based on the list of items previously displayed rather than all items currently in the list.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>As shown in the diagram below, <code>Banana</code> was not recommended even though it exists in the original list. This is because it had been filtered from the previous list prior to when the second search command was executed.
+On the other hand, if <code>green</code> was misspelled as <code>gren</code>, the algorithm will be able to identify <code>green</code> as the closest match, as <code>Green Apple</code> is present in the previous list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RecommendationsExample2.png" alt="RecommendationsExample2">
+</div>
+<div class="title">Figure 25. Example illustrating that recommendations are solely based on the previous list</div>
+</div>
+<div class="paragraph">
+<p>The figure below depicts the flow of events that check for spelling errors when a user executes an unknown command.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RecommendUnknownCommandActivityDiagram.png" alt="RecommendUnknownCommandActivityDiagram">
+</div>
+<div class="title">Figure 26. Activity diagram showing what happens when an unknown command is executed</div>
+</div>
+<div class="paragraph">
+<p>For example, if <code>set reminder</code> was input incorrectly as <code>set remindre</code>, it will be flagged as an invalid command.
+It is then compared with an collection of all possible command words in the existing list. <code>set reminder</code> will be established
+as its closest match and wrapped as a recommendation in a <code>ParseException</code> object to be thrown and displayed to the user.</p>
+</div>
+<div class="paragraph">
+<p>The figure below presents what happens when a user executes a command with invalid arguments.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RecommendCommandArgumentsActivityDiagram.png" alt="RecommendCommandArgumentsActivityDiagram">
 </div>
 <div class="title">Figure 27. Activity diagram showing what happens when an a command is executed with misspelled arguments</div>
 </div>
@@ -1278,11 +1400,42 @@ Only search and sort commands support this operation.
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>In the example below encapsulated in a sequence diagram, the user has misspelled "date" as "dat" in a sort command.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
+</div>
+<div class="title">Figure 28. Sequence diagram illustrating the recommendations mechanism for command "sort|dat"</div>
+</div>
+<div class="paragraph">
+<p>The sequence diagram titled <code>find similar words</code> below expands on the process omitted above.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
+</div>
+<div class="title">Figure 29. Sequence diagram showing how "date" is found to be the most similar word to "dat"</div>
+</div>
+<div class="paragraph">
+<p>The function <code>findSimilar</code> in <code>StringUtil</code> is called upon to return a set containing strings that are most similar to the misspelled argument, <code>dat</code>.
+In this process, <code>dat</code> is compared with a set of valid inputs, i.e. both <code>name</code> and <code>date</code>, and the corresponding edit distances are stored.
+<code>getSuggestions("dat")</code> then filters the results and finds <code>date</code> to be the best match.</p>
+</div>
+<div class="paragraph">
+<p>At last, a <code>ParseException</code> which contains the recommendation <code>date</code>
+is then thrown to the user as feedback.</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.8.2. Design Considerations</a></h4>
+<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.8.2. Design Considerations</a></h4>
+<div class="paragraph">
+<p>When tasked to implement this feature, I had to decide on what was the best way to display any form of recommendations to the user.
+I also evaluated multiple options to derive an optimal data structure to store the recommendations. The following is a brief summary of my analysis and decisions.</p>
+</div>
 <div class="sect4">
-<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">Aspect: How recommendations execute</a></h5>
+<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">3.8.2.1. Aspect: How recommendations execute</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1315,7 +1468,7 @@ Only search and sort commands support this operation.
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">Aspect: Data structure to store the recommendations</a></h5>
+<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">3.8.2.2. Aspect: Data structure to store the recommendations</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2349,7 +2502,7 @@ Expected: The most recent window size and location is retained.</p>
 <div class="content">
 <img src="images/xpire_json_file.png" alt="xpire json file">
 </div>
-<div class="title">Figure 28. Expiry date should be updated to one that has passed to test for expired items in Xpire.</div>
+<div class="title">Figure 30. Expiry date should be updated to one that has passed to test for expired items in Xpire.</div>
 </div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
@@ -2371,7 +2524,7 @@ Expected: The most recent window size and location is retained.</p>
 <div class="content">
 <img src="images/json_format_example.png" alt="json format example">
 </div>
-<div class="title">Figure 29. Format to follow for adding an XpireItem manually to xpire.json file</div>
+<div class="title">Figure 31. Format to follow for adding an XpireItem manually to xpire.json file</div>
 </div>
 <div class="paragraph">
 <p>Example:</p>
@@ -2380,7 +2533,7 @@ Expected: The most recent window size and location is retained.</p>
 <div class="content">
 <img src="images/json_example.png" alt="json example">
 </div>
-<div class="title">Figure 30. Example of a valid XpireItem manually added to xpire.json file</div>
+<div class="title">Figure 32. Example of a valid XpireItem manually added to xpire.json file</div>
 </div>
 <div class="paragraph">
 <p>An item with <code>name</code> Jelly and <code>expiryDate</code> 24/6/2019 (which has passed) is now added to the json file for your testing.</p>
@@ -2484,4 +2637,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 09:00:55 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 09:06:27 UTC</div></div></div></body></html>
