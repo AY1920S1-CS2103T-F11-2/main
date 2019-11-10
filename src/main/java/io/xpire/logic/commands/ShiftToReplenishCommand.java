@@ -41,12 +41,13 @@ public class ShiftToReplenishCommand extends Command {
     public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireAllNonNull(model, stateManager);
         this.requireNonEmptyCurrentList(model);
-        stateManager.saveState(new ModifiedState(model));
         List<? extends Item> lastShownList = model.getCurrentList();
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(MESSAGE_INVALID_INDEX);
         }
         XpireItem targetItem = (XpireItem) lastShownList.get(this.targetIndex.getZeroBased());
+        stateManager.saveState(new ModifiedState(model));
+
         CommandUtil.shiftItemToReplenishList(model, targetItem);
         this.result = String.format(MESSAGE_REPLENISH_SHIFT_SUCCESS, targetItem.getName());
         setShowInHistory(true);

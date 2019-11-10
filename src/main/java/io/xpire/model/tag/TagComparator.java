@@ -3,7 +3,8 @@ package io.xpire.model.tag;
 import java.util.Comparator;
 
 /**
- * Comparator which specifies the lexicographical ordering of tags.
+ * @@author Kalsyc
+ * Comparator which specifies the lexicographical ordering of tags
  */
 public class TagComparator implements Comparator<Tag> {
 

@@ -50,7 +50,6 @@ public class ShiftToMainCommand extends Command {
     public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireAllNonNull(model, stateManager);
         this.requireNonEmptyCurrentList(model);
-        stateManager.saveState(new ModifiedState(model));
         List<? extends Item> lastShownList = model.getCurrentList();
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(MESSAGE_INVALID_INDEX);
@@ -80,6 +79,7 @@ public class ShiftToMainCommand extends Command {
             this.result = String.format(MESSAGE_SUCCESS_UPDATE_QUANTITY, remodelledItem.getName(),
                     itemWithUpdatedQuantity.getQuantity());
         } else {
+            stateManager.saveState(new ModifiedState(model));
             model.addItem(XPIRE, remodelledItem);
             model.deleteItem(REPLENISH, item);
             this.result = String.format(MESSAGE_SUCCESS_SHIFT, remodelledItem.getName());

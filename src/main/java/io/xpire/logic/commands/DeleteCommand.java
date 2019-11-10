@@ -87,7 +87,6 @@ public class DeleteCommand extends Command {
     public CommandResult execute(Model model, StateManager stateManager) throws CommandException, ParseException {
         requireAllNonNull(model, stateManager);
         this.requireNonEmptyCurrentList(model);
-        stateManager.saveState(new ModifiedState(model));
         ObservableList<? extends Item> currentList = model.getCurrentList();
 
         if (this.targetIndex.getZeroBased() >= currentList.size()) {
@@ -99,11 +98,11 @@ public class DeleteCommand extends Command {
 
         switch(this.mode) {
         case ITEM:
-            return executeDeleteItem(model, targetItem);
+            return executeDeleteItem(model, targetItem, stateManager);
         case TAGS:
-            return executeDeleteTags(model, targetItem);
+            return executeDeleteTags(model, targetItem, stateManager);
         case QUANTITY:
-            return executeDeleteQuantity(model, targetItem);
+            return executeDeleteQuantity(model, targetItem, stateManager);
         default:
             throw new CommandException(MESSAGE_UNKNOWN_DELETE_MODE);
         }
@@ -117,9 +116,13 @@ public class DeleteCommand extends Command {
      * @return feedback message of the operation result for display.
      * @throws CommandException If an error occurs during command execution.
      */
-    private CommandResult executeDeleteQuantity(Model model, Item targetItem) throws CommandException, ParseException {
+    private CommandResult executeDeleteQuantity(Model model, Item targetItem, StateManager stateManager)
+            throws CommandException, ParseException {
         assert this.quantity != null;
         XpireItem updatedItem = CommandUtil.reduceItemQuantity((XpireItem) targetItem, this.quantity);
+
+        stateManager.saveState(new ModifiedState(model));
+
         model.setItem(listType, targetItem, updatedItem);
         // transfer item to replenish list
         if (Quantity.quantityIsZero(updatedItem.getQuantity())) {
@@ -136,13 +139,14 @@ public class DeleteCommand extends Command {
 
     /**
      * Executes the command and returns the result message.
-     *
+     * @@@author Kalsyc
      * @param model model {@code Model} which the command should operate on.
      * @param targetItem target item to delete tags from.
      * @return feedback message of the operation result for display.
      * @throws CommandException If an error occurs during command execution.
      */
-    private CommandResult executeDeleteTags(Model model, Item targetItem) throws CommandException {
+    private CommandResult executeDeleteTags(Model model, Item targetItem, StateManager stateManager)
+            throws CommandException {
         Item newTaggedItem;
         assert this.tagSet != null;
         if (targetItem instanceof XpireItem) {
@@ -150,8 +154,23 @@ public class DeleteCommand extends Command {
         } else {
             newTaggedItem = removeTagsFromReplenishItem(new Item(targetItem), this.tagSet);
         }
+        stateManager.saveState(new ModifiedState(model));
         model.setItem(listType, targetItem, newTaggedItem);
         this.result = String.format(MESSAGE_DELETE_TAGS_SUCCESS, newTaggedItem);
+        setShowInHistory(true);
+        return new CommandResult(this.result);
+    }
+
+     * Executes the command and returns the result message.
+     *
+     * @param model model {@code Model} which the command should operate on.
+     * @param targetItem target item to delete completely.
+     * @return feedback message of the operation result for display.
+     */
+    private CommandResult executeDeleteItem(Model model, Item targetItem, StateManager stateManager) {
+        stateManager.saveState(new ModifiedState(model));
+        model.deleteItem(listType, targetItem);
+        this.result = String.format(MESSAGE_DELETE_ITEM_SUCCESS, targetItem);
         setShowInHistory(true);
         return new CommandResult(this.result);
     }
