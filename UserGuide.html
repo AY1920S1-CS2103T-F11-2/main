@@ -109,7 +109,11 @@
 <h2 id="introduction"><a class="link" href="#introduction">1. Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Xpire is for those who <strong>prefer to use a desktop app for tracking expiry dates of items</strong>. More importantly, Xpire is <strong>optimised for those who prefer to work with a Command Line Interface</strong> (CLI) while still having the benefits of a Graphical User Interface (GUI). If you have trouble tracking your items' expiry dates, Xpire can help you manage and notify you of items that are soon-expiring. Interested? Jump to the <a href="#quick-start">Section 2, &#8220;Quick Start&#8221;</a> to get started!</p>
+<p>Xpire is for those who <strong>prefer to use a desktop app for tracking expiry dates of items</strong>.
+More importantly, Xpire is <strong>optimised for those who prefer to work with a Command Line Interface</strong>
+(CLI) while still having the benefits of a Graphical User Interface (GUI). If you have trouble
+tracking your items' expiry dates, Xpire can help you manage and notify you of items that are
+soon-expiring. Interested? Jump to the <a href="#quick-start">Section 2, &#8220;Quick Start&#8221;</a> to get started!</p>
 </div>
 </div>
 </div>
@@ -128,7 +132,9 @@
 <p>Copy the file to the folder you want to use as the home folder for Xpire.</p>
 </li>
 <li>
-<p>Launch the jar file using the <code>java -jar</code> command to start the app. The GUI should appear in a few seconds.</p>
+<p>In the home folder for Xpire, launch the jar file using the <code>java -jar xpire.jar</code> command on
+Terminal (for macOs) or Command Prompt (for Windows) to start the app. The GUI should appear in
+a few seconds.</p>
 <div class="imageblock">
 <div class="content">
 <img src="images/Ui.png" alt="Ui" width="790">
@@ -162,7 +168,8 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 </div>
 </li>
 <li>
-<p>Xpire not only has a list to track you perishable items, but also a <strong>to-buy</strong> list (replenish list). You can move your items from the
+<p>Xpire not only has a list to track you perishable items, but also a <strong>to-buy</strong> list (replenish list).
+The <strong>to-buy</strong> list is to help you keep track of the things you want to replenish. You can move your items from the
 tracking list to the replenish list once they are consumed or expired.</p>
 <div class="ulist">
 <ul>
@@ -357,13 +364,16 @@ To resize, simply drag the horizontal bar above the feedback box to your desired
 <div class="ulist">
 <ul>
 <li>
-<p>Words that are enclosed with <code>&lt;</code> and <code>&gt;</code> are the parameters to be supplied by the user e.g. in <code>set reminder|&lt;index&gt;|&lt;reminder threshold&gt;</code>, <code>&lt;index&gt;</code> and <code>&lt;reminder threshold&gt;</code> are parameters which can be used as <code>set reminder|1|7</code>.</p>
+<p>Words that are enclosed with <code>&lt;</code> and <code>&gt;</code> are the parameters to be supplied by you e.g. in <code>set reminder|&lt;index&gt;|&lt;reminder threshold&gt;</code>, <code>&lt;index&gt;</code> and <code>&lt;reminder threshold&gt;</code> are parameters which can be used as <code>set reminder|1|7</code>.</p>
+</li>
+<li>
+<p>Tags are recognised with the prefix <code>#</code> on the CLI. e.g. Xpire recognises <code>Fruit</code> as a name while <code>#Fruit</code> as a tag.</p>
 </li>
 <li>
 <p>Parameters in square brackets are optional e.g <code>check[|&lt;days&gt;]</code> can be used as <code>check|7</code> or <code>check</code>.</p>
 </li>
 <li>
-<p>Optional parameters with <code>…</code>​ after them can be used multiple times including zero times. For example, for [&lt;other tags&gt;]&#8230;&#8203;, the following format for Tag Command: <code>tag|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code> can be used as <code>tag|1|#Fruit #Frozen #Cold</code> or <code>tag|1|#Fruit</code>.</p>
+<p>Optional parameters with <code>…</code>​ after them can be used multiple times including zero times. e.g. for [&lt;other tags&gt;]&#8230;&#8203;, the following format for Tag Command: <code>tag|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code> can be used as <code>tag|1|#Fruit #Frozen #Cold</code> or <code>tag|1|#Fruit</code>.</p>
 </li>
 <li>
 <p>Trailing <code>|</code> (s) are allowed. e.g. <code>add|banana|2/2/2020|||</code> or <code>sort|name|</code>.</p>
@@ -462,12 +472,6 @@ To return back to the main list that displays all the items tracked, you can sim
 </div>
 <div class="sect3">
 <h4 id="searching-for-item-s-by-name-and-or-tag-code-search-code"><a class="link" href="#searching-for-item-s-by-name-and-or-tag-code-search-code">4.1.3. Searching for item(s) by name and/or tag: <code>search</code></a></h4>
-<div class="imageblock">
-<div class="content">
-<img src="images/search.png" alt="search" width="790">
-</div>
-<div class="title">Figure 5. Items matching #fruit or chicken shown</div>
-</div>
 <div class="paragraph">
 <p>Having a hard time looking for an item in Xpire? Not to worry, Xpire provides a search functionality to aid you in finding your items with ease.</p>
 </div>
@@ -477,6 +481,12 @@ To return back to the main list that displays all the items tracked, you can sim
 <div class="paragraph">
 <p>Format: <code>search|&lt;keyword&gt;[|&lt;other keywords&gt;]&#8230;&#8203;</code></p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/search.png" alt="search" width="790">
+</div>
+<div class="title">Figure 5. Items matching #fruit or chicken shown</div>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -484,7 +494,8 @@ To return back to the main list that displays all the items tracked, you can sim
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>search</code> is designed to work only on the current view list. In other words, <code>search</code> will only display matching items which exists in the current view list.
+<code>search</code> is designed to work only on the current view list. In other words, <code>search</code> will only
+display matching items which exists in the current view list.
 </td>
 </tr>
 </table>
@@ -496,10 +507,25 @@ To return back to the main list that displays all the items tracked, you can sim
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-You can do an AND search, e.g. search for items that contains BOTH <code>red</code> and <code>apple</code> in its name, by keying <code>search|red</code> and then <code>search|apple</code>. Suppose there are only 3 items in your list, e.g. <code>red fuji apple</code>, <code>red strawberry</code> and <code>green apple</code>, the above commands will display only <code>red fuji apple</code>.
+You can do an AND search, e.g. search for items that contains BOTH <code>red</code> and <code>apple</code> in its name,
+by keying <code>search|red</code> and then <code>search|apple</code>. Suppose there are only 3 items in your list, e.g.
+ <code>red fuji apple</code>, <code>red strawberry</code> and <code>green apple</code> (see Figure 6), the above commands will display only <code>red
+ fuji apple</code> (see Figure 7).
 </td>
 </tr>
 </table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/search-initial.png" alt="search initial" width="790">
+</div>
+<div class="title">Figure 6. Item list before searching</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/search-after.png" alt="search after" width="790">
+</div>
+<div class="title">Figure 7. Item list after keying <code>search|red</code> and then <code>search|apple</code></div>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -536,16 +562,33 @@ You can do an AND search, e.g. search for items that contains BOTH <code>red</co
 <div class="ulist">
 <ul>
 <li>
-<p><code>search|kebab</code><br>
-Returns <code>Chicken Kebab</code> and <code>kebab</code>.</p>
+<p><code>search|kebab</code> will display <code>Chicken Kebab</code> and <code>kebab</code> (see Figure 8).</p>
 </li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/search-kebab.png" alt="search kebab" width="790">
+</div>
+<div class="title">Figure 8. Item list after keying <code>search|kebab</code></div>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p><code>search|Chicken Ham</code><br>
-Returns <code>Chicken Ham</code>.</p>
+<p><code>search|Chicken Ham</code> will display <code>Chicken Ham</code> (see Figure 9).</p>
 </li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/search-chicken-ham.png" alt="search chicken ham" width="790">
+</div>
+<div class="title">Figure 9. Item list after keying <code>search|Chicken Ham</code></div>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p><code>search|milk|tea|#Drink</code><br>
-Returns any items with names containing <code>milk</code> or <code>tea</code>, or with the tag <code>#Drink</code>.</p>
+<p><code>search|milk|tea|#Drink</code> will display any items with names containing <code>milk</code> or <code>tea</code>, or with the tag <code>#Drink</code>.</p>
 </li>
 </ul>
 </div>
@@ -635,22 +678,136 @@ For items with single quantity, you can save time by keying in only the item nam
 <div class="sect3">
 <h4 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">4.1.5. Clearing all entries : <code>clear</code></a></h4>
 <div class="paragraph">
-<p>Clears all entries from the current list that is displayed.<br>
-Format: <code>clear</code></p>
+<p>Want a quick way of deleting all the items in the current view list?
+You can simply type <code>clear</code> and all items in the current view list will be deleted immediately.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>clear</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>clear</code> is designed to work only on the current view list. In other words, <code>clear</code> will only
+delete all items which exists in the current view list.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>While on the current view list (see Figure 10), input <code>clear</code> to remove all items in the list (see Figure 11)</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/clear-before.png" alt="clear before" width="790">
+</div>
+<div class="title">Figure 10. Items in the current view list</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/clear-after.png" alt="clear after" width="790">
+</div>
+<div class="title">Figure 11. All items in the list have been deleted.</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="exporting-data-multi-platform-code-export-code"><a class="link" href="#exporting-data-multi-platform-code-export-code">4.1.6. Exporting data (multi-platform) : <code>export</code></a></h4>
+<div class="paragraph">
+<p>Thinking of viewing the list of currently tracked items on your mobile phone? Want to have a
+copy of the to-buy items on your mobile phone so that you can refer to it while shopping?
+With Xpire&#8217;s <code>export</code> feature, you can easily transfer the list of items to any platform
+by simply scanning the generated QR code.</p>
+</div>
+<div class="paragraph">
+<p>Xpire can not only help you track your items' expiry dates, it can also export the current
+list of items through a QR code (see Figure 12). Any device with a QR code reader will be
+able to download the list of items (see Figure 13).</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>export</code></p>
+</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/export.png" alt="export" width="790">
 </div>
-<div class="title">Figure 6. Items in current list exported to QR code</div>
+<div class="title">Figure 12. QR code containing the data of the items in the current view list</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/export-phone.png" alt="export phone" width="250">
+</div>
+<div class="title">Figure 13. List of items received when scanning the QR code through a mobile phone</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>export</code> is designed to work only on the current view list. In other words, <code>export</code> will only
+export all items which exists in the current view list.</p>
 </div>
 <div class="paragraph">
-<p>Exports the current list of items through a QR code.<br>
-Any device with a QR code reader will be able to download the list of items.<br>
-Format: <code>export</code></p>
+<p>Depending on the operating system of your mobile phone, you may be directed to a google search
+page after scanning the QR code. Follow the steps below to rectify this issue if necessary.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Upon scanning the QR code, you may see a pop-up prompt suggesting to you to search the content
+received on the web (see Figure 14).</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/export-prompt.png" alt="export prompt" width="250">
+</div>
+<div class="title">Figure 14. Pop-up prompt to suggest to search the content on the web</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Instead of immediately accepting the suggestion, press and hold on the prompt to reveal the other
+options available (see Figure 15). Choose "Copy" or any other similar options.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/export-other-options.png" alt="export other options" width="250">
+</div>
+<div class="title">Figure 15. Additional options to handle the content</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once the content has been copied, you can simply paste and save the content on Notes or any other
+notepad application on your mobile phone (see Figure 16).</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/export-save-in-notes.png" alt="export save in notes" width="250">
+</div>
+<div class="title">Figure 16. Pasting and saving exported content onto the mobile phone&#8217;s built-in notepad application</div>
 </div>
 </div>
 <div class="sect3">
@@ -676,7 +833,7 @@ There is no need to save manually.</p>
 <div class="content">
 <img src="images/add.png" alt="add" width="790">
 </div>
-<div class="title">Figure 7. New item added to main tracking list</div>
+<div class="title">Figure 17. New item added to main tracking list</div>
 </div>
 <div class="paragraph">
 <p>Adds an item to your tracker.<br>
@@ -784,7 +941,7 @@ Deletes the tags <code>#Fruit</code> and <code>#Food</code> from the 3rd item in
 <div class="content">
 <img src="images/delete-quantity.png" alt="delete quantity" width="790">
 </div>
-<div class="title">Figure 8. Item at index 4 reduced in quantity by 1</div>
+<div class="title">Figure 18. Item at index 4 reduced in quantity by 1</div>
 </div>
 <div class="paragraph">
 <p>Reduces item quantity by the specified quantity.<br>
@@ -845,7 +1002,7 @@ Format: <code>tag</code></p>
 <div class="content">
 <img src="images/tag.png" alt="tag" width="790">
 </div>
-<div class="title">Figure 9. Item at index 4 tagged with #Fruit and #Yellow</div>
+<div class="title">Figure 19. Item at index 4 tagged with #Fruit and #Yellow</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -914,7 +1071,7 @@ Tags the 2nd item in the main list with <code>#Nestle</code> and <code>#Caffeine
 <div class="content">
 <img src="images/set-reminder.png" alt="set reminder" width="790">
 </div>
-<div class="title">Figure 10. Reminder set for item at index 4</div>
+<div class="title">Figure 20. Reminder set for item at index 4</div>
 </div>
 <div class="paragraph">
 <p>Sets a reminder for your item.<br>
@@ -993,7 +1150,7 @@ However, the app understands that you want the reminder to be activated immediat
 <div class="content">
 <img src="images/check.png" alt="check" width="790">
 </div>
-<div class="title">Figure 11. Items expiring soon listed</div>
+<div class="title">Figure 21. Items expiring soon listed</div>
 </div>
 <div class="paragraph">
 <p>You can easily view all items whose reminder has been activated and who has already expired with the command <code>check</code>.
@@ -1082,7 +1239,7 @@ in chronological order.</p>
 <div class="content">
 <img src="images/sort-date.png" alt="sort date" width="790">
 </div>
-<div class="title">Figure 12. Items sorted by their date</div>
+<div class="title">Figure 22. Items sorted by their date</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1346,7 +1503,9 @@ Format: <code>redo</code></p>
 <h2 id="command-shorthands"><a class="link" href="#command-shorthands">7. Command Shorthands</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Commands also come with command shorthands which can be used in place of the full command word. For instance, <code>a|Strawberry|31/12/2019</code> is the same as <code>add|Strawberry|31/12/2019</code>.</p>
+<p>If you are looking for a quick way to type and execute the commands, then this section is just
+for you. Commands also come with command shorthands which can be used in place of the full command word.
+For instance, <code>a|Strawberry|31/12/2019</code> is the same as <code>add|Strawberry|31/12/2019</code>.</p>
 </div>
 <div class="paragraph">
 <p>Below is a list of commands and their corresponding command shorthands:</p>
@@ -1401,4 +1560,4 @@ Format: <code>redo</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 09:52:35 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 13:48:10 UTC</div></div></div></body></html>
