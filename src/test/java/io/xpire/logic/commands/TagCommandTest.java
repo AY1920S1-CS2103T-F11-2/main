@@ -306,7 +306,7 @@ public class TagCommandTest {
         assertCommandSuccess(tagCommand, model, expectedMessage, expectedModel);
     }
 
-    //---------------- Failed tagging tests --------------------------------------------------------------------
+    //---------------- Fail tagging tests --------------------------------------------------------------------
     @Test
     public void execute_tooManyTags_throwsCommandException() {
         TagCommand tagCommand = new TagCommand(XPIRE, INDEX_FIFTH_ITEM,
