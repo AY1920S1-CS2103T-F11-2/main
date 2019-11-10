@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class QuantityTest {
 
     /**
-     * Stub is used because quantity zero can only be called within Quantity class itself.
+     * Stub is used because quantity zero can only be created within Quantity class itself.
      */
     private static final Quantity QUANTITY_ZERO_STUB = new Quantity("1").deductQuantity(new Quantity("1"));
 

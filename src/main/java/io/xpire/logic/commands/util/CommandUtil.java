@@ -11,6 +11,7 @@ import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.XpireItem;
+import io.xpire.model.item.exceptions.ItemNotFoundException;
 
 /**
  * Helper functions for commands.
@@ -85,6 +86,7 @@ public class CommandUtil {
 
     /**
      * Retrieves item that is the same as item inputted by user.
+     * Used only for Xpire list view.
      *
      * @param item existing in the tracking list.
      * @param list where item is retrieved from.
@@ -97,6 +99,9 @@ public class CommandUtil {
             if (list.get(i).isSameItem(item)) {
                 index = i;
             }
+        }
+        if (index == -1) {
+            throw new ItemNotFoundException();
         }
         return (XpireItem) list.get(index);
     }

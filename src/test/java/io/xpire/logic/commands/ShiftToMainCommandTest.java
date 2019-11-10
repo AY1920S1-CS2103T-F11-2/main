@@ -16,10 +16,8 @@ import org.junit.jupiter.api.Test;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandFailure;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static io.xpire.logic.commands.CommandTestUtil.showReplenishItemAtIndex;
-import static io.xpire.logic.commands.CommandTestUtil.showXpireItemAtIndex;
 import static io.xpire.logic.commands.ShiftToMainCommand.MESSAGE_SUCCESS_SHIFT;
 import static io.xpire.logic.commands.ShiftToMainCommand.MESSAGE_SUCCESS_UPDATE_QUANTITY;
-import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
 import static io.xpire.testutil.TypicalIndexes.INDEX_EIGHTH_ITEM;
@@ -150,6 +148,11 @@ public class ShiftToMainCommandTest {
     private void showNoItem(Model model) {
         model.filterCurrentList(REPLENISH, p -> false);
         assertTrue(model.getCurrentList().isEmpty());
+    }
+
+    @Test
+    public void equals() {
+
     }
 
 }
