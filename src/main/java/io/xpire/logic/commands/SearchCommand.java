@@ -5,8 +5,8 @@ import static io.xpire.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import io.xpire.commons.core.Messages;
 import io.xpire.commons.util.StringUtil;
+import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.ListType;
 import io.xpire.model.Model;
 import io.xpire.model.item.ContainsKeywordsPredicate;
@@ -34,6 +34,8 @@ public class SearchCommand extends Command {
             + "Format: search|<keyword>[|<other keywords>]... (keyword(s) for tags must be prefixed with a '#')\n"
             + "Example: " + COMMAND_WORD + "|apple|#fridge|banana";
 
+    public static final String MESSAGE_ITEMS_LISTED_OVERVIEW = "%d items listed!";
+
     /** A predicate that tests if an item contains a set of keywords. */
     private final ContainsKeywordsPredicate predicate;
 
@@ -52,17 +54,18 @@ public class SearchCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model, StateManager stateManager) {
+    public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireAllNonNull(model, stateManager);
-        stateManager.saveState(new FilteredState(model));
+        this.requireNonEmptyCurrentList(model);
 
         //Saves the current copy of the list view
         ObservableList<? extends Item> previousList = FXCollections.observableArrayList(model.getCurrentList());
+        stateManager.saveState(new FilteredState(model));
         //Updates the list view
         model.filterCurrentList(this.listType, this.predicate);
         //Retrieves the updated list view
         ObservableList<? extends Item> updatedList = model.getCurrentList();
-        StringBuilder sb = new StringBuilder(String.format(Messages.MESSAGE_ITEMS_LISTED_OVERVIEW, updatedList.size()));
+        StringBuilder sb = new StringBuilder(String.format(MESSAGE_ITEMS_LISTED_OVERVIEW, updatedList.size()));
 
         //If the list view is empty
         if (updatedList.size() == 0) {

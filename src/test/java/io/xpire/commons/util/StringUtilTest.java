@@ -88,8 +88,8 @@ public class StringUtilTest {
 
     @Test
     public void containsPhraseIgnoreCase_emptyWord_throwsIllegalArgumentException() {
-        Assert.assertThrows(IllegalArgumentException.class, "Phrase parameter cannot be empty", ()
-            -> StringUtil.containsPhraseIgnoreCase("typical sentence", "  "));
+        Assert.assertThrows(IllegalArgumentException.class, "Phrase parameter cannot be empty", () ->
+                StringUtil.containsPhraseIgnoreCase("typical sentence", "  "));
     }
 
     @Test
@@ -162,7 +162,7 @@ public class StringUtilTest {
 
         // EP: signed numbers
         assertFalse(StringUtil.isNonNegativeInteger("-1"));
-        assertFalse(StringUtil.isNonNegativeInteger("+1")); //"+1" is successfully parsed by Integer#parseInt(String)
+        assertFalse(StringUtil.isNonNegativeInteger("+1")); // "+1" is successfully parsed by Integer#parseInt(String)
 
         // EP: numbers with white space
         assertFalse(StringUtil.isNonNegativeInteger(" 101 ")); // Leading/trailing spaces
@@ -290,7 +290,7 @@ public class StringUtilTest {
         // Similar keywords recommended
         assertEquals(StringUtil.getSuggestions("banaa", allNames, limit), "[Banana]");
         assertEquals(StringUtil.getSuggestions("fihs", allNames, limit), "[Fish]");
-        assertEquals(StringUtil.getSuggestions("mik", allNames, limit), "[Milk]");
+        assertEquals(StringUtil.getSuggestions("cor", allNames, limit), "[Corn]");
 
         // Kiwi not found as it is not in typicalItems
         assertEquals(StringUtil.getSuggestions("kiww", allNames, limit), "");

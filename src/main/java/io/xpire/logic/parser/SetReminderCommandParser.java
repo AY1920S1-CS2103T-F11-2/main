@@ -1,11 +1,9 @@
 package io.xpire.logic.parser;
 
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static io.xpire.commons.core.Messages.MESSAGE_INVALID_REMINDER_THRESHOLD;
 import static java.util.Objects.requireNonNull;
 
 import io.xpire.commons.core.index.Index;
-import io.xpire.commons.exceptions.IllegalValueException;
 import io.xpire.logic.commands.SetReminderCommand;
 import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.item.ReminderThreshold;
@@ -14,6 +12,8 @@ import io.xpire.model.item.ReminderThreshold;
  * Parses input arguments and creates a new SetReminderCommand object.
  */
 public class SetReminderCommandParser implements Parser<SetReminderCommand> {
+    public static final String MESSAGE_INVALID_REMINDER_THRESHOLD = "%s is not a valid reminder threshold.";
+
     private static final int ITEM_INDEX = 0;
     private static final int THRESHOLD_INDEX = 1;
 
@@ -32,21 +32,8 @@ public class SetReminderCommandParser implements Parser<SetReminderCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     SetReminderCommand.MESSAGE_USAGE));
         }
-
-        try {
-            index = ParserUtil.parseIndex(args.split(SEPARATOR)[ITEM_INDEX]);
-
-        } catch (IllegalValueException e) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    SetReminderCommand.MESSAGE_USAGE), e);
-        }
-
-        try {
-            threshold = ParserUtil.parseReminderThreshold(args.split(SEPARATOR)[THRESHOLD_INDEX]);
-        } catch (IllegalValueException e) {
-            throw new ParseException(String.format(MESSAGE_INVALID_REMINDER_THRESHOLD,
-                    SetReminderCommand.MESSAGE_USAGE), e);
-        }
+        index = ParserUtil.parseIndex(args.split(SEPARATOR)[ITEM_INDEX]);
+        threshold = ParserUtil.parseReminderThreshold(args.split(SEPARATOR)[THRESHOLD_INDEX]);
 
         return new SetReminderCommand(index, threshold);
     }
