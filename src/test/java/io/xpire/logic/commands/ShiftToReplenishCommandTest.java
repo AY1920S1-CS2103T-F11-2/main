@@ -7,9 +7,9 @@ import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_DUPLICATE_ITEM_RE
 import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
-import static io.xpire.testutil.TypicalIndexes.INDEX_EIGHTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_SECOND_ITEM;
+import static io.xpire.testutil.TypicalIndexes.INDEX_TENTH_ITEM;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -69,13 +69,13 @@ public class ShiftToReplenishCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredXpireListDuplicateItem_throwsException() {
-        ShiftToReplenishCommand shiftToReplenishCommand = new ShiftToReplenishCommand(INDEX_EIGHTH_ITEM);
+        ShiftToReplenishCommand shiftToReplenishCommand = new ShiftToReplenishCommand(INDEX_TENTH_ITEM);
         assertCommandFailure(shiftToReplenishCommand, model, MESSAGE_DUPLICATE_ITEM_REPLENISH);
     }
 
     @Test
     public void execute_validIndexFilteredXpireListDuplicateItem_throwsException() {
-        showXpireItemAtIndex(model, INDEX_EIGHTH_ITEM);
+        showXpireItemAtIndex(model, INDEX_TENTH_ITEM);
         ShiftToReplenishCommand shiftToReplenishCommand = new ShiftToReplenishCommand(INDEX_FIRST_ITEM);
         assertCommandFailure(shiftToReplenishCommand, model, MESSAGE_DUPLICATE_ITEM_REPLENISH);
     }

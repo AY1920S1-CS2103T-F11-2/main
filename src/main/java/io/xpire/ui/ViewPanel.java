@@ -1,6 +1,5 @@
 package io.xpire.ui;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -10,7 +9,6 @@ import io.xpire.commons.core.LogsCenter;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -21,8 +19,6 @@ import javafx.scene.layout.VBox;
 public class ViewPanel extends UiPart<VBox> {
     private static final String FXML = "ViewPanel.fxml";
     private final Logger logger = LogsCenter.getLogger(ViewPanel.class);
-
-    private Collection<ItemCard> oldCardList = new ArrayList<>();
 
     @FXML
     private VBox card;
@@ -41,22 +37,18 @@ public class ViewPanel extends UiPart<VBox> {
     void displayItems(ObservableList<? extends Item> itemList) {
         card.getChildren().clear();
         Collection<ItemCard> cardList;
-        //@@author febee99
+        //@@author febee99 xiaoyu-nus
         if (!itemList.isEmpty() && itemList.get(0) instanceof XpireItem) {
-            //ObservableList<XpireItem> xpireItemList = (ObservableList<XpireItem>) itemList;
-            FilteredList<XpireItem> xpireItemList = (FilteredList<XpireItem>) itemList;
-            cardList = IntStream.range(0, xpireItemList.size())
-                                .mapToObj(i -> new ItemCard(xpireItemList.get(i), i + 1))
+            cardList = IntStream.range(0, itemList.size())
+                                .mapToObj(i -> new ItemCard((XpireItem) itemList.get(i), i + 1))
                                 .collect(Collectors.toList());
         } else {
             cardList = IntStream.range(0, itemList.size())
                                 .mapToObj(i -> new ItemCard(itemList.get(i), i + 1))
                                 .collect(Collectors.toList());
         }
-        //@@author
         for (ItemCard itemCard : cardList) {
             card.getChildren().add(itemCard.getRoot());
         }
-        oldCardList = cardList;
     }
 }

@@ -3,24 +3,24 @@ package io.xpire.logic.commands.util;
 import static io.xpire.logic.commands.CommandTestUtil.showXpireItemAtIndex;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
-import static io.xpire.testutil.TypicalIndexes.INDEX_EIGHTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
+import static io.xpire.testutil.TypicalIndexes.INDEX_TENTH_ITEM;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_APPLE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_CORIANDER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_DUCK;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_JELLY;
-import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_KIWI;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_APPLE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_CORIANDER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_DUCK;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_JELLY;
-import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_KIWI;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_APPLE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_CORIANDER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_DUCK;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_JELLY;
-import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_KIWI;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -83,31 +83,31 @@ public class CommandUtilTest {
     @Test
     public void increaseItemQuantity_success() throws CommandException {
         // new quantity is below maximum limit
-        XpireItem itemToIncrease = new XpireItemBuilder().withName(VALID_NAME_KIWI)
-                .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
-                .withQuantity(VALID_QUANTITY_KIWI).build();
-        XpireItem expectedItem = new XpireItemBuilder().withName(VALID_NAME_KIWI)
-                .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
+        XpireItem itemToIncrease = new XpireItemBuilder().withName(VALID_NAME_APPLE)
+                .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
+                .withQuantity(VALID_QUANTITY_APPLE).build();
+        XpireItem expectedItem = new XpireItemBuilder().withName(VALID_NAME_APPLE)
+                .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                 .withQuantity("6").build();
-        assertEquals(expectedItem, CommandUtil.increaseItemQuantity(itemToIncrease, new Quantity("4")));
+        assertEquals(expectedItem, CommandUtil.increaseItemQuantity(itemToIncrease, new Quantity("5")));
 
         // new quantity is maximum limit
-        itemToIncrease = new XpireItemBuilder().withName(VALID_NAME_KIWI)
-                .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
-                .withQuantity(VALID_QUANTITY_KIWI).build();
-        expectedItem = new XpireItemBuilder().withName(VALID_NAME_KIWI)
-                .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
+        itemToIncrease = new XpireItemBuilder().withName(VALID_NAME_APPLE)
+                .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
+                .withQuantity(VALID_QUANTITY_APPLE).build();
+        expectedItem = new XpireItemBuilder().withName(VALID_NAME_APPLE)
+                .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                 .withQuantity(QUANTITY_MAXIMUM_LIMIT).build();
-        assertEquals(expectedItem, CommandUtil.increaseItemQuantity(itemToIncrease, new Quantity("99998")));
+        assertEquals(expectedItem, CommandUtil.increaseItemQuantity(itemToIncrease, new Quantity("99999")));
     }
 
     @Test
     public void increaseItemQuantity_throwsCommandException() {
-        XpireItem itemToIncrease = new XpireItemBuilder().withName(VALID_NAME_KIWI)
-                .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
-                .withQuantity(VALID_QUANTITY_KIWI).build();
+        XpireItem itemToIncrease = new XpireItemBuilder().withName(VALID_NAME_APPLE)
+                .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
+                .withQuantity(VALID_QUANTITY_APPLE).build();
         assertThrows(CommandException.class, () ->
-                CommandUtil.increaseItemQuantity(itemToIncrease, new Quantity("99999")));
+                CommandUtil.increaseItemQuantity(itemToIncrease, new Quantity(QUANTITY_MAXIMUM_LIMIT)));
     }
 
     @Test
@@ -158,9 +158,9 @@ public class CommandUtilTest {
     @Test
     public void retrieveItemFromFilteredList_throwsItemNotFoundException() {
         showXpireItemAtIndex(model, INDEX_FIRST_ITEM);
-        XpireItem itemNotInFilteredList = new XpireItemBuilder().withName(VALID_NAME_JELLY)
-                .withExpiryDate(VALID_EXPIRY_DATE_JELLY)
-                .withQuantity(VALID_QUANTITY_JELLY).build();
+        XpireItem itemNotInFilteredList = new XpireItemBuilder().withName(VALID_NAME_BANANA)
+                .withExpiryDate(VALID_EXPIRY_DATE_BANANA)
+                .withQuantity(VALID_QUANTITY_BANANA).build();
         // item exists on unfiltered list
         assertTrue(model.hasItem(XPIRE, itemNotInFilteredList));
         assertThrows(ItemNotFoundException.class, () ->
@@ -179,7 +179,7 @@ public class CommandUtilTest {
 
     @Test
     public void shiftItemToReplenishList_unfilteredList_throwsCommandException() {
-        XpireItem xpireItemToShift = (XpireItem) model.getCurrentList().get(INDEX_EIGHTH_ITEM.getZeroBased());
+        XpireItem xpireItemToShift = (XpireItem) model.getCurrentList().get(INDEX_TENTH_ITEM.getZeroBased());
         assertTrue(model.hasItem(REPLENISH, xpireItemToShift.remodel()));
         assertThrows(CommandException.class, () -> CommandUtil.shiftItemToReplenishList(model, xpireItemToShift));
     }
@@ -197,7 +197,7 @@ public class CommandUtilTest {
 
     @Test
     public void shiftItemToReplenishList_filteredList_throwsCommandException() {
-        showXpireItemAtIndex(model, INDEX_EIGHTH_ITEM);
+        showXpireItemAtIndex(model, INDEX_TENTH_ITEM);
         XpireItem xpireItemToShift = (XpireItem) model.getCurrentList().get(INDEX_FIRST_ITEM.getZeroBased());
         assertTrue(model.hasItem(REPLENISH, xpireItemToShift.remodel()));
         assertThrows(CommandException.class, () -> CommandUtil.shiftItemToReplenishList(model, xpireItemToShift));

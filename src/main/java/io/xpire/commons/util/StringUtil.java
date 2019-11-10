@@ -1,5 +1,6 @@
 package io.xpire.commons.util;
 
+import static io.xpire.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
 import java.io.ByteArrayOutputStream;
@@ -31,6 +32,8 @@ public class StringUtil {
     private static final String UNSIGNED_NUMERIC_VALIDATION_REGEX = "^[1-9][0-9]*$";
     private static final String NUMERIC_VALIDATION_REGEX = "^[+-]*[0-9]*$";
 
+
+    //@@author JermyTan
     /**
      * Returns true if the {@code sentence} contains the {@code phrase}.
      *   Ignores case, allows partial phrase match.
@@ -44,8 +47,7 @@ public class StringUtil {
      * @param phrase cannot be null and cannot be empty.
      */
     public static boolean containsPhraseIgnoreCase(String sentence, String phrase) {
-        requireNonNull(sentence);
-        requireNonNull(phrase);
+        requireAllNonNull(sentence, phrase);
 
         String trimmedPhrase = phrase.trim();
         AppUtil.checkArgument(!trimmedPhrase.isEmpty(), "Phrase parameter cannot be empty");
@@ -84,25 +86,6 @@ public class StringUtil {
     //@author
 
     /**
-     * Returns true if {@code s} represents a non-zero unsigned integer.
-     * e.g. 1, 2, 3, ..., {@code Integer.MAX_VALUE} <br>.
-     * Will return false for any other non-null string input.
-     * e.g. empty string, "-1", "0", "+1", and " 2 " (untrimmed), "3 0" (contains whitespace), "1 a" (contains letters).
-     *
-     * @throws NullPointerException if {@code s} is null.
-     */
-    public static boolean isNonZeroUnsignedInteger(String s) {
-        requireNonNull(s);
-        try {
-            int value = Integer.parseInt(s);
-            return value > 0 && !s.startsWith("+"); // "+1" is successfully parsed by Integer#parseInt(String)
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-    }
-
-    //@@author JermyTan
-    /**
      * Returns true if {@code s} represents a non-negative integer.
      * e.g. 0, 1, 2, 3, ..., {@code Integer.MAX_VALUE} <br>.
      * Will return false for any other non-null string input.
@@ -112,7 +95,6 @@ public class StringUtil {
      */
     public static boolean isNonNegativeInteger(String s) {
         requireNonNull(s);
-
         try {
             int value = Integer.parseInt(s);
             return value >= 0 && !s.startsWith("+"); // "+1" is successfully parsed by Integer#parseInt(String)
@@ -121,7 +103,50 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Returns the byte array representing the QR code-encoded text.
+     *
+     * @param text The string to be encoded.
+     * @param length The size of the QR code
+     * @return The byte array of the QR code-encoded text
+     */
+    public static byte[] getQrCode(String text, int length) {
+        requireNonNull(text);
+        assert !text.isEmpty() : "Text cannot be empty";
+        assert length > 0 : "Length must be more than 0";
+
+        try {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, length, length);
+            ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "png", pngOutputStream);
+            return pngOutputStream.toByteArray();
+        } catch (WriterException | IOException e) {
+            return new byte[0];
+        }
+    }
+
     //@@author
+
+    /**
+     * Returns true if {@code s} represents a non-zero unsigned integer.
+     * e.g. 1, 2, 3, ..., {@code Integer.MAX_VALUE} <br>.
+     * Will return false for any other non-null string input.
+     * e.g. empty string, "-1", "0", "+1", and " 2 " (untrimmed), "3 0" (contains whitespace), "1 a" (contains letters).
+     *
+     * @throws NullPointerException if {@code s} is null.
+     */
+    public static boolean isNonZeroUnsignedInteger(String s) {
+        requireNonNull(s);
+
+        try {
+            int value = Integer.parseInt(s);
+            return value > 0 && !s.startsWith("+"); // "+1" is successfully parsed by Integer#parseInt(String)
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+    }
+
     /**
      * Returns true if {@code s} represents an integer smaller than or equal to the given maximum value {@code max}.
      * Returns false for any other non-null string input.
@@ -283,26 +308,4 @@ public class StringUtil {
                                                     .collect(Collectors.toSet()), 1);
     }
 
-    //@@author JermyTan
-    /**
-     * Returns the byte array representing the QR code-encoded text.
-     *
-     * @param text The string to be encoded.
-     * @param length The size of the QR code
-     * @return The byte array of the QR code-encoded text
-     */
-    public static byte[] getQrCode(String text, int length) {
-        requireNonNull(text);
-        assert length <= 0 : "Length must be more than 0";
-
-        try {
-            QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, length, length);
-            ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
-            MatrixToImageWriter.writeToStream(bitMatrix, "png", pngOutputStream);
-            return pngOutputStream.toByteArray();
-        } catch (WriterException | IOException e) {
-            return new byte[0];
-        }
-    }
 }

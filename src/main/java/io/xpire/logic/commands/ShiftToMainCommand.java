@@ -1,16 +1,15 @@
 package io.xpire.logic.commands;
 
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_INDEX;
+import static io.xpire.commons.util.CollectionUtil.requireAllNonNull;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
-import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
 import io.xpire.commons.core.index.Index;
 import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.logic.commands.util.CommandUtil;
-import io.xpire.logic.parser.exceptions.ParseException;
 import io.xpire.model.Model;
 import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Item;
@@ -48,8 +47,9 @@ public class ShiftToMainCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model, StateManager stateManager) throws CommandException, ParseException {
-        requireNonNull(model);
+    public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
+        requireAllNonNull(model, stateManager);
+        this.requireNonEmptyCurrentList(model);
         stateManager.saveState(new ModifiedState(model));
         List<? extends Item> lastShownList = model.getCurrentList();
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {

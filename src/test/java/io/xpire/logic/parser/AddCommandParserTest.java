@@ -6,10 +6,8 @@ import static io.xpire.testutil.TypicalItemsFields.INVALID_NAME;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_QUANTITY_INTEGER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_BANANA;
-import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_KIWI;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_BANANA;
-import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_KIWI;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_BANANA;
 
 import org.junit.jupiter.api.Test;
@@ -33,9 +31,9 @@ public class AddCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // no quantity specified
-        String userInput = VALID_NAME_KIWI + "|" + VALID_EXPIRY_DATE_KIWI;
+        String userInput = VALID_NAME_APPLE + "|" + VALID_EXPIRY_DATE_APPLE;
         CommandParserTestUtil.assertEqualsParseSuccess(parser, userInput,
-                new AddCommand(new Name(VALID_NAME_KIWI), new ExpiryDate(VALID_EXPIRY_DATE_KIWI),
+                new AddCommand(new Name(VALID_NAME_APPLE), new ExpiryDate(VALID_EXPIRY_DATE_APPLE),
                         new Quantity("1")));
     }
 

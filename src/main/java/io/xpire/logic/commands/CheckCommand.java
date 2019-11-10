@@ -5,6 +5,7 @@ import static io.xpire.model.ListType.XPIRE;
 
 import java.util.function.Predicate;
 
+import io.xpire.logic.commands.exceptions.CommandException;
 import io.xpire.model.Model;
 import io.xpire.model.item.ExpiringSoonPredicate;
 import io.xpire.model.item.ReminderThresholdExceededPredicate;
@@ -19,7 +20,8 @@ public class CheckCommand extends Command {
     public static final String COMMAND_WORD = "check";
     public static final String COMMAND_SHORTHAND = "ch";
 
-    public static final String MESSAGE_SUCCESS = "Item(s) expiring soon.";
+    public static final String MESSAGE_SUCCESS_DAYS_LEFT = "Listed items with %d day(s) left before their expiry date.";
+    public static final String MESSAGE_SUCCESS_REMIND = "Listed expired items and items with active reminders.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Displays all items whose expiry date is within"
             + "the specified duration (in days). Expired items, if any, are also included in the list.\n"
@@ -29,29 +31,36 @@ public class CheckCommand extends Command {
             + "has been activated will be displayed.";
 
     public static final String MESSAGE_EXCEEDED_MAX = "Maximum number of days that can be checked is 36500 days";
-    private String result;
-
+    private String message;
     private final Predicate<XpireItem> predicate;
 
     public CheckCommand(ExpiringSoonPredicate predicate, int days) {
         this.predicate = predicate;
-        this.result = String.format("Check items with %d days left before their expiry date.", days);
+        this.message = String.format(MESSAGE_SUCCESS_DAYS_LEFT, days);
     }
 
     public CheckCommand(ReminderThresholdExceededPredicate predicate) {
         this.predicate = predicate;
-        this.result = "Check items according to their reminder dates.";
+        this.message = MESSAGE_SUCCESS_REMIND;
     }
 
     @Override
-    public CommandResult execute(Model model, StateManager stateManager) {
+    public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireAllNonNull(model, stateManager);
+        this.requireNonEmptyCurrentList(model);
         stateManager.saveState(new FilteredState(model));
 
         model.filterCurrentList(XPIRE, this.predicate);
 
         setShowInHistory(true);
-        return new CommandResult(MESSAGE_SUCCESS);
+        return new CommandResult(this.message);
+    }
+
+    /**
+     * Returns the message corresponding to the command.
+     */
+    public String getMessage() {
+        return this.message;
     }
 
     @Override

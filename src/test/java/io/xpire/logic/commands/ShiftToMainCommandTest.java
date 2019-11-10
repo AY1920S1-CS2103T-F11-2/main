@@ -7,17 +7,17 @@ import static io.xpire.logic.commands.ShiftToMainCommand.MESSAGE_SUCCESS_SHIFT;
 import static io.xpire.logic.commands.ShiftToMainCommand.MESSAGE_SUCCESS_UPDATE_QUANTITY;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
-import static io.xpire.testutil.TypicalIndexes.INDEX_EIGHTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIFTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_SECOND_ITEM;
-import static io.xpire.testutil.TypicalItems.IN_TWO_WEEKS;
+import static io.xpire.testutil.TypicalIndexes.INDEX_TENTH_ITEM;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
-import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_BANANA;
+import static io.xpire.testutil.TypicalItemsFields.IN_A_WEEK;
+import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_CORIANDER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_APPLE;
-import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_BANANA;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_EGG;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRUIT;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -55,11 +55,11 @@ public class ShiftToMainCommandTest {
     public void execute_validIndexUnfilteredReplenishListNoDuplicateItem_success() {
         Item itemToShift = model.getCurrentList().get(INDEX_FIRST_ITEM.getZeroBased());
         ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(INDEX_FIRST_ITEM,
-                new ExpiryDate(IN_TWO_WEEKS), new Quantity(VALID_QUANTITY_APPLE));
+                new ExpiryDate(IN_A_WEEK), new Quantity(VALID_QUANTITY_APPLE));
         String expectedMessage = String.format(MESSAGE_SUCCESS_SHIFT, itemToShift.getName());
         ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         expectedModel.setCurrentList(REPLENISH);
-        expectedModel.addItem(XPIRE, itemToShift.remodel(new ExpiryDate(IN_TWO_WEEKS),
+        expectedModel.addItem(XPIRE, itemToShift.remodel(new ExpiryDate(IN_A_WEEK),
                 new Quantity(VALID_QUANTITY_APPLE)));
         expectedModel.deleteItem(REPLENISH, itemToShift);
         assertCommandSuccess(shiftToMainCommand, model, expectedMessage, expectedModel);
@@ -76,7 +76,7 @@ public class ShiftToMainCommandTest {
                                             .withExpiryDate(VALID_EXPIRY_DATE_PAPAYA)
                                             .withQuantity("2")
                                             .withTags(VALID_TAG_FRUIT).build();
-        XpireItem itemToUpdate = (XpireItem) expectedModel.getItemList(XPIRE).get(INDEX_EIGHTH_ITEM.getZeroBased());
+        XpireItem itemToUpdate = (XpireItem) expectedModel.getItemList(XPIRE).get(INDEX_TENTH_ITEM.getZeroBased());
         expectedModel.setItem(XPIRE, itemToUpdate, expectedUpdatedItem);
         expectedModel.deleteItem(REPLENISH, itemToShift);
         String expectedMessage = String.format(MESSAGE_SUCCESS_UPDATE_QUANTITY, itemToShift.getName(),
@@ -88,7 +88,7 @@ public class ShiftToMainCommandTest {
     public void execute_invalidIndexUnfilteredXpireList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getCurrentList().size() + 1);
         ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(outOfBoundIndex,
-                new ExpiryDate(IN_TWO_WEEKS), new Quantity(VALID_QUANTITY_APPLE));
+                new ExpiryDate(IN_A_WEEK), new Quantity(VALID_QUANTITY_APPLE));
         assertCommandFailure(shiftToMainCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
@@ -99,12 +99,12 @@ public class ShiftToMainCommandTest {
 
         Item itemToShift = model.getCurrentList().get(INDEX_FIRST_ITEM.getZeroBased());
         ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(INDEX_FIRST_ITEM,
-                new ExpiryDate(IN_TWO_WEEKS), new Quantity(VALID_QUANTITY_APPLE));
+                new ExpiryDate(IN_A_WEEK), new Quantity(VALID_QUANTITY_APPLE));
 
         String expectedMessage = String.format(MESSAGE_SUCCESS_SHIFT, itemToShift.getName());
         Model expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         expectedModel.setCurrentList(REPLENISH);
-        expectedModel.addItem(XPIRE, itemToShift.remodel(new ExpiryDate(IN_TWO_WEEKS),
+        expectedModel.addItem(XPIRE, itemToShift.remodel(new ExpiryDate(IN_A_WEEK),
                 new Quantity(VALID_QUANTITY_APPLE)));
         expectedModel.deleteItem(REPLENISH, itemToShift);
         assertCommandSuccess(shiftToMainCommand, model, expectedMessage, expectedModel);
@@ -125,7 +125,7 @@ public class ShiftToMainCommandTest {
                 .withExpiryDate(VALID_EXPIRY_DATE_PAPAYA)
                 .withQuantity("2")
                 .withTags(VALID_TAG_FRUIT).build();
-        XpireItem itemToUpdate = (XpireItem) expectedModel.getItemList(XPIRE).get(INDEX_EIGHTH_ITEM.getZeroBased());
+        XpireItem itemToUpdate = (XpireItem) expectedModel.getItemList(XPIRE).get(INDEX_TENTH_ITEM.getZeroBased());
         expectedModel.setItem(XPIRE, itemToUpdate, expectedUpdatedItem);
         expectedModel.deleteItem(REPLENISH, itemToShift);
         showNoItem(expectedModel);
@@ -142,7 +142,7 @@ public class ShiftToMainCommandTest {
         // ensures that outOfBoundIndex is still in bounds of replenish list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getLists()[1].getItemList().size());
         ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(outOfBoundIndex,
-                new ExpiryDate(IN_TWO_WEEKS), new Quantity(VALID_QUANTITY_APPLE));
+                new ExpiryDate(IN_A_WEEK), new Quantity(VALID_QUANTITY_APPLE));
         assertCommandFailure(shiftToMainCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
@@ -174,11 +174,11 @@ public class ShiftToMainCommandTest {
         assertFalse(shiftPapayaCommand.equals(editedShiftPapayaCommand));
         // different expiry date -> returns false
         editedShiftPapayaCommand = new ShiftToMainCommand(INDEX_FIFTH_ITEM,
-                new ExpiryDate(VALID_EXPIRY_DATE_BANANA), new Quantity(VALID_QUANTITY_PAPAYA));
+                new ExpiryDate(VALID_EXPIRY_DATE_CORIANDER), new Quantity(VALID_QUANTITY_PAPAYA));
         assertFalse(shiftPapayaCommand.equals(editedShiftPapayaCommand));
         // different quantity -> returns false
         editedShiftPapayaCommand = new ShiftToMainCommand(INDEX_FIFTH_ITEM,
-                new ExpiryDate(VALID_EXPIRY_DATE_PAPAYA), new Quantity(VALID_QUANTITY_BANANA));
+                new ExpiryDate(VALID_EXPIRY_DATE_PAPAYA), new Quantity(VALID_QUANTITY_EGG));
         assertFalse(shiftPapayaCommand.equals(editedShiftPapayaCommand));
     }
 

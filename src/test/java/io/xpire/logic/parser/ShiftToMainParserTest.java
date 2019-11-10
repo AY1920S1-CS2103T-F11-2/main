@@ -7,7 +7,7 @@ import static io.xpire.testutil.TypicalItemsFields.INVALID_EXPIRY_DATE;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_QUANTITY_INTEGER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_DUCK;
-import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_EXPIRING_FISH;
+import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_FISH;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_DUCK;
 
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ public class ShiftToMainParserTest {
     public void parse_invalidInput_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShiftToMainCommand.MESSAGE_USAGE);
         // missing bars
-        CommandParserTestUtil.assertParseFailure(parser, "4" + VALID_EXPIRY_DATE_EXPIRING_FISH,
+        CommandParserTestUtil.assertParseFailure(parser, "4" + VALID_EXPIRY_DATE_FISH,
                 expectedMessage);
     }
 
