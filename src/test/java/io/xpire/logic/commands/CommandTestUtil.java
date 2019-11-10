@@ -67,7 +67,7 @@ public class CommandTestUtil {
         Xpire expectedXpire = new Xpire(actualModel.getLists()[0]);
         @SuppressWarnings ("unchecked")
         List<XpireItem> expectedFilteredList = new ArrayList<>((Collection<XpireItem>) actualModel.getCurrentList());
-
+        System.out.println(expectedMessage);
         Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel, stateManager));
         assertEquals(expectedXpire, actualModel.getLists()[0]);
         assertEquals(expectedFilteredList, actualModel.getCurrentList());
@@ -87,6 +87,7 @@ public class CommandTestUtil {
 
         assertEquals(1, model.getCurrentList().size());
     }
+
 
     /**
      * Updates {@code model}'s filtered list to show only the replenishItem at the given {@code targetIndex} in the

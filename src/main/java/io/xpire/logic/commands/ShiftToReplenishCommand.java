@@ -56,4 +56,22 @@ public class ShiftToReplenishCommand extends Command {
     public String toString() {
         return "Shift command";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof ShiftToReplenishCommand)) {
+            return false;
+        } else {
+            ShiftToReplenishCommand other = (ShiftToReplenishCommand) obj;
+            return this.targetIndex.equals(other.targetIndex);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.targetIndex.hashCode();
+    }
+
 }

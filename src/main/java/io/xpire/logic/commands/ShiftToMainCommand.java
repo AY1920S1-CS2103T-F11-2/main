@@ -88,4 +88,18 @@ public class ShiftToMainCommand extends Command {
         return new CommandResult(this.result);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof ShiftToMainCommand)) {
+            return false;
+        } else {
+            ShiftToMainCommand other = (ShiftToMainCommand) obj;
+            return this.targetIndex.equals(other.targetIndex)
+                && this.expiryDate.equals(other.expiryDate)
+                    && this.quantity.equals(other.quantity);
+        }
+    }
+
 }

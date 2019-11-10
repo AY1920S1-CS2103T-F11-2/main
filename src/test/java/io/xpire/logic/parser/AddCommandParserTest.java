@@ -27,8 +27,6 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        XpireItem expectedXpireItem = new XpireItemBuilder(BANANA).build();
-
         CommandParserTestUtil.assertEqualsParseSuccess(parser, VALID_NAME_BANANA
                         + "|" + VALID_EXPIRY_DATE_BANANA + "|" + VALID_QUANTITY_BANANA,
                 new AddCommand(new Name(VALID_NAME_BANANA), new ExpiryDate(VALID_EXPIRY_DATE_BANANA),
@@ -69,7 +67,7 @@ public class AddCommandParserTest {
                 + "|" + INVALID_QUANTITY_INTEGER, Quantity.MESSAGE_CONSTRAINTS);
 
         // two invalid values, only first invalid value reported
-        CommandParserTestUtil.assertParseFailure(parser, INVALID_NAME + "|" + VALID_EXPIRY_DATE_BANANA
-            + "|", Name.MESSAGE_CONSTRAINTS);
+        CommandParserTestUtil.assertParseFailure(parser, INVALID_NAME + "|" + INVALID_EXPIRY_DATE,
+                Name.MESSAGE_CONSTRAINTS);
     }
 }

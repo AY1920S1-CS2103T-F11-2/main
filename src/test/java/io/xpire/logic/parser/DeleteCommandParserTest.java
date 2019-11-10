@@ -100,7 +100,6 @@ public class DeleteCommandParserTest {
     //deleting of Quantity not allowed in replenish list as replenish items have no quantity
     @Test
     public void parse_deleteQuantityInReplenishList_throwsParseException() {
-        Quantity invalidQuantity = new Quantity("1");
         assertParseFailure(replenishParser, "1|1", DeleteCommandParser.MESSAGE_DELETE_QUANTITY_INVALID_USAGE);
     }
 }

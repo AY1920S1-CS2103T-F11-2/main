@@ -52,7 +52,6 @@ import io.xpire.model.Model;
 import io.xpire.model.ModelManager;
 import io.xpire.model.UserPrefs;
 import io.xpire.model.item.Item;
-import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.tag.Tag;
@@ -229,12 +228,11 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_deleteQuantityEqualsToXpireItemQuantityFromXpireItem_success() {
+        // item does not exist on replenish list
         Quantity quantityToDeduct = new Quantity("1");
         DeleteCommand deleteCommand = new DeleteCommand(XPIRE, INDEX_THIRD_ITEM, quantityToDeduct);
         XpireItem xpireItemToDelete = (XpireItem) model.getCurrentList().get(INDEX_THIRD_ITEM.getZeroBased());
-        Name itemName = xpireItemToDelete.getName();
-        Set<Tag> itemTags = xpireItemToDelete.getTags();
-        Item adaptedItem = new Item(itemName, itemTags);
+        Item adaptedItem = new Item(xpireItemToDelete.getName(), xpireItemToDelete.getTags());
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_QUANTITY_SUCCESS,
                 quantityToDeduct.toString(), xpireItemToDelete) + "\n"
                 + String.format(MESSAGE_REPLENISH_SHIFT_SUCCESS, xpireItemToDelete.getName());
@@ -421,7 +419,7 @@ public class DeleteCommandTest {
     }
 
     /**
-     * Updates {@code model}'s filtered list to show no one.
+     * Updates {@code model}'s filtered list to show no item.
      **/
     private void showNoItem(Model model) {
         model.filterCurrentList(XPIRE, p -> false);

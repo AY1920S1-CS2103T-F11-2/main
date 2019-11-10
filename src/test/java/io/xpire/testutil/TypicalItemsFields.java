@@ -22,6 +22,7 @@ public class TypicalItemsFields {
     public static final String VALID_NAME_EXPIRING_FISH = "Fish";
     public static final String VALID_NAME_EXPIRED_MILK = "Milk";
     public static final String VALID_NAME_EXPIRED_ORANGE = "Orange";
+    public static final String VALID_NAME_PAPAYA = "Papaya";
 
     public static final String TODAY = DateUtil.convertDateToString(LocalDate.now());
     public static final String IN_A_WEEK = DateUtil.convertDateToString(LocalDate.now().plusDays(7));
@@ -39,6 +40,7 @@ public class TypicalItemsFields {
     public static final String VALID_EXPIRY_DATE_EXPIRING_FISH = IN_A_WEEK;
     public static final String VALID_EXPIRY_DATE_EXPIRED_MILK = PASSED_A_WEEK;
     public static final String VALID_EXPIRY_DATE_EXPIRED_ORANGE = PASSED_A_DAY;
+    public static final String VALID_EXPIRY_DATE_PAPAYA = IN_A_MONTH;
 
 
     public static final String VALID_QUANTITY_APPLE = "1";
@@ -50,6 +52,7 @@ public class TypicalItemsFields {
     public static final String VALID_QUANTITY_EXPIRING_FISH = "1";
     public static final String VALID_QUANTITY_EXPIRED_MILK = "2";
     public static final String VALID_QUANTITY_EXPIRED_ORANGE = "1";
+    public static final String VALID_QUANTITY_PAPAYA = "1";
 
     public static final String VALID_TAG_CADBURY = "Cadbury";
     public static final String VALID_TAG_COCOA = "Cocoa";
@@ -69,6 +72,7 @@ public class TypicalItemsFields {
     public static final String VALID_REMINDER_THRESHOLD_EXPIRING_FISH = "8";
     public static final String VALID_REMINDER_THRESHOLD_EXPIRED_MILK = "0";
     public static final String VALID_REMINDER_THRESHOLD_EXPIRED_ORANGE = "0";
+    public static final String VALID_REMINDER_THRESHOLD_PAPAYA = "0";
 
     public static final String INVALID_NAME = "@pple";
     public static final String INVALID_EXPIRY_DATE = "50505000";

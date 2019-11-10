@@ -1,6 +1,7 @@
 package io.xpire.testutil;
 
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_CORIANDER;
+import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_CORIANDER;
@@ -10,6 +11,7 @@ import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_EXPIRED_ORANGE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_EXPIRING_FISH;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_JELLY;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_KIWI;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_CORIANDER;
@@ -18,11 +20,14 @@ import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_EXPIRED_ORANGE
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_EXPIRING_FISH;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_JELLY;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_KIWI;
+import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_CORIANDER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_EXPIRING_FISH;
 import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_JELLY;
 import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_KIWI;
+import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRIDGE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRUIT;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_HERB;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_PROTEIN;
 
@@ -106,6 +111,13 @@ public class TypicalItems {
                                                           .withReminderThreshold(VALID_REMINDER_THRESHOLD_CORIANDER)
                                                           .build();
 
+    // similar item on replenish list
+    public static final XpireItem PAPAYA_XPIRE = new XpireItemBuilder().withName(VALID_NAME_PAPAYA)
+                                                        .withExpiryDate(VALID_EXPIRY_DATE_PAPAYA)
+                                                        .withQuantity(VALID_QUANTITY_PAPAYA)
+                                                        .withTags(VALID_TAG_FRUIT)
+                                                        .withReminderThreshold(VALID_REMINDER_THRESHOLD_PAPAYA)
+                                                        .build();
 
 
     //====================== Replenish List Items ====================================================
@@ -121,7 +133,10 @@ public class TypicalItems {
     public static final Item BISCUIT = new ItemBuilder().withName("Biscuit")
                                                        .withTags("Sweet").build();
 
-    public static final Item PAPAYA = new ItemBuilder().withName("Papaya").build();
+
+    public static final Item PAPAYA_REPLENISH = new ItemBuilder().withName("Papaya").build();
+
+    public static final Item TUNA = new ItemBuilder().withName("Tuna").build();
 
     private TypicalItems() {} // prevents instantiation
 
@@ -162,12 +177,12 @@ public class TypicalItems {
 
     public static List<XpireItem> getTypicalXpireItems() {
         return new ArrayList<>(Arrays.asList(EXPIRED_MILK, BANANA, EXPIRED_APPLE, EXPIRED_ORANGE, EXPIRING_FISH, DUCK,
-                JELLY));
+                JELLY, PAPAYA_XPIRE));
 
     }
 
     public static List<Item> getTypicalReplenishListItems() {
-        return new ArrayList<>(Arrays.asList(BAGEL, CHOCOLATE, COOKIE, BISCUIT));
+        return new ArrayList<>(Arrays.asList(BAGEL, CHOCOLATE, COOKIE, BISCUIT, PAPAYA_REPLENISH, TUNA));
     }
 
 }
