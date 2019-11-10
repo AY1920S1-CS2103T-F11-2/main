@@ -1,7 +1,6 @@
 package io.xpire.logic.parser;
 
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static io.xpire.testutil.TypicalItems.BANANA;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_EXPIRY_DATE;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_NAME;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_QUANTITY_INTEGER;
@@ -19,8 +18,6 @@ import io.xpire.logic.commands.AddCommand;
 import io.xpire.model.item.ExpiryDate;
 import io.xpire.model.item.Name;
 import io.xpire.model.item.Quantity;
-import io.xpire.model.item.XpireItem;
-import io.xpire.testutil.XpireItemBuilder;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();

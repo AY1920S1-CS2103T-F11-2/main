@@ -8,6 +8,7 @@ import static io.xpire.testutil.TypicalItems.EXPIRED_MILK;
 import static io.xpire.testutil.TypicalItems.EXPIRED_ORANGE;
 import static io.xpire.testutil.TypicalItems.EXPIRING_FISH;
 import static io.xpire.testutil.TypicalItems.JELLY;
+import static io.xpire.testutil.TypicalItems.PAPAYA_XPIRE;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -47,8 +48,8 @@ public class SortCommandTest {
         expectedModel.filterCurrentList(ListType.XPIRE, Model.PREDICATE_SORT_ALL_ITEMS);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
-                Arrays.asList(EXPIRED_APPLE, BANANA, DUCK, EXPIRING_FISH, JELLY, EXPIRED_MILK, EXPIRED_ORANGE),
-                model.getCurrentList()
+                Arrays.asList(EXPIRED_APPLE, BANANA, DUCK, EXPIRING_FISH, JELLY, EXPIRED_MILK, EXPIRED_ORANGE,
+                        PAPAYA_XPIRE), model.getCurrentList()
         );
     }
 
@@ -61,8 +62,8 @@ public class SortCommandTest {
         expectedModel.filterCurrentList(ListType.XPIRE, Model.PREDICATE_SORT_ALL_ITEMS);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
-                Arrays.asList(EXPIRED_MILK, EXPIRED_ORANGE, EXPIRED_APPLE, EXPIRING_FISH, BANANA, DUCK, JELLY),
-                model.getCurrentList()
+                Arrays.asList(EXPIRED_MILK, EXPIRED_ORANGE, EXPIRED_APPLE, EXPIRING_FISH, BANANA, DUCK, JELLY,
+                        PAPAYA_XPIRE), model.getCurrentList()
         );
     }
 }

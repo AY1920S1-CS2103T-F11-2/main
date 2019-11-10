@@ -38,6 +38,7 @@ public class CommandTestUtil {
                                             Model expectedModel) {
         try {
             CommandResult result = command.execute(actualModel, stateManager);
+            System.out.println("actual: " + result.getFeedbackToUser());
             assertEquals(expectedCommandResult, result);
             assertEquals(expectedModel, actualModel);
         } catch (CommandException | ParseException ce) {
@@ -67,7 +68,6 @@ public class CommandTestUtil {
         Xpire expectedXpire = new Xpire(actualModel.getLists()[0]);
         @SuppressWarnings ("unchecked")
         List<XpireItem> expectedFilteredList = new ArrayList<>((Collection<XpireItem>) actualModel.getCurrentList());
-        System.out.println(expectedMessage);
         Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel, stateManager));
         assertEquals(expectedXpire, actualModel.getLists()[0]);
         assertEquals(expectedFilteredList, actualModel.getCurrentList());

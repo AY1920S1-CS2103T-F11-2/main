@@ -23,6 +23,9 @@ public class TypicalItemsFields {
     public static final String VALID_NAME_EXPIRED_MILK = "Milk";
     public static final String VALID_NAME_EXPIRED_ORANGE = "Orange";
     public static final String VALID_NAME_PAPAYA = "Papaya";
+    public static final String VALID_NAME_TUNA = "Tuna";
+    public static final String VALID_NAME_WATERMELON = "Watermelon";
+
 
     public static final String TODAY = DateUtil.convertDateToString(LocalDate.now());
     public static final String IN_A_WEEK = DateUtil.convertDateToString(LocalDate.now().plusDays(7));
@@ -42,7 +45,6 @@ public class TypicalItemsFields {
     public static final String VALID_EXPIRY_DATE_EXPIRED_ORANGE = PASSED_A_DAY;
     public static final String VALID_EXPIRY_DATE_PAPAYA = IN_A_MONTH;
 
-
     public static final String VALID_QUANTITY_APPLE = "1";
     public static final String VALID_QUANTITY_BANANA = "5";
     public static final String VALID_QUANTITY_CORIANDER = "999";
@@ -54,6 +56,7 @@ public class TypicalItemsFields {
     public static final String VALID_QUANTITY_EXPIRED_ORANGE = "1";
     public static final String VALID_QUANTITY_PAPAYA = "1";
 
+    public static final String VALID_TAG_BREAKFAST = "Breakfast";
     public static final String VALID_TAG_CADBURY = "Cadbury";
     public static final String VALID_TAG_COCOA = "Cocoa";
     public static final String VALID_TAG_DRINK = "Drink";

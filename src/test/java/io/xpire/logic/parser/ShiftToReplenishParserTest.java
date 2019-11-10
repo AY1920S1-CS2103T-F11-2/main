@@ -1,11 +1,12 @@
 package io.xpire.logic.parser;
 
-import io.xpire.logic.commands.ShiftToReplenishCommand;
-import org.junit.jupiter.api.Test;
-
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static io.xpire.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static io.xpire.testutil.TypicalIndexes.INDEX_THIRD_ITEM;
+
+import org.junit.jupiter.api.Test;
+
+import io.xpire.logic.commands.ShiftToReplenishCommand;
 
 public class ShiftToReplenishParserTest {
 

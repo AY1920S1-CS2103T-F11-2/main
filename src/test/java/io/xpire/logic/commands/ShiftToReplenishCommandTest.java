@@ -1,14 +1,5 @@
 package io.xpire.logic.commands;
 
-import io.xpire.commons.core.Messages;
-import io.xpire.commons.core.index.Index;
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
-import io.xpire.model.UserPrefs;
-import io.xpire.model.item.XpireItem;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandFailure;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static io.xpire.logic.commands.CommandTestUtil.showXpireItemAtIndex;
@@ -22,6 +13,16 @@ import static io.xpire.testutil.TypicalIndexes.INDEX_SECOND_ITEM;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import io.xpire.commons.core.Messages;
+import io.xpire.commons.core.index.Index;
+import io.xpire.model.Model;
+import io.xpire.model.ModelManager;
+import io.xpire.model.UserPrefs;
+import io.xpire.model.item.XpireItem;
 
 public class ShiftToReplenishCommandTest {
 
@@ -67,13 +68,13 @@ public class ShiftToReplenishCommandTest {
     }
 
     @Test
-    public void execute_validIndexUnfilteredXpireList_duplicateItem_throwsException() {
+    public void execute_validIndexUnfilteredXpireListDuplicateItem_throwsException() {
         ShiftToReplenishCommand shiftToReplenishCommand = new ShiftToReplenishCommand(INDEX_EIGHTH_ITEM);
         assertCommandFailure(shiftToReplenishCommand, model, MESSAGE_DUPLICATE_ITEM_REPLENISH);
     }
 
     @Test
-    public void execute_validIndexFilteredXpireList_duplicateItem_throwsException() {
+    public void execute_validIndexFilteredXpireListDuplicateItem_throwsException() {
         showXpireItemAtIndex(model, INDEX_EIGHTH_ITEM);
         ShiftToReplenishCommand shiftToReplenishCommand = new ShiftToReplenishCommand(INDEX_FIRST_ITEM);
         assertCommandFailure(shiftToReplenishCommand, model, MESSAGE_DUPLICATE_ITEM_REPLENISH);

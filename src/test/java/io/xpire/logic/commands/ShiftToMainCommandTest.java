@@ -1,18 +1,5 @@
 package io.xpire.logic.commands;
 
-import io.xpire.commons.core.Messages;
-import io.xpire.commons.core.index.Index;
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
-import io.xpire.model.UserPrefs;
-import io.xpire.model.item.ExpiryDate;
-import io.xpire.model.item.Item;
-import io.xpire.model.item.Quantity;
-import io.xpire.model.item.XpireItem;
-import io.xpire.testutil.XpireItemBuilder;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandFailure;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static io.xpire.logic.commands.CommandTestUtil.showReplenishItemAtIndex;
@@ -33,6 +20,20 @@ import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRUIT;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import io.xpire.commons.core.Messages;
+import io.xpire.commons.core.index.Index;
+import io.xpire.model.Model;
+import io.xpire.model.ModelManager;
+import io.xpire.model.UserPrefs;
+import io.xpire.model.item.ExpiryDate;
+import io.xpire.model.item.Item;
+import io.xpire.model.item.Quantity;
+import io.xpire.model.item.XpireItem;
+import io.xpire.testutil.XpireItemBuilder;
+
 /**
  * Contains integration tests (interaction with the Model, CommandUtil, UndoCommand and RedoCommand) and unit tests for
  * {@code DeleteCommand}.
@@ -48,7 +49,7 @@ public class ShiftToMainCommandTest {
     }
 
     @Test
-    public void execute_validIndexUnfilteredReplenishList_noDuplicateItem_success() {
+    public void execute_validIndexUnfilteredReplenishListNoDuplicateItem_success() {
         Item itemToShift = model.getCurrentList().get(INDEX_FIRST_ITEM.getZeroBased());
         ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(INDEX_FIRST_ITEM,
                 new ExpiryDate(IN_TWO_WEEKS), new Quantity(VALID_QUANTITY_APPLE));
@@ -62,7 +63,7 @@ public class ShiftToMainCommandTest {
     }
 
     @Test
-    public void execute_validIndexUnfilteredReplenishList_duplicateItem_success() {
+    public void execute_validIndexUnfilteredReplenishListDuplicateItem_success() {
         Item itemToShift = model.getCurrentList().get(INDEX_FIFTH_ITEM.getZeroBased());
         ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(INDEX_FIFTH_ITEM,
                 new ExpiryDate(VALID_EXPIRY_DATE_PAPAYA), new Quantity(VALID_QUANTITY_PAPAYA));
@@ -89,7 +90,7 @@ public class ShiftToMainCommandTest {
     }
 
     @Test
-    public void execute_validIndexFilteredXpireList_noDuplicateItem_success() {
+    public void execute_validIndexFilteredXpireListNoDuplicateItem_success() {
         model.setCurrentList(REPLENISH);
         showReplenishItemAtIndex(model, INDEX_FIRST_ITEM);
 
@@ -107,7 +108,7 @@ public class ShiftToMainCommandTest {
     }
 
     @Test
-    public void execute_validIndexFilteredXpireList_duplicateItem_success() {
+    public void execute_validIndexFilteredXpireListDuplicateItem_success() {
         model.setCurrentList(REPLENISH);
         showReplenishItemAtIndex(model, INDEX_FIFTH_ITEM);
 

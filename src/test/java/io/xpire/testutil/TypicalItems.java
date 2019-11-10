@@ -3,7 +3,11 @@ package io.xpire.testutil;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_CORIANDER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_PAPAYA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_APPLE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_BAGEL;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_BANANA;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_BISCUIT;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_CHOCOLATE;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_COOKIE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_CORIANDER;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_DUCK;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_EXPIRED_MILK;
@@ -12,6 +16,8 @@ import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_EXPIRING_FISH;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_JELLY;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_KIWI;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_PAPAYA;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_TUNA;
+import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_WATERMELON;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_CORIANDER;
@@ -26,10 +32,13 @@ import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_EXPI
 import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_JELLY;
 import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_KIWI;
 import static io.xpire.testutil.TypicalItemsFields.VALID_REMINDER_THRESHOLD_PAPAYA;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_CADBURY;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_COCOA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRIDGE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_FRUIT;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_HERB;
 import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_PROTEIN;
+import static io.xpire.testutil.TypicalItemsFields.VALID_TAG_SWEET;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -122,21 +131,22 @@ public class TypicalItems {
 
     //====================== Replenish List Items ====================================================
 
-    public static final Item BAGEL = new ItemBuilder().withName("Bagel").build();
+    public static final Item BAGEL = new ItemBuilder().withName(VALID_NAME_BAGEL).build();
 
-    public static final Item CHOCOLATE = new ItemBuilder().withName("Chocolate")
-                                            .withTags("Cadbury", "Cocoa").build();
+    public static final Item CHOCOLATE = new ItemBuilder().withName(VALID_NAME_CHOCOLATE)
+                                            .withTags(VALID_TAG_CADBURY, VALID_TAG_COCOA).build();
 
-    public static final Item COOKIE = new ItemBuilder().withName("Cookie")
-                                                          .withTags("Sweet").build();
+    public static final Item COOKIE = new ItemBuilder().withName(VALID_NAME_COOKIE)
+                                                          .withTags(VALID_TAG_SWEET).build();
 
-    public static final Item BISCUIT = new ItemBuilder().withName("Biscuit")
-                                                       .withTags("Sweet").build();
+    public static final Item BISCUIT = new ItemBuilder().withName(VALID_NAME_BISCUIT)
+                                                       .withTags(VALID_TAG_SWEET).build();
 
+    public static final Item PAPAYA_REPLENISH = new ItemBuilder().withName(VALID_NAME_PAPAYA).build();
 
-    public static final Item PAPAYA_REPLENISH = new ItemBuilder().withName("Papaya").build();
+    public static final Item WATERMELON = new ItemBuilder().withName(VALID_NAME_WATERMELON).build();
 
-    public static final Item TUNA = new ItemBuilder().withName("Tuna").build();
+    public static final Item TUNA = new ItemBuilder().withName(VALID_NAME_TUNA).build();
 
     private TypicalItems() {} // prevents instantiation
 
@@ -158,7 +168,7 @@ public class TypicalItems {
     }
 
     /**
-     * Returns an {@code Xpire} with all the typical items.
+     * Returns an {@code Xpire} with all the typical Xpire items.
      */
     public static Xpire getTypicalExpiryDateTracker() {
         Xpire edt = new Xpire();
@@ -167,6 +177,18 @@ public class TypicalItems {
             edt.addItem(copyXpireItem);
         }
         return new Xpire(edt);
+    }
+
+    /**
+     * Returns a {@code ReplenishList} with all the typical items.
+     */
+    public static ReplenishList getTypicalReplenishList() {
+        ReplenishList replenishList = new ReplenishList();
+        for (Item item : getTypicalReplenishListItems()) {
+            Item copyItem = new Item(item);
+            replenishList.addItem(copyItem);
+        }
+        return new ReplenishList(replenishList);
     }
 
     public static Xpire getSampleTracker() {

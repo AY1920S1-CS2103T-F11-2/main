@@ -1,17 +1,5 @@
 package io.xpire.logic.commands.util;
 
-import io.xpire.logic.commands.Command;
-import io.xpire.logic.commands.exceptions.CommandException;
-import io.xpire.model.Model;
-import io.xpire.model.ModelManager;
-import io.xpire.model.UserPrefs;
-import io.xpire.model.item.Quantity;
-import io.xpire.model.item.XpireItem;
-import io.xpire.model.item.exceptions.ItemNotFoundException;
-import io.xpire.testutil.XpireItemBuilder;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static io.xpire.logic.commands.CommandTestUtil.showXpireItemAtIndex;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
@@ -36,6 +24,18 @@ import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_KIWI;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import io.xpire.logic.commands.exceptions.CommandException;
+import io.xpire.model.Model;
+import io.xpire.model.ModelManager;
+import io.xpire.model.UserPrefs;
+import io.xpire.model.item.Quantity;
+import io.xpire.model.item.XpireItem;
+import io.xpire.model.item.exceptions.ItemNotFoundException;
+import io.xpire.testutil.XpireItemBuilder;
 
 public class CommandUtilTest {
 
@@ -106,8 +106,8 @@ public class CommandUtilTest {
         XpireItem itemToIncrease = new XpireItemBuilder().withName(VALID_NAME_KIWI)
                 .withExpiryDate(VALID_EXPIRY_DATE_KIWI)
                 .withQuantity(VALID_QUANTITY_KIWI).build();
-        assertThrows(CommandException.class,
-                () -> CommandUtil.increaseItemQuantity(itemToIncrease, new Quantity("99999")));
+        assertThrows(CommandException.class, () ->
+                CommandUtil.increaseItemQuantity(itemToIncrease, new Quantity("99999")));
     }
 
     @Test
@@ -133,8 +133,8 @@ public class CommandUtilTest {
         XpireItem itemNotInList = new XpireItemBuilder().withName(VALID_NAME_CORIANDER)
                 .withExpiryDate(VALID_EXPIRY_DATE_CORIANDER)
                 .withQuantity(VALID_QUANTITY_CORIANDER).build();
-        assertThrows(ItemNotFoundException.class,
-                () -> CommandUtil.retrieveXpireItemFromList(itemNotInList, model.getCurrentList()));
+        assertThrows(ItemNotFoundException.class, () ->
+                CommandUtil.retrieveXpireItemFromList(itemNotInList, model.getCurrentList()));
     }
 
     @Test
@@ -163,8 +163,8 @@ public class CommandUtilTest {
                 .withQuantity(VALID_QUANTITY_JELLY).build();
         // item exists on unfiltered list
         assertTrue(model.hasItem(XPIRE, itemNotInFilteredList));
-        assertThrows(ItemNotFoundException.class,
-                () -> CommandUtil.retrieveXpireItemFromList(itemNotInFilteredList, model.getCurrentList()));
+        assertThrows(ItemNotFoundException.class, () ->
+                CommandUtil.retrieveXpireItemFromList(itemNotInFilteredList, model.getCurrentList()));
     }
 
     @Test
@@ -229,7 +229,7 @@ public class CommandUtilTest {
         XpireItem nonExistentItem = new XpireItemBuilder().withName(VALID_NAME_CORIANDER)
                 .withExpiryDate(VALID_EXPIRY_DATE_CORIANDER)
                 .withQuantity(VALID_QUANTITY_CORIANDER).build();
-        assertThrows(ItemNotFoundException.class,
-                () -> CommandUtil.retrieveXpireItemFromList(nonExistentItem, model.getCurrentList()));
+        assertThrows(ItemNotFoundException.class, () ->
+                CommandUtil.retrieveXpireItemFromList(nonExistentItem, model.getCurrentList()));
     }
 }
