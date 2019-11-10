@@ -12,7 +12,6 @@ import io.xpire.logic.commands.util.CommandUtil;
 import io.xpire.model.Model;
 import io.xpire.model.item.Item;
 import io.xpire.model.item.XpireItem;
-import io.xpire.model.state.ModifiedState;
 import io.xpire.model.state.StateManager;
 
 //@@author liawsy
@@ -46,9 +45,7 @@ public class ShiftToReplenishCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_INDEX);
         }
         XpireItem targetItem = (XpireItem) lastShownList.get(this.targetIndex.getZeroBased());
-        stateManager.saveState(new ModifiedState(model));
-
-        CommandUtil.shiftItemToReplenishList(model, targetItem);
+        CommandUtil.shiftItemToReplenishList(stateManager, model, targetItem);
         this.result = String.format(MESSAGE_REPLENISH_SHIFT_SUCCESS, targetItem.getName());
         setShowInHistory(true);
         return new CommandResult(this.result);

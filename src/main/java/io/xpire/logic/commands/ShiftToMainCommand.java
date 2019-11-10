@@ -55,7 +55,7 @@ public class ShiftToMainCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_INDEX);
         }
         Item targetItem = lastShownList.get(this.targetIndex.getZeroBased());
-        return shiftItemToMain(model, targetItem);
+        return shiftItemToMain(stateManager, model, targetItem);
     }
 
     @Override
@@ -71,10 +71,10 @@ public class ShiftToMainCommand extends Command {
      * @return feedback message of the operation result for display.
      * @throws CommandException if the resulting quantity exceeds the maximum limit.
      */
-    private CommandResult shiftItemToMain(Model model, Item item) throws CommandException {
+    private CommandResult shiftItemToMain(StateManager stateManager, Model model, Item item) throws CommandException {
         XpireItem remodelledItem = item.remodel(this.expiryDate, this.quantity);
         if (model.hasItem(XPIRE, remodelledItem)) {
-            XpireItem itemWithUpdatedQuantity = CommandUtil.updateItemQuantity(model, remodelledItem);
+            XpireItem itemWithUpdatedQuantity = CommandUtil.updateItemQuantity(stateManager, model, remodelledItem);
             model.deleteItem(REPLENISH, item);
             this.result = String.format(MESSAGE_SUCCESS_UPDATE_QUANTITY, remodelledItem.getName(),
                     itemWithUpdatedQuantity.getQuantity());

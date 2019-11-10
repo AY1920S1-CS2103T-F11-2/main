@@ -35,6 +35,8 @@ import io.xpire.model.UserPrefs;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.exceptions.ItemNotFoundException;
+import io.xpire.model.state.StackManager;
+import io.xpire.model.state.StateManager;
 import io.xpire.testutil.XpireItemBuilder;
 
 public class CommandUtilTest {
@@ -45,6 +47,7 @@ public class CommandUtilTest {
     private static final Quantity QUANTITY_ZERO_STUB = new Quantity("1").deductQuantity(new Quantity("1"));
     private static final String QUANTITY_MAXIMUM_LIMIT = "100000";
     private Model model;
+    private StateManager stateManager = new StackManager();
 
     @BeforeEach
     public void setUp() {
@@ -173,7 +176,7 @@ public class CommandUtilTest {
         ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         expectedModel.addItem(REPLENISH, xpireItemToShift.remodel());
         expectedModel.deleteItem(XPIRE, xpireItemToShift);
-        CommandUtil.shiftItemToReplenishList(model, xpireItemToShift);
+        CommandUtil.shiftItemToReplenishList(stateManager, model, xpireItemToShift);
         assertEquals(expectedModel, model);
     }
 
@@ -181,7 +184,8 @@ public class CommandUtilTest {
     public void shiftItemToReplenishList_unfilteredList_throwsCommandException() {
         XpireItem xpireItemToShift = (XpireItem) model.getCurrentList().get(INDEX_TENTH_ITEM.getZeroBased());
         assertTrue(model.hasItem(REPLENISH, xpireItemToShift.remodel()));
-        assertThrows(CommandException.class, () -> CommandUtil.shiftItemToReplenishList(model, xpireItemToShift));
+        assertThrows(CommandException.class, () -> CommandUtil.shiftItemToReplenishList(stateManager, model,
+                xpireItemToShift));
     }
 
     @Test
@@ -191,7 +195,7 @@ public class CommandUtilTest {
         ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         expectedModel.addItem(REPLENISH, xpireItemToShift.remodel());
         expectedModel.deleteItem(XPIRE, xpireItemToShift);
-        CommandUtil.shiftItemToReplenishList(model, xpireItemToShift);
+        CommandUtil.shiftItemToReplenishList(stateManager, model, xpireItemToShift);
         assertEquals(expectedModel, model);
     }
 
@@ -200,7 +204,8 @@ public class CommandUtilTest {
         showXpireItemAtIndex(model, INDEX_TENTH_ITEM);
         XpireItem xpireItemToShift = (XpireItem) model.getCurrentList().get(INDEX_FIRST_ITEM.getZeroBased());
         assertTrue(model.hasItem(REPLENISH, xpireItemToShift.remodel()));
-        assertThrows(CommandException.class, () -> CommandUtil.shiftItemToReplenishList(model, xpireItemToShift));
+        assertThrows(CommandException.class, () -> CommandUtil.shiftItemToReplenishList(stateManager, model,
+                xpireItemToShift));
     }
 
     @Test
@@ -208,7 +213,7 @@ public class CommandUtilTest {
         XpireItem itemToUpdate = new XpireItemBuilder().withName(VALID_NAME_APPLE)
                 .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                 .withQuantity(VALID_QUANTITY_APPLE).build();
-        CommandUtil.updateItemQuantity(model, itemToUpdate);
+        CommandUtil.updateItemQuantity(stateManager, model, itemToUpdate);
         ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
         XpireItem expectedItem = new XpireItemBuilder().withName(VALID_NAME_APPLE)
                 .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
@@ -223,7 +228,7 @@ public class CommandUtilTest {
         XpireItem itemToUpdate = new XpireItemBuilder().withName(VALID_NAME_APPLE)
                 .withExpiryDate(VALID_EXPIRY_DATE_APPLE)
                 .withQuantity(QUANTITY_MAXIMUM_LIMIT).build();
-        assertThrows(CommandException.class, () -> CommandUtil.updateItemQuantity(model, itemToUpdate));
+        assertThrows(CommandException.class, () -> CommandUtil.updateItemQuantity(stateManager, model, itemToUpdate));
 
         //item does not exist
         XpireItem nonExistentItem = new XpireItemBuilder().withName(VALID_NAME_CORIANDER)

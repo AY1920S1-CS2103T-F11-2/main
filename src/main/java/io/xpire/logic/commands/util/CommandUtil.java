@@ -12,6 +12,8 @@ import io.xpire.model.item.Item;
 import io.xpire.model.item.Quantity;
 import io.xpire.model.item.XpireItem;
 import io.xpire.model.item.exceptions.ItemNotFoundException;
+import io.xpire.model.state.ModifiedState;
+import io.xpire.model.state.StateManager;
 
 /**
  * Helper functions for commands.
@@ -38,9 +40,11 @@ public class CommandUtil {
      * @return item with updated quantity.
      * @throws CommandException if the resulting quantity exceeds the maximum limit.
      */
-    public static XpireItem updateItemQuantity(Model model, XpireItem existingItem) throws CommandException {
+    public static XpireItem updateItemQuantity(StateManager stateManager, Model model, XpireItem existingItem)
+            throws CommandException {
         XpireItem itemToReplace = retrieveXpireItemFromList(existingItem, model.getItemList(XPIRE));
         XpireItem itemWithUpdatedQuantity = increaseItemQuantity(itemToReplace, existingItem.getQuantity());
+        stateManager.saveState(new ModifiedState(model));
         model.setItem(XPIRE, itemToReplace, itemWithUpdatedQuantity);
         return itemWithUpdatedQuantity;
     }
@@ -114,11 +118,13 @@ public class CommandUtil {
      * @param itemToShift to be shifted to the{@code ReplenishList}.
      * @throws CommandException when a similar item already exists on the Replenish List.
      */
-    public static void shiftItemToReplenishList(Model model, XpireItem itemToShift) throws CommandException {
+    public static void shiftItemToReplenishList(StateManager stateManager, Model model, XpireItem itemToShift)
+            throws CommandException {
         Item remodelledItem = itemToShift.remodel();
         if (model.hasItem(REPLENISH, remodelledItem)) {
             throw new CommandException(MESSAGE_DUPLICATE_ITEM_REPLENISH);
         }
+        stateManager.saveState(new ModifiedState(model));
         model.addItem(REPLENISH, remodelledItem);
         model.deleteItem(XPIRE, itemToShift);
     }

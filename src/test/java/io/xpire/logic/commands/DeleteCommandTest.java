@@ -203,7 +203,7 @@ public class DeleteCommandTest {
                 .withQuantity("8")
                 .build();
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_QUANTITY_SUCCESS,
-                quantityToDeduct.toString(), targetXpireItem);
+                quantityToDeduct.toString(), targetXpireItem.getName());
         expectedModel.setItem(XPIRE, targetXpireItem, expectedXpireItem);
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
 
@@ -219,7 +219,7 @@ public class DeleteCommandTest {
                 .withQuantity("3")
                 .build();
         expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_QUANTITY_SUCCESS,
-                quantityToDeduct.toString(), targetXpireItem);
+                quantityToDeduct.toString(), targetXpireItem.getName());
         expectedModel.setItem(XPIRE, targetXpireItem, expectedXpireItem);
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }

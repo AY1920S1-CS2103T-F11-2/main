@@ -2,6 +2,8 @@ package io.xpire.logic.commands;
 
 import static io.xpire.commons.util.CollectionUtil.requireAllNonNull;
 import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_REPLENISH_SHIFT_SUCCESS;
+import static io.xpire.model.ListType.REPLENISH;
+import static io.xpire.model.ListType.XPIRE;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -117,22 +119,20 @@ public class DeleteCommand extends Command {
      * @throws CommandException If an error occurs during command execution.
      */
     private CommandResult executeDeleteQuantity(Model model, Item targetItem, StateManager stateManager)
-            throws CommandException, ParseException {
+            throws CommandException {
         assert this.quantity != null;
         XpireItem updatedItem = CommandUtil.reduceItemQuantity((XpireItem) targetItem, this.quantity);
-
         stateManager.saveState(new ModifiedState(model));
-
         model.setItem(listType, targetItem, updatedItem);
         // transfer item to replenish list
         if (Quantity.quantityIsZero(updatedItem.getQuantity())) {
-            CommandUtil.shiftItemToReplenishList(model, updatedItem);
+            shiftItemToReplenishList(model, updatedItem);
             this.result = String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetItem)
                     + "\n" + String.format(MESSAGE_REPLENISH_SHIFT_SUCCESS, updatedItem.getName());
             setShowInHistory(true);
             return new CommandResult(this.result);
         }
-        this.result = String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetItem);
+        this.result = String.format(MESSAGE_DELETE_QUANTITY_SUCCESS, quantity.toString(), targetItem.getName());
         setShowInHistory(true);
         return new CommandResult(this.result);
     }
@@ -161,7 +161,7 @@ public class DeleteCommand extends Command {
         return new CommandResult(this.result);
     }
 
-     * Executes the command and returns the result message.
+    /** Executes the command and returns the result message.
      *
      * @param model model {@code Model} which the command should operate on.
      * @param targetItem target item to delete completely.
@@ -220,45 +220,12 @@ public class DeleteCommand extends Command {
     }
 
     /**
-     * Executes the command and returns the result message.
-     *
-     * @param model model {@code Model} which the command should operate on.
-     * @param targetItem target item to delete completely.
-     * @return feedback message of the operation result for display.
+     * Shifts Item to ReplenishList.
      */
-    private CommandResult executeDeleteItem(Model model, Item targetItem) {
-        model.deleteItem(listType, targetItem);
-        this.result = String.format(MESSAGE_DELETE_ITEM_SUCCESS, targetItem);
-        setShowInHistory(true);
-        return new CommandResult(this.result);
-    }
-
-    /**
-     * Removes Tag(s) from target replenishItem.
-     *
-     * @param targetItem The specified replenishItem that tags are to be removed.
-     * @param tagSet Set of tags to remove.
-     * @return item copy with removed tags.
-     */
-    private Item removeTagsFromItem(Item targetItem, Set<Tag> tagSet) throws CommandException {
-        Item targetItemCopy;
-        if (targetItem instanceof XpireItem) {
-            targetItemCopy = new XpireItem((XpireItem) targetItem);
-        } else {
-            targetItemCopy = new Item(targetItem);
-        }
-        Set<Tag> originalTags = targetItemCopy.getTags();
-        Set<Tag> newTags = new TreeSet<>(new TagComparator());
-        if (!originalTags.containsAll(tagSet)) {
-            throw new CommandException(Messages.MESSAGE_INVALID_TAGS);
-        }
-        for (Tag tag: originalTags) {
-            if (!tagSet.contains(tag)) {
-                newTags.add(tag);
-            }
-        }
-        targetItem.setTags(newTags);
-        return targetItem;
+    private void shiftItemToReplenishList(Model model, XpireItem itemToShift) {
+        Item remodelledItem = itemToShift.remodel();
+        model.addItem(REPLENISH, remodelledItem);
+        model.deleteItem(XPIRE, itemToShift);
     }
 
     @Override

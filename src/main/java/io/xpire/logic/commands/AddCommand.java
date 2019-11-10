@@ -56,13 +56,13 @@ public class AddCommand extends Command {
     @Override
     public CommandResult execute(Model model, StateManager stateManager) throws CommandException {
         requireAllNonNull(model, stateManager);
-        stateManager.saveState(new ModifiedState(model));
         if (model.hasItem(XPIRE, this.toAdd)) {
-            XpireItem itemWithUpdatedQuantity = CommandUtil.updateItemQuantity(model, this.toAdd);
+            XpireItem itemWithUpdatedQuantity = CommandUtil.updateItemQuantity(stateManager, model, this.toAdd);
             setShowInHistory(true);
             return new CommandResult(String.format(MESSAGE_SUCCESS_ITEM_UPDATED,
                     itemWithUpdatedQuantity.getName(), itemWithUpdatedQuantity.getQuantity()));
         } else {
+            stateManager.saveState(new ModifiedState(model));
             model.addItem(XPIRE, toAdd);
             setShowInHistory(true);
             return new CommandResult(String.format(MESSAGE_SUCCESS_ITEM_ADDED, toAdd));
