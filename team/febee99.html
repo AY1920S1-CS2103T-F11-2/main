@@ -25,7 +25,10 @@ Responsibilities: Code Quality + Scheduling and Tracking</p>
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Xpire is a desktop application used for tracking expiry dates of items.  The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.</p>
+<p>Given the task to augment an address book desktop application for our software engineering project, my team and I
+decided to transform it into Xpire, an expiry date tracker. Xpire targets students living on campus, allowing them to track,
+identify and replenish any items, including but not limited to, perishable items like food, makeup and medicine, that have either already expired, are
+fully depleted, or are expiring soon.</p>
 </div>
 </div>
 </div>
@@ -45,7 +48,7 @@ Responsibilities: Code Quality + Scheduling and Tracking</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement</strong>: added <strong>the ability to view different lists and execute only commands permissible for the list specified</strong></p>
+<p><strong>Major enhancement: the ability to view different lists and execute only commands permissible for the list specified</strong></p>
 <div class="ulist">
 <ul>
 <li>
@@ -65,7 +68,7 @@ replenished, without making drastic changes to the code base.</p>
 </div>
 </li>
 <li>
-<p><strong>Major enhancement</strong>: added <strong>the ability to recommend similar words for correction if any when a user makes mistakes in his or her input</strong></p>
+<p><strong>Major enhancement: the ability to recommend similar words for correction if any when a user makes mistakes in his or her input</strong></p>
 <div class="ulist">
 <ul>
 <li>
@@ -226,7 +229,7 @@ can use the command <code>view|&lt;list name&gt;</code>. This shows you all the 
 <div class="paragraph">
 <p>Let&#8217;s say that you have completely depleted some items, namely <code>Cherry</code> and <code>Coco Crunch</code> in the main tracking list, and you wish to view these items
 that have been automatically shifted to the replenish list. You can do so by typing <code>view|replenish</code> in the command box
-to change your current list view to that shown in Figure 2 below.</p>
+to change your current list view to that shown in the figure below.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -237,7 +240,7 @@ to change your current list view to that shown in Figure 2 below.</p>
 <div class="paragraph">
 <p>Perhaps after viewing all your items in the replenish list, you wish to return to the main tracking list to add some items
 that you have recently purchased. You can easily return to the main list, by typing <code>view|main</code> in the command box.
-This is depicted in Figure 3 below.</p>
+This is depicted in the figure below.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -298,8 +301,8 @@ To return back to the main list that displays all the items tracked, you can sim
 <div class="sect4">
 <h5 id="implementation"><a class="link" href="#implementation">Implementation</a></h5>
 <div class="paragraph">
-<p>As shown in the snippet of the <code>Logic</code> class diagram below, both <code>XpireParser</code> and <code>ReplenishParser</code> implement the interface <code>Parser</code>.
-<code>ReplenishParser</code> parses and handles the commands in the replenish list.</p>
+<p>As shown in a snippet of the <code>Logic</code> class diagram below, both <code>XpireParser</code> and <code>ReplenishParser</code> implement the interface <code>Parser</code>.
+In particular, <code>ReplenishParser</code> parses and handles the commands in the replenish list.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -332,11 +335,16 @@ replenish list.</p>
 </div>
 <div class="paragraph">
 <p>In the event that <code>ReplenishParser</code> is selected, it will prevent any invalid or prohibited commands and also check for spelling mistakes in the user input.
-This will be further explained in a <a href="#spelling-correction-with-alternative-recommendations">later section</a>.</p>
+This will be further explained to you in a <a href="#spelling-correction-with-alternative-recommendations">later section</a>.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h5>
+<div class="paragraph">
+<p>When designing the replenish list, I had to make decisions on how best to parse and execute commands in an efficient manner
+that would minimise code repetition and delay in runtime. The following is a brief summary of
+my analysis and decisions.</p>
+</div>
 <div class="sect5">
 <h6 id="aspect-how-commands-are-executed-in-the-list"><a class="link" href="#aspect-how-commands-are-executed-in-the-list">Aspect: How commands are executed in the list</a></h6>
 <div class="ulist">
@@ -463,12 +471,17 @@ The list returned is the sortedInternalList wrapped as an unmodifiable list.
 <td class="content">
 Every time view is called, the current method of sorting specified is retrieved. If it has not been explicitly specified,
 the default method of sorting is then retrieved.
-==== Design Considerations
-In the process of actualising this feature, I contemplated on when items should be automatically sorted by name and displayed.
-I also tried and tested varied options to derive an optimal data structure to store the sorted items. The following is a brief summary of my analysis and decisions.
 </td>
 </tr>
 </table>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
+<div class="paragraph">
+<p>In the process of actualising this feature, I contemplated on when items should be automatically sorted by name and displayed.
+I also tried and tested varied options to derive an optimal data structure to store the sorted items. The following is a brief summary of my analysis and decisions.</p>
 </div>
 <div class="sect4">
 <h5 id="aspect-when-items-auto-sorted-by-their-names-are-displayed"><a class="link" href="#aspect-when-items-auto-sorted-by-their-names-are-displayed">Aspect: When items auto-sorted by their names are displayed</a></h5>
@@ -632,7 +645,7 @@ is then thrown to the user as feedback.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">Design Considerations</a></h4>
 <div class="paragraph">
 <p>When tasked to implement this feature, I had to decide on what was the best way to display any form of recommendations to the user.
 I also evaluated multiple options to derive an optimal data structure to store the recommendations. The following is a brief summary of my analysis and decisions.</p>
@@ -707,4 +720,4 @@ I also evaluated multiple options to derive an optimal data structure to store t
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 17:23:20 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 17:25:53 UTC</div></div></div></body></html>

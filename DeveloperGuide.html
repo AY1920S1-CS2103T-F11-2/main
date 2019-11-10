@@ -467,8 +467,8 @@ the item is automatically tagged as <code>#Expired</code>.</strong></p>
 <div class="sect4">
 <h5 id="implementation-3"><a class="link" href="#implementation-3">3.1.2.1. Implementation</a></h5>
 <div class="paragraph">
-<p>As shown in the snippet of the <code>Logic</code> class diagram below, both <code>XpireParser</code> and <code>ReplenishParser</code> implement the interface <code>Parser</code>.
-<code>ReplenishParser</code> parses and handles the commands in the replenish list.</p>
+<p>As shown in a snippet of the <code>Logic</code> class diagram below, both <code>XpireParser</code> and <code>ReplenishParser</code> implement the interface <code>Parser</code>.
+In particular, <code>ReplenishParser</code> parses and handles the commands in the replenish list.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -501,11 +501,16 @@ replenish list.</p>
 </div>
 <div class="paragraph">
 <p>In the event that <code>ReplenishParser</code> is selected, it will prevent any invalid or prohibited commands and also check for spelling mistakes in the user input.
-This will be further explained in a <a href="#spelling-correction-with-alternative-recommendations">later section</a>.</p>
+This will be further explained to you in a <a href="#spelling-correction-with-alternative-recommendations">later section</a>.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.1.2.2. Design Considerations</a></h5>
+<div class="paragraph">
+<p>When designing the replenish list, I had to make decisions on how best to parse and execute commands in an efficient manner
+that would minimise code repetition and delay in runtime. The following is a brief summary of
+my analysis and decisions.</p>
+</div>
 <div class="sect5">
 <h6 id="aspect-how-commands-are-executed-in-the-list"><a class="link" href="#aspect-how-commands-are-executed-in-the-list">3.1.2.2.1. Aspect: How commands are executed in the list</a></h6>
 <div class="ulist">
@@ -637,6 +642,7 @@ the default method of sorting is then retrieved.
 </tr>
 </table>
 </div>
+<div style="page-break-after: always;"></div>
 <div class="paragraph">
 <p>The following sequence diagram demonstrates how the sort command changes the default order of items displayed:</p>
 </div>
@@ -2637,4 +2643,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 17:23:19 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-10 17:25:53 UTC</div></div></div></body></html>
