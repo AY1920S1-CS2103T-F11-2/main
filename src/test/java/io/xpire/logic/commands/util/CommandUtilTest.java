@@ -9,17 +9,12 @@ import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_CORIANDER;
-import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_DUCK;
-import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_JELLY;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_CORIANDER;
-import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_DUCK;
-import static io.xpire.testutil.TypicalItemsFields.VALID_NAME_JELLY;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_BANANA;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_CORIANDER;
-import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_DUCK;
 import static io.xpire.testutil.TypicalItemsFields.VALID_QUANTITY_JELLY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -52,35 +47,6 @@ public class CommandUtilTest {
     @BeforeEach
     public void setUp() {
         model = new ModelManager(getTypicalLists(), new UserPrefs());
-    }
-
-    @Test
-    public void reduceItemQuantity_success() throws Exception {
-        // input quantity less than item quantity
-        XpireItem itemToReduce = new XpireItemBuilder().withName(VALID_NAME_JELLY)
-                .withExpiryDate(VALID_EXPIRY_DATE_JELLY)
-                .withQuantity(VALID_QUANTITY_JELLY).build();
-        XpireItem expectedItem = new XpireItemBuilder().withName(VALID_NAME_JELLY)
-                .withExpiryDate(VALID_EXPIRY_DATE_JELLY)
-                .withQuantity("3").build();
-        assertEquals(expectedItem, CommandUtil.reduceItemQuantity(itemToReduce, new Quantity("1")));
-
-        // input quantity equals to item quantity
-        itemToReduce = new XpireItemBuilder().withName(VALID_NAME_DUCK)
-                .withExpiryDate(VALID_EXPIRY_DATE_DUCK)
-                .withQuantity(VALID_QUANTITY_DUCK).build();
-        expectedItem = new XpireItemBuilder().withName(VALID_NAME_DUCK)
-                .withExpiryDate(VALID_EXPIRY_DATE_DUCK).build();
-        expectedItem.setQuantity(QUANTITY_ZERO_STUB);
-        assertEquals(expectedItem, CommandUtil.reduceItemQuantity(itemToReduce, new Quantity("1")));
-    }
-
-    @Test
-    public void reduceItemQuantity_throwsCommandException() {
-        XpireItem itemToReduce = new XpireItemBuilder().withName(VALID_NAME_JELLY)
-                .withExpiryDate(VALID_EXPIRY_DATE_JELLY)
-                .withQuantity(VALID_QUANTITY_JELLY).build();
-        assertThrows(CommandException.class, () -> CommandUtil.reduceItemQuantity(itemToReduce, new Quantity("5")));
     }
 
     @Test

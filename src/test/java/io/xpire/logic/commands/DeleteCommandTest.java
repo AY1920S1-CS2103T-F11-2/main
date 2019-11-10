@@ -226,7 +226,6 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_deleteQuantityEqualsToXpireItemQuantityFromXpireItem_success() {
-        // item does not exist on replenish list
         Quantity quantityToDeduct = new Quantity("1");
         DeleteCommand deleteCommand = new DeleteCommand(XPIRE, INDEX_THIRD_ITEM, quantityToDeduct);
         XpireItem xpireItemToDelete = (XpireItem) model.getCurrentList().get(INDEX_THIRD_ITEM.getZeroBased());
@@ -235,8 +234,8 @@ public class DeleteCommandTest {
                 quantityToDeduct.toString(), xpireItemToDelete) + "\n"
                 + String.format(MESSAGE_REPLENISH_SHIFT_SUCCESS, xpireItemToDelete.getName());
         Model expectedModel = new ModelManager(model.getLists(), new UserPrefs());
-        expectedModel.deleteItem(XPIRE, xpireItemToDelete);
         expectedModel.addItem(REPLENISH, adaptedItem);
+        expectedModel.deleteItem(XPIRE, xpireItemToDelete);
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
