@@ -90,7 +90,7 @@ public class DeleteCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getCurrentList().size() + 1);
         DeleteCommand deleteCommand = new DeleteCommand(XPIRE, outOfBoundIndex);
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class DeleteCommandTest {
 
         DeleteCommand deleteCommand = new DeleteCommand(XPIRE, outOfBoundIndex);
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     //test to delete tags for xpireItem with tags
@@ -269,7 +269,7 @@ public class DeleteCommandTest {
         model.setCurrentList(REPLENISH);
         Index outOfBoundIndex = Index.fromOneBased(model.getCurrentList().size() + 1);
         DeleteCommand deleteCommand = new DeleteCommand(REPLENISH, outOfBoundIndex);
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     @Test
@@ -298,7 +298,7 @@ public class DeleteCommandTest {
 
         DeleteCommand deleteCommand = new DeleteCommand(REPLENISH, outOfBoundIndex);
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     //test to delete tags for replenishItem with tags

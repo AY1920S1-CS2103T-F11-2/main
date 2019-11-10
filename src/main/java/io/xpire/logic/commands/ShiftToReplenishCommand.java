@@ -1,6 +1,6 @@
 package io.xpire.logic.commands;
 
-import static io.xpire.commons.core.Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX;
+import static io.xpire.commons.core.Messages.MESSAGE_INVALID_INDEX;
 import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static java.util.Objects.requireNonNull;
 
@@ -43,7 +43,7 @@ public class ShiftToReplenishCommand extends Command {
         stateManager.saveState(new ModifiedState(model));
         List<? extends Item> lastShownList = model.getCurrentList();
         if (this.targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_INDEX);
         }
         XpireItem targetItem = (XpireItem) lastShownList.get(this.targetIndex.getZeroBased());
         CommandUtil.shiftItemToReplenishList(model, targetItem);

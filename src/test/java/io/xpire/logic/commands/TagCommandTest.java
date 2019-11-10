@@ -80,7 +80,7 @@ public class TagCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getCurrentList().size() + 1);
         TagCommand tagCommand = new TagCommand(XPIRE, outOfBoundIndex,
                 new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
-        assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     @Test
@@ -110,7 +110,7 @@ public class TagCommandTest {
         assertTrue(outOfBoundIndex.getZeroBased() < model.getLists()[0].getItemList().size());
         TagCommand tagCommand = new TagCommand(XPIRE, outOfBoundIndex,
                 new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
-        assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     //add tags to an already tagged xpireItem should add on more tags
@@ -189,7 +189,7 @@ public class TagCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getCurrentList().size() + 1);
         TagCommand tagCommand = new TagCommand(REPLENISH, outOfBoundIndex,
                 new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
-        assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     @Test
@@ -222,7 +222,7 @@ public class TagCommandTest {
         assertTrue(outOfBoundIndex.getZeroBased() < model.getLists()[1].getItemList().size());
         TagCommand tagCommand = new TagCommand(REPLENISH, outOfBoundIndex,
                 new String[]{VALID_TAG_FRIDGE, VALID_TAG_FRUIT});
-        assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     //adding tags to an already tagged replenishItem should add on more tags

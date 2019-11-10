@@ -48,7 +48,7 @@ public class ShiftToReplenishCommandTest {
     public void execute_invalidIndexUnfilteredXpireList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getCurrentList().size() + 1);
         ShiftToReplenishCommand shiftToReplenishCommand = new ShiftToReplenishCommand(outOfBoundIndex);
-        assertCommandFailure(shiftToReplenishCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(shiftToReplenishCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     @Test

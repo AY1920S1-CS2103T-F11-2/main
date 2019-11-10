@@ -1,6 +1,6 @@
 package io.xpire.logic.parser;
 
-import static io.xpire.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static io.xpire.commons.core.Messages.MESSAGE_INVALID_INDEX;
 import static io.xpire.testutil.Assert.assertThrows;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
 import static io.xpire.testutil.TypicalItemsFields.INVALID_EXPIRY_DATE;

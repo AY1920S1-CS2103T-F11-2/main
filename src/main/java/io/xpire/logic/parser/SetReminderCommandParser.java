@@ -33,13 +33,15 @@ public class SetReminderCommandParser implements Parser<SetReminderCommand> {
                     SetReminderCommand.MESSAGE_USAGE));
         }
 
-        try {
+        index = ParserUtil.parseIndex(args.split(REGEX)[0]);
+
+        /* try {
             index = ParserUtil.parseIndex(args.split(REGEX)[0]);
 
         } catch (IllegalValueException e) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     SetReminderCommand.MESSAGE_USAGE), e);
-        }
+        } */
 
         try {
             threshold = ParserUtil.parseReminderThreshold(args.split(REGEX)[1]);

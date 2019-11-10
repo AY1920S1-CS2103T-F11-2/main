@@ -64,7 +64,7 @@ public class SetReminderCommandTest {
         ReminderThreshold validThreshold = new ReminderThreshold("2");
         SetReminderCommand setReminderCommand = new SetReminderCommand(outOfBoundIndex, validThreshold);
 
-        assertCommandFailure(setReminderCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(setReminderCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     @Test

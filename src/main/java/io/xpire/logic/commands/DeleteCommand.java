@@ -90,7 +90,7 @@ public class DeleteCommand extends Command {
         ObservableList<? extends Item> currentList = model.getCurrentList();
 
         if (this.targetIndex.getZeroBased() >= currentList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_INDEX);
         }
 
         Item targetItem = currentList.get(this.targetIndex.getZeroBased());

@@ -1,6 +1,6 @@
 package io.xpire.logic.parser;
 
-import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static io.xpire.commons.core.Messages.MESSAGE_INVALID_INDEX;
 import static io.xpire.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static io.xpire.testutil.TypicalIndexes.INDEX_THIRD_ITEM;
 
@@ -15,12 +15,10 @@ public class ShiftToReplenishParserTest {
     @Test
     public void parse_invalidArgs_throwsParseException() {
         // invalid arguments
-        assertParseFailure(parser, "a", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                ShiftToReplenishCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "a", MESSAGE_INVALID_INDEX);
 
         //invalid trailing arguments
-        assertParseFailure(parser, "1||||||1", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                ShiftToReplenishCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "1||||||1", MESSAGE_INVALID_INDEX);
     }
 
     @Test

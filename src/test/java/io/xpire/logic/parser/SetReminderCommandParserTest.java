@@ -1,6 +1,7 @@
 package io.xpire.logic.parser;
 
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static io.xpire.commons.core.Messages.MESSAGE_INVALID_INDEX;
 import static io.xpire.commons.core.Messages.MESSAGE_INVALID_REMINDER_THRESHOLD;
 import static io.xpire.logic.parser.CommandParserTestUtil.assertEqualsParseSuccess;
 import static io.xpire.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -31,8 +32,7 @@ public class SetReminderCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetReminderCommand.MESSAGE_USAGE));
 
         // invalid index
-        assertParseFailure(parser, "0|3",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetReminderCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "0|3", MESSAGE_INVALID_INDEX);
     }
 
     @Test

@@ -86,7 +86,7 @@ public class ShiftToMainCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getCurrentList().size() + 1);
         ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(outOfBoundIndex,
                 new ExpiryDate(IN_TWO_WEEKS), new Quantity(VALID_QUANTITY_APPLE));
-        assertCommandFailure(shiftToMainCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(shiftToMainCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     @Test
@@ -140,7 +140,7 @@ public class ShiftToMainCommandTest {
         assertTrue(outOfBoundIndex.getZeroBased() < model.getLists()[1].getItemList().size());
         ShiftToMainCommand shiftToMainCommand = new ShiftToMainCommand(outOfBoundIndex,
                 new ExpiryDate(IN_TWO_WEEKS), new Quantity(VALID_QUANTITY_APPLE));
-        assertCommandFailure(shiftToMainCommand, model, Messages.MESSAGE_INVALID_ITEM_DISPLAYED_INDEX);
+        assertCommandFailure(shiftToMainCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
     /**

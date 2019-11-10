@@ -31,14 +31,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
      */
     public DeleteCommand parse(String args) throws ParseException {
         String[] splitArgs = args.split("\\|", 2);
-        Index index;
-        try {
-            index = ParserUtil.parseIndex(splitArgs[0]);
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
-        }
-
+        Index index = ParserUtil.parseIndex(splitArgs[0]);
         if (containsTag(splitArgs)) {
             return deleteTagsCommand(index, splitArgs[1]);
         } else if (containsQuantity(splitArgs)) {

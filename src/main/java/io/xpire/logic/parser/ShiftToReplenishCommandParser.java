@@ -18,13 +18,7 @@ public class ShiftToReplenishCommandParser implements Parser<ShiftToReplenishCom
             throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT,
                     ShiftToReplenishCommand.MESSAGE_USAGE));
         }
-        Index index;
-        try {
-            index = ParserUtil.parseIndex(splitArgs[0]);
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, ShiftToReplenishCommand.MESSAGE_USAGE), pe);
-        }
+        Index index = ParserUtil.parseIndex(splitArgs[0]);
         return new ShiftToReplenishCommand(index);
     }
 }
