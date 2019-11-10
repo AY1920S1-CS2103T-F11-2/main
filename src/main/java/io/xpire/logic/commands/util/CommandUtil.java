@@ -1,6 +1,5 @@
 package io.xpire.logic.commands.util;
 
-import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
 import static java.util.Objects.requireNonNull;
 
@@ -90,21 +89,4 @@ public class CommandUtil {
         return (XpireItem) list.get(index);
     }
 
-    /**
-     * Shifts an {@code XpireItem} to the Replenish List.
-     *
-     * @param model {@code Model} which the command should operate on.
-     * @param itemToShift to be shifted to the{@code ReplenishList}.
-     * @throws CommandException when a similar item already exists on the Replenish List.
-     */
-    public static void shiftItemToReplenishList(StateManager stateManager, Model model, XpireItem itemToShift)
-            throws CommandException {
-        Item remodelledItem = itemToShift.remodel();
-        if (model.hasItem(REPLENISH, remodelledItem)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ITEM_REPLENISH);
-        }
-        stateManager.saveState(new ModifiedState(model));
-        model.addItem(REPLENISH, remodelledItem);
-        model.deleteItem(XPIRE, itemToShift);
-    }
 }

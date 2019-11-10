@@ -1,10 +1,8 @@
 package io.xpire.logic.commands.util;
 
 import static io.xpire.logic.commands.CommandTestUtil.showXpireItemAtIndex;
-import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
 import static io.xpire.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
-import static io.xpire.testutil.TypicalIndexes.INDEX_TENTH_ITEM;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_APPLE;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_BANANA;
@@ -134,44 +132,6 @@ public class CommandUtilTest {
         assertTrue(model.hasItem(XPIRE, itemNotInFilteredList));
         assertThrows(ItemNotFoundException.class, () ->
                 CommandUtil.retrieveXpireItemFromList(itemNotInFilteredList, model.getCurrentList()));
-    }
-
-    @Test
-    public void shiftItemToReplenishList_unfilteredList_success() throws CommandException {
-        XpireItem xpireItemToShift = (XpireItem) model.getCurrentList().get(INDEX_FIRST_ITEM.getZeroBased());
-        ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
-        expectedModel.addItem(REPLENISH, xpireItemToShift.remodel());
-        expectedModel.deleteItem(XPIRE, xpireItemToShift);
-        CommandUtil.shiftItemToReplenishList(stateManager, model, xpireItemToShift);
-        assertEquals(expectedModel, model);
-    }
-
-    @Test
-    public void shiftItemToReplenishList_unfilteredList_throwsCommandException() {
-        XpireItem xpireItemToShift = (XpireItem) model.getCurrentList().get(INDEX_TENTH_ITEM.getZeroBased());
-        assertTrue(model.hasItem(REPLENISH, xpireItemToShift.remodel()));
-        assertThrows(CommandException.class, () -> CommandUtil.shiftItemToReplenishList(stateManager, model,
-                xpireItemToShift));
-    }
-
-    @Test
-    public void shiftItemToReplenishList_filteredList_success() throws CommandException {
-        showXpireItemAtIndex(model, INDEX_FIRST_ITEM);
-        XpireItem xpireItemToShift = (XpireItem) model.getCurrentList().get(INDEX_FIRST_ITEM.getZeroBased());
-        ModelManager expectedModel = new ModelManager(model.getLists(), new UserPrefs());
-        expectedModel.addItem(REPLENISH, xpireItemToShift.remodel());
-        expectedModel.deleteItem(XPIRE, xpireItemToShift);
-        CommandUtil.shiftItemToReplenishList(stateManager, model, xpireItemToShift);
-        assertEquals(expectedModel, model);
-    }
-
-    @Test
-    public void shiftItemToReplenishList_filteredList_throwsCommandException() {
-        showXpireItemAtIndex(model, INDEX_TENTH_ITEM);
-        XpireItem xpireItemToShift = (XpireItem) model.getCurrentList().get(INDEX_FIRST_ITEM.getZeroBased());
-        assertTrue(model.hasItem(REPLENISH, xpireItemToShift.remodel()));
-        assertThrows(CommandException.class, () -> CommandUtil.shiftItemToReplenishList(stateManager, model,
-                xpireItemToShift));
     }
 
     @Test

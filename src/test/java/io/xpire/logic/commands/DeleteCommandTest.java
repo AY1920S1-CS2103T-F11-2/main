@@ -4,6 +4,7 @@ import static io.xpire.logic.commands.CommandTestUtil.assertCommandFailure;
 import static io.xpire.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static io.xpire.logic.commands.CommandTestUtil.showReplenishItemAtIndex;
 import static io.xpire.logic.commands.CommandTestUtil.showXpireItemAtIndex;
+import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_DUPLICATE_ITEM_REPLENISH;
 import static io.xpire.logic.commands.util.CommandUtil.MESSAGE_REPLENISH_SHIFT_SUCCESS;
 import static io.xpire.model.ListType.REPLENISH;
 import static io.xpire.model.ListType.XPIRE;
@@ -13,6 +14,7 @@ import static io.xpire.testutil.TypicalIndexes.INDEX_FOURTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_SECOND_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_SEVENTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_SIXTH_ITEM;
+import static io.xpire.testutil.TypicalIndexes.INDEX_TENTH_ITEM;
 import static io.xpire.testutil.TypicalIndexes.INDEX_THIRD_ITEM;
 import static io.xpire.testutil.TypicalItems.getTypicalLists;
 import static io.xpire.testutil.TypicalItemsFields.VALID_EXPIRY_DATE_DUCK;
@@ -238,6 +240,14 @@ public class DeleteCommandTest {
         expectedModel.deleteItem(XPIRE, xpireItemToDelete);
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
+
+    @Test
+    public void execute_deleteQuantityEqualsToXpireItemQuantityFromXpireItem_throwsCommandException() {
+        Quantity quantityToDeduct = new Quantity("1");
+        DeleteCommand deleteCommand = new DeleteCommand(XPIRE, INDEX_TENTH_ITEM, quantityToDeduct);
+        assertCommandFailure(deleteCommand, model, MESSAGE_DUPLICATE_ITEM_REPLENISH);
+    }
+
 
     @Test
     public void execute_deleteQuantityMoreThanXpireItemQuantityFromXpireItem_throwsCommandException() {
