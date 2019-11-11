@@ -28,7 +28,10 @@ Responsibilities: Storage + Documentation</p>
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Xpire is a desktop application used for tracking expiry dates of items.  The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.</p>
+<p>My team of 5, including myself and 4 other software engineering teammates, were tasked to enhance an existing address book application.
+We chose to morph the address book into an expiry date tracker, Xpire.
+Xpire contains both a replenish list containing items that need to be stocked up on and an expiry date tracker containing the list of expiring items.
+With this and our implemented features, Xpire makes management of items fuss-free for users.</p>
 </div>
 </div>
 </div>
@@ -38,53 +41,83 @@ Responsibilities: Storage + Documentation</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement</strong>: added <strong>the ability to undo/redo previous commands</strong></p>
+<p><strong>Major enhancement</strong>: Added <strong><code>ShiftCommand</code></strong> that allows the user to transfer items to and fro the replenish list.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: allows the user to undo all previous commands one at a time. Preceding undo commands can be reversed by using the redo command.</p>
+<p>What it does: Enables the user to transfer an item from the tracking list into the replenish list.</p>
 </li>
 <li>
-<p>Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them.</p>
+<p>Justification: Instead of keying in an item&#8217;s details again, users simply need to key in the given
+item index to transfer an existing item to the replenish list. This makes the overall user experience more fuss-free.</p>
 </li>
 <li>
-<p>Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.</p>
-</li>
-<li>
-<p>Credits: <em>{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}</em></p>
+<p>Highlights: The implementation of this enhancement required a refactor of the <code>Model</code> component using important concepts such as polymorphism and inheritance.
+The implementation was also challenging as it required an in-depth understanding of generics to avoid repeated code and a huge overhaul of the existing implementation.
+Additionally, the implementation also familiarised me with JSON serialization using the Jackson Library.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>: added a history command that allows the user to navigate to previous commands using up/down keys.</p>
+<p><strong>Major enhancement</strong>: Added the ability to automatically add an item to the replenish list once an item in the tracking list runs out.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: Automatically transfers an item that has depleted to the replenish list.</p>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
+<p>Justification: Instead of having the user delete an item on the tracking list and add it into the replenish list
+manually when it runs out, this enhancement collapses this two-step process into a one-step process.</p>
+</li>
+<li>
+<p>Highlights: The implementation required an in-depth analysis of user needs and comprehensive testing to ensure
+that edge cases will also be factored in.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: Added the ability to input item quantity.
+The parsing of the <code>Quantity</code> field familiarised me with Regex.
+This makes tracking multiple items of the same type easier as users only need to key the item&#8217;s details once.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: Added the ability to reduce item quantity in the tracking list.
+This allows users to better keep track of their items as users can simply update their items when a certain amount of the item is used up.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: Added the ability to input similar items into the tracking list.
+This is useful as it provides users with an option to add to existing items in cases where they bought the same item on separate occasions.</p>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://nus-cs2103-ay1920s1.github.io/tp-dashboard/#search=f11&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2019-09-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=authorship&amp;tabAuthor=liawsy&amp;tabRepo=AY1920S1-CS2103T-F11-2%2Fmain%5Bmaster%5D">RepoSense</a>]</p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Project management:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Managed releases <code>v1.3</code> - <code>v1.5rc</code> (3 releases) on GitHub</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
 <p>Enhancements to existing features:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Updated the GUI color scheme (Pull requests <a href="https://github.com">#33</a>, <a href="https://github.com">#34</a>)</p>
+<p>Add functionality to input items into the tracking list (Pull request [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/13">#13</a>])</p>
 </li>
 <li>
-<p>Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests <a href="https://github.com">#36</a>, <a href="https://github.com">#38</a>)</p>
+<p>Add quantity field for items (Pull request [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/56">#56</a>])</p>
+</li>
+<li>
+<p>Add functionality to reduce item quantity in the tracking list (Pull request  [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/58">#58</a>])</p>
+</li>
+<li>
+<p>Refactor model and storage to contain both tracking list and replenish list (Pull request [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/122">#122</a>])</p>
+</li>
+<li>
+<p>Add shift command to transfer items to and fro replenish list (Pull request [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/122">#122</a>])</p>
+</li>
+<li>
+<p>Wrote additional tests for existing features (Pull requests [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/78">#78</a>], [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/99">#99</a>], [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/227">#227</a>])</p>
 </li>
 </ul>
 </div>
@@ -94,39 +127,13 @@ Responsibilities: Storage + Documentation</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Did cosmetic tweaks to existing contents of the User Guide: <a href="https://github.com">#14</a></p>
-</li>
-</ul>
-</div>
+<p>Updated manual testing instructions in Developer Guide on how to edit data file. (Pull request [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/193">#193</a>])</p>
 </li>
 <li>
-<p>Community:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>PRs reviewed (with non-trivial review comments): <a href="https://github.com">#12</a>, <a href="https://github.com">#32</a>, <a href="https://github.com">#19</a>, <a href="https://github.com">#42</a></p>
+<p>Updated diagrams in Developer Guide for Architecture Diagrams and components. (Pull request [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/135">#135</a>])</p>
 </li>
 <li>
-<p>Contributed to forum discussions (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>, <a href="https://github.com">4</a>)</p>
-</li>
-<li>
-<p>Reported bugs and suggestions for other teams in the class (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>)</p>
-</li>
-<li>
-<p>Some parts of the history feature I added was adopted by several other class mates (<a href="https://github.com">1</a>, <a href="https://github.com">2</a>)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Tools:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Integrated a third party library (Natty) to the project (<a href="https://github.com">#42</a>)</p>
-</li>
-<li>
-<p>Integrated a new Github plugin (CircleCI) to the team repo</p>
+<p>Updated glossary in Developer Guide (Pull request [<a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/30">#30</a>])</p>
 </li>
 </ul>
 </div>
@@ -135,9 +142,6 @@ Responsibilities: Storage + Documentation</p>
 </div>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p><em>{you can add/remove categories in the list above}</em></p>
 </div>
 </div>
 </div>
@@ -155,102 +159,138 @@ Responsibilities: Storage + Documentation</p>
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="deleting-variable-s-code-delete-code"><a class="link" href="#deleting-variable-s-code-delete-code">Deleting variable(s): <code>delete</code></a></h4>
-<div class="sect4">
-<h5 id="deleting-an-item"><a class="link" href="#deleting-an-item">Deleting an item</a></h5>
+<h4 id="shifting-an-item-from-one-list-to-another-code-shift-code"><a class="link" href="#shifting-an-item-from-one-list-to-another-code-shift-code">Shifting an item from one list to another: <code>shift</code></a></h4>
 <div class="paragraph">
-<p>Deletes the specified item from your list.<br>
-Format: <code>delete|&lt;index&gt;</code><br></p>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view|main</code><br>
-<code>delete|2</code><br>
-Deletes the 2nd item in the main list.</p>
-</li>
-<li>
-<p><code>sort|name</code><br>
-<code>delete|3</code><br>
-Deletes the 3rd item in the sorted main list.</p>
-</li>
-<li>
-<p><code>search|potato</code><br>
-<code>delete|1</code><br>
-Deletes the 1st item in the results of the <code>search</code> command.</p>
-</li>
-</ul>
-</div>
+<p>Let&#8217;s say one of your items has expired and you want to stock up on this particular item.
+Simply use the <code>shift</code> command to transfer this item to the replenish list so that you will know which items you need to replenish.
+Once you have stocked up on your expired items, you can similarly use the <code>shift</code> command again
+to keep track of the item&#8217;s new expiry date.</p>
 </div>
 <div class="sect4">
-<h5 id="deleting-certain-tags-from-an-item"><a class="link" href="#deleting-certain-tags-from-an-item">Deleting certain tags from an item</a></h5>
-<div class="paragraph">
-<p>Deletes tag(s) from the specified item.<br>
-Format: <code>delete|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code><br></p>
+<h5 id="shifting-an-item-from-the-main-list-to-the-replenish-list"><a class="link" href="#shifting-an-item-from-the-main-list-to-the-replenish-list">Shifting an item from the main list to the replenish list</a></h5>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you would like to view the list of expired items, simply type <code>check|0</code>.
+From this list of expired items, you can use the <code>shift</code> command to move any item into the replenish list.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Examples:</p>
+<p>Format: <code>shift|&lt;index&gt;</code></p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view|main</code><br>
-<code>delete|3|#Fruit #Food</code><br>
-Deletes the tags <code>#Fruit</code> and <code>#Food</code> from the 3rd item in the main list.
-===== Reducing the quantity of an item</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Let&#8217;s say you have this list of expired items and you want to remind yourself to replenish the first item in the list&#8212;&#8203;the ice cream.
+To do so, you can transfer the ice cream to the replenish list by typing <code>shift|1</code>, where <code>1</code> refers to item number displayed.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/delete-quantity.png" alt="delete quantity" width="790">
+<img src="../images/shift_to_replenish_command_example.png" alt="shift to replenish command example" width="790">
 </div>
-<div class="title">Figure 1. Item at index 4 reduced in quantity by 1</div>
+<div class="title">Figure 1. Current list view of items that have expired.</div>
 </div>
 <div class="paragraph">
-<p>Reduces item quantity by the specified quantity.<br>
-Format <code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p>
+<p>With this, your item will be shifted to the replenish list as seen from the figure below.
+When you go for grocery shopping in future, you can refer to this handy replenish list to stock up on your ice cream, or any items that have run out.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/shift_to_replenish_success.png" alt="shift to replenish success" width="790">
+</div>
+<div class="title">Figure 2. List view of items in the replenish list after executing <code>Shift</code> command.</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="shifting-an-item-from-the-replenish-list-to-the-main-list"><a class="link" href="#shifting-an-item-from-the-replenish-list-to-the-main-list">Shifting an item from the replenish list to the main list</a></h5>
+<div class="paragraph">
+<p>After some shopping, you may have stocked up on the items that were in the replenish list.
+Now, you want to add these items back to your tracking list to keep track of their new expiry dates.
+To do so, you can simply use the <code>shift</code> command again.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>shift|&lt;index&gt;|&lt;expiry date&gt;[|quantity]</code></p>
+</div>
+<div class="paragraph">
+<p>For example, you have just replenished the ice cream and you wish to keep track of its expiry date again.
+To transfer the ice cream back to the tracking list, simply key in <code>shift|3|&lt;expiry date&gt;[|&lt;quantity&gt;]</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/shift_to_main_command_example.png" alt="shift to main command example" width="790">
+</div>
+<div class="title">Figure 3. List view of items in the replenish list.</div>
+</div>
+<div class="paragraph">
+<p>Now, the ice cream that you just bought is added back to the tracking list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/shift_to_main_success.png" alt="shift to main success" width="790">
+</div>
+<div class="title">Figure 4. List view of items in the main list after shift.</div>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>The index refers to the index number shown on the list.</p>
+<p>Item quantity <strong>must be a positive integer</strong> 1,2,3&#8230;&#8203;</p>
 </li>
 <li>
-<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
-</li>
-<li>
-<p>Tags must be prefixed with a '#'.</p>
-</li>
-<li>
-<p>The item must contain the tags to be deleted.</p>
-</li>
-<li>
-<p>The quantity <strong>must be a positive integer</strong> 1, 2 ,3&#8230;&#8203;</p>
-</li>
-<li>
-<p>The quantity specified must be more than the item&#8217;s current quantity.</p>
+<p>When not specified, the item quantity is assumed to be 1.</p>
 </li>
 </ul>
 </div>
 </div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you only have one of a particular item, you only need to key in the item number and expiry date (without keying in the quantity)!
+We&#8217;ll do the rest for you.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="reducing-the-quantity-of-an-item"><a class="link" href="#reducing-the-quantity-of-an-item">Reducing the quantity of an item</a></h5>
+<div class="paragraph">
+<p>If you would have used up a certain amount of your item, you can use the <code>delete</code> command.
+By specifying the item number and the quantity to be reduced, you can easily decrease your item&#8217;s quantity in the tracking list.</p>
 </div>
 <div class="paragraph">
-<p>Examples:</p>
+<p>Format: <code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view|main</code><br>
-<code>delete|4|1</code><br>
-Reduces the quantity of the 4th item by 1.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Let&#8217;s say you have just consumed the entire bag of Kettle potato chips as shown in the list below.
+Now, you no longer have any more potato chips, so you would like to update the item quantity on the tracking list.
+To update the potato chips with the new quantity, simply key in <code>delete|3|1</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/delete_quantity_example.png" alt="delete quantity example" width="790">
+</div>
+<div class="title">Figure 5. Reducing an item quantity</div>
+</div>
+<div class="paragraph">
+<p>Since the item has run out, you would also like to add it to the replenish list so that you will be reminded to stock up on it.
+To save you the trouble of keying in the details again, our system has already automatically added the chips to the replenish list for you.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/delete_quantity_shift_success.png" alt="delete quantity shift success" width="790">
+</div>
+<div class="title">Figure 6. Item that has run out is automatically transferred to the replenish list</div>
 </div>
 </div>
 </div>
@@ -270,69 +310,142 @@ Reduces the quantity of the 4th item by 1.</p>
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="items-in-the-replenish-list"><a class="link" href="#items-in-the-replenish-list">Items in the replenish list</a></h4>
+<h4 id="items-in-replenish-list-and-main-list"><a class="link" href="#items-in-replenish-list-and-main-list">Items in replenish list and main list</a></h4>
+<div class="paragraph">
+<p>Items in the replenish list with only <code>Name</code> and <code>Tag</code> fields are represented by the <code>Item</code> class.
+On the other hand, items in the main list with additional fields such as <code>ExpiryDate</code>,
+<code>Quantity</code> and <code>ReminderThreshold</code> are represented by the <code>XpireItem</code> class.
+To utilise the concept of inheritance and reduce duplicate data and methods, <code>XpireItem</code> is written to inherit from <code>Item</code>.
+This relationship can be observed from the diagram below.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/condensed_item_class_diagram.png" alt="condensed item class diagram">
+</div>
+<div class="title">Figure 7. Snippet of Model Component Class Diagram to illustrate inheritance of <code>XpireItem</code> from <code>Item</code>.</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="storage-of-items-in-the-replenish-list"><a class="link" href="#storage-of-items-in-the-replenish-list">Storage of items in the replenish list</a></h4>
+<div class="paragraph">
+<p>An <code>XpireItem</code> is converted to a <code>JsonAdaptedXpireItem</code> whereas an <code>Item</code> is converted to a <code>JsonAdaptedItem</code> for storage.
+To store both the replenish list and main list in a single JSON file, both lists are wrapped in the <code>JsonSerializableList</code> class
+for serializing and deserializing using the Jackson Library.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/condensed_storage_class_diagram.png" alt="condensed storage class diagram">
+</div>
+<div class="title">Figure 8. Snippet of Storage Component Class Diagram to illustrate how an item in the replenish list is stored.</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="moving-items-in-the-main-list-into-the-replenish-list"><a class="link" href="#moving-items-in-the-main-list-into-the-replenish-list">Moving items in the main list into the replenish list</a></h4>
+<div class="paragraph">
+<p>An <code>XpireItem</code> in the main list can be transferred to the replenish list using the <code>ShiftToReplenishCommand</code>.
+Any <code>XpireItem</code> whose quantity is <code>0</code> will also be automatically added to the replenish list.</p>
+</div>
 <div class="sect4">
 <h5 id="implementation"><a class="link" href="#implementation">Implementation</a></h5>
 <div class="paragraph">
-<p>Items are added to the replenish list by the user using the <code>ShiftCommand</code>.
-When an item expires, the item is automatically tagged as <code>#Expired</code>.</p>
+<p>When the user executes a <code>ShiftToReplenishCommand</code>, the target item in the main list will be adapted from a <code>XpireItem</code> into an <code>Item</code>.
+The adapted item will be subsequently added to the replenish list, while the target item is removed from the main list.
+The following sequence diagrams demonstrate how the command makes changes to both the main list and replenish list.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/expired_tags.png" alt="expired tags">
+<img src="../images/shift_to_replenish_sequence_diagram.png" alt="shift to replenish sequence diagram">
 </div>
-<div class="title">Figure 2. All expired items are automatically tagged with the <code>Expired</code> tag (circled in figure).</div>
+<div class="title">Figure 9. Sequence diagram for <code>ShiftToReplenishCommand</code>.</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/transfer_item_to_replenish_sequence_diagram.png" alt="transfer item to replenish sequence diagram">
+</div>
+<div class="title">Figure 10. Sequence diagram when an item is shifted to the replenish list.</div>
 </div>
 <div class="paragraph">
-<p>By searching for the <code>Expired</code> tag using the <code>SearchCommand</code>, the user is able to retrieve a list of expired items.</p>
+<p>When the user executes a <code>DeleteCommand</code> to reduce the <code>Quantity</code> of an <code>XpireItem</code> to <code>0</code>, the item is automatically
+shifted to the replenish list. The item shift is demonstrated in the activity diagram below.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/ItemManagerSequenceDiagram.png" alt="ItemManagerSequenceDiagram">
+<img src="../images/delete_quantity_activity_diagram.png" alt="delete quantity activity diagram">
 </div>
-<div class="title">Figure 3. Sequence Diagram for ItemManager Class</div>
+<div class="title">Figure 11. Sequence diagram when an item quantity is reduced to 0.</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The shift would not be successful if an item with the same <code>Name</code> already exists on the replenish list.
+The user would be prompted to delete the existing item in the replenish list in order to add the target item into the replenish list.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="moving-items-in-the-replenish-list-to-the-main-list"><a class="link" href="#moving-items-in-the-replenish-list-to-the-main-list">Moving items in the replenish list to the main list</a></h4>
+<div class="paragraph">
+<p>On the other hand, items can be transferred into the main list using the <code>ShiftToMainCommand</code>.
+The following activity diagram summarises how the command works:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/shift_to_main_activity_diagram.png" alt="shift to main activity diagram">
+</div>
+<div class="title">Figure 12. Activity diagram for <code>ShiftToMainCommand</code>.</div>
 </div>
 <div class="paragraph">
-<p>On the other hand, when an item has run out, an item is automatically added to the replenish list.
-This occurs when the user uses the <code>DeleteCommand</code> to
-The following sequence diagram summarises how this operation works:</p>
+<p>When utilising the <code>ShiftToMainCommand</code>, the user would have to input the item&#8217;s <code>ExpiryDate</code> and <code>Quantity</code> (optional)
+so that the <code>Item</code> can be adapted into an <code>XpireItem</code>.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/AutoShiftSequenceDiagram.png" alt="AutoShiftSequenceDiagram">
-</div>
-<div class="title">Figure 4. Sequence Diagram when item quantity is reduced to 0 via the Delete Command</div>
-</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If an item with the same <code>Name</code> and <code>ExpiryDate</code> already exists on the main list, the <code>Quantity</code> of the item would be updated.
+However, only the tags of the item on the main list will be retained.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect4">
 <h5 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h5>
 <div class="sect5">
-<h6 id="aspect-how-expired-items-are-being-handled"><a class="link" href="#aspect-how-expired-items-are-being-handled">Aspect: How expired items are being handled</a></h6>
+<h6 id="aspect-storage-of-replenish-list-and-main-list"><a class="link" href="#aspect-storage-of-replenish-list-and-main-list">Aspect: Storage of replenish list and main list</a></h6>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice): Once an item expires,
-the item is automatically tagged as <code>#Expired</code>.</strong></p>
+<p><strong>Alternative 1 (current choice): Store both lists in the same JSON file</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Makes good use of existing <code>SearchCommand</code>, where user can search for the <code>#Expired</code> tag to view list of expired items.</p>
+<p>Pros: Updating the storage would be less cumbersome as only one file needs to be read and written into.</p>
 </li>
 <li>
-<p>Cons: User has to manually type in a short command to add an item to the replenish list.</p>
+<p>Cons: Challenging to find a suitable and efficient data structure that wraps both lists for storage into a single file.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2: Once an item expires, item is automatically transferred to the replenish list.</strong></p>
+<p><strong>Alternative 2: Store both lists as separate JSON files</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: User need not manually key in item details to transfer it to the replenish list.</p>
+<p>Pros: Easier to implement as there is no need to find a data structure to wrap both lists for storage.</p>
 </li>
 <li>
-<p>Cons: User does not have the flexibility to pick which items to transfer to the replenish list.</p>
+<p>Cons: Makes updating the storage troublesome as both files need to be updated at the same time for any changes made to the lists.</p>
 </li>
 </ul>
 </div>
@@ -340,16 +453,41 @@ the item is automatically tagged as <code>#Expired</code>.</strong></p>
 </ul>
 </div>
 </div>
+<div class="sect5">
+<h6 id="aspect-handling-of-items-that-have-run-out"><a class="link" href="#aspect-handling-of-items-that-have-run-out">Aspect: Handling of items that have run out</a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice): Automatically shift an item to the replenish list when the item&#8217;s quantity reaches 0</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: User does not need to input any command to perform the shifting, making the user experience more fuss-free.</p>
+</li>
+<li>
+<p>Cons: User has to delete the item from the replenish list if the user does not want to stock up on the item in future.</p>
+</li>
+</ul>
 </div>
+</li>
+<li>
+<p><strong>Alternative 2: Delete item from the main list without any shift</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Items that the user may not want to replenish will not be automatically added to the replenish list.</p>
+</li>
+<li>
+<p>Cons: User has to go through the trouble to key in details of an item that was already in the main list.</p>
+</li>
+</ul>
 </div>
+</li>
+</ul>
 </div>
-</div>
-<div class="sect1">
-<h2 id="project-powerpointlabs"><a class="link" href="#project-powerpointlabs">PROJECT: PowerPointLabs</a></h2>
-<div class="sectionbody">
 <hr>
-<div class="paragraph">
-<p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 14:16:38 UTC</div></div></div></body></html>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 15:17:13 UTC</div></div></div></body></html>

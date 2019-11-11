@@ -24,22 +24,29 @@
 <ul class="sectlevel2">
 <li><a href="#replenish-list">3.1. Replenish List</a>
 <ul class="sectlevel3">
-<li><a href="#items-in-the-replenish-list">3.1.1. Items in the replenish list</a>
+<li><a href="#items-in-replenish-list-and-main-list">3.1.1. Items in replenish list and main list</a></li>
+<li><a href="#storage-of-items-in-the-replenish-list">3.1.2. Storage of items in the replenish list</a></li>
+<li><a href="#moving-items-in-the-main-list-into-the-replenish-list">3.1.3. Moving items in the main list into the replenish list</a>
 <ul class="sectlevel4">
-<li><a href="#implementation-2">3.1.1.1. Implementation</a></li>
-<li><a href="#design-considerations">3.1.1.2. Design Considerations</a>
+<li><a href="#implementation-2">3.1.3.1. Implementation</a></li>
+</ul>
+</li>
+<li><a href="#moving-items-in-the-replenish-list-to-the-main-list">3.1.4. Moving items in the replenish list to the main list</a>
+<ul class="sectlevel4">
+<li><a href="#design-considerations">3.1.4.1. Design Considerations</a>
 <ul class="sectlevel5">
-<li><a href="#aspect-how-expired-items-are-being-handled">3.1.1.2.1. Aspect: How expired items are being handled</a></li>
+<li><a href="#aspect-storage-of-replenish-list-and-main-list">3.1.4.1.1. Aspect: Storage of replenish list and main list</a></li>
+<li><a href="#aspect-handling-of-items-that-have-run-out">3.1.4.1.2. Aspect: Handling of items that have run out</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#commands-in-the-replenish-list">3.1.2. Commands in the replenish list</a>
+<li><a href="#commands-in-the-replenish-list">3.1.5. Commands in the replenish list</a>
 <ul class="sectlevel4">
-<li><a href="#implementation-3">3.1.2.1. Implementation</a></li>
-<li><a href="#design-considerations-2">3.1.2.2. Design Considerations</a>
+<li><a href="#implementation-3">3.1.5.1. Implementation</a></li>
+<li><a href="#design-considerations-2">3.1.5.2. Design Considerations</a>
 <ul class="sectlevel5">
-<li><a href="#aspect-how-commands-are-executed-in-the-list">3.1.2.2.1. Aspect: How commands are executed in the list</a></li>
+<li><a href="#aspect-how-commands-are-executed-in-the-list">3.1.5.2.1. Aspect: How commands are executed in the list</a></li>
 </ul>
 </li>
 </ul>
@@ -164,13 +171,16 @@
 <li><a href="#view-panel">G.4. View Panel</a></li>
 <li><a href="#viewing-items">G.5. Viewing items</a></li>
 <li><a href="#adding-expired-items-to-the-tracking-list-for-testing">G.6. Adding expired items to the tracking list for testing</a></li>
-<li><a href="#deleting-an-item">G.7. Deleting an item</a></li>
-<li><a href="#tagging-an-item">G.8. Tagging an item</a></li>
-<li><a href="#setting-a-reminder-for-an-item">G.9. Setting a reminder for an item</a></li>
-<li><a href="#filtering-items-based-on-its-expiry-date-and-status">G.10. Filtering items based on its expiry date and status</a></li>
-<li><a href="#undo-redo-commands">G.11. Undo/Redo commands</a></li>
-<li><a href="#sorting-items">G.12. Sorting items</a></li>
-<li><a href="#saving-data">G.13. Saving data</a></li>
+<li><a href="#adding-an-item">G.7. Adding an item</a></li>
+<li><a href="#deleting-an-item">G.8. Deleting an item</a></li>
+<li><a href="#shifting-an-item-to-the-replenish-list">G.9. Shifting an item to the replenish list</a></li>
+<li><a href="#shifting-an-item-to-the-main-list">G.10. Shifting an item to the main list</a></li>
+<li><a href="#tagging-an-item">G.11. Tagging an item</a></li>
+<li><a href="#setting-a-reminder-for-an-item">G.12. Setting a reminder for an item</a></li>
+<li><a href="#filtering-items-based-on-its-expiry-date-and-status">G.13. Filtering items based on its expiry date and status</a></li>
+<li><a href="#undo-redo-commands">G.14. Undo/Redo commands</a></li>
+<li><a href="#sorting-items">G.15. Sorting items</a></li>
+<li><a href="#saving-data">G.16. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -323,7 +333,7 @@ The following class plays an important role at the architecture level:</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><code>Logic</code> uses the <code>XpireParser</code> class to parse the user command.</p>
+<p><code>Logic</code> uses the <code>XpireParser</code> or <code>ReplenishParser</code> class to parse the user command.</p>
 </li>
 <li>
 <p>This results in a <code>Command</code> object which is executed by the <code>LogicManager</code>.</p>
@@ -340,7 +350,7 @@ The following class plays an important role at the architecture level:</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>Given below is the Sequence Diagram for interactions within the <code>Logic</code> component for the <code>execute("delete|1")</code> API call.</p>
+<p>Given below is the Sequence Diagram for interactions within the <code>Logic</code> component for the <code>execute("delete|1")</code> API call when the user is viewing the main list.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -400,7 +410,7 @@ The following class plays an important role at the architecture level:</p>
 <p>can save <code>UserPref</code> objects in json format and read it back.</p>
 </li>
 <li>
-<p>can save the Xpire and ReplenishList data in json format and read it back.</p>
+<p>can save the <code>Xpire</code> and <code>ReplenishList</code> data in JSON format and read it back.</p>
 </li>
 </ul>
 </div>
@@ -422,69 +432,175 @@ The following class plays an important role at the architecture level:</p>
 <div class="sect2">
 <h3 id="replenish-list"><a class="link" href="#replenish-list">3.1. Replenish List</a></h3>
 <div class="sect3">
-<h4 id="items-in-the-replenish-list"><a class="link" href="#items-in-the-replenish-list">3.1.1. Items in the replenish list</a></h4>
+<h4 id="items-in-replenish-list-and-main-list"><a class="link" href="#items-in-replenish-list-and-main-list">3.1.1. Items in replenish list and main list</a></h4>
+<div class="paragraph">
+<p>Items in the replenish list with only <code>Name</code> and <code>Tag</code> fields are represented by the <code>Item</code> class.
+On the other hand, items in the main list with additional fields such as <code>ExpiryDate</code>,
+<code>Quantity</code> and <code>ReminderThreshold</code> are represented by the <code>XpireItem</code> class.
+To utilise the concept of inheritance and reduce duplicate data and methods, <code>XpireItem</code> is written to inherit from <code>Item</code>.
+This relationship can be observed from the diagram below.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/condensed_item_class_diagram.png" alt="condensed item class diagram">
+</div>
+<div class="title">Figure 9. Snippet of Model Component Class Diagram to illustrate inheritance of <code>XpireItem</code> from <code>Item</code>.</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="storage-of-items-in-the-replenish-list"><a class="link" href="#storage-of-items-in-the-replenish-list">3.1.2. Storage of items in the replenish list</a></h4>
+<div class="paragraph">
+<p>An <code>XpireItem</code> is converted to a <code>JsonAdaptedXpireItem</code> whereas an <code>Item</code> is converted to a <code>JsonAdaptedItem</code> for storage.
+To store both the replenish list and main list in a single JSON file, both lists are wrapped in the <code>JsonSerializableList</code> class
+for serializing and deserializing using the Jackson Library.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/condensed_storage_class_diagram.png" alt="condensed storage class diagram">
+</div>
+<div class="title">Figure 10. Snippet of Storage Component Class Diagram to illustrate how an item in the replenish list is stored.</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="moving-items-in-the-main-list-into-the-replenish-list"><a class="link" href="#moving-items-in-the-main-list-into-the-replenish-list">3.1.3. Moving items in the main list into the replenish list</a></h4>
+<div class="paragraph">
+<p>An <code>XpireItem</code> in the main list can be transferred to the replenish list using the <code>ShiftToReplenishCommand</code>.
+Any <code>XpireItem</code> whose quantity is <code>0</code> will also be automatically added to the replenish list.</p>
+</div>
 <div class="sect4">
-<h5 id="implementation-2"><a class="link" href="#implementation-2">3.1.1.1. Implementation</a></h5>
+<h5 id="implementation-2"><a class="link" href="#implementation-2">3.1.3.1. Implementation</a></h5>
 <div class="paragraph">
-<p>Items are added to the replenish list by the user using the <code>ShiftCommand</code>.
-When an item expires, the item is automatically tagged as <code>#Expired</code>.</p>
+<p>When the user executes a <code>ShiftToReplenishCommand</code>, the target item in the main list will be adapted from a <code>XpireItem</code> into an <code>Item</code>.
+The adapted item will be subsequently added to the replenish list, while the target item is removed from the main list.
+The following sequence diagrams demonstrate how the command makes changes to both the main list and replenish list.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/expired_tags.png" alt="expired tags">
+<img src="images/shift_to_replenish_sequence_diagram.png" alt="shift to replenish sequence diagram">
 </div>
-<div class="title">Figure 9. All expired items are automatically tagged with the <code>Expired</code> tag (circled in figure).</div>
-</div>
-<div class="paragraph">
-<p>By searching for the <code>Expired</code> tag using the <code>SearchCommand</code>, the user is able to retrieve a list of expired items.</p>
+<div class="title">Figure 11. Sequence diagram for <code>ShiftToReplenishCommand</code>.</div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/ItemManagerSequenceDiagram.png" alt="ItemManagerSequenceDiagram">
+<img src="images/transfer_item_to_replenish_sequence_diagram.png" alt="transfer item to replenish sequence diagram">
 </div>
-<div class="title">Figure 10. Sequence Diagram for ItemManager Class</div>
+<div class="title">Figure 12. Sequence diagram when an item is shifted to the replenish list.</div>
 </div>
 <div class="paragraph">
-<p>On the other hand, when an item has run out, an item is automatically added to the replenish list.
-This occurs when the user uses the <code>DeleteCommand</code> to
-The following sequence diagram summarises how this operation works:</p>
+<p>When the user executes a <code>DeleteCommand</code> to reduce the <code>Quantity</code> of an <code>XpireItem</code> to <code>0</code>, the item is automatically
+shifted to the replenish list. The item shift is demonstrated in the activity diagram below.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/AutoShiftSequenceDiagram.png" alt="AutoShiftSequenceDiagram">
+<img src="images/delete_quantity_activity_diagram.png" alt="delete quantity activity diagram">
 </div>
-<div class="title">Figure 11. Sequence Diagram when item quantity is reduced to 0 via the Delete Command</div>
+<div class="title">Figure 13. Sequence diagram when an item quantity is reduced to 0.</div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The shift would not be successful if an item with the same <code>Name</code> already exists on the replenish list.
+The user would be prompted to delete the existing item in the replenish list in order to add the target item into the replenish list.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="moving-items-in-the-replenish-list-to-the-main-list"><a class="link" href="#moving-items-in-the-replenish-list-to-the-main-list">3.1.4. Moving items in the replenish list to the main list</a></h4>
+<div class="paragraph">
+<p>On the other hand, items can be transferred into the main list using the <code>ShiftToMainCommand</code>.
+The following activity diagram summarises how the command works:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/shift_to_main_activity_diagram.png" alt="shift to main activity diagram">
+</div>
+<div class="title">Figure 14. Activity diagram for <code>ShiftToMainCommand</code>.</div>
+</div>
+<div class="paragraph">
+<p>When utilising the <code>ShiftToMainCommand</code>, the user would have to input the item&#8217;s <code>ExpiryDate</code> and <code>Quantity</code> (optional)
+so that the <code>Item</code> can be adapted into an <code>XpireItem</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If an item with the same <code>Name</code> and <code>ExpiryDate</code> already exists on the main list, the <code>Quantity</code> of the item would be updated.
+However, only the tags of the item on the main list will be retained.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect4">
-<h5 id="design-considerations"><a class="link" href="#design-considerations">3.1.1.2. Design Considerations</a></h5>
+<h5 id="design-considerations"><a class="link" href="#design-considerations">3.1.4.1. Design Considerations</a></h5>
 <div class="sect5">
-<h6 id="aspect-how-expired-items-are-being-handled"><a class="link" href="#aspect-how-expired-items-are-being-handled">3.1.1.2.1. Aspect: How expired items are being handled</a></h6>
+<h6 id="aspect-storage-of-replenish-list-and-main-list"><a class="link" href="#aspect-storage-of-replenish-list-and-main-list">3.1.4.1.1. Aspect: Storage of replenish list and main list</a></h6>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice): Once an item expires,
-the item is automatically tagged as <code>#Expired</code>.</strong></p>
+<p><strong>Alternative 1 (current choice): Store both lists in the same JSON file</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Makes good use of existing <code>SearchCommand</code>, where user can search for the <code>#Expired</code> tag to view list of expired items.</p>
+<p>Pros: Updating the storage would be less cumbersome as only one file needs to be read and written into.</p>
 </li>
 <li>
-<p>Cons: User has to manually type in a short command to add an item to the replenish list.</p>
+<p>Cons: Challenging to find a suitable and efficient data structure that wraps both lists for storage into a single file.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2: Once an item expires, item is automatically transferred to the replenish list.</strong></p>
+<p><strong>Alternative 2: Store both lists as separate JSON files</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: User need not manually key in item details to transfer it to the replenish list.</p>
+<p>Pros: Easier to implement as there is no need to find a data structure to wrap both lists for storage.</p>
 </li>
 <li>
-<p>Cons: User does not have the flexibility to pick which items to transfer to the replenish list.</p>
+<p>Cons: Makes updating the storage troublesome as both files need to be updated at the same time for any changes made to the lists.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect5">
+<h6 id="aspect-handling-of-items-that-have-run-out"><a class="link" href="#aspect-handling-of-items-that-have-run-out">3.1.4.1.2. Aspect: Handling of items that have run out</a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice): Automatically shift an item to the replenish list when the item&#8217;s quantity reaches 0</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: User does not need to input any command to perform the shifting, making the user experience more fuss-free.</p>
+</li>
+<li>
+<p>Cons: User has to delete the item from the replenish list if the user does not want to stock up on the item in future.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2: Delete item from the main list without any shift</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Items that the user may not want to replenish will not be automatically added to the replenish list.</p>
+</li>
+<li>
+<p>Cons: User has to go through the trouble to key in details of an item that was already in the main list.</p>
 </li>
 </ul>
 </div>
@@ -495,9 +611,9 @@ the item is automatically tagged as <code>#Expired</code>.</strong></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="commands-in-the-replenish-list"><a class="link" href="#commands-in-the-replenish-list">3.1.2. Commands in the replenish list</a></h4>
+<h4 id="commands-in-the-replenish-list"><a class="link" href="#commands-in-the-replenish-list">3.1.5. Commands in the replenish list</a></h4>
 <div class="sect4">
-<h5 id="implementation-3"><a class="link" href="#implementation-3">3.1.2.1. Implementation</a></h5>
+<h5 id="implementation-3"><a class="link" href="#implementation-3">3.1.5.1. Implementation</a></h5>
 <div class="paragraph">
 <p>As shown in a snippet of the <code>Logic</code> class diagram below, both <code>XpireParser</code> and <code>ReplenishParser</code> implement the interface <code>Parser</code>.
 In particular, <code>ReplenishParser</code> is the one that parses and handles the commands in the replenish list.</p>
@@ -506,7 +622,7 @@ In particular, <code>ReplenishParser</code> is the one that parses and handles t
 <div class="content">
 <img src="images/ParserClassDiagram.png" alt="ParserClassDiagram">
 </div>
-<div class="title">Figure 12. Snippet of Logic class diagram to highlight the relationship between the parsers</div>
+<div class="title">Figure 15. Snippet of Logic class diagram to highlight the relationship between the parsers</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -529,7 +645,7 @@ replenish list.</p>
 <div class="content">
 <img src="images/ParseCommandActivityDiagram2.png" alt="ParseCommandActivityDiagram2">
 </div>
-<div class="title">Figure 13. Activity Diagram for general parsing of commands</div>
+<div class="title">Figure 16. Activity Diagram for general parsing of commands</div>
 </div>
 <div class="paragraph">
 <p>In the event that <code>ReplenishParser</code> is selected, it will prevent any invagit lid or prohibited commands and also check for spelling mistakes in the user input.
@@ -537,14 +653,14 @@ This will be further explained to you in a <a href="#spelling-correction-with-al
 </div>
 </div>
 <div class="sect4">
-<h5 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.1.2.2. Design Considerations</a></h5>
+<h5 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.1.5.2. Design Considerations</a></h5>
 <div class="paragraph">
 <p>When designing the replenish list, I had to make decisions on how best to parse and execute commands in an efficient manner
 that would minimise code repetition and delay in runtime. The following is a brief summary of
 my analysis and decisions.</p>
 </div>
 <div class="sect5">
-<h6 id="aspect-how-commands-are-executed-in-the-list"><a class="link" href="#aspect-how-commands-are-executed-in-the-list">3.1.2.2.1. Aspect: How commands are executed in the list</a></h6>
+<h6 id="aspect-how-commands-are-executed-in-the-list"><a class="link" href="#aspect-how-commands-are-executed-in-the-list">3.1.5.2.1. Aspect: How commands are executed in the list</a></h6>
 <div class="ulist">
 <ul>
 <li>
@@ -592,7 +708,7 @@ that both implement <code>SortedUniqueItemList</code>, in a relationship summari
 <div class="content">
 <img src="images/SortedUniqueItemListClassDiagram.png" alt="SortedUniqueItemListClassDiagram">
 </div>
-<div class="title">Figure 14. Snippet of Model class diagram to bring attention to the relationship between internal sorted lists</div>
+<div class="title">Figure 17. Snippet of Model class diagram to bring attention to the relationship between internal sorted lists</div>
 </div>
 <div class="paragraph">
 <p>In both <code>SortedUniqueXpireItemList</code> and <code>SortedUniqueReplenishItemList</code>, items are stored in a <code>SortedList&lt;Item&gt;</code> and
@@ -606,7 +722,7 @@ subsequently sorted based on the comparator defined. <code>SortedUniqueXpireItem
 <div class="content">
 <img src="images/AutoSortViewSequenceDiagram.png" alt="AutoSortViewSequenceDiagram">
 </div>
-<div class="title">Figure 15. Sequence Diagram illustrating how the view operation displays items in order</div>
+<div class="title">Figure 18. Sequence Diagram illustrating how the view operation displays items in order</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -628,7 +744,7 @@ to the replenish list, while the figure below initialises this process.</p>
 <div class="content">
 <img src="images/ViewSetParserSequenceDiagram.png" alt="ViewSetParserSequenceDiagram">
 </div>
-<div class="title">Figure 16. Sequence Diagram : setting the parser</div>
+<div class="title">Figure 19. Sequence Diagram : setting the parser</div>
 </div>
 <div class="paragraph">
 <p><code>LogicManager</code> creates and allocates a parser to parse commands entered by the user each time. It does so by first identifying the current view
@@ -640,7 +756,7 @@ The figure below pictures the process of retrieving the internal sorted list of 
 <div class="content">
 <img src="images/AutoSortViewPartSequenceDiagram.png" alt="AutoSortViewPartSequenceDiagram">
 </div>
-<div class="title">Figure 17. Sequence Diagram : retrieve internal sorted list</div>
+<div class="title">Figure 20. Sequence Diagram : retrieve internal sorted list</div>
 </div>
 <div class="paragraph">
 <p>As items in the replenish list lack expiry dates, the command to sort by date is rendered irrelevant and thereby disallowed entirely in the replenish list.
@@ -681,7 +797,7 @@ the default method of sorting (by name) is then retrieved.<br>
 <div class="content">
 <img src="images/SortSequenceDiagram.png" alt="SortSequenceDiagram">
 </div>
-<div class="title">Figure 18. Sequence Diagram showing how sort command changes the order of items</div>
+<div class="title">Figure 21. Sequence Diagram showing how sort command changes the order of items</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -703,7 +819,7 @@ the <code>SortCommand</code> object created executes the <code>sort|date</code> 
 <div class="content">
 <img src="images/SortPartSequenceDiagram.png" alt="SortPartSequenceDiagram">
 </div>
-<div class="title">Figure 19. Sequence Diagram : set method of sorting to date</div>
+<div class="title">Figure 22. Sequence Diagram : set method of sorting to date</div>
 </div>
 <div class="paragraph">
 <p>In the above example, the user has specified to sort items by their expiry date, thus a dateComparator is returned.</p>
@@ -730,7 +846,7 @@ The SortedList changes accordingly based on the method of sorting specified.
 <div class="content">
 <img src="images/SortActivityDiagram2.png" alt="SortActivityDiagram2">
 </div>
-<div class="title">Figure 20. Activity Diagram showing the control flow of a sort command executed by the user</div>
+<div class="title">Figure 23. Activity Diagram showing the control flow of a sort command executed by the user</div>
 </div>
 <div class="paragraph">
 <p>If a <code>sort|date</code> command is executed, the comparator of the internal sorted list is set to be that of a <code>dateComparator</code>,
@@ -868,7 +984,7 @@ in the <code>Xpire</code> by <code>ModelManager</code>.</p>
 <div class="content">
 <img src="images/SetReminderUML.png" alt="SetReminderUML">
 </div>
-<div class="title">Figure 21. SetReminderSequenceDiagram</div>
+<div class="title">Figure 24. SetReminderSequenceDiagram</div>
 </div>
 </div>
 <div class="sect4">
@@ -888,7 +1004,7 @@ The predicate used by the filtering method is named <code>ReminderThresholdExcee
 <div class="content">
 <img src="images/CheckCommandNoArgUML.png" alt="CheckCommandNoArgUML">
 </div>
-<div class="title">Figure 22. CheckSequenceDiagram</div>
+<div class="title">Figure 25. CheckSequenceDiagram</div>
 </div>
 <div class="paragraph">
 <p>A successful <code>check</code> will lists all items marked as yellow and red int he <code>ViewPanel</code> of the UI component.</p>
@@ -908,7 +1024,7 @@ done by the predicate named <code>ExpiringSoonPredicate</code>.</p>
 <div class="content">
 <img src="images/CheckCommandArgUML.png" alt="CheckCommandArgUML">
 </div>
-<div class="title">Figure 23. CheckDaysSequenceDiagram</div>
+<div class="title">Figure 26. CheckDaysSequenceDiagram</div>
 </div>
 </div>
 </div>
@@ -1009,7 +1125,7 @@ The state that was undid will then be pushed into the RedoStack, should the user
 <div class="content">
 <img src="images/UndoRedo/UndoRedoStep1and2.png" alt="UndoRedoStep1and2" width="790">
 </div>
-<div class="title">Figure 24. Step 1 &amp; Step 2</div>
+<div class="title">Figure 27. Step 1 &amp; Step 2</div>
 </div>
 <div class="paragraph">
 <p>Step 3. The user executes <code>add|Apple|30/10/2019|3</code> to add a new item. Similar to Step 2, The <code>AddCommand</code> will then save the previous state, s1, by pushing it into the UndoStack. The current state will be the new state <code>s2</code> with the item Apple added.</p>
@@ -1036,7 +1152,7 @@ If a command fails its execution, it will not save the previous state, thus the 
 <div class="content">
 <img src="images/UndoRedo/UndoRedoStep3and4.png" alt="UndoRedoStep3and4" width="790">
 </div>
-<div class="title">Figure 25. Step 3 &amp; Step 4</div>
+<div class="title">Figure 28. Step 3 &amp; Step 4</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1089,7 +1205,7 @@ Similarly, if there are no commands to redo, <code>redo</code> will return an Er
 <div class="content">
 <img src="images/UndoRedo/UndoRedoStep5aand5b.png" alt="UndoRedoStep5aand5b" width="790">
 </div>
-<div class="title">Figure 26. Step 5a &amp; Step 5b</div>
+<div class="title">Figure 29. Step 5a &amp; Step 5b</div>
 </div>
 <div class="paragraph">
 <p>Step 5c. The user may also decide to execute some other command (which is the most likely scenario) other than Undo/Redo. For instance, the user inputs <code>tag|2|#Fruit</code>.</p>
@@ -1101,7 +1217,7 @@ Similarly, if there are no commands to redo, <code>redo</code> will return an Er
 <div class="content">
 <img src="images/UndoRedo/UndoRedoStep5c.png" alt="UndoRedoStep5c" width="790">
 </div>
-<div class="title">Figure 27. Step 5c</div>
+<div class="title">Figure 30. Step 5c</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1122,7 +1238,7 @@ Not all commands will save states to <code>StackManager</code>. <code>exit</code
 <div class="content">
 <img src="images/UndoRedo/ActivityDiagramUndoRedoCommand.png" alt="ActivityDiagramUndoRedoCommand" width="790">
 </div>
-<div class="title">Figure 28. Activity Diagram for Undo/Redo Commands</div>
+<div class="title">Figure 31. Activity Diagram for Undo/Redo Commands</div>
 </div>
 </div>
 <div class="sect3">
@@ -1143,7 +1259,7 @@ Not all commands will save states to <code>StackManager</code>. <code>exit</code
 <div class="content">
 <img src="images/UndoRedo/UndoRedoSystemClassDiagram2.png" alt="UndoRedoSystemClassDiagram2">
 </div>
-<div class="title">Figure 29. Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)</div>
+<div class="title">Figure 32. Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)</div>
 </div>
 <div class="sect4">
 <h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">3.4.2.1. Aspect: How undo &amp; redo executes</a></h5>
@@ -1233,7 +1349,7 @@ For search by name, partial words can be matched. For search by tag, only exact 
 <div class="content">
 <img src="images/SequenceDiagramSearch.png" alt="SequenceDiagramSearch" width="790">
 </div>
-<div class="title">Figure 30. Sequence diagram illustrating the search mechanism</div>
+<div class="title">Figure 33. Sequence diagram illustrating the search mechanism</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1252,7 +1368,7 @@ The diagram below further illustrates the parsing of arguments.
 <div class="content">
 <img src="images/SequenceDiagramSearchParseArgs.png" alt="SequenceDiagramSearchParseArgs" width="790">
 </div>
-<div class="title">Figure 31. Sequence diagram illustrating the parsing of arguments</div>
+<div class="title">Figure 34. Sequence diagram illustrating the parsing of arguments</div>
 </div>
 <div class="paragraph">
 <p>Example usage scenario:</p>
@@ -1311,7 +1427,7 @@ The selection of parser and the creation of <code>SearchCommand</code> object is
 <div class="content">
 <img src="images/ActivityDiagramSearchCommand.png" alt="ActivityDiagramSearchCommand" width="790">
 </div>
-<div class="title">Figure 32. Activity diagram illustrating the high-level workflow of search command</div>
+<div class="title">Figure 35. Activity diagram illustrating the high-level workflow of search command</div>
 </div>
 <div class="paragraph">
 <p>As illustrated in Figure 26, the <code>search</code> functionality also considers the case where the current view list
@@ -1491,13 +1607,13 @@ also be made "stackable" through using the API.</p>
 <div class="content">
 <img src="images/Tag/ActivityDiagramTagCommand.png" alt="ActivityDiagramTagCommand" width="790">
 </div>
-<div class="title">Figure 33. Activity Diagram for executing Tag Command</div>
+<div class="title">Figure 36. Activity Diagram for executing Tag Command</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/Tag/SequenceDiagramTagCommand.png" alt="SequenceDiagramTagCommand" height="790">
 </div>
-<div class="title">Figure 34. Simplified Sequence Diagram for executing Tag Command that assumes valid arguments.</div>
+<div class="title">Figure 37. Simplified Sequence Diagram for executing Tag Command that assumes valid arguments.</div>
 </div>
 </div>
 </div>
@@ -1523,7 +1639,7 @@ Any device with a QR code reader will be able to download the list of items.</p>
 <div class="content">
 <img src="images/SequenceDiagramExport.png" alt="SequenceDiagramExport" width="790">
 </div>
-<div class="title">Figure 35. Sequence diagram illustrating the export mechanism</div>
+<div class="title">Figure 38. Sequence diagram illustrating the export mechanism</div>
 </div>
 <div class="paragraph">
 <p>Example usage scenario:</p>
@@ -1572,7 +1688,7 @@ The selection of parser and the creation of <code>ExportCommand</code> object is
 <div class="content">
 <img src="images/ActivityDiagramExportCommand.png" alt="ActivityDiagramExportCommand" width="790">
 </div>
-<div class="title">Figure 36. Activity diagram illustrating the high-level workflow of search command</div>
+<div class="title">Figure 39. Activity diagram illustrating the high-level workflow of search command</div>
 </div>
 <div class="paragraph">
 <p>As illustrated in Figure 28, the <code>export</code> functionality also considers the case where the current view list
@@ -1700,7 +1816,7 @@ Only keywords with edit distance of less than 2 are recommended, to filter away 
 <div class="content">
 <img src="images/RecommendationsExample1.png" alt="RecommendationsExample1">
 </div>
-<div class="title">Figure 37. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
+<div class="title">Figure 40. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1722,7 +1838,7 @@ On the other hand, if <code>green</code> was misspelled as <code>gren</code>, th
 <div class="content">
 <img src="images/RecommendationsExample2.png" alt="RecommendationsExample2">
 </div>
-<div class="title">Figure 38. Example illustrating that recommendations are solely based on the previous list</div>
+<div class="title">Figure 41. Example illustrating that recommendations are solely based on the previous list</div>
 </div>
 <div class="paragraph">
 <p>The figure below depicts the flow of events that check for spelling errors when a user executes an unknown command.</p>
@@ -1731,7 +1847,7 @@ On the other hand, if <code>green</code> was misspelled as <code>gren</code>, th
 <div class="content">
 <img src="images/RecommendUnknownCommandActivityDiagram2.png" alt="RecommendUnknownCommandActivityDiagram2">
 </div>
-<div class="title">Figure 39. Activity diagram showing what happens when an unknown command is executed</div>
+<div class="title">Figure 42. Activity diagram showing what happens when an unknown command is executed</div>
 </div>
 <div class="paragraph">
 <p>For example, if <code>set reminder</code> was input incorrectly as <code>set remindre</code>, it will be flagged as an invalid command.
@@ -1745,7 +1861,7 @@ as its closest match and wrapped as a recommendation in a <code>ParseException</
 <div class="content">
 <img src="images/RecommendCommandArgumentsActivityDiagram2.png" alt="RecommendCommandArgumentsActivityDiagram2">
 </div>
-<div class="title">Figure 40. Activity diagram showing what happens when a command is executed with misspelled arguments</div>
+<div class="title">Figure 43. Activity diagram showing what happens when a command is executed with misspelled arguments</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1766,7 +1882,7 @@ Only search and sort commands support this operation.
 <div class="content">
 <img src="images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
 </div>
-<div class="title">Figure 41. Sequence diagram illustrating the recommendations mechanism for command <code>sort|dat</code></div>
+<div class="title">Figure 44. Sequence diagram illustrating the recommendations mechanism for command <code>sort|dat</code></div>
 </div>
 <div class="paragraph">
 <p>The sequence diagram titled <code>find similar words</code> below expands on the process omitted above.</p>
@@ -1775,7 +1891,7 @@ Only search and sort commands support this operation.
 <div class="content">
 <img src="images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
 </div>
-<div class="title">Figure 42. Sequence diagram showing how <code>"date"</code> is found to be the most similar word to <code>"dat"</code></div>
+<div class="title">Figure 45. Sequence diagram showing how <code>"date"</code> is found to be the most similar word to <code>"dat"</code></div>
 </div>
 <div class="paragraph">
 <p>The function <code>findSimilar</code> in <code>StringUtil</code> is called upon to return a set containing strings that are most similar to the misspelled argument, <code>"dat"</code>.
@@ -2846,7 +2962,7 @@ any key is pressed and the user can continue.</p>
 <p>The product is not required to produce reminders when the app is inactive.</p>
 </li>
 <li>
-<p>The product is not required to handle intentionally corrupted json files.</p>
+<p>The product is not required to handle intentionally corrupted JSON files.</p>
 </li>
 </ol>
 </div>
@@ -3305,21 +3421,15 @@ Expected: <code>view</code> is given as a recommendation in the error message.</
 <div class="sect2">
 <h3 id="adding-expired-items-to-the-tracking-list-for-testing"><a class="link" href="#adding-expired-items-to-the-tracking-list-for-testing">G.6. Adding expired items to the tracking list for testing</a></h3>
 <div class="paragraph">
-<p>Xpire automatically tags items as <code>Expired</code> in the tracking list once an item&#8217;s expiry date has passed, as seen in the diagram below. See <a href="#replenish-list">Section 3.1, &#8220;Replenish List&#8221;</a> for details.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/xpire_json_file.png" alt="xpire json file">
-</div>
-<div class="title">Figure 43. Expiry date should be updated to one that has passed to test for expired items in Xpire.</div>
+<p>By design, our app does not accept items that have expired unless the JSON file is tampered with.</p>
 </div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>By design, our app does not accept items that have expired unless the json file is tampered with.</p>
+<p>To add an expired item to the tracking list, open the xpire.json file in an editor. Under <code>"xpireItems"</code>, add a new JSON object with values for <code>name</code>, <code>expiryDate</code>, <code>quantity</code>, <code>reminderThreshold</code> and <code>tags</code>.</p>
 </li>
 <li>
-<p>To add an expired item to the tracking list, open the xpire.json file in an editor. Under <code>"xpireItems"</code>, add a new JSON object with values for <code>name</code>, <code>expiryDate</code>, <code>quantity</code>, <code>reminderThreshold</code> and <code>tags</code>.</p>
+<p>Note that this expiry date has to be after 1/10/2019.</p>
 </li>
 <li>
 <p>The expiry date should be a date that is before the current date of testing. The reminder threshold should be a non-negative integer and quantity should be a positive integer.</p>
@@ -3336,7 +3446,7 @@ Expected: <code>view</code> is given as a recommendation in the error message.</
 <div class="content">
 <img src="images/json_format_example.png" alt="json format example">
 </div>
-<div class="title">Figure 44. Format to follow for adding an XpireItem manually to xpire.json file</div>
+<div class="title">Figure 46. Format to follow for adding an XpireItem manually to xpire.json file</div>
 </div>
 <div class="paragraph">
 <p>Example:</p>
@@ -3345,10 +3455,10 @@ Expected: <code>view</code> is given as a recommendation in the error message.</
 <div class="content">
 <img src="images/json_example.png" alt="json example">
 </div>
-<div class="title">Figure 45. Example of a valid XpireItem manually added to xpire.json file</div>
+<div class="title">Figure 47. Example of a valid XpireItem manually added to xpire.json file</div>
 </div>
 <div class="paragraph">
-<p>An item with <code>name</code> Jelly and <code>expiryDate</code> 24/6/2019 (which has passed) is now added to the json file for your testing.</p>
+<p>An item with <code>name</code> Raspberry and <code>expiryDate</code> 8/10/2019 (which has passed) is now added to the JSON file for your testing.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3359,7 +3469,7 @@ Expected: <code>view</code> is given as a recommendation in the error message.</
 <td class="content">
 Remember to enclose these name-value items with <code>{</code> and <code>}</code>.
 Do note that if you manually tamper with the xpire.json file, the data file might be corrupted.
-See <a href="#saving-data">Section G.13, &#8220;Saving data&#8221;</a> on details for corrupted files.
+See <a href="#saving-data">Section G.16, &#8220;Saving data&#8221;</a> on details for corrupted files.
 For more information about JSON objects, please refer to <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-json">this tutorial</a>.
 </td>
 </tr>
@@ -3367,7 +3477,44 @@ For more information about JSON objects, please refer to <a href="https://www.di
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-an-item"><a class="link" href="#deleting-an-item">G.7. Deleting an item</a></h3>
+<h3 id="adding-an-item"><a class="link" href="#adding-an-item">G.7. Adding an item</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Adding an item to the main list</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The examples given below act according to the following list:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/add_manual_test_list.png" alt="add manual test list">
+</div>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list.</p>
+</li>
+<li>
+<p>Test case: <code>add|Chocolate|28/6/2020</code><br>
+Expected: Chocolate is added to the main list. Details of the added item is shown in feedback.</p>
+</li>
+<li>
+<p>Test case: <code>add|Strawberry|30/6/2022|999</code><br>
+Expected: Strawberry&#8217;s quantity is increased by 999. Details of the quantity increase is shown in feedback.</p>
+</li>
+<li>
+<p>Test case: <code>add|Strawberry|30/6/2022|100000</code><br>
+Expected: Error message shown in feedback.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-an-item"><a class="link" href="#deleting-an-item">G.8. Deleting an item</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3399,7 +3546,7 @@ Expected: Similar to previous.</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>The examples given below acts according to the following list:</p>
+<p>The examples given below act according to the following list:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3409,7 +3556,7 @@ Expected: Similar to previous.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Prerequisites: Input quantity to be deleted must be less than or equals to the item quantity.</p>
+<p>Prerequisites: Current view is the main list. Input quantity to be deleted must be less than or equals to the item quantity.</p>
 </li>
 <li>
 <p>Test case <code>delete|2|1</code><br>
@@ -3461,7 +3608,51 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="tagging-an-item"><a class="link" href="#tagging-an-item">G.8. Tagging an item</a></h3>
+<h3 id="shifting-an-item-to-the-replenish-list"><a class="link" href="#shifting-an-item-to-the-replenish-list">G.9. Shifting an item to the replenish list</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Shifting an item to the replenish list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list. Current list contains at least one valid item.</p>
+</li>
+<li>
+<p>Test case <code>shift|1</code><br>
+Expected: First item in the main list is shifted into the replenish list. Feedback is shown.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="shifting-an-item-to-the-main-list"><a class="link" href="#shifting-an-item-to-the-main-list">G.10. Shifting an item to the main list</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Shifting an item to the main list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the replenish list.
+Current list contains at least one valid item.
+Item with the same expiry date specified and name as the item of the given index does not exist on the main list.</p>
+</li>
+<li>
+<p>Test case <code>shift|1|25/6/2020</code><br>
+Expected: First item is moved to the main list. Feedback is shown.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tagging-an-item"><a class="link" href="#tagging-an-item">G.11. Tagging an item</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3487,7 +3678,7 @@ Expected: No item is tagged. Error details shown in the status message.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="setting-a-reminder-for-an-item"><a class="link" href="#setting-a-reminder-for-an-item">G.9. Setting a reminder for an item</a></h3>
+<h3 id="setting-a-reminder-for-an-item"><a class="link" href="#setting-a-reminder-for-an-item">G.12. Setting a reminder for an item</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3536,7 +3727,7 @@ Feedback shows reminder is removed successfully.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="filtering-items-based-on-its-expiry-date-and-status"><a class="link" href="#filtering-items-based-on-its-expiry-date-and-status">G.10. Filtering items based on its expiry date and status</a></h3>
+<h3 id="filtering-items-based-on-its-expiry-date-and-status"><a class="link" href="#filtering-items-based-on-its-expiry-date-and-status">G.13. Filtering items based on its expiry date and status</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3587,7 +3778,7 @@ Feedback shows listing of expired items and items whose reminder has been activa
 </div>
 </div>
 <div class="sect2">
-<h3 id="undo-redo-commands"><a class="link" href="#undo-redo-commands">G.11. Undo/Redo commands</a></h3>
+<h3 id="undo-redo-commands"><a class="link" href="#undo-redo-commands">G.14. Undo/Redo commands</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3628,7 +3819,7 @@ Expected: Feedback stating that there are no commands to redo.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="sorting-items"><a class="link" href="#sorting-items">G.12. Sorting items</a></h3>
+<h3 id="sorting-items"><a class="link" href="#sorting-items">G.15. Sorting items</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3695,7 +3886,7 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">G.13. Saving data</a></h3>
+<h3 id="saving-data"><a class="link" href="#saving-data">G.16. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3703,7 +3894,7 @@ Expected: Similar to previous.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Corrupted data files will be deleted. A new json file without any items will be used.</p>
+<p>Corrupted data files will be deleted. A new JSON file without any items will be used.</p>
 </li>
 </ol>
 </div>
@@ -3712,4 +3903,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 14:16:38 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 15:17:13 UTC</div></div></div></body></html>

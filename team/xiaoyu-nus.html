@@ -155,12 +155,14 @@ Responsibilities: Reminder System + Logo and UI Designer</p>
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="deleting-variable-s-code-delete-code"><a class="link" href="#deleting-variable-s-code-delete-code">Deleting variable(s): <code>delete</code></a></h4>
+<h4 id="deleting-an-item-or-its-tags-code-delete-code"><a class="link" href="#deleting-an-item-or-its-tags-code-delete-code">Deleting an item or its tags: <code>delete</code></a></h4>
+<div class="paragraph">
+<p>If you would like to delete an item or its related fields from the list, the <code>delete</code> command can be used.</p>
+</div>
 <div class="sect4">
 <h5 id="deleting-an-item"><a class="link" href="#deleting-an-item">Deleting an item</a></h5>
 <div class="paragraph">
-<p>Deletes the specified item from your list.<br>
-Format: <code>delete|&lt;index&gt;</code><br></p>
+<p>If you would like to delete a particular item from your list, simply follow the format: <code>delete|&lt;index&gt;</code>.</p>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -181,74 +183,6 @@ Deletes the 3rd item in the sorted main list.</p>
 <p><code>search|potato</code><br>
 <code>delete|1</code><br>
 Deletes the 1st item in the results of the <code>search</code> command.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="deleting-certain-tags-from-an-item"><a class="link" href="#deleting-certain-tags-from-an-item">Deleting certain tags from an item</a></h5>
-<div class="paragraph">
-<p>Deletes tag(s) from the specified item.<br>
-Format: <code>delete|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code><br></p>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view|main</code><br>
-<code>delete|3|#Fruit #Food</code><br>
-Deletes the tags <code>#Fruit</code> and <code>#Food</code> from the 3rd item in the main list.
-===== Reducing the quantity of an item</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/delete-quantity.png" alt="delete quantity" width="790">
-</div>
-<div class="title">Figure 1. Item at index 4 reduced in quantity by 1</div>
-</div>
-<div class="paragraph">
-<p>Reduces item quantity by the specified quantity.<br>
-Format <code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>The index refers to the index number shown on the list.</p>
-</li>
-<li>
-<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
-</li>
-<li>
-<p>Tags must be prefixed with a '#'.</p>
-</li>
-<li>
-<p>The item must contain the tags to be deleted.</p>
-</li>
-<li>
-<p>The quantity <strong>must be a positive integer</strong> 1, 2 ,3&#8230;&#8203;</p>
-</li>
-<li>
-<p>The quantity specified must be more than the item&#8217;s current quantity.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view|main</code><br>
-<code>delete|4|1</code><br>
-Reduces the quantity of the 4th item by 1.</p>
 </li>
 </ul>
 </div>
@@ -314,7 +248,7 @@ in the <code>Xpire</code> by <code>ModelManager</code>.</p>
 <div class="content">
 <img src="../images/SetReminderUML.png" alt="SetReminderUML">
 </div>
-<div class="title">Figure 2. SetReminderSequenceDiagram</div>
+<div class="title">Figure 1. SetReminderSequenceDiagram</div>
 </div>
 </div>
 <div class="sect4">
@@ -334,7 +268,7 @@ The predicate used by the filtering method is named <code>ReminderThresholdExcee
 <div class="content">
 <img src="../images/CheckCommandNoArgUML.png" alt="CheckCommandNoArgUML">
 </div>
-<div class="title">Figure 3. CheckSequenceDiagram</div>
+<div class="title">Figure 2. CheckSequenceDiagram</div>
 </div>
 <div class="paragraph">
 <p>A successful <code>check</code> will lists all items marked as yellow and red int he <code>ViewPanel</code> of the UI component.</p>
@@ -354,7 +288,7 @@ done by the predicate named <code>ExpiringSoonPredicate</code>.</p>
 <div class="content">
 <img src="../images/CheckCommandArgUML.png" alt="CheckCommandArgUML">
 </div>
-<div class="title">Figure 4. CheckDaysSequenceDiagram</div>
+<div class="title">Figure 3. CheckDaysSequenceDiagram</div>
 </div>
 </div>
 </div>
@@ -408,4 +342,4 @@ requires no change to the sorted list, the list will still be sorted as a new it
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 14:16:38 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 15:17:13 UTC</div></div></div></body></html>
