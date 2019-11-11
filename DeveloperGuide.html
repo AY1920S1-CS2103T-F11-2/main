@@ -160,8 +160,9 @@
 <li><a href="#tagging-an-item">G.8. Tagging an item</a></li>
 <li><a href="#setting-a-reminder-for-an-item">G.9. Setting a reminder for an item</a></li>
 <li><a href="#filtering-items-based-on-its-expiry-date-and-status">G.10. Filtering items based on its expiry date and status</a></li>
-<li><a href="#sorting-items">G.11. Sorting items</a></li>
-<li><a href="#saving-data">G.12. Saving data</a></li>
+<li><a href="#undo-redo-commands">G.11. Undo/Redo commands</a></li>
+<li><a href="#sorting-items">G.12. Sorting items</a></li>
+<li><a href="#saving-data">G.13. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -1119,15 +1120,6 @@ Not all commands will save states to <code>StackManager</code>. <code>exit</code
 <div class="sect3">
 <h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.4.2. Design Considerations</a></h4>
 <div class="paragraph">
-<p>The following class diagram shows the entirety of the undo/redo mechanism and its associations.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/UndoRedo/UndoRedoSystemClassDiagram.png" alt="UndoRedoSystemClassDiagram" width="790">
-</div>
-<div class="title">Figure 29. Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)</div>
-</div>
-<div class="paragraph">
 <p>There are two classes that inherit from the abstract class <code>State</code> which are <code>FilteredState</code> and <code>ModifiedState</code>.</p>
 </div>
 <div class="paragraph">
@@ -1136,12 +1128,21 @@ Not all commands will save states to <code>StackManager</code>. <code>exit</code
 <div class="paragraph">
 <p>On the other hand, <code>ModifiedState</code> is created with commands that alters the item of the data, thus new <code>Xpire</code> and <code>ReplenishList</code> objects will be stored within the state. Commands that instantiate a <code>ModifiedState</code> include <code>AddCommand</code>, <code>TagCommand</code> and <code>DeleteCommand</code>.</p>
 </div>
+<div class="paragraph">
+<p>The following class diagram shows the entirety of the undo/redo mechanism and its associations.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/UndoRedo/UndoRedoSystemClassDiagram2.png" alt="UndoRedoSystemClassDiagram2">
+</div>
+<div class="title">Figure 29. Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)</div>
+</div>
 <div class="sect4">
 <h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">3.4.2.1. Aspect: How undo &amp; redo executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Saves and clones the entire model.</p>
+<p><strong>Option 1 (current choice):</strong> Saves and clones the entire model.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1154,7 +1155,7 @@ Not all commands will save states to <code>StackManager</code>. <code>exit</code
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Individual command knows how to undo/redo by itself.</p>
+<p><strong>Option 2:</strong> Individual command knows how to undo/redo by itself.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1175,7 +1176,7 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Use a stack to store the different commands and states.</p>
+<p><strong>Optional 1 (current choice):</strong> Use a stack to store the different commands and states.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1188,7 +1189,7 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo that stores previous versions of Item/XpireItem</p>
+<p><strong>Optional 2:</strong> Use <code>HistoryManager</code> for undo/redo that stores previous versions of Item/XpireItem</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1471,18 +1472,12 @@ also be made "stackable" through using the API.</p>
 <div class="sect2">
 <h3 id="tag-feature"><a class="link" href="#tag-feature">3.6. Tag Feature</a></h3>
 <div class="paragraph">
-<p>This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all of the tags are parsed in Sentence-Case and must not be more than 20 characters long each.</p>
-</div>
-<div class="paragraph">
-<p>If the user simply enters <code>tag</code>, all the tags in the current list view will be collected and displayed to the user.</p>
-</div>
-<div class="paragraph">
-<p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
+<p>This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all tags are parsed in Sentence-Case and must not be more than 20 characters long each. If the user enters <code>tag</code>, all the tags in the current list view will be collected and displayed to the user.</p>
 </div>
 <div class="sect3">
 <h4 id="implementation-8"><a class="link" href="#implementation-8">3.6.1. Implementation</a></h4>
 <div class="paragraph">
-<p>Below is an activity diagram of what happens when a user keys in a Tag Command.</p>
+<p>Below are diagrams of what happens when a user keys in a Tag Command in <code>Xpire</code> as current list.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1490,22 +1485,17 @@ also be made "stackable" through using the API.</p>
 </div>
 <div class="title">Figure 33. Activity Diagram for executing Tag Command</div>
 </div>
-<div class="paragraph">
-<p>Below is a sequence diagram of what happens when a user keys in a Tag Command in the main list view. Note that the diagram has been simplified and assumes that all arguments are valid.</p>
-</div>
 <div class="imageblock">
 <div class="content">
-<img src="images/Tag/SequenceDiagramTagCommand.png" alt="SequenceDiagramTagCommand" width="790">
+<img src="images/Tag/SequenceDiagramTagCommand.png" alt="SequenceDiagramTagCommand" height="790">
 </div>
-<div class="title">Figure 34. Sequence Diagram for executing Tag Command</div>
+<div class="title">Figure 34. Simplified Sequence Diagram for executing Tag Command that assumes valid arguments.</div>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="search"><a class="link" href="#search">3.7. Search</a></h3>
-<div class="paragraph">
-<p>&gt;&gt;&gt;&gt;&gt;&gt;&gt; 7a9c5fc271183379425342c81d2f7b0f441903f4</p>
-</div>
+
 </div>
 <div class="sect2">
 <h3 id="export"><a class="link" href="#export">3.8. Export</a></h3>
@@ -3200,7 +3190,7 @@ Expected: <code>view</code> is given as a recommendation in the error message.</
 <td class="content">
 Remember to enclose these name-value items with <code>{</code> and <code>}</code>.
 Do note that if you manually tamper with the xpire.json file, the data file might be corrupted.
-See <a href="#saving-data">Section G.12, &#8220;Saving data&#8221;</a> on details for corrupted files.
+See <a href="#saving-data">Section G.13, &#8220;Saving data&#8221;</a> on details for corrupted files.
 For more information about JSON objects, please refer to <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-json">this tutorial</a>.
 </td>
 </tr>
@@ -3428,7 +3418,48 @@ Feedback shows listing of expired items and items whose reminder has been activa
 </div>
 </div>
 <div class="sect2">
-<h3 id="sorting-items"><a class="link" href="#sorting-items">G.11. Sorting items</a></h3>
+<h3 id="undo-redo-commands"><a class="link" href="#undo-redo-commands">G.11. Undo/Redo commands</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Undo an earlier command or redo a previously done command.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: No commands have been entered yet and the current view is the main list. There is at least one item in the main list that is expiring within 50 days, and one item in the replenish list.</p>
+</li>
+<li>
+<p>Test case: <code>add|Apple|12/03/2025|3</code> followed by <code>undo</code> and then <code>redo</code><br>
+Expected: The item with name Apple, expiry date 12/03/2025 and with quantity 3 will be added. Undo command will proceed to remove the item whilst the Redo command will proceed to add the same item back.</p>
+</li>
+<li>
+<p>Test case: <code>check|50</code> followed by <code>undo</code> and then <code>redo</code><br>
+Expected: The items with 50 days before expiry date or less will be filtered out to you. Undo command will revert the current view to show all items. Redo command will then filter out those same items again.</p>
+</li>
+<li>
+<p>Test case: <code>shift|1</code> followed by <code>undo</code> and then <code>redo</code><br>
+Expected: The item on the first index will be shifted to the ReplenishList. Undo command will shift the item back to the main list. Redo command will shift the item back to the replenish list.</p>
+</li>
+<li>
+<p>Test case: <code>view|replenish</code> followed by <code>shift|1|12/03/2025</code> followed by <code>undo</code> and lastly <code>redo</code><br>
+Expected: The view changes to the replenish list and the first item on the list gets shifted to the main list with expiry date 12/03/2025. Undo command will shift the item back to the main list. Redo command will shift the item back to the replenish list.</p>
+</li>
+<li>
+<p>Test case: <code>undo</code><br>
+Expected: Feedback stating that there are no commands to undo.</p>
+</li>
+<li>
+<p>Test case: <code>redo</code><br>
+Expected: Feedback stating that there are no commands to redo.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sorting-items"><a class="link" href="#sorting-items">G.12. Sorting items</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3495,7 +3526,7 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">G.12. Saving data</a></h3>
+<h3 id="saving-data"><a class="link" href="#saving-data">G.13. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3512,4 +3543,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:58:10 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 13:11:18 UTC</div></div></div></body></html>

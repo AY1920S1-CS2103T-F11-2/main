@@ -8,7 +8,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>[<a href="https://kalsyc.github.io">Homepage</a>] [<a href="https://github.com/kalsyc">GitHub</a>] [<a href="https://nus-cs2103-ay1920s1.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2019-09-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=authorship&amp;tabAuthor=Kalsyc&amp;tabRepo=AY1920S1-CS2103T-F11-2%2Fmain%5Bmaster%5D">RepoSense</a>]</p>
+<p>[<a href="https://kalsyc.github.io">Homepage</a>] [<a href="https://github.com/kalsyc">GitHub</a>] </p>
 </div>
 <div class="paragraph">
 <p>Role: Developer<br>
@@ -27,13 +27,7 @@ Responsibilities: Testing + Undo/Redo/Tagging System</p>
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>My team and I were tasked to morph an existing Desktop application called AddressBook3 for our Software Engineering Team Project (Module Code: CS2103T). Our team has chosen to morph the application into an Expiry Date Tracker named Xpire that targets students living in residences and halls.</p>
-</div>
-<div class="paragraph">
-<p>Our application allows users to track expiry dates of items and be reminded when they are about to expire. Examples of items that can be tracked include perishable items such as Milk, Bread, Fruits or even non-perishable items such as Medicine and Passwords.<br></p>
-</div>
-<div class="paragraph">
-<p>Our application also features a ReplenishList where users can track what items they need to replenish after it expires or has been used up.</p>
+<p>My team and I were tasked to morph an existing Desktop application called AddressBook3 for our Software Engineering Team Project (Module Code: CS2103T). Our team has chosen to morph the application into an Expiry Date Tracker named Xpire that targets students living in residences and halls. Our application allows users to track expiry dates of items and be reminded when they are about to expire. Examples of items that can be tracked include perishable items such as Milk, Bread, Fruits or even non-perishable items such as Medicine and Passwords. Additionally, there is also a ReplenishList where users can track what items they need to replenish after it expires or has been used up.</p>
 </div>
 </div>
 </div>
@@ -55,16 +49,12 @@ Responsibilities: Testing + Undo/Redo/Tagging System</p>
 <h2 id="formatting-and-terms-used-in-this-project-portfolio"><a class="link" href="#formatting-and-terms-used-in-this-project-portfolio">Formatting and Terms used in this Project Portfolio</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>undo</code> - This grey highlight represents a class, a variable or method that exists in the codebase. It can also represent a command that has to be entered into the application.</p>
-</div>
-<div class="paragraph">
-<p><code>Xpire</code> - This refers to the main list in the application and not the entire application. The Xpire application will be simply referred to as 'the application'.</p>
-</div>
-<div class="paragraph">
-<p><code>ReplenishList</code> - This refers to the replenish list in the application.</p>
-</div>
-<div class="paragraph">
-<p><code>current view</code> - This refers to the current list that the user is viewing (either the main list (<code>Xpire</code>) or the replenish list (<code>ReplenishList</code>)).</p>
+<p><code>undo</code> - This grey highlight represents a class, a variable or method that exists in the codebase. It can also represent a command that has to be entered into the application.<br>
+<code>Xpire</code> - This refers to the main list in the application and not the entire application. The Xpire application will be simply referred to as 'the application'.<br>
+<code>ReplenishList</code> - This refers to the replenish list in the application.<br>
+<code>current view</code> - This refers to the current list that the user is viewing (either the main list (<code>Xpire</code>) or the replenish list (<code>ReplenishList</code>)).<br>
+Lightbulb icon - Refers to a tip that developers/users can follow.<br>
+Info icon - Refers to an important note that developers/users need to know.</p>
 </div>
 </div>
 </div>
@@ -84,7 +74,10 @@ Responsibilities: Testing + Undo/Redo/Tagging System</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement</strong>: added <strong>the ability to undo/redo previous commands</strong></p>
+<p><strong>My code on RepoSense</strong>: [<a href="https://nus-cs2103-ay1920s1.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2019-09-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=authorship&amp;tabAuthor=Kalsyc&amp;tabRepo=AY1920S1-CS2103T-F11-2%2Fmain%5Bmaster%5D">RepoSense</a>]</p>
+</li>
+<li>
+<p><strong>Major enhancement</strong>: added the <strong>ability to undo/redo previous commands</strong></p>
 <div class="ulist">
 <ul>
 <li>
@@ -95,7 +88,7 @@ Responsibilities: Testing + Undo/Redo/Tagging System</p>
 </li>
 <li>
 <p>Highlights: This feature must work with existing commands as well as future commands and also not slow down the application. A proper brainstorming of design choices must be made as the undo/redo mechanism will affect most commands and the current status of the application. The implementation was challenging as there are two lists that the application contains which is <code>Xpire</code> and <code>ReplenishList</code> and there is a need to find a way to archive the data in order to support undoing of commands.<br>
-Also, efficiency and memory is a concern as we do not want to store too many archival data which may slow down the application, thus only items or views that have been changed should be noted by the mechanism and not create duplicates.</p>
+Also, efficiency and memory usage is a concern as we do not want to store too many archival data which may slow down the application, thus only items or views that have been changed should be noted by the mechanism and not create duplicates.</p>
 </li>
 <li>
 <p>Code contributed for this enhancement: (Pull requests <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/138">#138</a>, <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/181">#181</a>)</p>
@@ -599,15 +592,6 @@ Not all commands will save states to <code>StackManager</code>. <code>exit</code
 <div class="sect3">
 <h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
 <div class="paragraph">
-<p>The following class diagram shows the entirety of the undo/redo mechanism and its associations.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoSystemClassDiagram.png" alt="UndoRedoSystemClassDiagram" width="790">
-</div>
-<div class="title">Figure 8. Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)</div>
-</div>
-<div class="paragraph">
 <p>There are two classes that inherit from the abstract class <code>State</code> which are <code>FilteredState</code> and <code>ModifiedState</code>.</p>
 </div>
 <div class="paragraph">
@@ -616,12 +600,21 @@ Not all commands will save states to <code>StackManager</code>. <code>exit</code
 <div class="paragraph">
 <p>On the other hand, <code>ModifiedState</code> is created with commands that alters the item of the data, thus new <code>Xpire</code> and <code>ReplenishList</code> objects will be stored within the state. Commands that instantiate a <code>ModifiedState</code> include <code>AddCommand</code>, <code>TagCommand</code> and <code>DeleteCommand</code>.</p>
 </div>
+<div class="paragraph">
+<p>The following class diagram shows the entirety of the undo/redo mechanism and its associations.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/UndoRedo/UndoRedoSystemClassDiagram2.png" alt="UndoRedoSystemClassDiagram2">
+</div>
+<div class="title">Figure 8. Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)</div>
+</div>
 <div class="sect4">
 <h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Saves and clones the entire model.</p>
+<p><strong>Option 1 (current choice):</strong> Saves and clones the entire model.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -634,7 +627,7 @@ Not all commands will save states to <code>StackManager</code>. <code>exit</code
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Individual command knows how to undo/redo by itself.</p>
+<p><strong>Option 2:</strong> Individual command knows how to undo/redo by itself.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -655,7 +648,7 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Use a stack to store the different commands and states.</p>
+<p><strong>Optional 1 (current choice):</strong> Use a stack to store the different commands and states.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -668,7 +661,7 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo that stores previous versions of Item/XpireItem</p>
+<p><strong>Optional 2:</strong> Use <code>HistoryManager</code> for undo/redo that stores previous versions of Item/XpireItem</p>
 <div class="ulist">
 <ul>
 <li>
@@ -688,18 +681,12 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 <div class="sect2">
 <h3 id="tag-feature"><a class="link" href="#tag-feature">Tag Feature</a></h3>
 <div class="paragraph">
-<p>This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all of the tags are parsed in Sentence-Case and must not be more than 20 characters long each.</p>
-</div>
-<div class="paragraph">
-<p>If the user simply enters <code>tag</code>, all the tags in the current list view will be collected and displayed to the user.</p>
-</div>
-<div class="paragraph">
-<p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
+<p>This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all tags are parsed in Sentence-Case and must not be more than 20 characters long each. If the user enters <code>tag</code>, all the tags in the current list view will be collected and displayed to the user.</p>
 </div>
 <div class="sect3">
 <h4 id="implementation-2"><a class="link" href="#implementation-2">Implementation</a></h4>
 <div class="paragraph">
-<p>Below is an activity diagram of what happens when a user keys in a Tag Command.</p>
+<p>Below are diagrams of what happens when a user keys in a Tag Command in <code>Xpire</code> as current list.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -707,17 +694,14 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 </div>
 <div class="title">Figure 9. Activity Diagram for executing Tag Command</div>
 </div>
-<div class="paragraph">
-<p>Below is a sequence diagram of what happens when a user keys in a Tag Command in the main list view. Note that the diagram has been simplified and assumes that all arguments are valid.</p>
-</div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/Tag/SequenceDiagramTagCommand.png" alt="SequenceDiagramTagCommand" width="790">
+<img src="../images/Tag/SequenceDiagramTagCommand.png" alt="SequenceDiagramTagCommand" height="790">
 </div>
-<div class="title">Figure 10. Sequence Diagram for executing Tag Command</div>
+<div class="title">Figure 10. Simplified Sequence Diagram for executing Tag Command that assumes valid arguments.</div>
 </div>
 <hr>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:58:10 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 13:11:18 UTC</div></div></div></body></html>
