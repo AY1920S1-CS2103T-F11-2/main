@@ -4,7 +4,7 @@
 :stylesDir: ../stylesheets
 
 image::kalsyc.png[width="150", align="left"]
-{empty}[https://kalsyc.github.io[Homepage]] [https://github.com/kalsyc[GitHub]] {empty}[https://nus-cs2103-ay1920s1.github.io/tp-dashboard/#search=&sort=groupTitle&sortWithin=title&since=2019-09-06&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=Kalsyc&tabRepo=AY1920S1-CS2103T-F11-2%2Fmain%5Bmaster%5D[RepoSense]]
+{empty}[https://kalsyc.github.io[Homepage]] [https://github.com/kalsyc[GitHub]] {empty}
 
 Role: Developer +
 Responsibilities: Testing + Undo/Redo/Tagging System
@@ -37,6 +37,8 @@ image::Ui.png[width="790"]
 |===
 |_This section details the contributions I have made to the team as well as any documentation or code I have written._
 |===
+
+* *My code on RepoSense*: [https://nus-cs2103-ay1920s1.github.io/tp-dashboard/#search=&sort=groupTitle&sortWithin=title&since=2019-09-06&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=Kalsyc&tabRepo=AY1920S1-CS2103T-F11-2%2Fmain%5Bmaster%5D[RepoSense]]
 
 * *Major enhancement*: added *the ability to undo/redo previous commands*
 ** What it does: allows the user to undo previous commands or redo commands that have been entered earlier.
