@@ -94,29 +94,34 @@
 </li>
 </ul>
 </li>
-<li><a href="#search">3.6. Search</a>
+<li><a href="#tag-feature">3.6. Tag Feature</a>
 <ul class="sectlevel3">
 <li><a href="#implementation-7">3.6.1. Implementation</a></li>
 </ul>
 </li>
-<li><a href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a>
+<li><a href="#search">3.7. Search</a>
 <ul class="sectlevel3">
 <li><a href="#implementation-8">3.7.1. Implementation</a></li>
-<li><a href="#design-considerations-7">3.7.2. Design Considerations</a>
-<ul class="sectlevel4">
-<li><a href="#aspect-how-recommendations-execute">3.7.2.1. Aspect: How recommendations execute</a></li>
-<li><a href="#aspect-data-structure-to-store-the-recommendations">3.7.2.2. Aspect: Data structure to store the recommendations</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#user-interface-design">3.8. User Interface Design</a>
+<li><a href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a>
 <ul class="sectlevel3">
-<li><a href="#the-view-panel">3.8.1. The View Panel</a></li>
+<li><a href="#implementation-9">3.8.1. Implementation</a></li>
+<li><a href="#design-considerations-7">3.8.2. Design Considerations</a>
+<ul class="sectlevel4">
+<li><a href="#aspect-how-recommendations-execute">3.8.2.1. Aspect: How recommendations execute</a></li>
+<li><a href="#aspect-data-structure-to-store-the-recommendations">3.8.2.2. Aspect: Data structure to store the recommendations</a></li>
 </ul>
 </li>
-<li><a href="#logging">3.9. Logging</a></li>
-<li><a href="#Implementation-Configuration">3.10. Configuration</a></li>
+</ul>
+</li>
+<li><a href="#user-interface-design">3.9. User Interface Design</a>
+<ul class="sectlevel3">
+<li><a href="#the-view-panel">3.9.1. The View Panel</a></li>
+</ul>
+</li>
+<li><a href="#logging">3.10. Logging</a></li>
+<li><a href="#Implementation-Configuration">3.11. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a></li>
@@ -934,55 +939,20 @@ requires no change to the sorted list, the list will still be sorted as a new it
 <div class="sect3">
 <h4 id="implementation-6"><a class="link" href="#implementation-6">3.4.1. Implementation</a></h4>
 <div class="paragraph">
-<p>The undo/redo mechanism is facilitated by <code>CloneModel</code> and <code>StackManager</code>.
-It is a separate class that stores a state of the model at any command in time. Internally, it runs three private functions that copy the data over.</p>
+<p>The undo/redo mechanism is facilitated by 4 different components: <code>CloneModel</code>,  <code>State</code>, <code>StackManager</code>, and <code>UndoableHistoryManager</code>.</p>
 </div>
 <div class="paragraph">
-<p>The mechanism is supported by a StackManager which stores internally all the states and<br>
+<p>A <code>CloneModel</code> is a cloned version of the <code>Model</code> class and contains <code>UserPrefs</code> and the items in <code>Xpire</code> and <code>ReplenishList</code>.</p>
+</div>
+<div class="paragraph">
+<p>A <code>State</code> represents the status of the application at that point in history and contains the corresponding <code>CloneModel</code>, an enum <code>ListType</code> which is the current view of the application, a <code>XpireMethodOfSorting</code> which determines how the items in <code>Xpire</code> are sorted, as well as a <code>predicate</code> that filters items in the current view.</p>
+</div>
+<div class="paragraph">
+<p>The undo/redo mechanism is also supported by a <code>StackManager</code> which stores internally all the states and<br>
 decides when to pop or clear, depending on the command.
-There are two stacks that are stored in StackManager internally, the Undo and the Redo stack.
-These stacks are initialised and cleared upon beginning/ending every session.</p>
-</div>
-<div class="paragraph">
-<p>At every command (Other than undo/redo/help/exit), the state is stored internally.<br>
-When an undo command is executed, it will pop the previous state and update the model via <code>updateModel</code>.<br>
-The state that was undid will then be pushed into the Redo stack, should the user types in a redo command.</p>
-</div>
-<div class="paragraph">
-<p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>Step 1. The user launches the application for the first time. The two internal stacks in <code>StackManager</code> will be initialised.</p>
-</div>
-<div class="paragraph">
-<p>Both stacks should be empty as there are no previous commands by the user. The current state is s0, the initial state of Xpire.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/UndoRedo/UndoRedoStep1.png" alt="UndoRedoStep1">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 2. The user executes <code>delete|5</code> command to delete the 5th item in Xpire. The <code>delete</code> will then save the previous state, s0 by pushing it into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current state will be the new state <code>s1</code> that has the 5th item in Xpire deleted.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/UndoRedo/UndoRedoStep2.png" alt="UndoRedoStep2">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 3. The user executes <code>add|Apple|30/10/2019|3</code> to add a new item. Similar to Step 2, The <code>add</code> command will then save the previous state, s1 by pushing it into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current state will be the new state <code>s2</code> with the item Apple added.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/UndoRedo/UndoRedoStep3.png" alt="UndoRedoStep3">
-</div>
+There are two stacks that are stored in StackManager internally, the UndoStack and the RedoStack.
+The UndoStack is a <code>ArrayDeque</code> class, a double-ended queue which can simulate as a stack whilst the RedoStack is of the <code>Stack</code> class. Both classes are imported from java.util.
+These stacks are initialised and cleared upon the beginning and ending of every session of the application.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -991,21 +961,64 @@ The state that was undid will then be pushed into the Redo stack, should the use
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If a command fails its execution, it will not save the previous state, thus the Xpire state will not be pushed into the UndoStack.
+Currently, the undo/redo mechanism only supports up to 10 previous commands. This is enforced in order to save memory by not storing too many states in one session which may slow down the application.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Step 4. The user now decides that adding the item was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will then update the current model with the model in the previous state.</p>
+<p>As the UndoStack can only contain a maximum of 10 states, the UndoStack has to drop the first state from the front if there are already 10 states stored, thus influencing the design of the two stacks.<br>
+Therefore, an double-ended queue was used to replicate a Stack as it supports O(1) deleting operations from the front.</p>
 </div>
 <div class="paragraph">
-<p>Internally within StackManager, the most recent state, s1, will be popped from the Undo Stack to become the current state. At the same time, s2, the new state with the added item, will be pushed into the Redo Stack.</p>
+<p>The <code>UndoableHistoryManager</code> is a generic class that stores inputs as well as Commands so that Undo/Redo commands are able to feedback to the user what commands have been undone or redid.</p>
+</div>
+<div class="paragraph">
+<p>At every command (besides <code>undo</code>/<code>redo</code>/<code>help</code>/<code>exit</code>/<code>export</code>/<code>tag (show)</code>, the state is stored internally.<br>
+When an <code>undo</code> command is executed, it will pop the previous state and update the model via <code>update</code>.<br>
+The state that was undid will then be pushed into the RedoStack, should the user types in a <code>redo</code> command.</p>
+</div>
+<div class="paragraph">
+<p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user launches the application for the first time. The two internal stacks in <code>StackManager</code> will be initialised. Both stacks should be empty as there are no previous commands by the user. The current state is s0, the initial state of the application.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The user executes <code>delete|5</code> command to delete the 5th item in <code>Xpire</code>. The <code>delete</code> will then save the previous state, s0, by pushing it into the Undo Stack. The current state will be the new state <code>s1</code> that has the 5th item in <code>Xpire</code> deleted.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedo/UndoRedoStep4.png" alt="UndoRedoStep4">
+<img src="images/UndoRedo/UndoRedoStep1and2.png" alt="UndoRedoStep1and2" width="790">
 </div>
+<div class="title">Figure 24. Step 1 &amp; Step 2</div>
+</div>
+<div class="paragraph">
+<p>Step 3. The user executes <code>add|Apple|30/10/2019|3</code> to add a new item. Similar to Step 2, The <code>AddCommand</code> will then save the previous state, s1, by pushing it into the UndoStack. The current state will be the new state <code>s2</code> with the item Apple added.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If a command fails its execution, it will not save the previous state, thus the state will not be pushed into the UndoStack.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Step 4. The user now decides that adding the Apple item earlier on was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will then update the current model with the model in the previous state.</p>
+</div>
+<div class="paragraph">
+<p>Internally within StackManager, the most recent state, s1, will be popped from the UndoStack to become the current state. At the same time, s2, the new state with the added item, will be pushed into the RedoStack.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/UndoRedo/UndoRedoStep3and4.png" alt="UndoRedoStep3and4" width="790">
+</div>
+<div class="title">Figure 25. Step 3 &amp; Step 4</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1020,12 +1033,15 @@ If there are no commands to undo (e.g. at the start of a new Xpire session), und
 </table>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the undo operation works:</p>
+<p>The following sequence diagram shows how the <code>undo</code> operation works:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoSequenceDiagram.png" alt="UndoSequenceDiagram">
+<img src="images/UndoRedo/UndoSequenceDiagram.png" alt="UndoSequenceDiagram" width="790">
 </div>
+</div>
+<div class="paragraph">
+<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;It will pop the latest state from the Redo Stack and set it as the current state whilst pushing the current state into the UndoStack.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1034,67 +1050,40 @@ If there are no commands to undo (e.g. at the start of a new Xpire session), und
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The lifeline for <code>UndoCommand</code> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+Similarly, if there are no commands to redo, <code>redo</code> will return an Error to the user. This is done by checking if the RedoStack is empty.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;It will pop the latest state from the Redo Stack and set it as the current state whilst pushing the current state into the Undo Stack.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Similarly, if there are no commands to redo, redo will return an Error to the user. This is done by checking if the Redo Stack is empty.
-</td>
-</tr>
-</table>
+<p>From Step 4, there are 3 scenarios which showcases the behaviour of <code>StackManager</code> after an Undo command has been executed.</p>
 </div>
 <div class="paragraph">
-<p>From Step 4, there are 3 scenarios which showcases the behaviour of StackManager after an Undo Command has been executed.</p>
+<p>Step 5a. The user suddenly decides that he should not have undid the previous Add command, thus he wants to redo the action. This is done by inputting 'redo' in Xpire.</p>
 </div>
 <div class="paragraph">
-<p>Step 5a. The user suddenly decides that he should not have undid the previous AddCommand, thus he wants to redo the action. This is done by inputting 'redo' in Xpire.</p>
+<p>Within <code>StackManager</code>, the current state will be the popped state, s2, from the RedoStack. The current state, s1, will then be pushed back into the UndoStack. The current states and their locations should be the same as after the execution of the <code>AddCommand</code> in Step 3.</p>
 </div>
 <div class="paragraph">
-<p>Internally within Stack Manager, the current state will be the popped state, s2, from the Redo Stack. The current state, s1, will then be psuehd back into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current states and their locations should be the same as after the execution of the Add command in Step 3.</p>
+<p>Step 5b. The user decides to further undo his actions, which now includes the first <code>DeleteCommand</code>. The initial state, s0, will then be popped from the UndoStack and set as the current state. The current state, s1, will then be pushed into the RedoStack.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedo/UndoRedoStep5a.png" alt="UndoRedoStep5a">
+<img src="images/UndoRedo/UndoRedoStep5aand5b.png" alt="UndoRedoStep5aand5b" width="790">
 </div>
-</div>
-<div class="paragraph">
-<p>Step 5b. The user decides to further undo his actions, which now includes the first Delete command. The initial state, s0, will then be popped from the Undo Stack and set as the current state.</p>
-</div>
-<div class="paragraph">
-<p>The current state, s1, will then be pushed into the Redo Stack.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/UndoRedo/UndoRedoStep5b.png" alt="UndoRedoStep5b">
-</div>
+<div class="title">Figure 26. Step 5a &amp; Step 5b</div>
 </div>
 <div class="paragraph">
 <p>Step 5c. The user may also decide to execute some other command (which is the most likely scenario) other than Undo/Redo. For instance, the user inputs <code>tag|2|#Fruit</code>.</p>
 </div>
 <div class="paragraph">
-<p>When this happens, the existing states in the Redo Stack will be cleared. The state s1, will then be pushed into the Undo Stack whilst the current state will be the new state s3 that includes the new Tag command.</p>
+<p>When this happens, the existing states in the RedoStack will be cleared. The state s1, will then be pushed into the UndoStack whilst the current state will be the new state s3 that includes the new <code>TagCommand</code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedo/UndoRedoStep5c.png" alt="UndoRedoStep5c">
+<img src="images/UndoRedo/UndoRedoStep5c.png" alt="UndoRedoStep5c" width="790">
 </div>
-</div>
-<div class="paragraph">
-<p>[PROPOSED] A CommandHistory will also be integrated into the application so that it delivers feedback on what commands it has undo/redo.</p>
+<div class="title">Figure 27. Step 5c</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1103,7 +1092,7 @@ Similarly, if there are no commands to redo, redo will return an Error to the us
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Not all commands will save states to StackManager. Exit and Help commands will not save states. Undo and Redo commands should only act on commands that update the items or change the view of the items to the user.
+Not all commands will save states to <code>StackManager</code>. <code>exit</code> and <code>help</code> commands will not save states. <code>UndoCommand</code> and <code>RedoCommand</code> should only act on commands that update items or change the view of the list of items to the user.
 </td>
 </tr>
 </table>
@@ -1113,25 +1102,44 @@ Not all commands will save states to StackManager. Exit and Help commands will n
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/UndoRedo/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram">
+<img src="images/UndoRedo/ActivityDiagramUndoRedoCommand.png" alt="ActivityDiagramUndoRedoCommand" width="790">
 </div>
+<div class="title">Figure 28. Activity Diagram for Undo/Redo Commands</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.4.2. Design Considerations</a></h4>
+<div class="paragraph">
+<p>The following class diagram shows the entirety of the undo/redo mechanism and its associations.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/UndoRedo/UndoRedoSystemClassDiagram.png" alt="UndoRedoSystemClassDiagram" width="790">
+</div>
+<div class="title">Figure 29. Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)</div>
+</div>
+<div class="paragraph">
+<p>There are two classes that inherit from the abstract class <code>State</code> which are <code>FilteredState</code> and <code>ModifiedState</code>.</p>
+</div>
+<div class="paragraph">
+<p>The states that are stored at each valid and undoable command depends on the type of command itself as <code>FilteredState</code> only copies over the predicate and method of sorting but not the backend <code>Xpire</code> or <code>ReplenishList</code> data. Thus, commands that do not alter items such as <code>SortCommand</code> and <code>CheckCommand</code> commands instantiate a <code>FilteredState</code>.</p>
+</div>
+<div class="paragraph">
+<p>On the other hand, <code>ModifiedState</code> is created with commands that alters the item of the data, thus new <code>Xpire</code> and <code>ReplenishList</code> objects will be stored within the state. Commands that instantiate a <code>ModifiedState</code> include <code>AddCommand</code>, <code>TagCommand</code> and <code>DeleteCommand</code>.</p>
+</div>
 <div class="sect4">
 <h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">3.4.2.1. Aspect: How undo &amp; redo executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Saves the entire model.</p>
+<p><strong>Alternative 1 (current choice):</strong> Saves and clones the entire model.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Easy to implement.</p>
 </li>
 <li>
-<p>Cons: May have performance issues in terms of memory usage.</p>
+<p>Cons: May have performance issues in terms of memory usage, need to have a limit for the amount of states that we can save.</p>
 </li>
 </ul>
 </div>
@@ -1141,11 +1149,11 @@ Not all commands will save states to StackManager. Exit and Help commands will n
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Will use less memory (e.g. for <code>delete</code>, just save the item being deleted).</p>
+<p>Pros: Will use less memory (e.g. for <code>DeleteCommand</code>, just save the item being deleted and apply the corresponding reverse command which is and <code>AddCommand</code>).</p>
 </li>
 <li>
-<p>Cons: We must ensure that the implementation of each individual command are correct.<br>
-Hard to do when we are applying stackable search/sort commands.</p>
+<p>Cons: Ensure that the implementation of each individual command are correct.<br>
+Hard to do when applying stackable <code>SearchCommand</code> and <code>SortCommand</code> as the <code>predicate</code> and XpireMethodOfSorting needs to be updated properly.</p>
 </li>
 </ul>
 </div>
@@ -1158,27 +1166,27 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Use a list to store the history of model states.</p>
+<p><strong>Alternative 1 (current choice):</strong> Use a stack to store the different commands and states.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.</p>
 </li>
 <li>
-<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update the filtered list shown to the user and the backend Xpire data.</p>
+<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update the filtered list shown to the user and the backend <code>Xpire</code>/<code>ReplenishList</code> data.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo</p>
+<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo that stores previous versions of Item/XpireItem</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.</p>
 </li>
 <li>
-<p>Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as <code>HistoryManager</code> now needs to do two different things.</p>
+<p>Cons: Requires <code>Item</code>/<code>XpireItem</code> to have a history of its edits. Violates Single Responsibility Principle and Separation of Concerns as each <code>Item</code> now needs to do two different things which is to store data and know its previous edited versions.</p>
 </li>
 </ul>
 </div>
@@ -1273,7 +1281,40 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="search"><a class="link" href="#search">3.6. Search</a></h3>
+<h3 id="tag-feature"><a class="link" href="#tag-feature">3.6. Tag Feature</a></h3>
+<div class="paragraph">
+<p>This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all of the tags are parsed in Sentence-Case and must not be more than 20 characters long each.</p>
+</div>
+<div class="paragraph">
+<p>If the user simply enters <code>tag</code>, all the tags in the current list view will be collected and displayed to the user.</p>
+</div>
+<div class="paragraph">
+<p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
+</div>
+<div class="sect3">
+<h4 id="implementation-7"><a class="link" href="#implementation-7">3.6.1. Implementation</a></h4>
+<div class="paragraph">
+<p>Below is an activity diagram of what happens when a user keys in a Tag Command.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/Tag/ActivityDiagramTagCommand.png" alt="ActivityDiagramTagCommand" width="790">
+</div>
+<div class="title">Figure 30. Activity Diagram for executing Tag Command</div>
+</div>
+<div class="paragraph">
+<p>Below is a sequence diagram of what happens when a user keys in a Tag Command in the main list view. Note that the diagram has been simplified and assumes that all arguments are valid.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/Tag/SequenceDiagramTagCommand.png" alt="SequenceDiagramTagCommand" width="790">
+</div>
+<div class="title">Figure 31. Sequence Diagram for executing Tag Command</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="search"><a class="link" href="#search">3.7. Search</a></h3>
 <div class="paragraph">
 <p>This feature allows users to filter out specific items either by name or by tag(s) through providing the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel. For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
 </div>
@@ -1281,7 +1322,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
 </div>
 <div class="sect3">
-<h4 id="implementation-7"><a class="link" href="#implementation-7">3.6.1. Implementation</a></h4>
+<h4 id="implementation-8"><a class="link" href="#implementation-8">3.7.1. Implementation</a></h4>
 <div class="paragraph">
 <p>Below is the UML sequence diagram of an example usage scenario.</p>
 </div>
@@ -1293,9 +1334,9 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a></h3>
+<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a></h3>
 <div class="sect3">
-<h4 id="implementation-8"><a class="link" href="#implementation-8">3.7.1. Implementation</a></h4>
+<h4 id="implementation-9"><a class="link" href="#implementation-9">3.8.1. Implementation</a></h4>
 <div class="paragraph">
 <p>Invalid commands are checked for spelling mistakes.
 The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
@@ -1321,7 +1362,7 @@ Only keywords with edit distance of less than 2 are recommended, to filter away 
 <div class="content">
 <img src="images/RecommendationsExample1.png" alt="RecommendationsExample1">
 </div>
-<div class="title">Figure 24. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
+<div class="title">Figure 32. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1343,7 +1384,7 @@ On the other hand, if <code>green</code> was misspelled as <code>gren</code>, th
 <div class="content">
 <img src="images/RecommendationsExample2.png" alt="RecommendationsExample2">
 </div>
-<div class="title">Figure 25. Example illustrating that recommendations are solely based on the previous list</div>
+<div class="title">Figure 33. Example illustrating that recommendations are solely based on the previous list</div>
 </div>
 <div class="paragraph">
 <p>The figure below depicts the flow of events that check for spelling errors when a user executes an unknown command.</p>
@@ -1352,7 +1393,7 @@ On the other hand, if <code>green</code> was misspelled as <code>gren</code>, th
 <div class="content">
 <img src="images/RecommendUnknownCommandActivityDiagram.png" alt="RecommendUnknownCommandActivityDiagram">
 </div>
-<div class="title">Figure 26. Activity diagram showing what happens when an unknown command is executed</div>
+<div class="title">Figure 34. Activity diagram showing what happens when an unknown command is executed</div>
 </div>
 <div class="paragraph">
 <p>For example, if <code>set reminder</code> was input incorrectly as <code>set remindre</code>, it will be flagged as an invalid command.
@@ -1366,7 +1407,7 @@ as its closest match and wrapped as a recommendation in a <code>ParseException</
 <div class="content">
 <img src="images/RecommendCommandArgumentsActivityDiagram.png" alt="RecommendCommandArgumentsActivityDiagram">
 </div>
-<div class="title">Figure 27. Activity diagram showing what happens when an a command is executed with misspelled arguments</div>
+<div class="title">Figure 35. Activity diagram showing what happens when an a command is executed with misspelled arguments</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1387,7 +1428,7 @@ Only search and sort commands support this operation.
 <div class="content">
 <img src="images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
 </div>
-<div class="title">Figure 28. Sequence diagram illustrating the recommendations mechanism for command "sort|dat"</div>
+<div class="title">Figure 36. Sequence diagram illustrating the recommendations mechanism for command "sort|dat"</div>
 </div>
 <div class="paragraph">
 <p>The sequence diagram titled <code>find similar words</code> below expands on the process omitted above.</p>
@@ -1396,7 +1437,7 @@ Only search and sort commands support this operation.
 <div class="content">
 <img src="images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
 </div>
-<div class="title">Figure 29. Sequence diagram showing how "date" is found to be the most similar word to "dat"</div>
+<div class="title">Figure 37. Sequence diagram showing how "date" is found to be the most similar word to "dat"</div>
 </div>
 <div class="paragraph">
 <p>The function <code>findSimilar</code> in <code>StringUtil</code> is called upon to return a set containing strings that are most similar to the misspelled argument, <code>dat</code>.
@@ -1409,13 +1450,13 @@ is then thrown to the user as feedback.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.7.2. Design Considerations</a></h4>
+<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.8.2. Design Considerations</a></h4>
 <div class="paragraph">
 <p>When tasked to implement this feature, I had to decide on what was the best way to display any form of recommendations to the user.
 I also evaluated multiple options to derive an optimal data structure to store the recommendations. The following is a brief summary of my analysis and decisions.</p>
 </div>
 <div class="sect4">
-<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">3.7.2.1. Aspect: How recommendations execute</a></h5>
+<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">3.8.2.1. Aspect: How recommendations execute</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1448,7 +1489,7 @@ I also evaluated multiple options to derive an optimal data structure to store t
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">3.7.2.2. Aspect: Data structure to store the recommendations</a></h5>
+<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">3.8.2.2. Aspect: Data structure to store the recommendations</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1483,7 +1524,7 @@ I also evaluated multiple options to derive an optimal data structure to store t
 </div>
 </div>
 <div class="sect2">
-<h3 id="user-interface-design"><a class="link" href="#user-interface-design">3.8. User Interface Design</a></h3>
+<h3 id="user-interface-design"><a class="link" href="#user-interface-design">3.9. User Interface Design</a></h3>
 <div class="paragraph">
 <p>The UI contains two panels that change according to the items in the <code>XpireItemList</code> and <code>ReplenishList</code>. However, these
 UI components are not able to update by listening to changes in these <code>ObservableLists</code>. This is because both lists are
@@ -1495,7 +1536,7 @@ UI classes through <code>MainWindow</code> and rendered each time a command is e
 <p>As as an example of how the UI were implemented, we will examine the implementation of <code>ViewPanel</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="the-view-panel"><a class="link" href="#the-view-panel">3.8.1. The View Panel</a></h4>
+<h4 id="the-view-panel"><a class="link" href="#the-view-panel">3.9.1. The View Panel</a></h4>
 <div class="paragraph">
 <p><code>ViewPanel</code> is a container for many <code>ItemCards</code>, each carrying information about the items.<br>
 Given below are the steps of an example scenario of how <code>ViewPanel</code> is constructed and updated:</p>
@@ -1577,14 +1618,14 @@ If the execution by <code>Logic</code> is not successful, an error will be throw
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.9. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.10. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.10, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.11, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -1615,7 +1656,7 @@ If the execution by <code>Logic</code> is not successful, an error will be throw
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.10. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.11. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2698,7 +2739,7 @@ Expected: the first item turns yellow.</p>
 <div class="content">
 <img src="images/xpire_json_file.png" alt="xpire json file">
 </div>
-<div class="title">Figure 30. Expiry date should be updated to one that has passed to test for expired items in Xpire.</div>
+<div class="title">Figure 38. Expiry date should be updated to one that has passed to test for expired items in Xpire.</div>
 </div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
@@ -2723,7 +2764,7 @@ Expected: the first item turns yellow.</p>
 <div class="content">
 <img src="images/json_format_example.png" alt="json format example">
 </div>
-<div class="title">Figure 31. Format to follow for adding an XpireItem manually to xpire.json file</div>
+<div class="title">Figure 39. Format to follow for adding an XpireItem manually to xpire.json file</div>
 </div>
 <div class="paragraph">
 <p>Example:</p>
@@ -2732,7 +2773,7 @@ Expected: the first item turns yellow.</p>
 <div class="content">
 <img src="images/json_example.png" alt="json example">
 </div>
-<div class="title">Figure 32. Example of a valid XpireItem manually added to xpire.json file</div>
+<div class="title">Figure 40. Example of a valid XpireItem manually added to xpire.json file</div>
 </div>
 <div class="paragraph">
 <p>An item with <code>name</code> Jelly and <code>expiryDate</code> 24/6/2019 (which has passed) is now added to the json file for your testing.</p>
@@ -2923,4 +2964,4 @@ Feedback shows listing of expired items and items whose reminder has been activa
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:34:59 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:38:40 UTC</div></div></div></body></html>

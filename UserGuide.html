@@ -62,7 +62,6 @@
 <ul class="sectlevel4">
 <li><a href="#deleting-an-item">4.2.2.1. Deleting an item</a></li>
 <li><a href="#deleting-certain-tags-from-an-item">4.2.2.2. Deleting certain tags from an item</a></li>
-<li><a href="#reducing-the-quantity-of-an-item">4.2.2.3. Reducing the quantity of an item</a></li>
 </ul>
 </li>
 <li><a href="#tagging-an-item-code-tag-code">4.2.3. Tagging an item : <code>tag</code></a>
@@ -930,13 +929,11 @@ Format: <code>delete|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;
 <li>
 <p><code>view|main</code><br>
 <code>delete|3|#Fruit #Food</code><br>
-Deletes the tags <code>#Fruit</code> and <code>#Food</code> from the 3rd item in the main list.</p>
+Deletes the tags <code>#Fruit</code> and <code>#Food</code> from the 3rd item in the main list.
+===== Reducing the quantity of an item</p>
 </li>
 </ul>
 </div>
-</div>
-<div class="sect4">
-<h5 id="reducing-the-quantity-of-an-item"><a class="link" href="#reducing-the-quantity-of-an-item">4.2.2.3. Reducing the quantity of an item</a></h5>
 <div class="imageblock">
 <div class="content">
 <img src="images/delete-quantity.png" alt="delete quantity" width="790">
@@ -1005,8 +1002,8 @@ Reduces the quantity of the 4th item by 1.</p>
 </td>
 <td class="content">
 Like <code>help</code> and <code>export</code>, this command is not undoable.<br>
-This command does not show tags of items that are not on the list you are viewing.<br>
-If you want to view all the tags in the main list or replenish list, simply key in <code>view</code>, followed by <code>tag</code>.
+This command does not show tags of items that are not on the current list on the screen.<br>
+If you would like to view all the tags in the main list or the replenish list, simply key in <code>view</code>, followed by <code>tag</code>!
 </td>
 </tr>
 </table>
@@ -1020,6 +1017,10 @@ If you want to view all the tags in the main list or replenish list, simply key 
 </div>
 <div class="title">Figure 19. Item at index 4 tagged with #Fruit and #Yellow</div>
 </div>
+<div class="paragraph">
+<p>Tags an item from the list according to your own input<br>
+Format: <code>tag|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code></p>
+</div>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -1027,14 +1028,10 @@ If you want to view all the tags in the main list or replenish list, simply key 
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-An item can have up to 5 tags.
+You can tag a particular item with more than 2 tags or more at a time. Just be mindful of the 5 tags per item limit!
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>Tags an item from the list according to user input<br>
-Format: <code>tag|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -1050,16 +1047,16 @@ Format: <code>tag|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</c
 <p>The index <strong>must be a positive integer</strong> (e.g. 1, 2, 3, &#8230;&#8203; ).</p>
 </li>
 <li>
-<p>Tags must be prefixed with a '#'.</p>
+<p>Your tags must be prefixed with a '#'.</p>
 </li>
 <li>
-<p>Only a maximum of 5 tags allowed per item.</p>
+<p>You are only allowed a maximum of 5 tags per item.</p>
 </li>
 <li>
-<p>Tag lengths are restricted to 20 characters. So make use of those 20 characters wisely!</p>
+<p>Tag lengths are restricted to 20 characters. Make use of those 20 characters wisely!</p>
 </li>
 <li>
-<p>Tags will be formatted in Sentence-Case (i.e. first letter will be upper-case while the rest of the letters are lower-case).</p>
+<p>Your tags will be formatted in Sentence-Case (i.e. first letter will be upper-case while the rest of the letters are lower-case).</p>
 </li>
 </ul>
 </div>
@@ -1328,12 +1325,15 @@ Format: <code>undo</code></p>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-<code>undo</code> only works on commands that alter your items or the current view list.<br>
-Thus, commands such as <code>help</code> and <code>export</code> are not undoable as they do not alter items or the current view list.<br>
-Also, <code>undo</code> only works for the last 10 commands. Therefore, think before you type!
+<code>undo</code> only works on commands that alter your items or the current view!<br>
+Thus, commands such as <code>help</code> and <code>export</code> are not undoable as they do not alter items or the current view.<br>
+Also, <code>undo</code> only works for the last 10 commands. Therefore, make sure you are certain before you type in a command!
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>The <code>undo</code> command also tells you the exact user input you have keyed in as well as what command was entered so that you know what you have undone.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1343,7 +1343,19 @@ Also, <code>undo</code> only works for the last 10 commands. Therefore, think be
 Format: <code>redo</code></p>
 </div>
 <div class="paragraph">
-<p>This command works in the opposite direction as <code>undo</code>, it will redo any command that you have undid in the past.</p>
+<p>This command works in the opposite way as <code>undo</code>, it will redo any command that you have undone in the past.<br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Keying in a new command other than <code>redo</code> will erase the earlier command that you have undid. Thus, doing so will not allow you to redo that command again.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1576,4 +1588,4 @@ For instance, <code>a|Strawberry|31/12/2019</code> is the same as <code>add|Stra
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:34:59 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:38:40 UTC</div></div></div></body></html>

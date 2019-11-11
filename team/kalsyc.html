@@ -8,12 +8,11 @@
 </div>
 </div>
 <div class="paragraph">
-<p>[<a href="https://kalsyc.github.io">homepage</a>] [<a href="https://github.com/kalsyc">github</a>]<br>
-[<a href="https://nus-cs2103-ay1920s1.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2019-09-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=authorship&amp;tabAuthor=Kalsyc&amp;tabRepo=AY1920S1-CS2103T-F11-2%2Fmain%5Bmaster%5D">RepoSense</a>]</p>
+<p>[<a href="https://kalsyc.github.io">Homepage</a>] [<a href="https://github.com/kalsyc">GitHub</a>] [<a href="https://nus-cs2103-ay1920s1.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2019-09-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=authorship&amp;tabAuthor=Kalsyc&amp;tabRepo=AY1920S1-CS2103T-F11-2%2Fmain%5Bmaster%5D">RepoSense</a>]</p>
 </div>
 <div class="paragraph">
 <p>Role: Developer<br>
-Responsibilities: Testing + UI/UX Designer</p>
+Responsibilities: Testing + Undo/Redo/Tagging System</p>
 </div>
 <hr>
 </div>
@@ -28,13 +27,60 @@ Responsibilities: Testing + UI/UX Designer</p>
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Xpire is a desktop application used for tracking expiry dates of items.  The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.</p>
+<p>My team and I were tasked to morph an existing Desktop application called AddressBook3 for our Software Engineering Team Project (Module Code: CS2103T). Our team has chosen to morph the application into an Expiry Date Tracker named Xpire that targets students living in residences and halls.</p>
+</div>
+<div class="paragraph">
+<p>Our application allows users to track expiry dates of items and be reminded when they are about to expire. Examples of items that can be tracked include perishable items such as Milk, Bread, Fruits or even non-perishable items such as Medicine and Passwords.<br></p>
+</div>
+<div class="paragraph">
+<p>Our application also features a ReplenishList where users can track what items they need to replenish after it expires or has been used up.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="xpire-interface"><a class="link" href="#xpire-interface">Xpire Interface</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Currently, this is what our project, Xpire, looks like in v1.4:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/Ui.png" alt="Ui" width="790">
+</div>
+<div class="title">Figure 1. User Interface of Xpire</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="formatting-and-terms-used-in-this-project-portfolio"><a class="link" href="#formatting-and-terms-used-in-this-project-portfolio">Formatting and Terms used in this Project Portfolio</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>undo</code> - This grey highlight represents a class, a variable or method that exists in the codebase. It can also represent a command that has to be entered into the application.</p>
+</div>
+<div class="paragraph">
+<p><code>Xpire</code> - This refers to the main list in the application and not the entire application. The Xpire application will be simply referred to as 'the application'.</p>
+</div>
+<div class="paragraph">
+<p><code>ReplenishList</code> - This refers to the replenish list in the application.</p>
+</div>
+<div class="paragraph">
+<p><code>current view</code> - This refers to the current list that the user is viewing (either the main list (<code>Xpire</code>) or the replenish list (<code>ReplenishList</code>)).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="summary-of-contributions"><a class="link" href="#summary-of-contributions">Summary of contributions</a></h2>
 <div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>This section details the contributions I have made to the team as well as any documentation or code I have written.</em></p></td>
+</tr>
+</tbody>
+</table>
 <div class="ulist">
 <ul>
 <li>
@@ -42,91 +88,142 @@ Responsibilities: Testing + UI/UX Designer</p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: allows the user to undo all previous commands one at a time. Preceding undo commands can be reversed by using the redo command.</p>
+<p>What it does: allows the user to undo previous commands or redo commands that have been entered earlier.</p>
 </li>
 <li>
-<p>Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them.</p>
+<p>Justification: This feature enhances the application by introducing Error Prevention as the user may accidentally key in a command wrongly and may want a convenient way of undoing that particular command. The redo command also provides convenience as it allows users to go back and forth in history to see the changes.</p>
 </li>
 <li>
-<p>Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.</p>
+<p>Highlights: This feature must work with existing commands as well as future commands and also not slow down the application. A proper brainstorming of design choices must be made as the undo/redo mechanism will affect most commands and the current status of the application. The implementation was challenging as there are two lists that the application contains which is <code>Xpire</code> and <code>ReplenishList</code> and there is a need to find a way to archive the data in order to support undoing of commands.<br>
+Also, efficiency and memory is a concern as we do not want to store too many archival data which may slow down the application, thus only items or views that have been changed should be noted by the mechanism and not create duplicates.</p>
 </li>
 <li>
-<p>Credits: <em>{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}</em></p>
+<p>Code contributed for this enhancement: (Pull requests <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/138">#138</a>, <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/181">#181</a>)</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>: added a history command that allows the user to navigate to previous commands using up/down keys.</p>
+<p><strong>Major enhancement</strong>: added a <strong>tagging command that allows users to tag items in the application</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: allows the user to tag items so that they are able to search it up or group items together easily.</p>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
+<p>Justification: This feature improves the application by allowing users the freedom to categorise their items and organise them properly. This is important as the application may contain many items at any time and there should be a convenient way of organising them into separate groups.</p>
+</li>
+<li>
+<p>Highlights: This enhancement works well with the two existing lists, <code>Xpire</code> and <code>ReplenishList</code>. Some thought must be given to parsing and storing tags in items as our team has decided on a limit of the amount of tags each item can have as well as a limit on how long the tag should be. The implementation was difficult when trying to apply defensive programmming as we do not want tags to be accidentally deleted away or have been duplicated.<br>
+Furthermore, tag must support deletion and stackable commands as our application so that the user can add or delete tags easily in the current view.</p>
+</li>
+<li>
+<p>Code contributed for this enhancement: (Pull request <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/17">#17</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: created a history manager which stores commands and user input for feedback as well as for use in retrieving previous user inputs.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Code contributed for this enhancement: (Pull request <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/197">#197</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: implemented a show all tags function that allows users to see all the tags that are present in the current view.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Code contributed for this enhancement: (Pull request <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/83">#83</a>)</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
+<p>Testing:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In-charge of writing tests as well as approving tests written by other members in the team.</p>
+</li>
+<li>
+<p>Refactor tests and set standards for testing</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Code contributed: (Pull requests <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/83">#83</a>, <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/110">#110</a>, <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/59">#59</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
 <p>Project management:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Managed releases <code>v1.3</code> - <code>v1.5rc</code> (3 releases) on GitHub</p>
+<p>Assign issues related to bugs and tests to other team members.</p>
+</li>
+<li>
+<p>Managed releases <code>v1.2</code> - <code>v1.4</code> (3 releases) on GitHub</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Enhancements to existing features:</p>
+<p>Documentation/User Study:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Updated the GUI color scheme (Pull requests <a href="https://github.com">#33</a>, <a href="https://github.com">#34</a>)</p>
-</li>
-<li>
-<p>Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests <a href="https://github.com">#36</a>, <a href="https://github.com">#38</a>)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Documentation:</p>
+<p>Update DG for user stories, value proposition and target user profile. Helped to do up user persona.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Did cosmetic tweaks to existing contents of the User Guide: <a href="https://github.com">#14</a></p>
+<p>Code contributed: (Pull request <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/31">#31</a>)</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Community:</p>
+<p>Debugging:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>PRs reviewed (with non-trivial review comments): <a href="https://github.com">#12</a>, <a href="https://github.com">#32</a>, <a href="https://github.com">#19</a>, <a href="https://github.com">#42</a></p>
-</li>
-<li>
-<p>Contributed to forum discussions (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>, <a href="https://github.com">4</a>)</p>
-</li>
-<li>
-<p>Reported bugs and suggestions for other teams in the class (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>)</p>
-</li>
-<li>
-<p>Some parts of the history feature I added was adopted by several other class mates (<a href="https://github.com">1</a>, <a href="https://github.com">2</a>)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Tools:</p>
+<p>Fixed issues from dry-run PE as well as other bugs such as unchecked type casting of objects.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Integrated a third party library (Natty) to the project (<a href="https://github.com">#42</a>)</p>
+<p>Code contributed: (Pull request <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/180">#180</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Integrated a new Github plugin (CircleCI) to the team repo</p>
+<p>Enhancements to existing work/features:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Helped to refactor and integrate the new Model API so that it is easier for developers in the future to use.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Code contributed: (Pull request <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/194">#194</a>)</p>
 </li>
 </ul>
 </div>
@@ -136,8 +233,8 @@ Responsibilities: Testing + UI/UX Designer</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p><em>{you can add/remove categories in the list above}</em></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -154,37 +251,6 @@ Responsibilities: Testing + UI/UX Designer</p>
 </tr>
 </tbody>
 </table>
-<div class="sect3">
-<h4 id="deleting-variable-s-code-delete-code"><a class="link" href="#deleting-variable-s-code-delete-code">Deleting variable(s): <code>delete</code></a></h4>
-<div class="sect4">
-<h5 id="deleting-an-item"><a class="link" href="#deleting-an-item">Deleting an item</a></h5>
-<div class="paragraph">
-<p>Deletes the specified item from your list.<br>
-Format: <code>delete|&lt;index&gt;</code><br></p>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view|main</code><br>
-<code>delete|2</code><br>
-Deletes the 2nd item in the main list.</p>
-</li>
-<li>
-<p><code>sort|name</code><br>
-<code>delete|3</code><br>
-Deletes the 3rd item in the sorted main list.</p>
-</li>
-<li>
-<p><code>search|potato</code><br>
-<code>delete|1</code><br>
-Deletes the 1st item in the results of the <code>search</code> command.</p>
-</li>
-</ul>
-</div>
-</div>
 <div class="sect4">
 <h5 id="deleting-certain-tags-from-an-item"><a class="link" href="#deleting-certain-tags-from-an-item">Deleting certain tags from an item</a></h5>
 <div class="paragraph">
@@ -204,39 +270,79 @@ Deletes the tags <code>#Fruit</code> and <code>#Food</code> from the 3rd item in
 </ul>
 </div>
 </div>
+<div class="sect3">
+<h4 id="tagging-an-item-code-tag-code"><a class="link" href="#tagging-an-item-code-tag-code">Tagging an item : <code>tag</code></a></h4>
 <div class="sect4">
-<h5 id="reducing-the-quantity-of-an-item"><a class="link" href="#reducing-the-quantity-of-an-item">Reducing the quantity of an item</a></h5>
-<div class="imageblock">
-<div class="content">
-<img src="../images/delete-quantity.png" alt="delete quantity" width="790">
-</div>
-<div class="title">Figure 1. Item at index 4 reduced in quantity by 1</div>
+<h5 id="display-all-tags-created"><a class="link" href="#display-all-tags-created">Display all tags created</a></h5>
+<div class="paragraph">
+<p>Shows all the tags in the current list view.</p>
 </div>
 <div class="paragraph">
-<p>Reduces item quantity by the specified quantity.<br>
-Format <code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p>
+<p>Format: <code>tag</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Like <code>help</code> and <code>export</code>, this command is not undoable.<br>
+This command does not show tags of items that are not on the current list on the screen.<br>
+If you would like to view all the tags in the main list or the replenish list, simply key in <code>view</code>, followed by <code>tag</code>!
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="add-new-tag-s-to-an-item"><a class="link" href="#add-new-tag-s-to-an-item">Add new tag(s) to an item</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="../images/tag.png" alt="tag" width="790">
+</div>
+<div class="title">Figure 2. Item at index 4 tagged with #Fruit and #Yellow</div>
+</div>
+<div class="paragraph">
+<p>Tags an item from the list according to your own input<br>
+Format: <code>tag|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can tag a particular item with more than 2 tags or more at a time. Just be mindful of the 5 tags per item limit!
+</td>
+</tr>
+</table>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>The index refers to the index number shown on the list.</p>
+<p>Tags the item at the specified <code>&lt;index&gt;</code>.</p>
 </li>
 <li>
-<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+<p>The index refers to the index number shown in the list.</p>
 </li>
 <li>
-<p>Tags must be prefixed with a '#'.</p>
+<p>The index <strong>must be a positive integer</strong> (e.g. 1, 2, 3, &#8230;&#8203; ).</p>
 </li>
 <li>
-<p>The item must contain the tags to be deleted.</p>
+<p>Your tags must be prefixed with a '#'.</p>
 </li>
 <li>
-<p>The quantity <strong>must be a positive integer</strong> 1, 2 ,3&#8230;&#8203;</p>
+<p>You are only allowed a maximum of 5 tags per item.</p>
 </li>
 <li>
-<p>The quantity specified must be more than the item&#8217;s current quantity.</p>
+<p>Tag lengths are restricted to 20 characters. Make use of those 20 characters wisely!</p>
+</li>
+<li>
+<p>Your tags will be formatted in Sentence-Case (i.e. first letter will be upper-case while the rest of the letters are lower-case).</p>
 </li>
 </ul>
 </div>
@@ -249,11 +355,57 @@ Format <code>delete|&lt;index&gt;|&lt;quantity&gt;</code></p>
 <ul>
 <li>
 <p><code>view|main</code><br>
-<code>delete|4|1</code><br>
-Reduces the quantity of the 4th item by 1.</p>
+<code>tag|2|#Nestle #Caffeine</code><br>
+Tags the 2nd item in the main list with <code>#Nestle</code> and <code>#Caffeine</code>.</p>
 </li>
 </ul>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="undo-previous-command-code-undo-code"><a class="link" href="#undo-previous-command-code-undo-code">Undo previous command : <code>undo</code></a></h4>
+<div class="paragraph">
+<p>Undo the previous command that you have entered in.<br>
+Format: <code>undo</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<code>undo</code> only works on commands that alter your items or the current view!<br>
+Thus, commands such as <code>help</code> and <code>export</code> are not undoable as they do not alter items or the current view.<br>
+Also, <code>undo</code> only works for the last 10 commands. Therefore, make sure you are certain before you type in a command!
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>undo</code> command also tells you the exact user input you have keyed in as well as what command was entered so that you know what you have undone.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="redo-an-earlier-command-code-redo-code"><a class="link" href="#redo-an-earlier-command-code-redo-code">Redo an earlier command : <code>redo</code></a></h4>
+<div class="paragraph">
+<p>Redo an earlier command that you have entered in.<br>
+Format: <code>redo</code></p>
+</div>
+<div class="paragraph">
+<p>This command works in the opposite way as <code>undo</code>, it will redo any command that you have undone in the past.<br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Keying in a new command other than <code>redo</code> will erase the earlier command that you have undid. Thus, doing so will not allow you to redo that command again.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -276,55 +428,20 @@ Reduces the quantity of the 4th item by 1.</p>
 <div class="sect3">
 <h4 id="implementation"><a class="link" href="#implementation">Implementation</a></h4>
 <div class="paragraph">
-<p>The undo/redo mechanism is facilitated by <code>CloneModel</code> and <code>StackManager</code>.
-It is a separate class that stores a state of the model at any command in time. Internally, it runs three private functions that copy the data over.</p>
+<p>The undo/redo mechanism is facilitated by 4 different components: <code>CloneModel</code>,  <code>State</code>, <code>StackManager</code>, and <code>UndoableHistoryManager</code>.</p>
 </div>
 <div class="paragraph">
-<p>The mechanism is supported by a StackManager which stores internally all the states and<br>
+<p>A <code>CloneModel</code> is a cloned version of the <code>Model</code> class and contains <code>UserPrefs</code> and the items in <code>Xpire</code> and <code>ReplenishList</code>.</p>
+</div>
+<div class="paragraph">
+<p>A <code>State</code> represents the status of the application at that point in history and contains the corresponding <code>CloneModel</code>, an enum <code>ListType</code> which is the current view of the application, a <code>XpireMethodOfSorting</code> which determines how the items in <code>Xpire</code> are sorted, as well as a <code>predicate</code> that filters items in the current view.</p>
+</div>
+<div class="paragraph">
+<p>The undo/redo mechanism is also supported by a <code>StackManager</code> which stores internally all the states and<br>
 decides when to pop or clear, depending on the command.
-There are two stacks that are stored in StackManager internally, the Undo and the Redo stack.
-These stacks are initialised and cleared upon beginning/ending every session.</p>
-</div>
-<div class="paragraph">
-<p>At every command (Other than undo/redo/help/exit), the state is stored internally.<br>
-When an undo command is executed, it will pop the previous state and update the model via <code>updateModel</code>.<br>
-The state that was undid will then be pushed into the Redo stack, should the user types in a redo command.</p>
-</div>
-<div class="paragraph">
-<p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>Step 1. The user launches the application for the first time. The two internal stacks in <code>StackManager</code> will be initialised.</p>
-</div>
-<div class="paragraph">
-<p>Both stacks should be empty as there are no previous commands by the user. The current state is s0, the initial state of Xpire.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep1.png" alt="UndoRedoStep1">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 2. The user executes <code>delete|5</code> command to delete the 5th item in Xpire. The <code>delete</code> will then save the previous state, s0 by pushing it into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current state will be the new state <code>s1</code> that has the 5th item in Xpire deleted.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep2.png" alt="UndoRedoStep2">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 3. The user executes <code>add|Apple|30/10/2019|3</code> to add a new item. Similar to Step 2, The <code>add</code> command will then save the previous state, s1 by pushing it into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current state will be the new state <code>s2</code> with the item Apple added.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep3.png" alt="UndoRedoStep3">
-</div>
+There are two stacks that are stored in StackManager internally, the UndoStack and the RedoStack.
+The UndoStack is a <code>ArrayDeque</code> class, a double-ended queue which can simulate as a stack whilst the RedoStack is of the <code>Stack</code> class. Both classes are imported from java.util.
+These stacks are initialised and cleared upon the beginning and ending of every session of the application.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -333,21 +450,64 @@ The state that was undid will then be pushed into the Redo stack, should the use
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If a command fails its execution, it will not save the previous state, thus the Xpire state will not be pushed into the UndoStack.
+Currently, the undo/redo mechanism only supports up to 10 previous commands. This is enforced in order to save memory by not storing too many states in one session which may slow down the application.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Step 4. The user now decides that adding the item was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will then update the current model with the model in the previous state.</p>
+<p>As the UndoStack can only contain a maximum of 10 states, the UndoStack has to drop the first state from the front if there are already 10 states stored, thus influencing the design of the two stacks.<br>
+Therefore, an double-ended queue was used to replicate a Stack as it supports O(1) deleting operations from the front.</p>
 </div>
 <div class="paragraph">
-<p>Internally within StackManager, the most recent state, s1, will be popped from the Undo Stack to become the current state. At the same time, s2, the new state with the added item, will be pushed into the Redo Stack.</p>
+<p>The <code>UndoableHistoryManager</code> is a generic class that stores inputs as well as Commands so that Undo/Redo commands are able to feedback to the user what commands have been undone or redid.</p>
+</div>
+<div class="paragraph">
+<p>At every command (besides <code>undo</code>/<code>redo</code>/<code>help</code>/<code>exit</code>/<code>export</code>/<code>tag (show)</code>, the state is stored internally.<br>
+When an <code>undo</code> command is executed, it will pop the previous state and update the model via <code>update</code>.<br>
+The state that was undid will then be pushed into the RedoStack, should the user types in a <code>redo</code> command.</p>
+</div>
+<div class="paragraph">
+<p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user launches the application for the first time. The two internal stacks in <code>StackManager</code> will be initialised. Both stacks should be empty as there are no previous commands by the user. The current state is s0, the initial state of the application.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The user executes <code>delete|5</code> command to delete the 5th item in <code>Xpire</code>. The <code>delete</code> will then save the previous state, s0, by pushing it into the Undo Stack. The current state will be the new state <code>s1</code> that has the 5th item in <code>Xpire</code> deleted.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedo/UndoRedoStep4.png" alt="UndoRedoStep4">
+<img src="../images/UndoRedo/UndoRedoStep1and2.png" alt="UndoRedoStep1and2" width="790">
 </div>
+<div class="title">Figure 3. Step 1 &amp; Step 2</div>
+</div>
+<div class="paragraph">
+<p>Step 3. The user executes <code>add|Apple|30/10/2019|3</code> to add a new item. Similar to Step 2, The <code>AddCommand</code> will then save the previous state, s1, by pushing it into the UndoStack. The current state will be the new state <code>s2</code> with the item Apple added.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If a command fails its execution, it will not save the previous state, thus the state will not be pushed into the UndoStack.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Step 4. The user now decides that adding the Apple item earlier on was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will then update the current model with the model in the previous state.</p>
+</div>
+<div class="paragraph">
+<p>Internally within StackManager, the most recent state, s1, will be popped from the UndoStack to become the current state. At the same time, s2, the new state with the added item, will be pushed into the RedoStack.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/UndoRedo/UndoRedoStep3and4.png" alt="UndoRedoStep3and4" width="790">
+</div>
+<div class="title">Figure 4. Step 3 &amp; Step 4</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -362,12 +522,15 @@ If there are no commands to undo (e.g. at the start of a new Xpire session), und
 </table>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the undo operation works:</p>
+<p>The following sequence diagram shows how the <code>undo</code> operation works:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoSequenceDiagram.png" alt="UndoSequenceDiagram">
+<img src="../images/UndoRedo/UndoSequenceDiagram.png" alt="UndoSequenceDiagram" width="790">
 </div>
+</div>
+<div class="paragraph">
+<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;It will pop the latest state from the Redo Stack and set it as the current state whilst pushing the current state into the UndoStack.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -376,67 +539,40 @@ If there are no commands to undo (e.g. at the start of a new Xpire session), und
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The lifeline for <code>UndoCommand</code> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+Similarly, if there are no commands to redo, <code>redo</code> will return an Error to the user. This is done by checking if the RedoStack is empty.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;It will pop the latest state from the Redo Stack and set it as the current state whilst pushing the current state into the Undo Stack.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Similarly, if there are no commands to redo, redo will return an Error to the user. This is done by checking if the Redo Stack is empty.
-</td>
-</tr>
-</table>
+<p>From Step 4, there are 3 scenarios which showcases the behaviour of <code>StackManager</code> after an Undo command has been executed.</p>
 </div>
 <div class="paragraph">
-<p>From Step 4, there are 3 scenarios which showcases the behaviour of StackManager after an Undo Command has been executed.</p>
+<p>Step 5a. The user suddenly decides that he should not have undid the previous Add command, thus he wants to redo the action. This is done by inputting 'redo' in Xpire.</p>
 </div>
 <div class="paragraph">
-<p>Step 5a. The user suddenly decides that he should not have undid the previous AddCommand, thus he wants to redo the action. This is done by inputting 'redo' in Xpire.</p>
+<p>Within <code>StackManager</code>, the current state will be the popped state, s2, from the RedoStack. The current state, s1, will then be pushed back into the UndoStack. The current states and their locations should be the same as after the execution of the <code>AddCommand</code> in Step 3.</p>
 </div>
 <div class="paragraph">
-<p>Internally within Stack Manager, the current state will be the popped state, s2, from the Redo Stack. The current state, s1, will then be psuehd back into the Undo Stack.</p>
-</div>
-<div class="paragraph">
-<p>The current states and their locations should be the same as after the execution of the Add command in Step 3.</p>
+<p>Step 5b. The user decides to further undo his actions, which now includes the first <code>DeleteCommand</code>. The initial state, s0, will then be popped from the UndoStack and set as the current state. The current state, s1, will then be pushed into the RedoStack.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedo/UndoRedoStep5a.png" alt="UndoRedoStep5a">
+<img src="../images/UndoRedo/UndoRedoStep5aand5b.png" alt="UndoRedoStep5aand5b" width="790">
 </div>
-</div>
-<div class="paragraph">
-<p>Step 5b. The user decides to further undo his actions, which now includes the first Delete command. The initial state, s0, will then be popped from the Undo Stack and set as the current state.</p>
-</div>
-<div class="paragraph">
-<p>The current state, s1, will then be pushed into the Redo Stack.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedo/UndoRedoStep5b.png" alt="UndoRedoStep5b">
-</div>
+<div class="title">Figure 5. Step 5a &amp; Step 5b</div>
 </div>
 <div class="paragraph">
 <p>Step 5c. The user may also decide to execute some other command (which is the most likely scenario) other than Undo/Redo. For instance, the user inputs <code>tag|2|#Fruit</code>.</p>
 </div>
 <div class="paragraph">
-<p>When this happens, the existing states in the Redo Stack will be cleared. The state s1, will then be pushed into the Undo Stack whilst the current state will be the new state s3 that includes the new Tag command.</p>
+<p>When this happens, the existing states in the RedoStack will be cleared. The state s1, will then be pushed into the UndoStack whilst the current state will be the new state s3 that includes the new <code>TagCommand</code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedo/UndoRedoStep5c.png" alt="UndoRedoStep5c">
+<img src="../images/UndoRedo/UndoRedoStep5c.png" alt="UndoRedoStep5c" width="790">
 </div>
-</div>
-<div class="paragraph">
-<p>[PROPOSED] A CommandHistory will also be integrated into the application so that it delivers feedback on what commands it has undo/redo.</p>
+<div class="title">Figure 6. Step 5c</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -445,7 +581,7 @@ Similarly, if there are no commands to redo, redo will return an Error to the us
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Not all commands will save states to StackManager. Exit and Help commands will not save states. Undo and Redo commands should only act on commands that update the items or change the view of the items to the user.
+Not all commands will save states to <code>StackManager</code>. <code>exit</code> and <code>help</code> commands will not save states. <code>UndoCommand</code> and <code>RedoCommand</code> should only act on commands that update items or change the view of the list of items to the user.
 </td>
 </tr>
 </table>
@@ -455,25 +591,44 @@ Not all commands will save states to StackManager. Exit and Help commands will n
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedo/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram">
+<img src="../images/UndoRedo/ActivityDiagramUndoRedoCommand.png" alt="ActivityDiagramUndoRedoCommand" width="790">
 </div>
+<div class="title">Figure 7. Activity Diagram for Undo/Redo Commands</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="paragraph">
+<p>The following class diagram shows the entirety of the undo/redo mechanism and its associations.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/UndoRedo/UndoRedoSystemClassDiagram.png" alt="UndoRedoSystemClassDiagram" width="790">
+</div>
+<div class="title">Figure 8. Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)</div>
+</div>
+<div class="paragraph">
+<p>There are two classes that inherit from the abstract class <code>State</code> which are <code>FilteredState</code> and <code>ModifiedState</code>.</p>
+</div>
+<div class="paragraph">
+<p>The states that are stored at each valid and undoable command depends on the type of command itself as <code>FilteredState</code> only copies over the predicate and method of sorting but not the backend <code>Xpire</code> or <code>ReplenishList</code> data. Thus, commands that do not alter items such as <code>SortCommand</code> and <code>CheckCommand</code> commands instantiate a <code>FilteredState</code>.</p>
+</div>
+<div class="paragraph">
+<p>On the other hand, <code>ModifiedState</code> is created with commands that alters the item of the data, thus new <code>Xpire</code> and <code>ReplenishList</code> objects will be stored within the state. Commands that instantiate a <code>ModifiedState</code> include <code>AddCommand</code>, <code>TagCommand</code> and <code>DeleteCommand</code>.</p>
+</div>
 <div class="sect4">
 <h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Saves the entire model.</p>
+<p><strong>Alternative 1 (current choice):</strong> Saves and clones the entire model.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Easy to implement.</p>
 </li>
 <li>
-<p>Cons: May have performance issues in terms of memory usage.</p>
+<p>Cons: May have performance issues in terms of memory usage, need to have a limit for the amount of states that we can save.</p>
 </li>
 </ul>
 </div>
@@ -483,11 +638,11 @@ Not all commands will save states to StackManager. Exit and Help commands will n
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Will use less memory (e.g. for <code>delete</code>, just save the item being deleted).</p>
+<p>Pros: Will use less memory (e.g. for <code>DeleteCommand</code>, just save the item being deleted and apply the corresponding reverse command which is and <code>AddCommand</code>).</p>
 </li>
 <li>
-<p>Cons: We must ensure that the implementation of each individual command are correct.<br>
-Hard to do when we are applying stackable search/sort commands.</p>
+<p>Cons: Ensure that the implementation of each individual command are correct.<br>
+Hard to do when applying stackable <code>SearchCommand</code> and <code>SortCommand</code> as the <code>predicate</code> and XpireMethodOfSorting needs to be updated properly.</p>
 </li>
 </ul>
 </div>
@@ -500,27 +655,27 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Use a list to store the history of model states.</p>
+<p><strong>Alternative 1 (current choice):</strong> Use a stack to store the different commands and states.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.</p>
 </li>
 <li>
-<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update the filtered list shown to the user and the backend Xpire data.</p>
+<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update the filtered list shown to the user and the backend <code>Xpire</code>/<code>ReplenishList</code> data.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo</p>
+<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo that stores previous versions of Item/XpireItem</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.</p>
 </li>
 <li>
-<p>Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as <code>HistoryManager</code> now needs to do two different things.</p>
+<p>Cons: Requires <code>Item</code>/<code>XpireItem</code> to have a history of its edits. Violates Single Responsibility Principle and Separation of Concerns as each <code>Item</code> now needs to do two different things which is to store data and know its previous edited versions.</p>
 </li>
 </ul>
 </div>
@@ -531,97 +686,38 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">[Proposed] Data Encryption</a></h3>
+<h3 id="tag-feature"><a class="link" href="#tag-feature">Tag Feature</a></h3>
 <div class="paragraph">
-<p><em>{Explain here how the data encryption feature will be implemented}</em></p>
+<p>This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all of the tags are parsed in Sentence-Case and must not be more than 20 characters long each.</p>
 </div>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the mechanism behaves at each step.</p>
+<p>If the user simply enters <code>tag</code>, all the tags in the current list view will be collected and displayed to the user.</p>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the operation works:</p>
-</div>
-<div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
+<p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">Aspect: How set reminder executes</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros:</p>
-</li>
-<li>
-<p>Cons:</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros:</p>
-</li>
-<li>
-<p>Cons:</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="aspect"><a class="link" href="#aspect">Aspect:</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros:</p>
-</li>
-<li>
-<p>Cons:</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros:</p>
-</li>
-<li>
-<p>Cons:</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="project-powerpointlabs"><a class="link" href="#project-powerpointlabs">PROJECT: PowerPointLabs</a></h2>
-<div class="sectionbody">
-<hr>
+<h4 id="implementation-2"><a class="link" href="#implementation-2">Implementation</a></h4>
 <div class="paragraph">
-<p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
+<p>Below is an activity diagram of what happens when a user keys in a Tag Command.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/Tag/ActivityDiagramTagCommand.png" alt="ActivityDiagramTagCommand" width="790">
+</div>
+<div class="title">Figure 9. Activity Diagram for executing Tag Command</div>
+</div>
+<div class="paragraph">
+<p>Below is a sequence diagram of what happens when a user keys in a Tag Command in the main list view. Note that the diagram has been simplified and assumes that all arguments are valid.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/Tag/SequenceDiagramTagCommand.png" alt="SequenceDiagramTagCommand" width="790">
+</div>
+<div class="title">Figure 10. Sequence Diagram for executing Tag Command</div>
+</div>
+<hr>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:34:59 UTC</div></div></div></body></html>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:38:41 UTC</div></div></div></body></html>
