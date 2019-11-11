@@ -1572,19 +1572,22 @@ set for them previously.
 === Undo/Redo commands
 . Undo an earlier command or redo a previously done command
 
-.. Prerequisites: No commands have been entered yet.
+.. Prerequisites: No commands have been entered yet and the current view is the main list. There is at least one item in the main list that is expiring within 50 days, and one item in the replenish list.
 .. Test case: `add|Apple|12/03/2025|3` followed by `undo` and then `redo` +
    Expected: The item with name Apple, expiry date 12/03/2025 and with quantity 3 will be added. Undo command will proceed to remove the item whilst the Redo command will proceed to add the same item back.
 
-.. Prerequisites: No commands have been entered yet and the current view is the main list. There is at least one item in the main list that is expiring within 50 days.
 .. Test case: `check|50` followed by `undo` and then `redo` +
    Expected: The items with 50 days before expiry date or less will be filtered out to you. Undo command will revert the current view to show all items. Redo command will then filter out those same items again.
 
-.. Prerequisite: No commands have been entered yet.
+.. Test case: `shift|1` followed by `undo` and then `redo` +
+   Expected: The item on the first index will be shifted to the ReplenishList. Undo command will shift the item back to the main list. Redo command will shift the item back to the replenish list.
+
+.. Test case: `view|replenish` followed by `shift|1|12/03/2025` followed by `undo` and lastly `redo` +
+   Expected: The view changes to the replenish list and the first item on the list gets shifted to the main list with expiry date 12/03/2025. Undo command will shift the item back to the main list. Redo command will shift the item back to the replenish list.
+
 .. Test case: `undo` +
    Expected: Feedback stating that there are no commands to undo.
 
-.. Prerequisite: No commands have been entered yet.
 .. Test case: `redo` +
    Expected: Feedback stating that there are no commands to redo.
 
