@@ -517,7 +517,7 @@ image::UndoRedo/ActivityDiagramUndoRedoCommand.png[width="790"]
 The following class diagram shows the entirety of the undo/redo mechanism and its associations.
 
 .Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)
-image::UndoRedo/UndoRedoSystemClassDiagram.png[width="790"]
+image::UndoRedo/UndoRedoSystemClassDiagram2.png[]
 
 There are two classes that inherit from the abstract class `State` which are `FilteredState` and `ModifiedState`.
 
@@ -651,11 +651,7 @@ also be made "stackable" through using the API.
 // tag::tag[]
 === Tag Feature
 
-This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all of the tags are parsed in Sentence-Case and must not be more than 20 characters long each.
-
-If the user simply enters `tag`, all the tags in the current list view will be collected and displayed to the user.
-
-This implementation is under `Logic` and `Model` components.
+This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all of the tags are parsed in Sentence-Case and must not be more than 20 characters long each. If the user simply enters `tag`, all the tags in the current list view will be collected and displayed to the user.
 
 ==== Implementation
 
