@@ -147,11 +147,14 @@
 <li><a href="#command-box">G.2. Command Box</a></li>
 <li><a href="#all-items-panel">G.3. All Items Panel</a></li>
 <li><a href="#view-panel">G.4. View Panel</a></li>
-<li><a href="#adding-expired-items-to-the-tracking-list-for-testing">G.5. Adding expired items to the tracking list for testing</a></li>
-<li><a href="#deleting-an-item">G.6. Deleting an item</a></li>
-<li><a href="#setting-a-reminder-for-an-item">G.7. Setting a reminder for an item</a></li>
-<li><a href="#filtering-items-based-on-its-expiry-date-and-status">G.8. Filtering items based on its expiry date and status</a></li>
-<li><a href="#saving-data">G.9. Saving data</a></li>
+<li><a href="#viewing-items">G.5. Viewing items</a></li>
+<li><a href="#adding-expired-items-to-the-tracking-list-for-testing">G.6. Adding expired items to the tracking list for testing</a></li>
+<li><a href="#deleting-an-item">G.7. Deleting an item</a></li>
+<li><a href="#tagging-an-item">G.8. Tagging an item</a></li>
+<li><a href="#setting-a-reminder-for-an-item">G.9. Setting a reminder for an item</a></li>
+<li><a href="#filtering-items-based-on-its-expiry-date-and-status">G.10. Filtering items based on its expiry date and status</a></li>
+<li><a href="#sorting-items">G.11. Sorting items</a></li>
+<li><a href="#saving-data">G.12. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -481,7 +484,7 @@ the item is automatically tagged as <code>#Expired</code>.</strong></p>
 <h5 id="implementation-3"><a class="link" href="#implementation-3">3.1.2.1. Implementation</a></h5>
 <div class="paragraph">
 <p>As shown in a snippet of the <code>Logic</code> class diagram below, both <code>XpireParser</code> and <code>ReplenishParser</code> implement the interface <code>Parser</code>.
-In particular, <code>ReplenishParser</code> parses and handles the commands in the replenish list.</p>
+In particular, <code>ReplenishParser</code> is the one that parses and handles the commands in the replenish list.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -497,7 +500,7 @@ In particular, <code>ReplenishParser</code> parses and handles the commands in t
 </td>
 <td class="content">
 Certain commands such as sorting by date, or deleting
-of item quantities are not permitted, as items in the replenish list do not have expiry dates or quantities.
+of item quantities are not permitted by <code>ReplenishParser</code>, as items in the replenish list do not have expiry dates or quantities.
 </td>
 </tr>
 </table>
@@ -565,9 +568,9 @@ my analysis and decisions.</p>
 <div class="sect3">
 <h4 id="implementation-4"><a class="link" href="#implementation-4">3.2.1. Implementation</a></h4>
 <div class="paragraph">
-<p>Items in both lists are automatically sorted by their name then date in chronological order.
+<p>As mentioned previously, items in both lists are automatically sorted by their name then date.
 This auto-sorting mechanism is facilitated by <code>SortedUniqueXpireItemList</code> and <code>SortedUniqueReplenishItemList</code>
-that both implement <code>SortedUniqueItemList</code>, in a relationship summarised in the diagram below.</p>
+that both implement <code>SortedUniqueItemList</code>, in a relationship summarised in the class diagram below.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -650,12 +653,11 @@ The list returned is the sortedInternalList wrapped as an unmodifiable list.
 </td>
 <td class="content">
 Every time view is called, the current method of sorting specified is retrieved. If it has not been explicitly specified,
-the default method of sorting is then retrieved.
+the default method of sorting (by name) is then retrieved.<br>
 </td>
 </tr>
 </table>
 </div>
-<div style="page-break-after: always;"></div>
 <div class="paragraph">
 <p>The following sequence diagram demonstrates how the sort command changes the default order of items displayed:</p>
 </div>
@@ -734,7 +736,7 @@ The ability to check for spelling errors of command arguments is explained in a 
 <div class="sect3">
 <h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.2.2. Design Considerations</a></h4>
 <div class="paragraph">
-<p>In the process of actualising this feature, I contemplated on when items should be automatically sorted by name and displayed.
+<p>In the process of actualising this feature, I contemplated on when items should be automatically sorted by their names and displayed.
 I also tried and tested varied options to derive an optimal data structure to store the sorted items. The following is a brief summary of my analysis and decisions.</p>
 </div>
 <div class="sect4">
@@ -742,24 +744,24 @@ I also tried and tested varied options to derive an optimal data structure to st
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Display the sorted list of items when items are viewed.</p>
+<p><strong>Alternative 1 (current choice):</strong> Maintain the current method of sorting unless a sort command is executed.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Does not reset the method of sorting back to name by default with the addition of every item.</p>
 </li>
 <li>
-<p>Cons: The user might not be able to find items added solely by their names.</p>
+<p>Cons: The user might not be able to find items recently added.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Display the sorted list of items with the addition of every item.</p>
+<p><strong>Alternative 2:</strong> Re-sort the list of items by their names with the addition of every item.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Allows the user to find any added item with ease as items are sorted by their name in chronological order.</p>
+<p>Pros: Allows the user to find any added item with ease as items are sorted by their name in lexicographical order.</p>
 </li>
 <li>
 <p>Cons: Resets the method of sorting back to name by default every time an item is added.</p>
@@ -1341,7 +1343,7 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 <p>Invalid commands are checked for spelling mistakes.
 The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
 This distance is based on the number of substitutions, deletions, insertions or transpositions of characters, needed to convert the source string into the target string.
-Relevant functions supporting this operation are implemented in <code>StringUtil</code>.</p>
+Relevant functions supporting this operation are implemented in <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/tree/master/src/main/java/io/xpire/commons/util/StringUtil.java"><code>StringUtil</code></a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1407,7 +1409,7 @@ as its closest match and wrapped as a recommendation in a <code>ParseException</
 <div class="content">
 <img src="images/RecommendCommandArgumentsActivityDiagram.png" alt="RecommendCommandArgumentsActivityDiagram">
 </div>
-<div class="title">Figure 35. Activity diagram showing what happens when an a command is executed with misspelled arguments</div>
+<div class="title">Figure 35. Activity diagram showing what happens when a command is executed with misspelled arguments</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1422,13 +1424,13 @@ Only search and sort commands support this operation.
 </table>
 </div>
 <div class="paragraph">
-<p>In the example below encapsulated in a sequence diagram, the user has misspelled "date" as "dat" in a sort command.</p>
+<p>In the example below encapsulated in a sequence diagram, the user has misspelled <code>"date"</code> as <code>"dat"</code> in a sort command.</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
 </div>
-<div class="title">Figure 36. Sequence diagram illustrating the recommendations mechanism for command "sort|dat"</div>
+<div class="title">Figure 36. Sequence diagram illustrating the recommendations mechanism for command <code>sort|dat</code></div>
 </div>
 <div class="paragraph">
 <p>The sequence diagram titled <code>find similar words</code> below expands on the process omitted above.</p>
@@ -1437,15 +1439,15 @@ Only search and sort commands support this operation.
 <div class="content">
 <img src="images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
 </div>
-<div class="title">Figure 37. Sequence diagram showing how "date" is found to be the most similar word to "dat"</div>
+<div class="title">Figure 37. Sequence diagram showing how <code>"date"</code> is found to be the most similar word to <code>"dat"</code></div>
 </div>
 <div class="paragraph">
-<p>The function <code>findSimilar</code> in <code>StringUtil</code> is called upon to return a set containing strings that are most similar to the misspelled argument, <code>dat</code>.
-In this process, <code>dat</code> is compared with a set of valid inputs, i.e. both <code>name</code> and <code>date</code>, and the corresponding edit distances are stored.
-<code>getSuggestions("dat")</code> then filters the results and finds <code>date</code> to be the best match.</p>
+<p>The function <code>findSimilar</code> in <code>StringUtil</code> is called upon to return a set containing strings that are most similar to the misspelled argument, <code>"dat"</code>.
+In this process, <code>"dat"</code> is compared with a set of valid inputs, i.e. both <code>"name"</code> and <code>"date"</code>, and the corresponding edit distances are stored.
+<code>getSuggestions("dat")</code> then filters the results and finds <code>"date"</code> to be the best match.</p>
 </div>
 <div class="paragraph">
-<p>At last, a <code>ParseException</code> which contains the recommendation <code>date</code>
+<p>At last, a <code>ParseException</code> which contains the recommendation <code>"date"</code>
 is then thrown to the user as feedback.</p>
 </div>
 </div>
@@ -1460,7 +1462,7 @@ I also evaluated multiple options to derive an optimal data structure to store t
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Displays recommendations after user inputs command that fails to produce results.</p>
+<p><strong>Alternative 1 (current choice):</strong> Displays recommendations after the user inputs a command that fails to produce results.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1477,7 +1479,7 @@ I also evaluated multiple options to derive an optimal data structure to store t
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Lowers likelihood of spelling mistakes in user input to begin with.</p>
+<p>Pros: Lowers likelihood of spelling mistakes in user input.</p>
 </li>
 <li>
 <p>Cons: We must ensure that the structure of every single command and their variations are taken into consideration.</p>
@@ -2213,7 +2215,7 @@ If the execution by <code>Logic</code> is not successful, an error will be throw
 <div class="ulist none">
 <ul class="none">
 <li>
-<p>1a1. Expire shows an error message.</p>
+<p>1a1. Xpire shows an error message.</p>
 <div class="paragraph">
 <p>Use case resumes at step 1.</p>
 </div>
@@ -2258,9 +2260,6 @@ If the execution by <code>Logic</code> is not successful, an error will be throw
 <ol class="arabic">
 <li>
 <p>The app shall be accessible by people who have downloaded the JAR file.</p>
-</li>
-<li>
-<p>The app shall be accessible to people who are colour blind, to the extent that they shall be able to discern all text and other information displayed by the system as easily as a person without colour blindness.</p>
 </li>
 </ol>
 </div>
@@ -2348,6 +2347,9 @@ If the execution by <code>Logic</code> is not successful, an error will be throw
 </li>
 <li>
 <p>The product is not required to produce reminders when the app is inactive.</p>
+</li>
+<li>
+<p>The product is not required to handle intentionally corrupted json files.</p>
 </li>
 </ol>
 </div>
@@ -2605,8 +2607,9 @@ These instructions only provide a starting point for testers to work on; testers
 <p>Download the jar file and copy into an empty folder</p>
 </li>
 <li>
-<p>Double-click the jar file<br>
-Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.</p>
+<p>In the home folder for Xpire, launch the jar file using the <code>java -jar xpire.jar</code> command on<br>
+Terminal (for macOs) or Command Prompt (for Windows) to start the app.<br>
+   Expected: Shows the GUI with a set of sample items. The window size may not be optimum.</p>
 </li>
 </ol>
 </div>
@@ -2619,7 +2622,7 @@ Expected: Shows the GUI with a set of sample contacts. The window size may not b
 <p>Resize the window to an optimum size. Move the window to a different location. Close the window.</p>
 </li>
 <li>
-<p>Re-launch the app by double-clicking the jar file.<br>
+<p>Re-launch the app by using the <code>java -jar xpire.jar</code> command.<br>
 Expected: The most recent window size and location is retained.</p>
 </li>
 </ol>
@@ -2716,7 +2719,7 @@ Expected: Item with index 1 is shifted from "tracking items" to "to-buy items".<
 <p>Prerequisites: Current view in the main list and the first item in <code>View</code> has not expired. It should not have a reminder and should be expiring in less than 1000 days.</p>
 </li>
 <li>
-<p>Test case: Follow the instructions under <a href="#adding-expired-items-to-the-tracking-list-for-testing">Section G.5, &#8220;Adding expired items to the tracking list for testing&#8221;</a> to add expired items to the Xpire. Do not
+<p>Test case: Follow the instructions under <a href="#adding-expired-items-to-the-tracking-list-for-testing">Section G.6, &#8220;Adding expired items to the tracking list for testing&#8221;</a> to add expired items to the Xpire. Do not
 add any reminder threshold.<br>
   Expected: The expired items are marked as red; not expired items are green.</p>
 </li>
@@ -2731,7 +2734,79 @@ Expected: the first item turns yellow.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-expired-items-to-the-tracking-list-for-testing"><a class="link" href="#adding-expired-items-to-the-tracking-list-for-testing">G.5. Adding expired items to the tracking list for testing</a></h3>
+<h3 id="viewing-items"><a class="link" href="#viewing-items">G.5. Viewing items</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Viewing items in the replenish list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>view|replenish</code><br>
+Expected: All items in the replenish list are displayed.</p>
+</li>
+<li>
+<p>Test case: <code>view|replenihs</code><br>
+Expected:  No change in the display of items. The term <code>replenish</code> is given as a suggestion in the error message.</p>
+</li>
+<li>
+<p>Test case: <code>view|REPLENISH</code><br>
+Expected: Similar to previous.</p>
+</li>
+<li>
+<p>Test case: <code>view|something</code><br>
+Expected: No change in the display of items. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Other incorrect sort commands to try: , <code>view|3000</code>, <code>view|xyz</code> (where xyz is any garbage input) <br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Viewing items in the main tracking list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>view|main</code><br>
+Expected: All items in the main list are displayed.</p>
+</li>
+<li>
+<p>Test case: <code>view|mainn</code><br>
+Expected:  No change in the display of items. The term <code>main</code> is given as a suggestion in the error message.</p>
+</li>
+<li>
+<p>Test case: <code>view|something</code><br>
+Expected: No change in the order of items. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Other incorrect view commands to try: <code>view|-1</code>, view|xyz` (where xyz is any garbage input)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Viewing items in the current list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>view</code><br>
+Expected: All items in the current list are displayed.</p>
+</li>
+<li>
+<p>Test case: <code>viwe</code><br>
+Expected: <code>view</code> is given as a recommendation in the error message.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-expired-items-to-the-tracking-list-for-testing"><a class="link" href="#adding-expired-items-to-the-tracking-list-for-testing">G.6. Adding expired items to the tracking list for testing</a></h3>
 <div class="paragraph">
 <p>Xpire automatically tags items as <code>Expired</code> in the tracking list once an item&#8217;s expiry date has passed, as seen in the diagram below. See <a href="#replenish-list">Section 3.1, &#8220;Replenish List&#8221;</a> for details.</p>
 </div>
@@ -2787,7 +2862,7 @@ Expected: the first item turns yellow.</p>
 <td class="content">
 Remember to enclose these name-value items with <code>{</code> and <code>}</code>.
 Do note that if you manually tamper with the xpire.json file, the data file might be corrupted.
-See <a href="#saving-data">Section G.9, &#8220;Saving data&#8221;</a> on details for corrupted files.
+See <a href="#saving-data">Section G.12, &#8220;Saving data&#8221;</a> on details for corrupted files.
 For more information about JSON objects, please refer to <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-json">this tutorial</a>.
 </td>
 </tr>
@@ -2795,15 +2870,16 @@ For more information about JSON objects, please refer to <a href="https://www.di
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-an-item"><a class="link" href="#deleting-an-item">G.6. Deleting an item</a></h3>
+<h3 id="deleting-an-item"><a class="link" href="#deleting-an-item">G.7. Deleting an item</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Deleting an item while all items are listed</p>
+<p>Deleting an item in either list while all items are listed</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Prerequisites: List all items using the <code>view</code> command. Multiple items in the list.</p>
+<p>Prerequisites: List all items using the <code>view</code> command. Multiple items in the list. The item to be deleted must exist
+in the list.</p>
 </li>
 <li>
 <p>Test case: <code>delete|1</code><br>
@@ -2811,7 +2887,7 @@ Expected: First item is deleted from the list. Details of the deleted item shown
 </li>
 <li>
 <p>Test case: <code>delete|0</code><br>
-Expected: No item is deleted. Error details shown in the status message. Status bar remains the same.</p>
+Expected: No item is deleted. Error details shown in the status message.</p>
 </li>
 <li>
 <p>Other incorrect delete commands to try: <code>delete</code>, <code>delete|x</code> (where x is larger than the list size)<br>
@@ -2821,7 +2897,7 @@ Expected: Similar to previous.</p>
 </div>
 </li>
 <li>
-<p>Deleting an item quantity</p>
+<p>Deleting an item quantity in the main tracking list while all items are listed</p>
 </li>
 </ol>
 </div>
@@ -2850,7 +2926,35 @@ Details of this shift is reflected in the status message.</p>
 </li>
 <li>
 <p>Test case <code>delete|2|0</code><br>
-Expected: Quantity is not reduced. Error details showed in the status message. Status bar remains the same.</p>
+Expected: Quantity is not reduced. Error details showed in the status message.</p>
+</li>
+<li>
+<p>Other incorrect delete commands to try: <code>delete</code>, <code>delete|x</code> (where x is larger than the item&#8217;s quantity)<br>
+Expected: Similar to previous.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deleting an item quantity in the replenish list while all items are listed</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Prerequisites: Input quantity to be deleted must be less than or equals to the item quantity.</p>
+</li>
+<li>
+<p>Test case <code>delete|2|1</code><br>
+   Expected: Second item from the list has quantity reduced by 1. The new updated quantity is reflected in the item card.
+Details of the item with reduced quantity is reflected in the status message.</p>
+</li>
+<li>
+<p>Test case <code>delete|2|3</code><br>
+   Expected: Second item from the list has quantity reduced by 3. The item is shifted to the replenish list.
+Details of this shift is reflected in the status message.</p>
+</li>
+<li>
+<p>Test case <code>delete|2|0</code><br>
+Expected: Quantity is not reduced. Error details showed in the status message.</p>
 </li>
 <li>
 <p>Other incorrect delete commands to try: <code>delete</code>, <code>delete|x</code> (where x is larger than the item&#8217;s quantity)<br>
@@ -2860,7 +2964,33 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="setting-a-reminder-for-an-item"><a class="link" href="#setting-a-reminder-for-an-item">G.7. Setting a reminder for an item</a></h3>
+<h3 id="tagging-an-item"><a class="link" href="#tagging-an-item">G.8. Tagging an item</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tagging items in either list while all items are listed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all items using the <code>view</code> command. Multiple items in the list. The item to be tagged must have less than
+5 existing tags.</p>
+</li>
+<li>
+<p>Test case: <code>tag|1|#fruit</code><br>
+Expected: The first item in the list will be tagged with #Fruit.</p>
+</li>
+<li>
+<p>Other incorrect tagging commands to try: <code>tag|0</code>, <code>tag|x</code><br>
+Expected: No item is tagged. Error details shown in the status message.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setting-a-reminder-for-an-item"><a class="link" href="#setting-a-reminder-for-an-item">G.9. Setting a reminder for an item</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -2882,6 +3012,10 @@ Expected: Reminder not set. Feedback shows error details.</p>
 <li>
 <p>Test case <code>set reminder|1|365000</code><br>
 Expected: Reminder not set. Feedback shows error details.</p>
+</li>
+<li>
+<p>Other incorrect set reminder commands to try: <code>set reminder|</code>, <code>set reminder|0</code><br>
+Expected: Similar to previous.</p>
 </li>
 </ol>
 </div>
@@ -2905,7 +3039,7 @@ Feedback shows reminder is removed successfully.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="filtering-items-based-on-its-expiry-date-and-status"><a class="link" href="#filtering-items-based-on-its-expiry-date-and-status">G.8. Filtering items based on its expiry date and status</a></h3>
+<h3 id="filtering-items-based-on-its-expiry-date-and-status"><a class="link" href="#filtering-items-based-on-its-expiry-date-and-status">G.10. Filtering items based on its expiry date and status</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -2913,7 +3047,12 @@ Feedback shows reminder is removed successfully.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Prerequisites: Current view is the main list. The list contains at least one expired item.</p>
+<p>Prerequisites: Current view is the main list. The list contains at least one expired item. The items you wish to check also must have either already expired or have reminders
+set for them previously.</p>
+</li>
+<li>
+<p>Test case: <code>check</code><br>
+Expected: Items that are expiring soon or have already expired are listed.</p>
 </li>
 <li>
 <p>Test case <code>check|0</code><br>
@@ -2924,6 +3063,10 @@ Feedback shows listing of items expiring in 0 day.</p>
 <p>Test case <code>check|20</code><br>
 Expected: Items expiring in 20 days are displayed in the <code>View</code>.<br>
 Feedback shows listing of items expiring in 20 days.</p>
+</li>
+<li>
+<p>Other incorrect set reminder commands to try: <code>check|2000000</code><br>
+Expected: No change in the display of items. Error details shown in the status message.</p>
 </li>
 </ol>
 </div>
@@ -2937,7 +3080,7 @@ Feedback shows listing of items expiring in 20 days.</p>
 </li>
 <li>
 <p>Test case <code>check</code><br>
-Expected: Expired items and items with active reminder in the <code>View</code> (items in red or yellow).
+Expected: Expired items and items with active reminder in the <code>View</code> (items in red or yellow).<br>
 Feedback shows listing of expired items and items whose reminder has been activated.</p>
 </li>
 </ol>
@@ -2947,7 +3090,74 @@ Feedback shows listing of expired items and items whose reminder has been activa
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">G.9. Saving data</a></h3>
+<h3 id="sorting-items"><a class="link" href="#sorting-items">G.11. Sorting items</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Sorting items by their name</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all items using the <code>view</code> command. Multiple items in the list.</p>
+</li>
+<li>
+<p>Test case: <code>sort|name</code><br>
+Expected: The current item list is sorted with respect to their names in lexicographical order.</p>
+</li>
+<li>
+<p>Test case: <code>sort|naem</code><br>
+Expected:  No change in the order of items. The term <code>name</code> is given as a suggestion in the error message.</p>
+</li>
+<li>
+<p>Test case: <code>sort|NAME</code><br>
+Expected: Similar to previous.</p>
+</li>
+<li>
+<p>Test case: <code>sort|something</code><br>
+Expected: No change in the order of items. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Other incorrect sort commands to try: <code>sort|0</code>, <code>sort|xyz</code> (where xyz is any garbage input)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Sorting items by their date</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all items using the <code>view</code> command. Multiple items in the list.</p>
+</li>
+<li>
+<p>Test case: <code>sort|date</code><br>
+Expected: The current item list is sorted with respect to their dates in chronological order.</p>
+</li>
+<li>
+<p>Test case: <code>sort|datee</code><br>
+Expected:  No change in the order of items. The term <code>date</code> is given as a suggestion in the error message.</p>
+</li>
+<li>
+<p>Test case: <code>sort|DATE</code><br>
+Expected: Similar to previous.</p>
+</li>
+<li>
+<p>Test case: <code>sort|something</code><br>
+Expected: No change in the order of items. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Other incorrect sort commands to try: <code>sort|</code>, <code>sort|xyz</code> (where xyz is any garbage input)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="saving-data"><a class="link" href="#saving-data">G.12. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -2964,4 +3174,4 @@ Feedback shows listing of expired items and items whose reminder has been activa
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:38:40 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:55:05 UTC</div></div></div></body></html>
