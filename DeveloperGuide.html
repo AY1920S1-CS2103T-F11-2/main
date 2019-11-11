@@ -84,44 +84,51 @@
 </li>
 </ul>
 </li>
-<li><a href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a>
+<li><a href="#search-by-name-or-tag-s">3.5. Search by name or tag(s)</a>
 <ul class="sectlevel3">
-<li><a href="#design-considerations-6">3.5.1. Design Considerations</a>
+<li><a href="#implementation-7">3.5.1. Implementation</a></li>
+<li><a href="#design-considerations-6">3.5.2. Design Considerations</a>
 <ul class="sectlevel4">
-<li><a href="#aspect-how-set-reminder-executes-2">3.5.1.1. Aspect: How set reminder executes</a></li>
-<li><a href="#aspect">3.5.1.2. Aspect:</a></li>
+<li><a href="#aspect-how-to-implement-and-search">3.5.2.1. Aspect: How to implement AND search?</a></li>
+<li><a href="#aspect-how-to-implement-stackable-commands">3.5.2.2. Aspect: How to implement "stackable" commands?</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><a href="#tag-feature">3.6. Tag Feature</a>
 <ul class="sectlevel3">
-<li><a href="#implementation-7">3.6.1. Implementation</a></li>
+<li><a href="#implementation-8">3.6.1. Implementation</a></li>
 </ul>
 </li>
-<li><a href="#search">3.7. Search</a>
-<ul class="sectlevel3">
-<li><a href="#implementation-8">3.7.1. Implementation</a></li>
-</ul>
-</li>
-<li><a href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a>
+<li><a href="#search">3.7. Search</a></li>
+<li><a href="#export">3.8. Export</a>
 <ul class="sectlevel3">
 <li><a href="#implementation-9">3.8.1. Implementation</a></li>
-<li><a href="#design-considerations-7">3.8.2. Design Considerations</a>
+<li><a href="#design-consideration">3.8.2. Design Consideration</a>
 <ul class="sectlevel4">
-<li><a href="#aspect-how-recommendations-execute">3.8.2.1. Aspect: How recommendations execute</a></li>
-<li><a href="#aspect-data-structure-to-store-the-recommendations">3.8.2.2. Aspect: Data structure to store the recommendations</a></li>
+<li><a href="#aspect-what-is-the-most-suitable-type-of-export-functionality-required-for-this-application">3.8.2.1. Aspect: What is the most suitable type of export functionality required for this application?</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#user-interface-design">3.9. User Interface Design</a>
+<li><a href="#spelling-correction-with-alternative-recommendations">3.9. Spelling correction with alternative recommendations</a>
 <ul class="sectlevel3">
-<li><a href="#the-view-panel">3.9.1. The View Panel</a></li>
+<li><a href="#implementation-10">3.9.1. Implementation</a></li>
+<li><a href="#design-considerations-7">3.9.2. Design Considerations</a>
+<ul class="sectlevel4">
+<li><a href="#aspect-how-recommendations-execute">3.9.2.1. Aspect: How recommendations execute</a></li>
+<li><a href="#aspect-data-structure-to-store-the-recommendations">3.9.2.2. Aspect: Data structure to store the recommendations</a></li>
 </ul>
 </li>
-<li><a href="#logging">3.10. Logging</a></li>
-<li><a href="#Implementation-Configuration">3.11. Configuration</a></li>
+</ul>
+</li>
+<li><a href="#user-interface-design">3.10. User Interface Design</a>
+<ul class="sectlevel3">
+<li><a href="#the-view-panel">3.10.1. The View Panel</a></li>
+</ul>
+</li>
+<li><a href="#logging">3.11. Logging</a></li>
+<li><a href="#Implementation-Configuration">3.12. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a></li>
@@ -1199,47 +1206,189 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></h3>
+<h3 id="search-by-name-or-tag-s"><a class="link" href="#search-by-name-or-tag-s">3.5. Search by name or tag(s)</a></h3>
 <div class="paragraph">
-<p><em>{Explain here how the data encryption feature will be implemented}</em></p>
+<p>This feature allows users to filter out specific items either by name or by tag(s) through providing
+the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel.
+For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
 </div>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram shows how the operation works:</p>
-</div>
-<div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
+<p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.5.1. Design Considerations</a></h4>
+<h4 id="implementation-7"><a class="link" href="#implementation-7">3.5.1. Implementation</a></h4>
+<div class="paragraph">
+<p>Below are the UML sequence diagrams and a step-by-step explanation of an example usage scenario.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SequenceDiagramSearch.png" alt="SequenceDiagramSearch" width="790">
+</div>
+<div class="title">Figure 30. Sequence diagram illustrating the search mechanism</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Parsing of arguments is omitted from the diagram above to place greater emphasis on the filtering process.
+The diagram below further illustrates the parsing of arguments.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SequenceDiagramSearchParseArgs.png" alt="SequenceDiagramSearchParseArgs" width="790">
+</div>
+<div class="title">Figure 31. Sequence diagram illustrating the parsing of arguments</div>
+</div>
+<div class="paragraph">
+<p>Example usage scenario:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Steps 1-3 and steps 4-5 describe what is shown in Figure 25 and Figure 24 respectively.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Step 1. User enters command <code>search|banana</code>. The command is received by the <code>LogicManager</code> 's <code>execute</code> method which
+then calls the <code>getCurrentView</code> method of <code>Model</code> to determine which item list is currently being displayed, <code>XPIRE</code>
+or <code>REPLENISH</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. Depending on which item list is currently being displayed, either <code>XpireParser</code> 's or <code>ReplenishParser</code> 's <code>parse</code>
+method will be called to create a <code>SearchCommandParser</code> object.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>parse</code> method of the <code>SearchCommandParser</code> will be called to parse the keyword, "banana" in our case,
+into a <code>ContainsKeywordsPredicate</code> object which will then be pass to the constructor of <code>SearchCommand</code>. Subsequently,
+the <code>SearchCommand</code> object will be returned to the <code>LogicManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The <code>LogicManager</code> then calls the returned <code>SearchCommand</code> object&#8217;s <code>execute</code> method which calls the
+<code>filterCurrentList</code> method of <code>Model</code> to update the current view list by invoking <code>FilteredList</code> 's <code>setPredicate</code> with
+the <code>ContainsKeywordsPredicate</code> object, stored in the <code>SearchCommand</code> object, as the parameter.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. Upon successful updating of the current view list, a <code>CommandResult</code> object will be created by <code>SearchCommand</code>
+to encapsulate a positive feedback message that will be shown to the user. The <code>CommandResult</code> will then be returned to the <code>LogicManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>To further demonstrate the high-level workflow of the <code>search</code> command, the following UML activity diagram is provided:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The selection of parser and the creation of <code>SearchCommand</code> object is omitted for brevity.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ActivityDiagramSearchCommand.png" alt="ActivityDiagramSearchCommand" width="790">
+</div>
+<div class="title">Figure 32. Activity diagram illustrating the high-level workflow of search command</div>
+</div>
+<div class="paragraph">
+<p>As illustrated in Figure 26, the <code>search</code> functionality also considers the case where the current view list
+is empty and there will be a feedback to the user to inform him/her that the <code>search</code> command is not executed
+successfully.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.5.2. Design Considerations</a></h4>
+<div class="paragraph">
+<p>Below highlights the different considerations while implementing this feature.</p>
+</div>
 <div class="sect4">
-<h5 id="aspect-how-set-reminder-executes-2"><a class="link" href="#aspect-how-set-reminder-executes-2">3.5.1.1. Aspect: How set reminder executes</a></h5>
+<h5 id="aspect-how-to-implement-and-search"><a class="link" href="#aspect-how-to-implement-and-search">3.5.2.1. Aspect: How to implement AND search?</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong></p>
+<p><strong>Option 1 (initial choice):</strong> Modify the input command format to include "&amp;" as a separator. The "&amp;" separator will be placed between 2 keywords to signify an AND condition between the them.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Requires only a single <code>search</code> command to do both AND and OR search.</p>
 </li>
 <li>
-<p>Cons:</p>
+<p>There is no need to change the original architecture for <code>Model</code>.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong></p>
+<p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Complicates the input command format (since it has both "|" and "&amp;" separators) and makes it not user-friendly.</p>
+</li>
+<li>
+<p>Could be confusing to the user when they want to a mix of AND and OR conditions in a single <code>search</code> command.</p>
+</li>
+<li>
+<p>Could be difficult to parse correctly since there are 2 different separators.</p>
+</li>
+<li>
+<p>Extra work has to be done to change the ContainsKeywordsPredicate to accept AND condition.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Option 2 (current choice):</strong> Make the <code>search</code> command "stackable". Every <code>search</code> command will now only
+execute on the current view list. e.g. the result of a <code>search</code> command can be further filtered with another <code>search</code> command.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Users can intuitively make an AND search of 2 or more keywords by first searching with 1 keyword and then
+search again with another keyword, and repeat again for more keywords.</p>
+</li>
+<li>
+<p>There is no change to the input command format.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Requires multiple <code>search</code> commands to be executed for AND search.</p>
+</li>
+<li>
+<p>Have to figure out how to implement "stackable" commands.</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -1248,31 +1397,68 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect"><a class="link" href="#aspect">3.5.1.2. Aspect:</a></h5>
+<h5 id="aspect-how-to-implement-stackable-commands"><a class="link" href="#aspect-how-to-implement-stackable-commands">3.5.2.2. Aspect: How to implement "stackable" commands?</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong></p>
+<p><strong>Option 1 (current choice):</strong> Modify the <code>ModelManager</code>.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Uses the separation of concerns principle. The commands do not need to know how the item list will behave when they are executed.
+They simply need to make the relevant Application Programming Interface (API) calls and the <code>ModelManager</code> will handle the behaviour
+of the list.</p>
 </li>
 <li>
-<p>Cons:</p>
+<p>Adheres to the open-closed principle. The commands do not need to make any changes to its architecture and other commands can
+also be made "stackable" through using the API.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong></p>
+<p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Have to modify the <code>ModelManager</code> 's architecture to support the API that modifies the current view list.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Option 2:</strong> Modify the commands.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Do not need to modify the API.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Violates single responsibility principle. The commands will now handle both the execution algorithm and the behaviour of the item list.</p>
+</li>
+<li>
+<p>Violates open-closed principle. The <code>Command</code> 's architecture will have to be modified to be "stackable".</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -1294,7 +1480,7 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 <p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
 </div>
 <div class="sect3">
-<h4 id="implementation-7"><a class="link" href="#implementation-7">3.6.1. Implementation</a></h4>
+<h4 id="implementation-8"><a class="link" href="#implementation-8">3.6.1. Implementation</a></h4>
 <div class="paragraph">
 <p>Below is an activity diagram of what happens when a user keys in a Tag Command.</p>
 </div>
@@ -1302,7 +1488,7 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 <div class="content">
 <img src="images/Tag/ActivityDiagramTagCommand.png" alt="ActivityDiagramTagCommand" width="790">
 </div>
-<div class="title">Figure 30. Activity Diagram for executing Tag Command</div>
+<div class="title">Figure 33. Activity Diagram for executing Tag Command</div>
 </div>
 <div class="paragraph">
 <p>Below is a sequence diagram of what happens when a user keys in a Tag Command in the main list view. Note that the diagram has been simplified and assumes that all arguments are valid.</p>
@@ -1311,34 +1497,186 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 <div class="content">
 <img src="images/Tag/SequenceDiagramTagCommand.png" alt="SequenceDiagramTagCommand" width="790">
 </div>
-<div class="title">Figure 31. Sequence Diagram for executing Tag Command</div>
+<div class="title">Figure 34. Sequence Diagram for executing Tag Command</div>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="search"><a class="link" href="#search">3.7. Search</a></h3>
 <div class="paragraph">
-<p>This feature allows users to filter out specific items either by name or by tag(s) through providing the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel. For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
+<p>&gt;&gt;&gt;&gt;&gt;&gt;&gt; 7a9c5fc271183379425342c81d2f7b0f441903f4</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="export"><a class="link" href="#export">3.8. Export</a></h3>
+<div class="paragraph">
+<p>This feature allows users to export the items in the current view list to other devices through a QR code.
+Any device with a QR code reader will be able to download the list of items.</p>
 </div>
 <div class="paragraph">
-<p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
+<p>This implementation is under <code>Logic</code> and <code>Model</code> components, and it uses a helper method from <code>StringUtil</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="implementation-8"><a class="link" href="#implementation-8">3.7.1. Implementation</a></h4>
+<h4 id="implementation-9"><a class="link" href="#implementation-9">3.8.1. Implementation</a></h4>
 <div class="paragraph">
-<p>Below is the UML sequence diagram of an example usage scenario.</p>
+<p>Below is the UML sequence diagram and a step-by-step explanation of an example usage scenario.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/SearchCommandSequenceDiagram.png" alt="SearchCommandSequenceDiagram">
+<img src="images/SequenceDiagramExport.png" alt="SequenceDiagramExport" width="790">
+</div>
+<div class="title">Figure 35. Sequence diagram illustrating the export mechanism</div>
+</div>
+<div class="paragraph">
+<p>Example usage scenario:</p>
+</div>
+<div class="paragraph">
+<p>Step 1. User enters command <code>export</code>. The command is received by the <code>LogicManager&#8217;s `execute</code> method which
+then calls the <code>getCurrentView</code> method of <code>Model</code> to determine which item list is currently being displayed, <code>XPIRE</code>
+or <code>REPLENISH</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. Depending on which item list is currently being displayed, either <code>XpireParser</code> 's or <code>ReplenishParser</code> 's <code>parse</code>
+method will be called to create a <code>ExportCommand</code> object. The <code>ExportCommand</code> object will be returned to the <code>LogicManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>LogicManager</code> then calls the returned <code>ExportCommand</code> object&#8217;s <code>execute</code> method which calls the
+<code>getCurrentList</code> method of <code>Model</code> to retrieve the list of items in the current view list.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The items in the current view list is then converted to its string representation and then passed into the <code>getQrCode</code>
+method in <code>StringUtil</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. The <code>getQrCode</code> method uses <a href="https://github.com/zxing/zxing">Google ZXing</a> library to process the input string
+into a QR code and this QR code is subsequently converted to a byte array (<code>pngData</code>) so that it can be passed around easily.</p>
+</div>
+<div class="paragraph">
+<p>Step 6. Upon successful creation of the QR code data, a <code>CommandResult</code> object will be created by <code>ExportCommand</code> to encapsulate
+a feedback message and the QR code data, which will be rendered and shown to the user. The <code>CommandResult</code> will then be returned to the <code>LogicManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following UML activity diagram will further demonstrate the high-level workflow of the <code>export</code> command.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The selection of parser and the creation of <code>ExportCommand</code> object is omitted for brevity.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ActivityDiagramExportCommand.png" alt="ActivityDiagramExportCommand" width="790">
+</div>
+<div class="title">Figure 36. Activity diagram illustrating the high-level workflow of search command</div>
+</div>
+<div class="paragraph">
+<p>As illustrated in Figure 28, the <code>export</code> functionality also considers the case where the current view list
+is empty and there will be a feedback to the user to inform him/her that the <code>export</code> command is not executed
+successfully.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-consideration"><a class="link" href="#design-consideration">3.8.2. Design Consideration</a></h4>
+<div class="paragraph">
+<p>Below highlights the essential design consideration while implementing this feature.</p>
+</div>
+<div class="sect4">
+<h5 id="aspect-what-is-the-most-suitable-type-of-export-functionality-required-for-this-application"><a class="link" href="#aspect-what-is-the-most-suitable-type-of-export-functionality-required-for-this-application">3.8.2.1. Aspect: What is the most suitable type of export functionality required for this application?</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Option 1:</strong> Export to a csv file.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Easily transferable and shared to other computers.</p>
+</li>
+<li>
+<p>Easily allows user to edit the exported data.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Does not work well on other platforms such as mobile phones and iPads.</p>
+</li>
+<li>
+<p>Slow to transfer the data to other computers. Have manually transfer the
+csv file through email, thumb drive or cloud drive.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Option 2 (current choice):</strong> Export through QR code.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Allows data to be easily transferred to any device with QR code scanner.</p>
+</li>
+<li>
+<p>Instantaneous data transfer upon scanning the QR code.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Hard to be shared to other computers since computers generally do not have QR code scanner.</p>
+</li>
+<li>
+<p>Focuses more on ready-only rather than editing the data.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Since Xpire is an application that helps users keep track of items' expiry dates as well as
+maintain a list of to-buy items for users' reference, its exported data should focus more on
+conveniently showing users the items' information rather than emphasise on editing the data.</p>
+</div>
+<div class="paragraph">
+<p>As such, due to the nature of this application, option 2 was chosen since it can precisely meet
+the needs of the users, which is to be able to easily view the exported data anywhere and anytime
+through their mobile phones.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a></h3>
+<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.9. Spelling correction with alternative recommendations</a></h3>
 <div class="sect3">
-<h4 id="implementation-9"><a class="link" href="#implementation-9">3.8.1. Implementation</a></h4>
+<h4 id="implementation-10"><a class="link" href="#implementation-10">3.9.1. Implementation</a></h4>
 <div class="paragraph">
 <p>Invalid commands are checked for spelling mistakes.
 The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
@@ -1364,7 +1702,7 @@ Only keywords with edit distance of less than 2 are recommended, to filter away 
 <div class="content">
 <img src="images/RecommendationsExample1.png" alt="RecommendationsExample1">
 </div>
-<div class="title">Figure 32. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
+<div class="title">Figure 37. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1386,7 +1724,7 @@ On the other hand, if <code>green</code> was misspelled as <code>gren</code>, th
 <div class="content">
 <img src="images/RecommendationsExample2.png" alt="RecommendationsExample2">
 </div>
-<div class="title">Figure 33. Example illustrating that recommendations are solely based on the previous list</div>
+<div class="title">Figure 38. Example illustrating that recommendations are solely based on the previous list</div>
 </div>
 <div class="paragraph">
 <p>The figure below depicts the flow of events that check for spelling errors when a user executes an unknown command.</p>
@@ -1395,7 +1733,7 @@ On the other hand, if <code>green</code> was misspelled as <code>gren</code>, th
 <div class="content">
 <img src="images/RecommendUnknownCommandActivityDiagram.png" alt="RecommendUnknownCommandActivityDiagram">
 </div>
-<div class="title">Figure 34. Activity diagram showing what happens when an unknown command is executed</div>
+<div class="title">Figure 39. Activity diagram showing what happens when an unknown command is executed</div>
 </div>
 <div class="paragraph">
 <p>For example, if <code>set reminder</code> was input incorrectly as <code>set remindre</code>, it will be flagged as an invalid command.
@@ -1409,7 +1747,7 @@ as its closest match and wrapped as a recommendation in a <code>ParseException</
 <div class="content">
 <img src="images/RecommendCommandArgumentsActivityDiagram.png" alt="RecommendCommandArgumentsActivityDiagram">
 </div>
-<div class="title">Figure 35. Activity diagram showing what happens when a command is executed with misspelled arguments</div>
+<div class="title">Figure 40. Activity diagram showing what happens when a command is executed with misspelled arguments</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1430,7 +1768,7 @@ Only search and sort commands support this operation.
 <div class="content">
 <img src="images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
 </div>
-<div class="title">Figure 36. Sequence diagram illustrating the recommendations mechanism for command <code>sort|dat</code></div>
+<div class="title">Figure 41. Sequence diagram illustrating the recommendations mechanism for command <code>sort|dat</code></div>
 </div>
 <div class="paragraph">
 <p>The sequence diagram titled <code>find similar words</code> below expands on the process omitted above.</p>
@@ -1439,7 +1777,7 @@ Only search and sort commands support this operation.
 <div class="content">
 <img src="images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
 </div>
-<div class="title">Figure 37. Sequence diagram showing how <code>"date"</code> is found to be the most similar word to <code>"dat"</code></div>
+<div class="title">Figure 42. Sequence diagram showing how <code>"date"</code> is found to be the most similar word to <code>"dat"</code></div>
 </div>
 <div class="paragraph">
 <p>The function <code>findSimilar</code> in <code>StringUtil</code> is called upon to return a set containing strings that are most similar to the misspelled argument, <code>"dat"</code>.
@@ -1452,13 +1790,13 @@ is then thrown to the user as feedback.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.8.2. Design Considerations</a></h4>
+<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.9.2. Design Considerations</a></h4>
 <div class="paragraph">
 <p>When tasked to implement this feature, I had to decide on what was the best way to display any form of recommendations to the user.
 I also evaluated multiple options to derive an optimal data structure to store the recommendations. The following is a brief summary of my analysis and decisions.</p>
 </div>
 <div class="sect4">
-<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">3.8.2.1. Aspect: How recommendations execute</a></h5>
+<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">3.9.2.1. Aspect: How recommendations execute</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1491,7 +1829,7 @@ I also evaluated multiple options to derive an optimal data structure to store t
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">3.8.2.2. Aspect: Data structure to store the recommendations</a></h5>
+<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">3.9.2.2. Aspect: Data structure to store the recommendations</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1526,7 +1864,7 @@ I also evaluated multiple options to derive an optimal data structure to store t
 </div>
 </div>
 <div class="sect2">
-<h3 id="user-interface-design"><a class="link" href="#user-interface-design">3.9. User Interface Design</a></h3>
+<h3 id="user-interface-design"><a class="link" href="#user-interface-design">3.10. User Interface Design</a></h3>
 <div class="paragraph">
 <p>The UI contains two panels that change according to the items in the <code>XpireItemList</code> and <code>ReplenishList</code>. However, these
 UI components are not able to update by listening to changes in these <code>ObservableLists</code>. This is because both lists are
@@ -1538,7 +1876,7 @@ UI classes through <code>MainWindow</code> and rendered each time a command is e
 <p>As as an example of how the UI were implemented, we will examine the implementation of <code>ViewPanel</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="the-view-panel"><a class="link" href="#the-view-panel">3.9.1. The View Panel</a></h4>
+<h4 id="the-view-panel"><a class="link" href="#the-view-panel">3.10.1. The View Panel</a></h4>
 <div class="paragraph">
 <p><code>ViewPanel</code> is a container for many <code>ItemCards</code>, each carrying information about the items.<br>
 Given below are the steps of an example scenario of how <code>ViewPanel</code> is constructed and updated:</p>
@@ -1620,14 +1958,14 @@ If the execution by <code>Logic</code> is not successful, an error will be throw
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.10. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.11. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.11, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.12, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -1658,7 +1996,7 @@ If the execution by <code>Logic</code> is not successful, an error will be throw
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.11. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.12. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2814,7 +3152,7 @@ Expected: <code>view</code> is given as a recommendation in the error message.</
 <div class="content">
 <img src="images/xpire_json_file.png" alt="xpire json file">
 </div>
-<div class="title">Figure 38. Expiry date should be updated to one that has passed to test for expired items in Xpire.</div>
+<div class="title">Figure 43. Expiry date should be updated to one that has passed to test for expired items in Xpire.</div>
 </div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
@@ -2839,7 +3177,7 @@ Expected: <code>view</code> is given as a recommendation in the error message.</
 <div class="content">
 <img src="images/json_format_example.png" alt="json format example">
 </div>
-<div class="title">Figure 39. Format to follow for adding an XpireItem manually to xpire.json file</div>
+<div class="title">Figure 44. Format to follow for adding an XpireItem manually to xpire.json file</div>
 </div>
 <div class="paragraph">
 <p>Example:</p>
@@ -2848,7 +3186,7 @@ Expected: <code>view</code> is given as a recommendation in the error message.</
 <div class="content">
 <img src="images/json_example.png" alt="json example">
 </div>
-<div class="title">Figure 40. Example of a valid XpireItem manually added to xpire.json file</div>
+<div class="title">Figure 45. Example of a valid XpireItem manually added to xpire.json file</div>
 </div>
 <div class="paragraph">
 <p>An item with <code>name</code> Jelly and <code>expiryDate</code> 24/6/2019 (which has passed) is now added to the json file for your testing.</p>
@@ -3174,4 +3512,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:55:05 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:58:10 UTC</div></div></div></body></html>

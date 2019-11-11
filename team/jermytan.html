@@ -270,9 +270,11 @@ Reduces the quantity of the 4th item by 1.</p>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="search"><a class="link" href="#search">Search</a></h3>
+<h3 id="search-by-name-or-tag-s"><a class="link" href="#search-by-name-or-tag-s">Search by name or tag(s)</a></h3>
 <div class="paragraph">
-<p>This feature allows users to filter out specific items either by name or by tag(s) through providing the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel. For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
+<p>This feature allows users to filter out specific items either by name or by tag(s) through providing
+the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel.
+For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
 </div>
 <div class="paragraph">
 <p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
@@ -280,57 +282,576 @@ Reduces the quantity of the 4th item by 1.</p>
 <div class="sect3">
 <h4 id="implementation"><a class="link" href="#implementation">Implementation</a></h4>
 <div class="paragraph">
-<p>Below is the UML sequence diagram of an example usage scenario.</p>
+<p>Below are the UML sequence diagrams and a step-by-step explanation of an example usage scenario.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/SearchCommandSequenceDiagram.png" alt="SearchCommandSequenceDiagram">
+<img src="../images/SequenceDiagramSearch.png" alt="SequenceDiagramSearch" width="790">
+</div>
+<div class="title">Figure 2. Sequence diagram illustrating the search mechanism</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Parsing of arguments is omitted from the diagram above to place greater emphasis on the filtering process.
+The diagram below further illustrates the parsing of arguments.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SequenceDiagramSearchParseArgs.png" alt="SequenceDiagramSearchParseArgs" width="790">
+</div>
+<div class="title">Figure 3. Sequence diagram illustrating the parsing of arguments</div>
+</div>
+<div class="paragraph">
+<p>Example usage scenario:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Steps 1-3 and steps 4-5 describe what is shown in Figure 25 and Figure 24 respectively.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Step 1. User enters command <code>search|banana</code>. The command is received by the <code>LogicManager</code> 's <code>execute</code> method which
+then calls the <code>getCurrentView</code> method of <code>Model</code> to determine which item list is currently being displayed, <code>XPIRE</code>
+or <code>REPLENISH</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. Depending on which item list is currently being displayed, either <code>XpireParser</code> 's or <code>ReplenishParser</code> 's <code>parse</code>
+method will be called to create a <code>SearchCommandParser</code> object.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>parse</code> method of the <code>SearchCommandParser</code> will be called to parse the keyword, "banana" in our case,
+into a <code>ContainsKeywordsPredicate</code> object which will then be pass to the constructor of <code>SearchCommand</code>. Subsequently,
+the <code>SearchCommand</code> object will be returned to the <code>LogicManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The <code>LogicManager</code> then calls the returned <code>SearchCommand</code> object&#8217;s <code>execute</code> method which calls the
+<code>filterCurrentList</code> method of <code>Model</code> to update the current view list by invoking <code>FilteredList</code> 's <code>setPredicate</code> with
+the <code>ContainsKeywordsPredicate</code> object, stored in the <code>SearchCommand</code> object, as the parameter.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. Upon successful updating of the current view list, a <code>CommandResult</code> object will be created by <code>SearchCommand</code>
+to encapsulate a positive feedback message that will be shown to the user. The <code>CommandResult</code> will then be returned to the <code>LogicManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>To further demonstrate the high-level workflow of the <code>search</code> command, the following UML activity diagram is provided:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The selection of parser and the creation of <code>SearchCommand</code> object is omitted for brevity.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityDiagramSearchCommand.png" alt="ActivityDiagramSearchCommand" width="790">
+</div>
+<div class="title">Figure 4. Activity diagram illustrating the high-level workflow of search command</div>
+</div>
+<div class="paragraph">
+<p>As illustrated in Figure 26, the <code>search</code> functionality also considers the case where the current view list
+is empty and there will be a feedback to the user to inform him/her that the <code>search</code> command is not executed
+successfully.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="paragraph">
+<p>Below highlights the different considerations while implementing this feature.</p>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-implement-and-search"><a class="link" href="#aspect-how-to-implement-and-search">Aspect: How to implement AND search?</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Option 1 (initial choice):</strong> Modify the input command format to include "&amp;" as a separator. The "&amp;" separator will be placed between 2 keywords to signify an AND condition between the them.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Requires only a single <code>search</code> command to do both AND and OR search.</p>
+</li>
+<li>
+<p>There is no need to change the original architecture for <code>Model</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Complicates the input command format (since it has both "|" and "&amp;" separators) and makes it not user-friendly.</p>
+</li>
+<li>
+<p>Could be confusing to the user when they want to a mix of AND and OR conditions in a single <code>search</code> command.</p>
+</li>
+<li>
+<p>Could be difficult to parse correctly since there are 2 different separators.</p>
+</li>
+<li>
+<p>Extra work has to be done to change the ContainsKeywordsPredicate to accept AND condition.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Option 2 (current choice):</strong> Make the <code>search</code> command "stackable". Every <code>search</code> command will now only
+execute on the current view list. e.g. the result of a <code>search</code> command can be further filtered with another <code>search</code> command.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Users can intuitively make an AND search of 2 or more keywords by first searching with 1 keyword and then
+search again with another keyword, and repeat again for more keywords.</p>
+</li>
+<li>
+<p>There is no change to the input command format.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Requires multiple <code>search</code> commands to be executed for AND search.</p>
+</li>
+<li>
+<p>Have to figure out how to implement "stackable" commands.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-implement-stackable-commands"><a class="link" href="#aspect-how-to-implement-stackable-commands">Aspect: How to implement "stackable" commands?</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Option 1 (current choice):</strong> Modify the <code>ModelManager</code>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Uses the separation of concerns principle. The commands do not need to know how the item list will behave when they are executed.
+They simply need to make the relevant Application Programming Interface (API) calls and the <code>ModelManager</code> will handle the behaviour
+of the list.</p>
+</li>
+<li>
+<p>Adheres to the open-closed principle. The commands do not need to make any changes to its architecture and other commands can
+also be made "stackable" through using the API.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Have to modify the <code>ModelManager</code> 's architecture to support the API that modifies the current view list.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Option 2:</strong> Modify the commands.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Do not need to modify the API.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Violates single responsibility principle. The commands will now handle both the execution algorithm and the behaviour of the item list.</p>
+</li>
+<li>
+<p>Violates open-closed principle. The <code>Command</code> 's architecture will have to be modified to be "stackable".</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">[Proposed] Data Encryption</a></h3>
+<h3 id="search"><a class="link" href="#search">Search</a></h3>
 <div class="paragraph">
-<p><em>{Explain here how the data encryption feature will be implemented}</em></p>
+<p>&gt;&gt;&gt;&gt;&gt;&gt;&gt; 7a9c5fc271183379425342c81d2f7b0f441903f4</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="export"><a class="link" href="#export">Export</a></h3>
+<div class="paragraph">
+<p>This feature allows users to export the items in the current view list to other devices through a QR code.
+Any device with a QR code reader will be able to download the list of items.</p>
 </div>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram shows how the operation works:</p>
-</div>
-<div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
+<p>This implementation is under <code>Logic</code> and <code>Model</code> components, and it uses a helper method from <code>StringUtil</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<h4 id="implementation-2"><a class="link" href="#implementation-2">Implementation</a></h4>
+<div class="paragraph">
+<p>Below is the UML sequence diagram and a step-by-step explanation of an example usage scenario.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SequenceDiagramExport.png" alt="SequenceDiagramExport" width="790">
+</div>
+<div class="title">Figure 5. Sequence diagram illustrating the export mechanism</div>
+</div>
+<div class="paragraph">
+<p>Example usage scenario:</p>
+</div>
+<div class="paragraph">
+<p>Step 1. User enters command <code>export</code>. The command is received by the <code>LogicManager&#8217;s `execute</code> method which
+then calls the <code>getCurrentView</code> method of <code>Model</code> to determine which item list is currently being displayed, <code>XPIRE</code>
+or <code>REPLENISH</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. Depending on which item list is currently being displayed, either <code>XpireParser</code> 's or <code>ReplenishParser</code> 's <code>parse</code>
+method will be called to create a <code>ExportCommand</code> object. The <code>ExportCommand</code> object will be returned to the <code>LogicManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>LogicManager</code> then calls the returned <code>ExportCommand</code> object&#8217;s <code>execute</code> method which calls the
+<code>getCurrentList</code> method of <code>Model</code> to retrieve the list of items in the current view list.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The items in the current view list is then converted to its string representation and then passed into the <code>getQrCode</code>
+method in <code>StringUtil</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. The <code>getQrCode</code> method uses <a href="https://github.com/zxing/zxing">Google ZXing</a> library to process the input string
+into a QR code and this QR code is subsequently converted to a byte array (<code>pngData</code>) so that it can be passed around easily.</p>
+</div>
+<div class="paragraph">
+<p>Step 6. Upon successful creation of the QR code data, a <code>CommandResult</code> object will be created by <code>ExportCommand</code> to encapsulate
+a feedback message and the QR code data, which will be rendered and shown to the user. The <code>CommandResult</code> will then be returned to the <code>LogicManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following UML activity diagram will further demonstrate the high-level workflow of the <code>export</code> command.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The selection of parser and the creation of <code>ExportCommand</code> object is omitted for brevity.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityDiagramExportCommand.png" alt="ActivityDiagramExportCommand" width="790">
+</div>
+<div class="title">Figure 6. Activity diagram illustrating the high-level workflow of search command</div>
+</div>
+<div class="paragraph">
+<p>As illustrated in Figure 28, the <code>export</code> functionality also considers the case where the current view list
+is empty and there will be a feedback to the user to inform him/her that the <code>export</code> command is not executed
+successfully.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-consideration"><a class="link" href="#design-consideration">Design Consideration</a></h4>
+<div class="paragraph">
+<p>Below highlights the essential design consideration while implementing this feature.</p>
+</div>
 <div class="sect4">
-<h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">Aspect: How set reminder executes</a></h5>
+<h5 id="aspect-what-is-the-most-suitable-type-of-export-functionality-required-for-this-application"><a class="link" href="#aspect-what-is-the-most-suitable-type-of-export-functionality-required-for-this-application">Aspect: What is the most suitable type of export functionality required for this application?</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong></p>
+<p><strong>Option 1:</strong> Export to a csv file.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Easily transferable and shared to other computers.</p>
 </li>
 <li>
-<p>Cons:</p>
+<p>Easily allows user to edit the exported data.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong></p>
+<p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Does not work well on other platforms such as mobile phones and iPads.</p>
+</li>
+<li>
+<p>Slow to transfer the data to other computers. Have manually transfer the
+csv file through email, thumb drive or cloud drive.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Option 2 (current choice):</strong> Export through QR code.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Allows data to be easily transferred to any device with QR code scanner.</p>
+</li>
+<li>
+<p>Instantaneous data transfer upon scanning the QR code.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>Cons:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Hard to be shared to other computers since computers generally do not have QR code scanner.</p>
+</li>
+<li>
+<p>Focuses more on ready-only rather than editing the data.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Since Xpire is an application that helps users keep track of items' expiry dates as well as
+maintain a list of to-buy items for users' reference, its exported data should focus more on
+conveniently showing users the items' information rather than emphasise on editing the data.</p>
+</div>
+<div class="paragraph">
+<p>As such, due to the nature of this application, option 2 was chosen since it can precisely meet
+the needs of the users, which is to be able to easily view the exported data anywhere and anytime
+through their mobile phones.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">Spelling correction with alternative recommendations</a></h3>
+<div class="sect3">
+<h4 id="implementation-3"><a class="link" href="#implementation-3">Implementation</a></h4>
+<div class="paragraph">
+<p>Invalid commands are checked for spelling mistakes.
+The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
+This distance is based on the number of substitutions, deletions, insertions or transpositions of characters, needed to convert the source string into the target string.
+Relevant functions supporting this operation are implemented in <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/tree/master/src/main/java/io/xpire/commons/util/StringUtil.java"><code>StringUtil</code></a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only keywords with edit distance of less than 2 are recommended, to filter away less similar word recommendations.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The diagram below is a simplified illustration of how the feature works.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendationsExample1.png" alt="RecommendationsExample1">
+</div>
+<div class="title">Figure 7. Example showing what happens when "search|applee" is executed with "apple" misspelled</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The recommendations will be made solely based on the list of items previously displayed rather than all items currently in the list.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>As shown in the diagram below, <code>Banana</code> was not recommended even though it exists in the original list. This is because it had been filtered from the previous list prior to when the second search command was executed.
+On the other hand, if <code>green</code> was misspelled as <code>gren</code>, the algorithm will be able to identify <code>green</code> as the closest match, as <code>Green Apple</code> is present in the previous list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendationsExample2.png" alt="RecommendationsExample2">
+</div>
+<div class="title">Figure 8. Example illustrating that recommendations are solely based on the previous list</div>
+</div>
+<div class="paragraph">
+<p>The figure below depicts the flow of events that check for spelling errors when a user executes an unknown command.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendUnknownCommandActivityDiagram.png" alt="RecommendUnknownCommandActivityDiagram">
+</div>
+<div class="title">Figure 9. Activity diagram showing what happens when an unknown command is executed</div>
+</div>
+<div class="paragraph">
+<p>For example, if <code>set reminder</code> was input incorrectly as <code>set remindre</code>, it will be flagged as an invalid command.
+It is then compared with an collection of all possible command words in the existing list. <code>set reminder</code> will be established
+as its closest match and wrapped as a recommendation in a <code>ParseException</code> object to be thrown and displayed to the user.</p>
+</div>
+<div class="paragraph">
+<p>The figure below presents what happens when a user executes a command with invalid arguments.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendCommandArgumentsActivityDiagram.png" alt="RecommendCommandArgumentsActivityDiagram">
+</div>
+<div class="title">Figure 10. Activity diagram showing what happens when a command is executed with misspelled arguments</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only search and sort commands support this operation.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the example below encapsulated in a sequence diagram, the user has misspelled <code>"date"</code> as <code>"dat"</code> in a sort command.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/RecommendationsSortSequenceDiagram.png" alt="RecommendationsSortSequenceDiagram">
+</div>
+<div class="title">Figure 11. Sequence diagram illustrating the recommendations mechanism for command <code>sort|dat</code></div>
+</div>
+<div class="paragraph">
+<p>The sequence diagram titled <code>find similar words</code> below expands on the process omitted above.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/FindSimilarSequenceDiagram.png" alt="FindSimilarSequenceDiagram">
+</div>
+<div class="title">Figure 12. Sequence diagram showing how <code>"date"</code> is found to be the most similar word to <code>"dat"</code></div>
+</div>
+<div class="paragraph">
+<p>The function <code>findSimilar</code> in <code>StringUtil</code> is called upon to return a set containing strings that are most similar to the misspelled argument, <code>"dat"</code>.
+In this process, <code>"dat"</code> is compared with a set of valid inputs, i.e. both <code>"name"</code> and <code>"date"</code>, and the corresponding edit distances are stored.
+<code>getSuggestions("dat")</code> then filters the results and finds <code>"date"</code> to be the best match.</p>
+</div>
+<div class="paragraph">
+<p>At last, a <code>ParseException</code> which contains the recommendation <code>"date"</code>
+is then thrown to the user as feedback.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
+<div class="paragraph">
+<p>When tasked to implement this feature, I had to decide on what was the best way to display any form of recommendations to the user.
+I also evaluated multiple options to derive an optimal data structure to store the recommendations. The following is a brief summary of my analysis and decisions.</p>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">Aspect: How recommendations execute</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Displays recommendations after the user inputs a command that fails to produce results.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Simpler and straightforward implementation.</p>
+</li>
+<li>
+<p>Cons: May be less intuitive to the user as opposed to auto-completed commands.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Auto-completion of commands.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Lowers likelihood of spelling mistakes in user input.</p>
+</li>
+<li>
+<p>Cons: We must ensure that the structure of every single command and their variations are taken into consideration.</p>
 </li>
 </ul>
 </div>
@@ -339,38 +860,1686 @@ Reduces the quantity of the 4th item by 1.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect"><a class="link" href="#aspect">Aspect:</a></h5>
+<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">Aspect: Data structure to store the recommendations</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong></p>
+<p><strong>Alternative 1 (current choice):</strong> Use a TreeMap to store entries that comprise a set of recommendations and their corresponding edit distance.</p>
 <div class="ulist">
 <ul>
 <li>
+<p>Pros: Entries are automatically sorted by their edit distance, thus words with a smaller edit distance will be recommended first. Duplicate entries are also prohibited.</p>
+</li>
+<li>
+<p>Cons: May have performance issues in terms of memory usage.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Store all possible recommendations in a long list.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Simpler implementation.</p>
+</li>
+<li>
+<p>Cons: Not closely related words may also be recommended to the user.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="user-interface-design"><a class="link" href="#user-interface-design">User Interface Design</a></h3>
+<div class="paragraph">
+<p>The UI contains two panels that change according to the items in the <code>XpireItemList</code> and <code>ReplenishList</code>. However, these
+UI components are not able to update by listening to changes in these <code>ObservableLists</code>. This is because both lists are
+sorted and thus all items in the lists will be modified each time a <code>sort</code>, <code>add</code>, <code>delete</code>, <code>tag</code> or other commands that modify the lists
+are executed, causing the listener in the API to catch unwanted changes. Instead, the lists are passed as parameters to the
+UI classes through <code>MainWindow</code> and rendered each time a command is executed.</p>
+</div>
+<div class="paragraph">
+<p>As as an example of how the UI were implemented, we will examine the implementation of <code>ViewPanel</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="the-view-panel"><a class="link" href="#the-view-panel">The View Panel</a></h4>
+<div class="paragraph">
+<p><code>ViewPanel</code> is a container for many <code>ItemCards</code>, each carrying information about the items.<br>
+Given below are the steps of an example scenario of how <code>ViewPanel</code> is constructed and updated:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The User launches the application and the <code>MainWindow</code> creates a new <code>ViewPanelPlaceholder</code> container that hosts the <code>ViewPanel</code>.</p>
+</li>
+<li>
+<p><code>MainWindow</code> calls <code>Logic</code> which in turn calls <code>Model</code> to obtain a current active list through <code>getCurrentFilteredItemList()</code>.
+Depending on the user&#8217;s current list in view, it will either be an <code>XpireItemList</code> or <code>ReplenishList</code>.</p>
+</li>
+<li>
+<p>On starting of the GUI, <code>MainWindow</code> makes a call to <code>fillInnerParts()</code> , where the <code>MainWindow</code> passes the list as parameters to the constructor of the <code>ViewPanel</code>.</p>
+</li>
+<li>
+<p><code>ViewPanel</code> makes a call to <code>displayItems(ObservableList)</code> and constructs a Collection of <code>ItemCard</code> by mapping each <code>XpireItem</code> or <code>Item</code>
+to an <code>ItemCard</code> .
+.<code>ItemCard</code> takes as parameters the item and its index in the list. It renders all fields of an <code>XpireItem</code> and <code>Item</code> and also
+dose an additional check on the condition of the <code>XpireItem</code> and assign it to different colours respectively through <code>setColour()</code>.</p>
+</li>
+<li>
+<p>The app then starts.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s now see what happens when a command is executed.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the command is a <code>help</code>, <code>exit</code> of <code>export</code>, the <code>ViewPanel</code> will not be updated and refreshed.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In <code>MainWindow</code>, a call to <code>executeCommand(String)</code> is made, where <code>Logic</code> will executes the command.</p>
+</li>
+<li>
+<p>Upon a successful execution, a call to <code>updateViewPanel()</code> is made. In this method the <code>ViewPanel</code> then calls <code>displayItems(ObservableList)</code> again to rerender the items.</p>
+</li>
+<li>
+<p><code>displayItems</code> will first have to clear all child Nodes that the <code>ViewPanel</code> contains before adding a new Collection of <code>ItemCard</code>.</p>
+</li>
+<li>
+<p><code>ViewPanelPlaceholder</code> will then have to remove the <code>ViewPanel</code> child and add the new one to allow the changes to be reflected in the GUI.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You can refer to the activity diagram below for reference.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/UpdateViewPanelActivityDiagram.png" alt="UpdateViewPanelActivityDiagram">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the execution by <code>Logic</code> is not successful, an error will be thrown and the <code>ViewPanel</code> will not be updated and refreshed.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="logging"><a class="link" href="#logging">Logging</a></h3>
+<div class="paragraph">
+<p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Configuration</a>)</p>
+</li>
+<li>
+<p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
+</li>
+<li>
+<p>Currently log messages are output through: <code>Console</code> and to a <code>.log</code> file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Logging Levels</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SEVERE</code> : Critical problem detected which may possibly cause the termination of the application</p>
+</li>
+<li>
+<p><code>WARNING</code> : Can continue, but with caution</p>
+</li>
+<li>
+<p><code>INFO</code> : Information showing the noteworthy actions by the App</p>
+</li>
+<li>
+<p><code>FINE</code> : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">Configuration</a></h3>
+<div class="paragraph">
+<p>Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: <code>config.json</code>).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="documentation"><a class="link" href="#documentation">Documentation</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Refer to the guide <a href="Documentation.html">here</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="testing"><a class="link" href="#testing">Testing</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Refer to the guide <a href="Testing.html">here</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dev-ops"><a class="link" href="#dev-ops">Dev Ops</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="build-automation"><a class="link" href="#build-automation">Build Automation</a></h3>
+<div class="paragraph">
+<p>We use Gradle for build automation. See <a href="UsingGradle.html">here</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="continuous-integration"><a class="link" href="#continuous-integration">Continuous Integration</a></h3>
+<div class="paragraph">
+<p>We use <a href="https://travis-ci.org/">Travis CI</a> to perform <em>Continuous Integration</em> on our project. See <a href="UsingTravis.html">here</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="documentation-previews"><a class="link" href="#documentation-previews">Documentation Previews</a></h3>
+<div class="paragraph">
+<p>We use <a href="https://www.netlify.com/">Netlify</a> to preview the HTML pages of any modified asciidocs files when reviewing pull requests. See <a href="UsingNetlify.html">here</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="making-a-release"><a class="link" href="#making-a-release">Making a Release</a></h3>
+<div class="paragraph">
+<p>Follow the steps below to make a new release:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Update the version number in <a href="{repoURL}/src/main/java/io/xpire/MainApp.java"><code>MainApp.java</code></a>.</p>
+</li>
+<li>
+<p>Generate a JAR file <a href="UsingGradle.html#creating-the-jar-file">using Gradle</a>.</p>
+</li>
+<li>
+<p>Tag the repo with the version number. e.g. <code>v1.4</code></p>
+</li>
+<li>
+<p><a href="https://help.github.com/articles/creating-releases/">Create a new release using GitHub</a> and upload the JAR file you have created.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="managing-dependencies"><a class="link" href="#managing-dependencies">Managing Dependencies</a></h3>
+<div class="paragraph">
+<p>Xpire often depends on third-party libraries. For instance, the <a href="https://github.com/FasterXML/jackson">Jackson library</a> is being used for JSON parsing in Xpire. Below are 2 ways to manage these <em>dependencies</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use Gradle to manage and automatically download dependencies (Recommended).</p>
+</li>
+<li>
+<p>Manually download and include those libraries in the repo (this requires extra work and bloats the repo size).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="product-scope"><a class="link" href="#product-scope">Appendix A: Product Scope</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Target user profile</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Has a preference for command-line interfaces (CLI)</p>
+</li>
+<li>
+<p>Able to type fast</p>
+</li>
+<li>
+<p>Has a need to track the expiry dates of numerous items</p>
+</li>
+<li>
+<p>Prefers desktop applications over other forms</p>
+</li>
+<li>
+<p>Prefers typing over mouse input</p>
+</li>
+<li>
+<p>Wants to be able to search up an item’s expiry date quickly</p>
+</li>
+<li>
+<p>Has a need for items to be tagged appropriately</p>
+</li>
+<li>
+<p>Needs items to be organised into what has not expired and what to buy/replenish</p>
+</li>
+<li>
+<p>Wants to be notified of items that are soon expiring or has expired</p>
+</li>
+<li>
+<p>Tech-savvy and familiar with CLI</p>
+</li>
+<li>
+<p>Requires an app to check what items are about to expire for a particular recipe [v2.0]</p>
+</li>
+<li>
+<p>Wants to save recipes in a convenient format [v2.0]</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Value proposition</strong>: manage tracking of items' expiry dates faster than a typical mouse/GUI driven app</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="user-stories"><a class="link" href="#user-stories">Appendix B: User Stories</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Priorities: High (must have) - <code>* * *</code>, Medium (nice to have) - <code>* *</code>, Low (unlikely to have) - <code>*</code></p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 59%;">
+<colgroup>
+<col style="width: 22.7722%;">
+<col style="width: 22.7722%;">
+<col style="width: 24.7524%;">
+<col style="width: 29.7032%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Priority</th>
+<th class="tableblock halign-left valign-top">As a &#8230;&#8203;</th>
+<th class="tableblock halign-left valign-top">I want to &#8230;&#8203;</th>
+<th class="tableblock halign-left valign-top">So that I &#8230;&#8203;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see usage instructions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can refer to instructions when I forget how to use the application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input the names of items</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input the expiry dates of items</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">save the list of items I am tracking</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can come back to it after closing the application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view the list of things I am tracking</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">know which items are expiring soon</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">add items to the tracking list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">am able to track new items</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">delete items from the tracking list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can remove items that I do not need to track anymore</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exit from the application</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">do not have to be on the application all the time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">be reminded of items that are expiring soon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can use them before they expire or prepare to replenish them</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view the list of expired things that are to be replenished</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">know what to replenish</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sort my items according to name or date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can find my items more easily</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">search up my items by their tags or names</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can find my items more easily</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set quantity of my items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can take note of items that are soon running out or need using before the expiry date</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">input description of items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can write small notes or annotate about the item</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">search items and delete</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can delete an item easily without having to remember their ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">undo my previous command</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can return to the previous state/list if I have accidentally executed a command I do not want</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tag items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">categorise and organise them better</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">edit items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can update their details easily when I need to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">filter items by expiry date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can check what items are expiring before a certain date</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view a summary of items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can quickly scan through all items (tracked and to-buy) to see what have been added to each list</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">import tracking list into phone via QR Code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can remind my other friends when their items are expiring</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">track items and their quantity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">know what items have run out and need replenishing</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><em>{More to be added}</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="use-cases"><a class="link" href="#use-cases">Appendix C: Use Cases</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>(For all use cases below, the <strong>System</strong> is <code>Xpire</code> and the <strong>Actor</strong> is the <code>user</code>, unless specified otherwise. Additionally, any references made to the <code>list</code> refers to the tracking list, unless specific otherwise.)</p>
+</div>
+<h3 id="use-case-uc01-add-item" class="discrete">Use case: UC01 - Add item</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to add an item to the list.</p>
+</li>
+<li>
+<p>Xpire adds the item.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a. Xpire detects an error in the input.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a1. Xpire shows an error message.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-uc02-delete-item" class="discrete">Use case: UC02 - Delete item</h3>
+<div class="paragraph">
+<p>Precondition: Display board is showing a list of items.</p>
+</div>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to delete a specific item in the list.</p>
+</li>
+<li>
+<p>Xpire deletes the item.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a. The given index is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a1. Xpire shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 1.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-uc03-search-item-s" class="discrete">Use case: UC03 - Search item(s)</h3>
+<div class="paragraph">
+<p>Precondition: Display board is showing a list of items.</p>
+</div>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to search for specific item(s) in the list.</p>
+</li>
+<li>
+<p>Xpire shows the searched item(s).</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a. The given keyword(s) has no matching results.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a1. Xpire shows an empty list.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-uc04-clear-list" class="discrete">Use case: UC04 - Clear list</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User <u>views all items in the list (UC05)</u>.</p>
+</li>
+<li>
+<p>User requests to clear the list.</p>
+</li>
+<li>
+<p>Xpire removes all items from the list.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<h3 id="use-case-uc05-view-all-items" class="discrete">Use case: UC05 - View all items</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to view all items in the list.</p>
+</li>
+<li>
+<p>Xpire shows the full list of items.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<h3 id="use-case-uc06-view-help" class="discrete">Use case: UC06 - View help</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests for help.</p>
+</li>
+<li>
+<p>Xpire shows the help messages.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<h3 id="use-case-uc07-terminate-xpire" class="discrete">Use case: UC07 - Terminate Xpire</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to exit the program.</p>
+</li>
+<li>
+<p>Xpire closes.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<h3 id="use-case-uc08-check-for-expiring-items" class="discrete">Use case: UC08 - Check for expiring items</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to view list of expiring items.</p>
+</li>
+<li>
+<p>Xpire shows list of expiring items.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a. The list is empty</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a1. Xpire shows an empty list.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-uc09-tag-item" class="discrete">Use case: UC09 - Tag item</h3>
+<div class="paragraph">
+<p>Precondition: Display board is showing a list of items.</p>
+</div>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to tag an item in the list.</p>
+</li>
+<li>
+<p>Xpire tags the item.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a. The given index is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a1. Xpire shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 1.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-uc10-sort-items" class="discrete">Use case: UC10 - Sort items</h3>
+<div class="paragraph">
+<p>Precondition: Display board is showing a list of items.</p>
+</div>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to sort the items.</p>
+</li>
+<li>
+<p>Xpire sorts the items in the list.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><em>{More to be added}</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="non-functional-requirements"><a class="link" href="#non-functional-requirements">Appendix D: Non Functional Requirements</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Accessibility</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The app shall be accessible by people who have downloaded the JAR file.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Availability</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The app shall be available once it is started up and running.</p>
+</li>
+<li>
+<p>Reminders shall only be available on the app.</p>
+</li>
+<li>
+<p>Reminders shall only be available after the app is started.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Efficiency</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The app should start up within 5 seconds.</p>
+</li>
+<li>
+<p>The response to any user action should become visible within 5 seconds.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Performance</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The app list should be able to hold up to 200 items without a noticeable sluggishness in performance for typical usage.</p>
+</li>
+<li>
+<p>The app should be able to sort up to 200 items without any sags in performance.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reliability</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The app shall only accept and process user actions written in the correct format.</p>
+</li>
+<li>
+<p>The app shall throw appropriate exceptions when any user action is in an invalid format.</p>
+</li>
+<li>
+<p>The app shall throw appropriate exceptions when any user action fails to be processed.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Integrity</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The precision of calculations with derived data shall be at the same degree of precision as the originating source data.</p>
+</li>
+<li>
+<p>All dates entered will be parsed accurately as to the original date format.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Product Scope</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The product is not required to handle items without expiry dates.</p>
+</li>
+<li>
+<p>The product is not required to handle items without names.</p>
+</li>
+<li>
+<p>The product is not required to produce reminders when the app is inactive.</p>
+</li>
+<li>
+<p>The product is not required to handle intentionally corrupted json files.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Usability</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.</p>
+</li>
+<li>
+<p>The user interface should be self-explanatory and intuitive enough for first-time users or users who are not IT-savvy.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Maintainability</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A development programmer who has at least one year of experience supporting this software application shall be able to add a new product feature, including source code modifications and testing, with no more than two days of labour.</p>
+</li>
+<li>
+<p>The app code base shall be easy to read and interpret by a developer with at least one year of experience.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Modifiability</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Function calls shall not be nested more than two levels deep.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Installability</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The installation process shall be convenient. The application shall be downloaded as a JAR file from the newest tagged release.</p>
+</li>
+<li>
+<p>The software shall be installed from Github, a popular portable medium.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Interoperability</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Should work on any <a href="#mainstream-os">mainstream OS</a> as long as it has Java <code>11</code> or above installed.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><em>{More to be added}</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="glossary"><a class="link" href="#glossary">Appendix E: Glossary</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 22%;">
+<col style="width: 78%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Command</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Executes user input in the application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CommandBox</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI component that takes in user input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ResultDisplay</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI component that displays the feedback to the user</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FXML</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">XML-based user interface markup language for defining user interface of a JaxaFX application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ItemCard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI component that displays information on an item</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ViewPanel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI component that displays list of items</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AllItemsPanel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI component that displays list of all items in an expandable list</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaFX</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Software platform for creating and delivering desktop applications and rich Internet applications</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSON</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An open-standard file format that uses human-readable text to transmit data objects consisting of attribute–value pairs and array data types</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Handles user input for the application and returns the application&#8217;s output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MainWindow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides the basic application layout containing a menu bar and space where other JavaFX elements can be placed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Model</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents data in the expiry date tracker and exposes immutable items list</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parser</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Converts user input into a Command object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ReadOnlyListView</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides an unmodifiable view of a list</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ReminderThreshold</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of days user wants to be reminded before item expiry date</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ReplenishList</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List that contains items that are to be replenished</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SceneBuilder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Visual layout tool that allows developers to design JavaFX application user interfaces</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SortedUniqueList</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of items that enforces uniqueness between elements and disallows nulls</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Storage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manages data in the expiry date tracker in local storage</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><a id="mainstream-os"></a> Mainstream OS</dt>
+<dd>
+<p>Windows, Linux, Unix, OS-X</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="product-survey"><a class="link" href="#product-survey">Appendix F: Product Survey</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong><u>Fridgely</u></strong></p>
+</div>
+<div class="paragraph">
+<p>Author: Justin Ehlert</p>
+</div>
+<div class="paragraph">
 <p>Pros:</p>
-</li>
-<li>
-<p>Cons:</p>
-</li>
-</ul>
 </div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros:</p>
+<p>Able to sync with multiple devices.</p>
 </li>
 <li>
+<p>Has barcode scanner to automatically add item.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
 <p>Cons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Cannot efficiently change the location tag of the item. To change the location tag, user has to manually recreate the same item with another tag and delete the current item.</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p><strong><u>Expiry Date Tracker Lite</u></strong></p>
+</div>
+<div class="paragraph">
+<p>Author: Lalit Kumar Verma</p>
+</div>
+<div class="paragraph">
+<p>Pros:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Has the option to use it in multiple languages.</p>
+</li>
+<li>
+<p>Provides a summary view of "expiring" and "expired" items.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Cons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Forces user to take photo of every item while adding to the list.</p>
 </li>
 </ul>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="instructions-for-manual-testing"><a class="link" href="#instructions-for-manual-testing">Appendix G: Instructions for Manual Testing</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Given below are instructions to test the app manually.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+These instructions only provide a starting point for testers to work on; testers are expected to do more <em>exploratory</em> testing.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="launch-and-shutdown"><a class="link" href="#launch-and-shutdown">Launch and Shutdown</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initial launch</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Download the jar file and copy into an empty folder</p>
+</li>
+<li>
+<p>In the home folder for Xpire, launch the jar file using the <code>java -jar xpire.jar</code> command on<br>
+Terminal (for macOs) or Command Prompt (for Windows) to start the app.<br>
+   Expected: Shows the GUI with a set of sample items. The window size may not be optimum.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Saving window preferences</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Resize the window to an optimum size. Move the window to a different location. Close the window.</p>
+</li>
+<li>
+<p>Re-launch the app by using the <code>java -jar xpire.jar</code> command.<br>
+Expected: The most recent window size and location is retained.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="command-box"><a class="link" href="#command-box">Command Box</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Input length limit</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>add|an item with a very long name that will be rejected|09/09/2020|100</code><br>
+Expected: Input is truncated to <code>add|an item with a very long name that will be rejected|09/0</code> and turns red.<br>
+Feedback to user that the maximum length of input cannot exceed 60 characters.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Retrieving previous commands</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Some command have been entered by pressing <kbd>enter</kbd>, and the tester is not already at the least recent command.</p>
+</li>
+<li>
+<p>Test case: <kbd>↑</kbd><br>
+Expected: Previously entered command is retrieved into the Command Box.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Retrieving later commands</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The tester has retrieved at least one previous commands and nothing has been entered since the retrieval.</p>
+</li>
+<li>
+<p>Test case: <kbd>↓</kbd><br>
+Expected: A command that had been entered after the current retrieved command is retrieved into he Command Box.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="all-items-panel"><a class="link" href="#all-items-panel">All Items Panel</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Updating the All Items Panel</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list.</p>
+</li>
+<li>
+<p>Test case: <code>add|apple|09/09/2020</code><br>
+Expected: All Items Panel should be updated to display the item under "tracking items".</p>
+</li>
+<li>
+<p>Test case: <code>search|b</code><br>
+Expected: All Items Panel should not be updated.</p>
+</li>
+<li>
+<p>Test case: <code>shift|1</code><br>
+Expected: Item with index 1 is shifted from "tracking items" to "to-buy items".</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="view-panel"><a class="link" href="#view-panel">View Panel</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Updating the colour of <code>ItemCard</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view in the main list and the first item in <code>View</code> has not expired. It should not have a reminder and should be expiring in less than 1000 days.</p>
+</li>
+<li>
+<p>Test case: Follow the instructions under <a href="#adding-expired-items-to-the-tracking-list-for-testing">Adding expired items to the tracking list for testing</a> to add expired items to the Xpire. Do not
+add any reminder threshold.<br>
+  Expected: The expired items are marked as red; not expired items are green.</p>
+</li>
+<li>
+<p>Test case: <code>set reminder|1|1000</code><br>
+Expected: the first item turns yellow.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="viewing-items"><a class="link" href="#viewing-items">Viewing items</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Viewing items in the replenish list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>view|replenish</code><br>
+Expected: All items in the replenish list are displayed.</p>
+</li>
+<li>
+<p>Test case: <code>view|replenihs</code><br>
+Expected:  No change in the display of items. The term <code>replenish</code> is given as a suggestion in the error message.</p>
+</li>
+<li>
+<p>Test case: <code>view|REPLENISH</code><br>
+Expected: Similar to previous.</p>
+</li>
+<li>
+<p>Test case: <code>view|something</code><br>
+Expected: No change in the display of items. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Other incorrect sort commands to try: , <code>view|3000</code>, <code>view|xyz</code> (where xyz is any garbage input) <br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Viewing items in the main tracking list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>view|main</code><br>
+Expected: All items in the main list are displayed.</p>
+</li>
+<li>
+<p>Test case: <code>view|mainn</code><br>
+Expected:  No change in the display of items. The term <code>main</code> is given as a suggestion in the error message.</p>
+</li>
+<li>
+<p>Test case: <code>view|something</code><br>
+Expected: No change in the order of items. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Other incorrect view commands to try: <code>view|-1</code>, view|xyz` (where xyz is any garbage input)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Viewing items in the current list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>view</code><br>
+Expected: All items in the current list are displayed.</p>
+</li>
+<li>
+<p>Test case: <code>viwe</code><br>
+Expected: <code>view</code> is given as a recommendation in the error message.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-expired-items-to-the-tracking-list-for-testing"><a class="link" href="#adding-expired-items-to-the-tracking-list-for-testing">Adding expired items to the tracking list for testing</a></h3>
+<div class="paragraph">
+<p>Xpire automatically tags items as <code>Expired</code> in the tracking list once an item&#8217;s expiry date has passed, as seen in the diagram below. See <a href="#Replenish List">[Replenish List]</a> for details.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/xpire_json_file.png" alt="xpire json file">
+</div>
+<div class="title">Figure 13. Expiry date should be updated to one that has passed to test for expired items in Xpire.</div>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>By design, our app does not accept items that have expired unless the json file is tampered with.</p>
+</li>
+<li>
+<p>To add an expired item to the tracking list, open the xpire.json file in an editor. Under <code>"xpireItems"</code>, add a new JSON object with values for <code>name</code>, <code>expiryDate</code>, <code>quantity</code>, <code>reminderThreshold</code> and <code>tags</code>.</p>
+</li>
+<li>
+<p>The expiry date should be a date that is before the current date of testing. The reminder threshold should be a non-negative integer and quantity should be a positive integer.</p>
+</li>
+<li>
+<p>Compute the reminder date by subtracting the reminder threshold from the expiry date. The reminder date should not be before 1/10/2019.</p>
+</li>
+<li>
+<p>The format to follow for adding an item can be seen within the box outline:</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/json_format_example.png" alt="json format example">
+</div>
+<div class="title">Figure 14. Format to follow for adding an XpireItem manually to xpire.json file</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/json_example.png" alt="json example">
+</div>
+<div class="title">Figure 15. Example of a valid XpireItem manually added to xpire.json file</div>
+</div>
+<div class="paragraph">
+<p>An item with <code>name</code> Jelly and <code>expiryDate</code> 24/6/2019 (which has passed) is now added to the json file for your testing.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Remember to enclose these name-value items with <code>{</code> and <code>}</code>.
+Do note that if you manually tamper with the xpire.json file, the data file might be corrupted.
+See <a href="#saving-data">Saving data</a> on details for corrupted files.
+For more information about JSON objects, please refer to <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-json">this tutorial</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-an-item-2"><a class="link" href="#deleting-an-item-2">Deleting an item</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deleting an item in either list while all items are listed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all items using the <code>view</code> command. Multiple items in the list. The item to be deleted must exist
+in the list.</p>
+</li>
+<li>
+<p>Test case: <code>delete|1</code><br>
+Expected: First item is deleted from the list. Details of the deleted item shown in the status message.</p>
+</li>
+<li>
+<p>Test case: <code>delete|0</code><br>
+Expected: No item is deleted. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Other incorrect delete commands to try: <code>delete</code>, <code>delete|x</code> (where x is larger than the list size)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Deleting an item quantity in the main tracking list while all items are listed</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The examples given below acts according to the following list:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/delete_example_list.png" alt="delete example list">
+</div>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Input quantity to be deleted must be less than or equals to the item quantity.</p>
+</li>
+<li>
+<p>Test case <code>delete|2|1</code><br>
+Expected: Second item from the list has quantity reduced by 1. The new updated quantity is reflected in the item card.
+Details of the item with reduced quantity is reflected in the status message.</p>
+</li>
+<li>
+<p>Test case <code>delete|2|3</code><br>
+Expected: Second item from the list has quantity reduced by 3. The item is shifted to the replenish list.
+Details of this shift is reflected in the status message.</p>
+</li>
+<li>
+<p>Test case <code>delete|2|0</code><br>
+Expected: Quantity is not reduced. Error details showed in the status message.</p>
+</li>
+<li>
+<p>Other incorrect delete commands to try: <code>delete</code>, <code>delete|x</code> (where x is larger than the item&#8217;s quantity)<br>
+Expected: Similar to previous.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deleting an item quantity in the replenish list while all items are listed</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Prerequisites: Input quantity to be deleted must be less than or equals to the item quantity.</p>
+</li>
+<li>
+<p>Test case <code>delete|2|1</code><br>
+   Expected: Second item from the list has quantity reduced by 1. The new updated quantity is reflected in the item card.
+Details of the item with reduced quantity is reflected in the status message.</p>
+</li>
+<li>
+<p>Test case <code>delete|2|3</code><br>
+   Expected: Second item from the list has quantity reduced by 3. The item is shifted to the replenish list.
+Details of this shift is reflected in the status message.</p>
+</li>
+<li>
+<p>Test case <code>delete|2|0</code><br>
+Expected: Quantity is not reduced. Error details showed in the status message.</p>
+</li>
+<li>
+<p>Other incorrect delete commands to try: <code>delete</code>, <code>delete|x</code> (where x is larger than the item&#8217;s quantity)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tagging-an-item"><a class="link" href="#tagging-an-item">Tagging an item</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tagging items in either list while all items are listed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all items using the <code>view</code> command. Multiple items in the list. The item to be tagged must have less than
+5 existing tags.</p>
+</li>
+<li>
+<p>Test case: <code>tag|1|#fruit</code><br>
+Expected: The first item in the list will be tagged with #Fruit.</p>
+</li>
+<li>
+<p>Other incorrect tagging commands to try: <code>tag|0</code>, <code>tag|x</code><br>
+Expected: No item is tagged. Error details shown in the status message.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setting-a-reminder-for-an-item"><a class="link" href="#setting-a-reminder-for-an-item">Setting a reminder for an item</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Setting a reminder for an item</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list. The target item should have at least 6 days before its expiry date.</p>
+</li>
+<li>
+<p>Test case <code>set reminder|1|5</code><br>
+Expected: First item from the list shows a reminder date which is 5 days before its expiry date.<br>
+Feedback shows reminder is set successfully.</p>
+</li>
+<li>
+<p>Test case <code>set reminder|1|-5</code><br>
+Expected: Reminder not set. Feedback shows error details.</p>
+</li>
+<li>
+<p>Test case <code>set reminder|1|365000</code><br>
+Expected: Reminder not set. Feedback shows error details.</p>
+</li>
+<li>
+<p>Other incorrect set reminder commands to try: <code>set reminder|</code>, <code>set reminder|0</code><br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Removing a reminder for an item</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list. The target item should not be expired and has a reminder.</p>
+</li>
+<li>
+<p>Test case <code>set reminder|1|0</code><br>
+Expected: First item&#8217;s reminder date is removed from its item card.<br>
+Feedback shows reminder is removed successfully.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="filtering-items-based-on-its-expiry-date-and-status"><a class="link" href="#filtering-items-based-on-its-expiry-date-and-status">Filtering items based on its expiry date and status</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Find items expiring in a specific number of days</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list. The list contains at least one expired item. The items you wish to check also must have either already expired or have reminders
+set for them previously.</p>
+</li>
+<li>
+<p>Test case: <code>check</code><br>
+Expected: Items that are expiring soon or have already expired are listed.</p>
+</li>
+<li>
+<p>Test case <code>check|0</code><br>
+Expected: Expired items are displayed in the <code>View</code> (items in red).<br>
+Feedback shows listing of items expiring in 0 day.</p>
+</li>
+<li>
+<p>Test case <code>check|20</code><br>
+Expected: Items expiring in 20 days are displayed in the <code>View</code>.<br>
+Feedback shows listing of items expiring in 20 days.</p>
+</li>
+<li>
+<p>Other incorrect set reminder commands to try: <code>check|2000000</code><br>
+Expected: No change in the display of items. Error details shown in the status message.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Find all expired items and items whose reminder date has been reached (items in yellow)</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list. The list contains at least one expired item or item with active reminder.</p>
+</li>
+<li>
+<p>Test case <code>check</code><br>
+Expected: Expired items and items with active reminder in the <code>View</code> (items in red or yellow).<br>
+Feedback shows listing of expired items and items whose reminder has been activated.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sorting-items"><a class="link" href="#sorting-items">Sorting items</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Sorting items by their name</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all items using the <code>view</code> command. Multiple items in the list.</p>
+</li>
+<li>
+<p>Test case: <code>sort|name</code><br>
+Expected: The current item list is sorted with respect to their names in lexicographical order.</p>
+</li>
+<li>
+<p>Test case: <code>sort|naem</code><br>
+Expected:  No change in the order of items. The term <code>name</code> is given as a suggestion in the error message.</p>
+</li>
+<li>
+<p>Test case: <code>sort|NAME</code><br>
+Expected: Similar to previous.</p>
+</li>
+<li>
+<p>Test case: <code>sort|something</code><br>
+Expected: No change in the order of items. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Other incorrect sort commands to try: <code>sort|0</code>, <code>sort|xyz</code> (where xyz is any garbage input)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Sorting items by their date</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all items using the <code>view</code> command. Multiple items in the list.</p>
+</li>
+<li>
+<p>Test case: <code>sort|date</code><br>
+Expected: The current item list is sorted with respect to their dates in chronological order.</p>
+</li>
+<li>
+<p>Test case: <code>sort|datee</code><br>
+Expected:  No change in the order of items. The term <code>date</code> is given as a suggestion in the error message.</p>
+</li>
+<li>
+<p>Test case: <code>sort|DATE</code><br>
+Expected: Similar to previous.</p>
+</li>
+<li>
+<p>Test case: <code>sort|something</code><br>
+Expected: No change in the order of items. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Other incorrect sort commands to try: <code>sort|</code>, <code>sort|xyz</code> (where xyz is any garbage input)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="saving-data"><a class="link" href="#saving-data">Saving data</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Dealing with missing/corrupted data files</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Corrupted data files will be deleted. A new json file without any items will be used.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -383,4 +2552,4 @@ Reduces the quantity of the 4th item by 1.</p>
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:55:06 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:58:10 UTC</div></div></div></body></html>
