@@ -527,20 +527,20 @@ On the other hand, `ModifiedState` is created with commands that alters the item
 
 ===== Aspect: How undo & redo executes
 
-* **Alternative 1 (current choice):** Saves and clones the entire model.
+* **Option 1 (current choice):** Saves and clones the entire model.
 ** Pros: Easy to implement.
 ** Cons: May have performance issues in terms of memory usage, need to have a limit for the amount of states that we can save.
-* **Alternative 2:** Individual command knows how to undo/redo by itself.
+* **Option 2:** Individual command knows how to undo/redo by itself.
 ** Pros: Will use less memory (e.g. for `DeleteCommand`, just save the item being deleted and apply the corresponding reverse command which is and `AddCommand`).
 ** Cons: Ensure that the implementation of each individual command are correct. +
 Hard to do when applying stackable `SearchCommand` and `SortCommand` as the `predicate` and XpireMethodOfSorting needs to be updated properly.
 
 ===== Aspect: Data structure to support the undo/redo commands
 
-* **Alternative 1 (current choice):** Use a stack to store the different commands and states.
+* **Optional 1 (current choice):** Use a stack to store the different commands and states.
 ** Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
 ** Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update the filtered list shown to the user and the backend `Xpire`/`ReplenishList` data.
-* **Alternative 2:** Use `HistoryManager` for undo/redo that stores previous versions of Item/XpireItem
+* **Optional 2:** Use `HistoryManager` for undo/redo that stores previous versions of Item/XpireItem
 ** Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.
 ** Cons: Requires `Item`/`XpireItem` to have a history of its edits. Violates Single Responsibility Principle and Separation of Concerns as each `Item` now needs to do two different things which is to store data and know its previous edited versions.
 // end::undoredo[]
@@ -655,23 +655,19 @@ This feature allows users to tag specific items in the list. Items can only have
 
 ==== Implementation
 
-Below is an activity diagram of what happens when a user keys in a Tag Command.
+Below are diagrams of what happens when a user keys in a Tag Command in `Xpire` as current list.
 
 .Activity Diagram for executing Tag Command
 image::Tag/ActivityDiagramTagCommand.png[width="790"]
 
-
-Below is a sequence diagram of what happens when a user keys in a Tag Command in the main list view. Note that the diagram has been simplified and assumes that all arguments are valid.
-
-.Sequence Diagram for executing Tag Command
-image::Tag/SequenceDiagramTagCommand.png[width="790"]
+.Simplified Sequence Diagram for executing Tag Command that assumes valid arguments.
+image::Tag/SequenceDiagramTagCommand.png[height="790"]
 
 // end::tag[]
 
 
 // tag::search[]
 === Search
->>>>>>> 7a9c5fc271183379425342c81d2f7b0f441903f4
 
 // tag::export[]
 === Export
