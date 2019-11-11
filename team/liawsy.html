@@ -338,6 +338,42 @@ for serializing and deserializing using the Jackson Library.</p>
 </div>
 <div class="title">Figure 8. Snippet of Storage Component Class Diagram to illustrate how an item in the replenish list is stored.</div>
 </div>
+<div class="sect4">
+<h5 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h5>
+<div class="sect5">
+<h6 id="aspect-storage-of-replenish-list-and-main-list"><a class="link" href="#aspect-storage-of-replenish-list-and-main-list">Aspect: Storage of replenish list and main list</a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice): Store both lists in the same JSON file</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Updating the storage would be less cumbersome as only one file needs to be read and written into.</p>
+</li>
+<li>
+<p>Cons: Challenging to find a suitable and efficient data structure that wraps both lists for storage into a single file.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2: Store both lists as separate JSON files</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easier to implement as there is no need to find a data structure to wrap both lists for storage.</p>
+</li>
+<li>
+<p>Cons: Makes updating the storage troublesome as both files need to be updated at the same time for any changes made to the lists.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="moving-items-in-the-main-list-into-the-replenish-list"><a class="link" href="#moving-items-in-the-main-list-into-the-replenish-list">Moving items in the main list into the replenish list</a></h4>
@@ -419,40 +455,7 @@ However, only the tags of the item on the main list will be retained.
 </table>
 </div>
 <div class="sect4">
-<h5 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h5>
-<div class="sect5">
-<h6 id="aspect-storage-of-replenish-list-and-main-list"><a class="link" href="#aspect-storage-of-replenish-list-and-main-list">Aspect: Storage of replenish list and main list</a></h6>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice): Store both lists in the same JSON file</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Updating the storage would be less cumbersome as only one file needs to be read and written into.</p>
-</li>
-<li>
-<p>Cons: Challenging to find a suitable and efficient data structure that wraps both lists for storage into a single file.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2: Store both lists as separate JSON files</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easier to implement as there is no need to find a data structure to wrap both lists for storage.</p>
-</li>
-<li>
-<p>Cons: Makes updating the storage troublesome as both files need to be updated at the same time for any changes made to the lists.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
+<h5 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h5>
 <div class="sect5">
 <h6 id="aspect-handling-of-items-that-have-run-out"><a class="link" href="#aspect-handling-of-items-that-have-run-out">Aspect: Handling of items that have run out</a></h6>
 <div class="ulist">
@@ -490,4 +493,4 @@ However, only the tags of the item on the main list will be retained.
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 16:20:18 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 16:29:00 UTC</div></div></div></body></html>

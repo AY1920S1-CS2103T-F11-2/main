@@ -25,7 +25,15 @@
 <li><a href="#replenish-list">3.1. Replenish List</a>
 <ul class="sectlevel3">
 <li><a href="#items-in-replenish-list-and-main-list">3.1.1. Items in replenish list and main list</a></li>
-<li><a href="#storage-of-items-in-the-replenish-list">3.1.2. Storage of items in the replenish list</a></li>
+<li><a href="#storage-of-items-in-the-replenish-list">3.1.2. Storage of items in the replenish list</a>
+<ul class="sectlevel4">
+<li><a href="#design-considerations">3.1.2.1. Design Considerations</a>
+<ul class="sectlevel5">
+<li><a href="#aspect-storage-of-replenish-list-and-main-list">3.1.2.1.1. Aspect: Storage of replenish list and main list</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#moving-items-in-the-main-list-into-the-replenish-list">3.1.3. Moving items in the main list into the replenish list</a>
 <ul class="sectlevel4">
 <li><a href="#implementation-2">3.1.3.1. Implementation</a></li>
@@ -33,10 +41,9 @@
 </li>
 <li><a href="#moving-items-in-the-replenish-list-to-the-main-list">3.1.4. Moving items in the replenish list to the main list</a>
 <ul class="sectlevel4">
-<li><a href="#design-considerations">3.1.4.1. Design Considerations</a>
+<li><a href="#design-considerations-2">3.1.4.1. Design Considerations</a>
 <ul class="sectlevel5">
-<li><a href="#aspect-storage-of-replenish-list-and-main-list">3.1.4.1.1. Aspect: Storage of replenish list and main list</a></li>
-<li><a href="#aspect-handling-of-items-that-have-run-out">3.1.4.1.2. Aspect: Handling of items that have run out</a></li>
+<li><a href="#aspect-handling-of-items-that-have-run-out">3.1.4.1.1. Aspect: Handling of items that have run out</a></li>
 </ul>
 </li>
 </ul>
@@ -44,7 +51,7 @@
 <li><a href="#commands-in-the-replenish-list">3.1.5. Commands in the replenish list</a>
 <ul class="sectlevel4">
 <li><a href="#implementation-3">3.1.5.1. Implementation</a></li>
-<li><a href="#design-considerations-2">3.1.5.2. Design Considerations</a>
+<li><a href="#design-considerations-3">3.1.5.2. Design Considerations</a>
 <ul class="sectlevel5">
 <li><a href="#aspect-how-commands-are-executed-in-the-list">3.1.5.2.1. Aspect: How commands are executed in the list</a></li>
 </ul>
@@ -56,7 +63,7 @@
 <li><a href="#auto-sorting-of-items-by-name-then-date">3.2. Auto-sorting of items by name then date</a>
 <ul class="sectlevel3">
 <li><a href="#implementation-4">3.2.1. Implementation</a></li>
-<li><a href="#design-considerations-3">3.2.2. Design Considerations</a>
+<li><a href="#design-considerations-4">3.2.2. Design Considerations</a>
 <ul class="sectlevel4">
 <li><a href="#aspect-when-items-auto-sorted-by-their-names-are-displayed">3.2.2.1. Aspect: When items auto-sorted by their names are displayed</a></li>
 <li><a href="#aspect-data-structure-to-store-the-auto-sorted-items">3.2.2.2. Aspect: Data structure to store the auto-sorted items</a></li>
@@ -73,7 +80,7 @@
 <li><a href="#check-with-days">3.3.1.3. Check with days</a></li>
 </ul>
 </li>
-<li><a href="#design-considerations-4">3.3.2. Design Considerations</a>
+<li><a href="#design-considerations-5">3.3.2. Design Considerations</a>
 <ul class="sectlevel4">
 <li><a href="#aspect-how-set-reminder-executes">3.3.2.1. Aspect: How set reminder executes</a></li>
 </ul>
@@ -83,7 +90,7 @@
 <li><a href="#undo-redo-feature">3.4. Undo/Redo feature</a>
 <ul class="sectlevel3">
 <li><a href="#implementation-6">3.4.1. Implementation</a></li>
-<li><a href="#design-considerations-5">3.4.2. Design Considerations</a>
+<li><a href="#design-considerations-6">3.4.2. Design Considerations</a>
 <ul class="sectlevel4">
 <li><a href="#aspect-how-undo-redo-executes">3.4.2.1. Aspect: How undo &amp; redo executes</a></li>
 <li><a href="#aspect-data-structure-to-support-the-undo-redo-commands">3.4.2.2. Aspect: Data structure to support the undo/redo commands</a></li>
@@ -94,7 +101,7 @@
 <li><a href="#search-by-name-or-tag-s">3.5. Search by name or tag(s)</a>
 <ul class="sectlevel3">
 <li><a href="#implementation-7">3.5.1. Implementation</a></li>
-<li><a href="#design-considerations-6">3.5.2. Design Considerations</a>
+<li><a href="#design-considerations-7">3.5.2. Design Considerations</a>
 <ul class="sectlevel4">
 <li><a href="#aspect-how-to-implement-and-search">3.5.2.1. Aspect: How to implement AND search?</a></li>
 <li><a href="#aspect-how-to-implement-stackable-commands">3.5.2.2. Aspect: How to implement "stackable" commands?</a></li>
@@ -120,7 +127,7 @@
 <li><a href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a>
 <ul class="sectlevel3">
 <li><a href="#implementation-10">3.8.1. Implementation</a></li>
-<li><a href="#design-considerations-7">3.8.2. Design Considerations</a>
+<li><a href="#design-considerations-8">3.8.2. Design Considerations</a>
 <ul class="sectlevel4">
 <li><a href="#aspect-how-recommendations-execute">3.8.2.1. Aspect: How recommendations execute</a></li>
 <li><a href="#aspect-data-structure-to-store-the-recommendations">3.8.2.2. Aspect: Data structure to store the recommendations</a></li>
@@ -132,7 +139,7 @@
 <li><a href="#user-interface">3.10. User Interface</a>
 <ul class="sectlevel3">
 <li><a href="#the-view-panel">3.10.1. The View Panel</a></li>
-<li><a href="#design-considerations-8">3.10.2. Design Considerations</a>
+<li><a href="#design-considerations-9">3.10.2. Design Considerations</a>
 <ul class="sectlevel4">
 <li><a href="#aspect-how-viewpanel-and-allitemspanel-updates">3.10.2.1. Aspect: How ViewPanel and AllItemsPanel updates</a></li>
 <li><a href="#aspect-layout-of-resultdisplay">3.10.2.2. Aspect: Layout of ResultDisplay</a></li>
@@ -460,6 +467,42 @@ for serializing and deserializing using the Jackson Library.</p>
 </div>
 <div class="title">Figure 10. Snippet of Storage Component Class Diagram to illustrate how an item in the replenish list is stored.</div>
 </div>
+<div class="sect4">
+<h5 id="design-considerations"><a class="link" href="#design-considerations">3.1.2.1. Design Considerations</a></h5>
+<div class="sect5">
+<h6 id="aspect-storage-of-replenish-list-and-main-list"><a class="link" href="#aspect-storage-of-replenish-list-and-main-list">3.1.2.1.1. Aspect: Storage of replenish list and main list</a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice): Store both lists in the same JSON file</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Updating the storage would be less cumbersome as only one file needs to be read and written into.</p>
+</li>
+<li>
+<p>Cons: Challenging to find a suitable and efficient data structure that wraps both lists for storage into a single file.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2: Store both lists as separate JSON files</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easier to implement as there is no need to find a data structure to wrap both lists for storage.</p>
+</li>
+<li>
+<p>Cons: Makes updating the storage troublesome as both files need to be updated at the same time for any changes made to the lists.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="moving-items-in-the-main-list-into-the-replenish-list"><a class="link" href="#moving-items-in-the-main-list-into-the-replenish-list">3.1.3. Moving items in the main list into the replenish list</a></h4>
@@ -541,42 +584,9 @@ However, only the tags of the item on the main list will be retained.
 </table>
 </div>
 <div class="sect4">
-<h5 id="design-considerations"><a class="link" href="#design-considerations">3.1.4.1. Design Considerations</a></h5>
+<h5 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.1.4.1. Design Considerations</a></h5>
 <div class="sect5">
-<h6 id="aspect-storage-of-replenish-list-and-main-list"><a class="link" href="#aspect-storage-of-replenish-list-and-main-list">3.1.4.1.1. Aspect: Storage of replenish list and main list</a></h6>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice): Store both lists in the same JSON file</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Updating the storage would be less cumbersome as only one file needs to be read and written into.</p>
-</li>
-<li>
-<p>Cons: Challenging to find a suitable and efficient data structure that wraps both lists for storage into a single file.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2: Store both lists as separate JSON files</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easier to implement as there is no need to find a data structure to wrap both lists for storage.</p>
-</li>
-<li>
-<p>Cons: Makes updating the storage troublesome as both files need to be updated at the same time for any changes made to the lists.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect5">
-<h6 id="aspect-handling-of-items-that-have-run-out"><a class="link" href="#aspect-handling-of-items-that-have-run-out">3.1.4.1.2. Aspect: Handling of items that have run out</a></h6>
+<h6 id="aspect-handling-of-items-that-have-run-out"><a class="link" href="#aspect-handling-of-items-that-have-run-out">3.1.4.1.1. Aspect: Handling of items that have run out</a></h6>
 <div class="ulist">
 <ul>
 <li>
@@ -653,7 +663,7 @@ This will be further explained to you in a <a href="#spelling-correction-with-al
 </div>
 </div>
 <div class="sect4">
-<h5 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.1.5.2. Design Considerations</a></h5>
+<h5 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.1.5.2. Design Considerations</a></h5>
 <div class="paragraph">
 <p>When designing the replenish list, I had to make decisions on how best to parse and execute commands in an efficient manner
 that would minimise code repetition and delay in runtime. The following is a brief summary of
@@ -866,7 +876,7 @@ The ability to check for spelling errors of command arguments is explained in a 
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.2.2. Design Considerations</a></h4>
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.2.2. Design Considerations</a></h4>
 <div class="paragraph">
 <p>In the process of actualising this feature, I contemplated on when items should be automatically sorted by their names and displayed.
 I also tried and tested varied options to derive an optimal data structure to store the sorted items. The following is a brief summary of my analysis and decisions.</p>
@@ -1029,7 +1039,7 @@ done by the predicate named <code>ExpiringSoonPredicate</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.3.2. Design Considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.3.2. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">3.3.2.1. Aspect: How set reminder executes</a></h5>
 <div class="ulist">
@@ -1242,7 +1252,7 @@ Not all commands will save states to <code>StackManager</code>. <code>exit</code
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.4.2. Design Considerations</a></h4>
+<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.4.2. Design Considerations</a></h4>
 <div class="paragraph">
 <p>There are two classes that inherit from the abstract class <code>State</code> which are <code>FilteredState</code> and <code>ModifiedState</code>.</p>
 </div>
@@ -1436,7 +1446,7 @@ successfully.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.5.2. Design Considerations</a></h4>
+<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.5.2. Design Considerations</a></h4>
 <div class="paragraph">
 <p>Below highlights the different considerations while implementing this feature.</p>
 </div>
@@ -1900,7 +1910,7 @@ is then thrown to the user as feedback.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.8.2. Design Considerations</a></h4>
+<h4 id="design-considerations-8"><a class="link" href="#design-considerations-8">3.8.2. Design Considerations</a></h4>
 <div class="paragraph">
 <p>When tasked to implement this feature, I had to decide on what was the best way to display any form of recommendations to the user.
 I also evaluated multiple options to derive an optimal data structure to store the recommendations. The following is a brief summary of my analysis and decisions.</p>
@@ -2118,7 +2128,7 @@ If the execution by <code>Logic</code> is not successful, an error will be throw
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-8"><a class="link" href="#design-considerations-8">3.10.2. Design Considerations</a></h4>
+<h4 id="design-considerations-9"><a class="link" href="#design-considerations-9">3.10.2. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-viewpanel-and-allitemspanel-updates"><a class="link" href="#aspect-how-viewpanel-and-allitemspanel-updates">3.10.2.1. Aspect: How ViewPanel and AllItemsPanel updates</a></h5>
 <div class="ulist">
@@ -2558,9 +2568,6 @@ any key is pressed and the user can continue.</p>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p><em>{More to be added}</em></p>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -3951,4 +3958,4 @@ Expected: Error message indicating that current list is empty.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 16:20:17 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 16:29:00 UTC</div></div></div></body></html>
