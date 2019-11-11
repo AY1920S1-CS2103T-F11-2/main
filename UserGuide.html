@@ -89,25 +89,32 @@
 <li><a href="#reducing-the-quantity-of-an-item">4.2.2.1. Reducing the quantity of an item</a></li>
 </ul>
 </li>
-<li><a href="#Reminder">4.2.3. Setting reminder for an item: <code>set reminder</code></a>
+<li><a href="#tagging-an-item-code-tag-code-3">4.2.3. Tagging an item : <code>tag</code></a>
 <ul class="sectlevel4">
-<li><a href="#adding-a-reminder-some-days-before-an-item-s-expiry-date">4.2.3.1. Adding a reminder some days before an item&#8217;s expiry date</a></li>
-<li><a href="#removing-the-reminder-for-an-item">4.2.3.2. Removing the reminder for an item</a></li>
+<li><a href="#display-all-tags-created-3">4.2.3.1. Display all tags created</a></li>
+<li><a href="#add-new-tag-s-to-an-item-3">4.2.3.2. Add new tag(s) to an item</a></li>
 </ul>
 </li>
-<li><a href="#listing-expiring-items-code-check-code">4.2.4. Listing expiring items: <code>check</code></a>
+<li><a href="#Reminder">4.2.4. Setting reminder for an item: <code>set reminder</code></a>
 <ul class="sectlevel4">
-<li><a href="#listing-all-expiring-items-with-activated-reminders-and-expired-items">4.2.4.1. Listing all expiring items with activated reminders and expired items</a></li>
-<li><a href="#listing-items-that-will-expire-within-a-certain-number-of-days">4.2.4.2. Listing items that will expire within a certain number of days</a></li>
+<li><a href="#adding-a-reminder-some-days-before-an-item-s-expiry-date">4.2.4.1. Adding a reminder some days before an item&#8217;s expiry date</a></li>
+<li><a href="#removing-the-reminder-for-an-item">4.2.4.2. Removing the reminder for an item</a></li>
 </ul>
 </li>
-<li><a href="#sorting-all-items-code-sort-code">4.2.5. Sorting all items : <code>sort</code></a>
+<li><a href="#listing-expiring-items-code-check-code">4.2.5. Listing expiring items: <code>check</code></a>
 <ul class="sectlevel4">
-<li><a href="#sorting-all-items-by-their-date">4.2.5.1. Sorting all items by their date</a></li>
-<li><a href="#sorting-all-items-by-their-name">4.2.5.2. Sorting all items by their name</a></li>
+<li><a href="#listing-all-expiring-items-with-activated-reminders-and-expired-items">4.2.5.1. Listing all expiring items with activated reminders and expired items</a></li>
+<li><a href="#listing-items-that-will-expire-within-a-certain-number-of-days">4.2.5.2. Listing items that will expire within a certain number of days</a></li>
 </ul>
 </li>
-<li><a href="#redo-an-earlier-command-code-redo-code-2">4.2.6. Redo an earlier command : <code>redo</code></a></li>
+<li><a href="#sorting-all-items-code-sort-code">4.2.6. Sorting all items : <code>sort</code></a>
+<ul class="sectlevel4">
+<li><a href="#sorting-all-items-by-their-date">4.2.6.1. Sorting all items by their date</a></li>
+<li><a href="#sorting-all-items-by-their-name">4.2.6.2. Sorting all items by their name</a></li>
+</ul>
+</li>
+<li><a href="#undo-previous-command-code-undo-code-2">4.2.7. Undo previous command : <code>undo</code></a></li>
+<li><a href="#redo-an-earlier-command-code-redo-code-2">4.2.8. Redo an earlier command : <code>redo</code></a></li>
 </ul>
 </li>
 <li><a href="#upcoming-features-coming-in-v2-0">4.3. Upcoming features (coming in v2.0)</a>
@@ -117,6 +124,13 @@
 </li>
 </ul>
 </li>
+<li><a href="#faq">5. FAQ</a></li>
+<li><a href="#command-summary">6. Command Summary</a>
+<ul class="sectlevel2">
+<li><a href="#table-summary">6.1. Table Summary</a></li>
+</ul>
+</li>
+<li><a href="#command-shorthands">7. Command Shorthands</a></li>
 </ul>
 </div>
 </div>
@@ -253,7 +267,7 @@ the status of your item.<br></p>
 <ul>
 <li>
 <p>An item that is <strong>expiring soon</strong> will be yellow. You can set when to mark an item yellow based
-on individual cases. See more information here: <a href="#Reminder">Section 4.2.3, &#8220;Setting reminder for an item: <code>set reminder</code>&#8221;</a>.</p>
+on individual cases. See more information here: <a href="#Reminder">Section 4.2.4, &#8220;Setting reminder for an item: <code>set reminder</code>&#8221;</a>.</p>
 </li>
 </ul>
 </div>
@@ -1318,17 +1332,121 @@ To save you the trouble of keying in the details again, our system has already a
 </div>
 </div>
 </div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>view|main</code><br>
+<code>delete|4|1</code><br>
+Reduces the quantity of the 4th item by 1.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="Reminder"><a class="link" href="#Reminder">4.2.3. Setting reminder for an item: <code>set reminder</code></a></h4>
+<h4 id="tagging-an-item-code-tag-code-3"><a class="link" href="#tagging-an-item-code-tag-code-3">4.2.3. Tagging an item : <code>tag</code></a></h4>
 <div class="sect4">
-<h5 id="adding-a-reminder-some-days-before-an-item-s-expiry-date"><a class="link" href="#adding-a-reminder-some-days-before-an-item-s-expiry-date">4.2.3.1. Adding a reminder some days before an item&#8217;s expiry date</a></h5>
+<h5 id="display-all-tags-created-3"><a class="link" href="#display-all-tags-created-3">4.2.3.1. Display all tags created</a></h5>
+<div class="paragraph">
+<p>Shows all the tags in the current list view.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>tag</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Like <code>help</code> and <code>export</code>, this command is not undoable.<br>
+This command does not show tags of items that are not on the list you are viewing.<br>
+If you want to view all the tags in the main list or replenish list, simply key in <code>view</code>, followed by <code>tag</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="add-new-tag-s-to-an-item-3"><a class="link" href="#add-new-tag-s-to-an-item-3">4.2.3.2. Add new tag(s) to an item</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/tag.png" alt="tag" width="790">
+</div>
+<div class="title">Figure 26. Item at index 4 tagged with #Fruit and #Yellow</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+An item can have up to 5 tags.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Tags an item from the list according to user input<br>
+Format: <code>tag|&lt;index&gt;|&lt;tag&gt;[&lt;other tags&gt;]&#8230;&#8203;</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Tags the item at the specified <code>&lt;index&gt;</code>.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> (e.g. 1, 2, 3, &#8230;&#8203; ).</p>
+</li>
+<li>
+<p>Tags must be prefixed with a '#'.</p>
+</li>
+<li>
+<p>Only a maximum of 5 tags allowed per item.</p>
+</li>
+<li>
+<p>Tag lengths are restricted to 20 characters. So make use of those 20 characters wisely!</p>
+</li>
+<li>
+<p>Tags will be formatted in Sentence-Case (i.e. first letter will be upper-case while the rest of the letters are lower-case).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>view|main</code><br>
+<code>tag|2|#Nestle #Caffeine</code><br>
+Tags the 2nd item in the main list with <code>#Nestle</code> and <code>#Caffeine</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="Reminder"><a class="link" href="#Reminder">4.2.4. Setting reminder for an item: <code>set reminder</code></a></h4>
+<div class="sect4">
+<h5 id="adding-a-reminder-some-days-before-an-item-s-expiry-date"><a class="link" href="#adding-a-reminder-some-days-before-an-item-s-expiry-date">4.2.4.1. Adding a reminder some days before an item&#8217;s expiry date</a></h5>
 <div class="imageblock">
 <div class="content">
 <img src="images/set-reminder.png" alt="set reminder" width="790">
 </div>
-<div class="title">Figure 26. Reminder set for item at index 4</div>
+<div class="title">Figure 27. Reminder set for item at index 4</div>
 </div>
 <div class="paragraph">
 <p>Sets a reminder for your item.<br>
@@ -1359,7 +1477,7 @@ Sets a reminder for the second item in the list 4 days before its expiry date.</
 </div>
 </div>
 <div class="sect4">
-<h5 id="removing-the-reminder-for-an-item"><a class="link" href="#removing-the-reminder-for-an-item">4.2.3.2. Removing the reminder for an item</a></h5>
+<h5 id="removing-the-reminder-for-an-item"><a class="link" href="#removing-the-reminder-for-an-item">4.2.4.2. Removing the reminder for an item</a></h5>
 <div class="paragraph">
 <p>You can remove the reminder for your item by resetting it to the default value 0.
 Format: <code>set reminder|&lt;index&gt;|0</code></p>
@@ -1400,14 +1518,14 @@ However, the app understands that you want the reminder to be activated immediat
 </div>
 </div>
 <div class="sect3">
-<h4 id="listing-expiring-items-code-check-code"><a class="link" href="#listing-expiring-items-code-check-code">4.2.4. Listing expiring items: <code>check</code></a></h4>
+<h4 id="listing-expiring-items-code-check-code"><a class="link" href="#listing-expiring-items-code-check-code">4.2.5. Listing expiring items: <code>check</code></a></h4>
 <div class="sect4">
-<h5 id="listing-all-expiring-items-with-activated-reminders-and-expired-items"><a class="link" href="#listing-all-expiring-items-with-activated-reminders-and-expired-items">4.2.4.1. Listing all expiring items with activated reminders and expired items</a></h5>
+<h5 id="listing-all-expiring-items-with-activated-reminders-and-expired-items"><a class="link" href="#listing-all-expiring-items-with-activated-reminders-and-expired-items">4.2.5.1. Listing all expiring items with activated reminders and expired items</a></h5>
 <div class="imageblock">
 <div class="content">
 <img src="images/check.png" alt="check" width="790">
 </div>
-<div class="title">Figure 27. Items expiring soon listed</div>
+<div class="title">Figure 28. Items expiring soon listed</div>
 </div>
 <div class="paragraph">
 <p>You can easily view all items whose reminder has been activated and who has already expired with the command <code>check</code>.
@@ -1416,7 +1534,7 @@ Format: <code>check</code></p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="listing-items-that-will-expire-within-a-certain-number-of-days"><a class="link" href="#listing-items-that-will-expire-within-a-certain-number-of-days">4.2.4.2. Listing items that will expire within a certain number of days</a></h5>
+<h5 id="listing-items-that-will-expire-within-a-certain-number-of-days"><a class="link" href="#listing-items-that-will-expire-within-a-certain-number-of-days">4.2.5.2. Listing items that will expire within a certain number of days</a></h5>
 <div class="paragraph">
 <p>Sometimes you forget to set a reminder for an item whose expiry date is drawing close. Don&#8217;t worry, you can
 easily make a query for items that will expire within a specified number of days.<br>
@@ -1462,7 +1580,7 @@ Lists items expiring in the next 20 days.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="sorting-all-items-code-sort-code"><a class="link" href="#sorting-all-items-code-sort-code">4.2.5. Sorting all items : <code>sort</code></a></h4>
+<h4 id="sorting-all-items-code-sort-code"><a class="link" href="#sorting-all-items-code-sort-code">4.2.6. Sorting all items : <code>sort</code></a></h4>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1480,7 +1598,7 @@ Your items in both lists are sorted by their names by default.
 where &lt;key&gt; can be specified as either date or name.</p>
 </div>
 <div class="sect4">
-<h5 id="sorting-all-items-by-their-date"><a class="link" href="#sorting-all-items-by-their-date">4.2.5.1. Sorting all items by their date</a></h5>
+<h5 id="sorting-all-items-by-their-date"><a class="link" href="#sorting-all-items-by-their-date">4.2.6.1. Sorting all items by their date</a></h5>
 <div class="paragraph">
 <p>Example:</p>
 </div>
@@ -1496,7 +1614,7 @@ in chronological order.</p>
 <div class="content">
 <img src="images/sort-date.png" alt="sort date" width="790">
 </div>
-<div class="title">Figure 28. Items sorted by their date</div>
+<div class="title">Figure 29. Items sorted by their date</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1523,7 +1641,7 @@ Items that expire on the same day will be sorted by their names.
 </div>
 </div>
 <div class="sect4">
-<h5 id="sorting-all-items-by-their-name"><a class="link" href="#sorting-all-items-by-their-name">4.2.5.2. Sorting all items by their name</a></h5>
+<h5 id="sorting-all-items-by-their-name"><a class="link" href="#sorting-all-items-by-their-name">4.2.6.2. Sorting all items by their name</a></h5>
 <div class="paragraph">
 <p>Example:</p>
 </div>
@@ -1554,10 +1672,12 @@ Items with the same name will be sorted by their expiry dates.
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="undo-previous-command-code-undo-code-2"><a class="link" href="#undo-previous-command-code-undo-code-2">4.2.7. Undo previous command : <code>undo</code></a></h4>
 <div class="paragraph">
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-==== Undo previous command : <code>undo</code>
-Undo the previous command that you have entered in.<br>
+<p>Undo the previous command that you have entered in.<br>
 Format: <code>undo</code></p>
 </div>
 <div class="admonitionblock tip">
@@ -1578,9 +1698,8 @@ Also, <code>undo</code> only works for the last 10 commands. Therefore, make sur
 <p>The <code>undo</code> command also tells you the exact user input you have keyed in as well as what command was entered so that you know what you have undone.</p>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="redo-an-earlier-command-code-redo-code-2"><a class="link" href="#redo-an-earlier-command-code-redo-code-2">4.2.6. Redo an earlier command : <code>redo</code></a></h4>
+<h4 id="redo-an-earlier-command-code-redo-code-2"><a class="link" href="#redo-an-earlier-command-code-redo-code-2">4.2.8. Redo an earlier command : <code>redo</code></a></h4>
 <div class="paragraph">
 <p>Redo an earlier command that you have entered in.<br>
 Format: <code>redo</code></p>
@@ -1617,32 +1736,32 @@ where you can create an account and keep your items' data safe and secure!</p>
 <div class="content">
 <img src="images/user-login.png" alt="user login" width="790">
 </div>
-<div class="title">Figure 29. Login page</div>
+<div class="title">Figure 30. Login page</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/user-register.png" alt="user register" width="790">
 </div>
-<div class="title">Figure 30. Sign-up page</div>
+<div class="title">Figure 31. Sign-up page</div>
 </div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>&gt;&gt;&gt;&gt;&gt;&gt;&gt; 114fdebffc25d81ba3d9ab78491fdd472b66cc04</p>
 </div>
-<div class="paragraph">
-<p>== FAQ</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="faq"><a class="link" href="#faq">5. FAQ</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p><strong>Q</strong>: How do I transfer my data to another Computer?<br>
 <strong>A</strong>: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Xpire folder.</p>
 </div>
-<div class="paragraph">
-<p>== Command Summary</p>
 </div>
-<div class="paragraph">
-<p>=== Table Summary</p>
 </div>
+<div class="sect1">
+<h2 id="command-summary"><a class="link" href="#command-summary">6. Command Summary</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="table-summary"><a class="link" href="#table-summary">6.1. Table Summary</a></h3>
 <div class="paragraph">
 <p>The table below summarises the common commands available for use in both lists.</p>
 </div>
@@ -1793,9 +1912,12 @@ where you can create an account and keep your items' data safe and secure!</p>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>== Command Shorthands</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="command-shorthands"><a class="link" href="#command-shorthands">7. Command Shorthands</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>If you are looking for a quick way to type and execute the commands, then this section is just
 for you. Commands also come with command shorthands which can be used in place of the full command word.
@@ -1854,8 +1976,4 @@ For instance, <code>a|Strawberry|31/12/2019</code> is the same as <code>add|Stra
 </ul>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 15:57:30 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 16:00:19 UTC</div></div></div></body></html>

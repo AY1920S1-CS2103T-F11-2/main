@@ -28,7 +28,11 @@ Responsibilities: Reminder System + Logo and UI Designer</p>
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Xpire is a desktop application used for tracking expiry dates of items.  The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.</p>
+<p>My team of 5 computer science students have been given the task of morphing a command line interface(CLI) application named AddressBook into a brand new
+app. Being students staying on campus in National University of Singapore, as we are keen to solve the issue of food wastage due to them
+passing their expiry date. As such, we have created the app Xpire to help students track the expiry dates of items.
+Our app is equipped with many functions like reminder, search and sort.
+The application is written in Java over 3 months, and has about 15 kLoC.</p>
 </div>
 </div>
 </div>
@@ -38,53 +42,74 @@ Responsibilities: Reminder System + Logo and UI Designer</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement</strong>: added <strong>the ability to undo/redo previous commands</strong></p>
+<p><strong>Major enhancement</strong>: added <strong>the reminder system</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: allows the user to undo all previous commands one at a time. Preceding undo commands can be reversed by using the redo command.</p>
+<p>Purpose: to allow user to customise a reminder date, starting form which the item needs to be reminded of its expiry date.</p>
 </li>
 <li>
-<p>Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them.</p>
+<p>Importance: As items last for different duration before which they expires, customising the reminder eases the user&#8217;s mind as he or she does not have to remember when is the item supposed to be consumed or replaced.</p>
 </li>
 <li>
-<p>Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.</p>
-</li>
-<li>
-<p>Credits: <em>{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}</em></p>
+<p>Highlights: The reminder is enhanced by a filter to list down all items in alerting condition. It can also filter items based on number of days left before their expiration date. As such, the complexity of the implementation is high, requiring mastery knowledge of many components including the Module, User Interface as well as Logic.
+The feature works with existing and also future commands, and can be turned into active notification readily.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>: added a history command that allows the user to navigate to previous commands using up/down keys.</p>
+<p><strong>Major enhancement</strong>: redesigned <strong>graphic user interface(GUI)</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Purpose: to make the GUI one that specifically serves Xpire and no other purposes by displaying the number of days left before an item expires and changes its colour accordingly.</p>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
+<p>Importance: to make our application different from a notebook or to-do list on paper, it is important that the information regarding the item dynamically changes according to its status
+so that the user can easily identify expiring items and handle them properly.</p>
+</li>
+<li>
+<p>Highlights: Despite limited resources on the use of JavaFX, the overall effect achieves high degree of comfort and convenience. The task is especially challenging as the UI components interacts with many other modules such as the lists of items, the feedback and the commands entered.
+The feature is not hard coded and can easily integrate with future commands.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: added a command history which allows the user to navigate to previous commands using up/down keys.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: added the all items panel which displays a static view of all items in both tracking list and to-buy list.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: enabled a clickable hyperlink to our User Guide page.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: set the upper and lower bonds for expiry date and reminder threshold to prevent unwanted bugs.</p>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: set a restriction on the input command length through the UI to prevent String overflow.</p>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://nus-cs2103-ay1920s1.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2019-09-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=authorship&amp;tabAuthor=xiaoyu-nus&amp;tabRepo=AY1920S1-CS2103T-F11-2%2Fmain%5Bmaster%5D">RepoSense</a>]</p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Project management:</p>
+<p>Team tasks:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Managed releases <code>v1.3</code> - <code>v1.5rc</code> (3 releases) on GitHub</p>
-</li>
-</ul>
-</div>
+<p>Refactor UI components from the AddressBook. (Pull requests <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/48">#48</a>)</p>
 </li>
 <li>
-<p>Enhancements to existing features:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Updated the GUI color scheme (Pull requests <a href="https://github.com">#33</a>, <a href="https://github.com">#34</a>)</p>
+<p>Designed the logo. (Pull request <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/77">#77</a>)</p>
 </li>
 <li>
-<p>Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests <a href="https://github.com">#36</a>, <a href="https://github.com">#38</a>)</p>
+<p>Designed the mock-up UI.</p>
 </li>
 </ul>
 </div>
@@ -94,39 +119,20 @@ Responsibilities: Reminder System + Logo and UI Designer</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Did cosmetic tweaks to existing contents of the User Guide: <a href="https://github.com">#14</a></p>
+<p>Added GUI and User Guide writing instructions of the User Guide: (Pull requests <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/134">#134</a>)</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Community:</p>
+<p><strong>Enhancements to existing features:</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>PRs reviewed (with non-trivial review comments): <a href="https://github.com">#12</a>, <a href="https://github.com">#32</a>, <a href="https://github.com">#19</a>, <a href="https://github.com">#42</a></p>
+<p>Refactored and expanded TypicalItems to be used by J-Unit Testing. (Pull requests <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/219">#219</a>)</p>
 </li>
 <li>
-<p>Contributed to forum discussions (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>, <a href="https://github.com">4</a>)</p>
-</li>
-<li>
-<p>Reported bugs and suggestions for other teams in the class (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>)</p>
-</li>
-<li>
-<p>Some parts of the history feature I added was adopted by several other class mates (<a href="https://github.com">1</a>, <a href="https://github.com">2</a>)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Tools:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Integrated a third party library (Natty) to the project (<a href="https://github.com">#42</a>)</p>
-</li>
-<li>
-<p>Integrated a new Github plugin (CircleCI) to the team repo</p>
+<p>Make the ResultDisplay resizable. (Pull requests <a href="https://github.com/AY1920S1-CS2103T-F11-2/main/pull/184">#184</a>)</p>
 </li>
 </ul>
 </div>
@@ -135,9 +141,6 @@ Responsibilities: Reminder System + Logo and UI Designer</p>
 </div>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p><em>{you can add/remove categories in the list above}</em></p>
 </div>
 </div>
 </div>
@@ -150,19 +153,42 @@ Responsibilities: Reminder System + Logo and UI Designer</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>You can refer to parts of my changes to the User Guide below, including some GUI components and reminder components.</em></p></td>
 </tr>
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="deleting-an-item-or-its-tags-code-delete-code"><a class="link" href="#deleting-an-item-or-its-tags-code-delete-code">Deleting an item or its tags: <code>delete</code></a></h4>
+<h4 id="retrieve-previous-entry"><a class="link" href="#retrieve-previous-entry">Retrieve Previous Entry</a></h4>
 <div class="paragraph">
-<p>If you would like to delete an item or its related fields from the list, the <code>delete</code> command can be used.</p>
+<p>Just like any other Command Line App, you can easily retrieve your previous commands or go back to later commands using the
+<kbd>↑</kbd> and <kbd>↓</kbd> keys on your keyboard. You can call back up to 20 commands you entered.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="Reminder"><a class="link" href="#Reminder">Setting reminder for an item: <code>set reminder</code></a></h4>
 <div class="sect4">
-<h5 id="deleting-an-item"><a class="link" href="#deleting-an-item">Deleting an item</a></h5>
+<h5 id="adding-a-reminder-some-days-before-an-item-s-expiry-date"><a class="link" href="#adding-a-reminder-some-days-before-an-item-s-expiry-date">Adding a reminder some days before an item&#8217;s expiry date</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="../images/set-reminder.png" alt="set reminder" width="790">
+</div>
+<div class="title">Figure 1. Reminder set for item at index 4</div>
+</div>
 <div class="paragraph">
-<p>If you would like to delete a particular item from your list, simply follow the format: <code>delete|&lt;index&gt;</code>.</p>
+<p>Sets a reminder for your item.<br>
+Format: <code>set reminder|&lt;index&gt;|&lt;reminder threshold&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Set reminder is designed for you to customise when you want to be alerted of an item&#8217;s condition.
+In the above example, reminder threshold refers to <strong>the number of days before the item&#8217;s expiry date</strong>.
+The reminder for an item will be activated when the number of days left before an item&#8217;s expiry date is less than or equal to
+the reminder threshold. In other words, by setting the reminder threshold
+of an item to n days, you start to be reminded of this items n days before its expiry date.</p>
+</div>
+<div class="paragraph">
+<p>To reduce disturbance, the app does not pop up notifications. Instead, you will be reminded through the alerting yellow colour
+of the item whose reminder has been activated in the <code>View</code> list. You can also view all items with active reminder through the <code>check</code> command.
+(Refer to the following section.)</p>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -170,21 +196,50 @@ Responsibilities: Reminder System + Logo and UI Designer</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>view|main</code><br>
-<code>delete|2</code><br>
-Deletes the 2nd item in the main list.</p>
-</li>
-<li>
-<p><code>sort|name</code><br>
-<code>delete|3</code><br>
-Deletes the 3rd item in the sorted main list.</p>
-</li>
-<li>
-<p><code>search|potato</code><br>
-<code>delete|1</code><br>
-Deletes the 1st item in the results of the <code>search</code> command.</p>
+<p><code>set reminder|2|4</code><br>
+Sets a reminder for the second item in the list 4 days before its expiry date.</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="removing-the-reminder-for-an-item"><a class="link" href="#removing-the-reminder-for-an-item">Removing the reminder for an item</a></h5>
+<div class="paragraph">
+<p>You can remove the reminder for your item by resetting it to the default value 0.
+Format: <code>set reminder|&lt;index&gt;|0</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>set reminder|1|0</code><br>
+Removes the reminder for the first item in the list.</p>
+</li>
+</ul>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>All items have their default reminder threshold set to 0.</p>
+</li>
+<li>
+<p>Reminder cannot be set on already expired items.</p>
+</li>
+<li>
+<p>A reminder cannot be set to be before the current date. For example, if the current date is 20/9/2019
+, it is not possible to set the reminder on 19/9/2019 by entering a reminder threshold greater than the item&#8217;s number of days left.
+However, the app understands that you want the reminder to be activated immediately, and will activate the reminder right away.</p>
+</li>
+<li>
+<p>The maximum reminder threshold is 36500 days.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -199,10 +254,19 @@ Deletes the 1st item in the results of the <code>search</code> command.</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The following section are parts of my changes to the Developer Guide. Hope you can understands my features from a more technical point of view.</em></p></td>
 </tr>
 </tbody>
 </table>
+<div class="sect2">
+<h3 id="Design-Ui"><a class="link" href="#Design-Ui">UI component</a></h3>
+<div class="imageblock">
+<div class="content">
+<img src="../images/UiComponentClassDiagram.png" alt="UiComponentClassDiagram">
+</div>
+<div class="title">Figure 2. Structure of the UI Component</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="reminders-for-expiring-items"><a class="link" href="#reminders-for-expiring-items">Reminders for expiring items</a></h3>
 <div class="paragraph">
@@ -248,7 +312,7 @@ in the <code>Xpire</code> by <code>ModelManager</code>.</p>
 <div class="content">
 <img src="../images/SetReminderUML.png" alt="SetReminderUML">
 </div>
-<div class="title">Figure 1. SetReminderSequenceDiagram</div>
+<div class="title">Figure 3. SetReminderSequenceDiagram</div>
 </div>
 </div>
 <div class="sect4">
@@ -268,7 +332,7 @@ The predicate used by the filtering method is named <code>ReminderThresholdExcee
 <div class="content">
 <img src="../images/CheckCommandNoArgUML.png" alt="CheckCommandNoArgUML">
 </div>
-<div class="title">Figure 2. CheckSequenceDiagram</div>
+<div class="title">Figure 4. CheckSequenceDiagram</div>
 </div>
 <div class="paragraph">
 <p>A successful <code>check</code> will lists all items marked as yellow and red int he <code>ViewPanel</code> of the UI component.</p>
@@ -288,7 +352,7 @@ done by the predicate named <code>ExpiringSoonPredicate</code>.</p>
 <div class="content">
 <img src="../images/CheckCommandArgUML.png" alt="CheckCommandArgUML">
 </div>
-<div class="title">Figure 3. CheckDaysSequenceDiagram</div>
+<div class="title">Figure 5. CheckDaysSequenceDiagram</div>
 </div>
 </div>
 </div>
@@ -322,24 +386,208 @@ requires no change to the sorted list, the list will still be sorted as a new it
 <p>Pros: Time complexity is low: O(n) to locate the item.</p>
 </li>
 <li>
-<p>Cons: This is dangerous as modifying items in a sorted list is prone to unwanted side effects and undesirable modifications.</p>
+<p>Cons: This is dangerous as modifying items in a sorted list is prone to unwanted side effects and undesirable modifications.
+=== User Interface
+The UI contains two panels that change according to the items in the <code>XpireItemList</code> and <code>ReplenishList</code>. However, these
+UI components are not able to update by listening to changes in these <code>ObservableLists</code>. This is because both lists are
+sorted and thus all items in the lists will be modified each time a <code>sort</code>, <code>add</code>, <code>delete</code>, <code>tag</code> or other commands that modify the lists
+are executed, causing the listener in the API to catch unwanted changes. Instead, the lists are passed as parameters to the
+UI classes through <code>MainWindow</code> and rendered each time a command is executed.</p>
 </li>
 </ul>
 </div>
 </li>
 </ul>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="project-powerpointlabs"><a class="link" href="#project-powerpointlabs">PROJECT: PowerPointLabs</a></h2>
-<div class="sectionbody">
-<hr>
 <div class="paragraph">
-<p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
+<p>As as an example of how the UI were implemented, we will examine the implementation of <code>ViewPanel</code>.</p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 15:57:30 UTC</div></div></div></body></html>
+</div>
+<div class="sect3">
+<h4 id="the-view-panel"><a class="link" href="#the-view-panel">The View Panel</a></h4>
+<div class="paragraph">
+<p><code>ViewPanel</code> is a container for many <code>ItemCards</code>, each carrying information about the items.<br>
+Given below are the steps of an example scenario of how <code>ViewPanel</code> is constructed and updated:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The User launches the application and the <code>MainWindow</code> creates a new <code>ViewPanelPlaceholder</code> container that hosts the <code>ViewPanel</code>.</p>
+</li>
+<li>
+<p><code>MainWindow</code> calls <code>Logic</code> which in turn calls <code>Model</code> to obtain a current active list through <code>getCurrentFilteredItemList()</code>.
+Depending on the user&#8217;s current list in view, it will either be an <code>XpireItemList</code> or <code>ReplenishList</code>.</p>
+</li>
+<li>
+<p>On starting of the GUI, <code>MainWindow</code> makes a call to <code>fillInnerParts()</code> , where the <code>MainWindow</code> passes the list as parameters to the constructor of the <code>ViewPanel</code>.</p>
+</li>
+<li>
+<p><code>ViewPanel</code> makes a call to <code>displayItems(ObservableList)</code> and constructs a Collection of <code>ItemCard</code> by mapping each <code>XpireItem</code> or <code>Item</code>
+to an <code>ItemCard</code> .
+.<code>ItemCard</code> takes as parameters the item and its index in the list. It renders all fields of an <code>XpireItem</code> and <code>Item</code> and also
+dose an additional check on the condition of the <code>XpireItem</code> and assign it to different colours respectively through <code>setColour()</code>.</p>
+</li>
+<li>
+<p>The app then starts.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s now see what happens when a command is executed.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the command is a <code>help</code>, <code>exit</code> of <code>export</code>, the <code>ViewPanel</code> will not be updated and refreshed.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In <code>MainWindow</code>, a call to <code>executeCommand(String)</code> is made, where <code>Logic</code> will executes the command.</p>
+</li>
+<li>
+<p>Upon a successful execution, a call to <code>updateViewPanel()</code> is made. In this method the <code>ViewPanel</code> then calls <code>displayItems(ObservableList)</code> again to rerender the items.</p>
+</li>
+<li>
+<p><code>displayItems</code> will first have to clear all child Nodes that the <code>ViewPanel</code> contains before adding a new Collection of <code>ItemCard</code>.</p>
+</li>
+<li>
+<p><code>ViewPanelPlaceholder</code> will then have to remove the <code>ViewPanel</code> child and add the new one to allow the changes to be reflected in the GUI.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You can refer to the activity diagram below for reference.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/UpdateViewPanelActivityDiagram.png" alt="UpdateViewPanelActivityDiagram">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the execution by <code>Logic</code> is not successful, an error will be thrown and the <code>ViewPanel</code> will not be updated and refreshed.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-how-viewpanel-and-allitemspanel-updates"><a class="link" href="#aspect-how-viewpanel-and-allitemspanel-updates">Aspect: How ViewPanel and AllItemsPanel updates</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Updates taking in the lists as parameters.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Straightforward implementation that grantees correct result if the list is correct.</p>
+</li>
+<li>
+<p>Cons: It breaks the "Model View Controller" structure because the UI is not listening to the <code>ObservableList</code> anymore. Whenever a command is executed, a function
+call has to be made to update the <code>ViewPanel</code> and the <code>AllItemsPanel</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Updates using event listeners</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: It follows the MVC structure where the panels listen to the <code>ObservableList</code> for changes.</p>
+</li>
+<li>
+<p>Cons: As mentioned earlier, it is difficult to use event listeners on the <code>SortedUniqueList</code> because the listener will catch the sorting
+as modification to the items. In the future, alternative 2 can be considered with changes to how the listener and sorting works.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-layout-of-resultdisplay"><a class="link" href="#aspect-layout-of-resultdisplay">Aspect: Layout of ResultDisplay</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Directly on top of the CommandBox with resizablility.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Long messages can be viewed and referred to when typing the next comment.</p>
+</li>
+<li>
+<p>Cons: It takes up a fixed space on the GUI which could be used to display more items.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2 (initial implementation):</strong> Use a pop up window to display the messages which disappears when
+any key is pressed and the user can continue.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: It saves spaces on the GUI and success and error message can be dismissed so that user do not have to see it all the time.</p>
+</li>
+<li>
+<p>Cons: User is not able to type while referring to the message.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-layout-of-itemcard"><a class="link" href="#aspect-layout-of-itemcard">Aspect: Layout of ItemCard</a></h5>
+<div class="paragraph">
+<p>The original design does not fit the vertical list as seen below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/OriginalItemCard.png" alt="OriginalItemCard">
+</div>
+</div>
+<div class="paragraph">
+<p>The following changes have been made to the layout of the item card for a better view of the items.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Display the number of days left before the item expires in an obvious manner for user to see.</p>
+</li>
+<li>
+<p>Move the position of the reminder and quantity to the left so that the right is not crowede.</p>
+</li>
+<li>
+<p>Dynamically Change the colour of the card depending on the status of the item. Red for expired, yellow for alerting, green for healthy.</p>
+</li>
+<li>
+<p>Expand the card on clicking and collapse it when not in focus to save space for more items to be displayed.</p>
+</li>
+</ol>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 16:00:20 UTC</div></div></div></body></html>
