@@ -57,59 +57,62 @@
 </li>
 </ul>
 </li>
-<li><a href="#set-reminders-for-expiring-items">3.3. Set Reminders for expiring items</a></li>
-<li><a href="#reminders-for-expiring-items">3.4. Reminders for expiring items</a>
+<li><a href="#reminders-for-expiring-items">3.3. Reminders for expiring items</a>
 <ul class="sectlevel3">
-<li><a href="#implementation-5">3.4.1. Implementation</a>
+<li><a href="#implementation-5">3.3.1. Implementation</a>
 <ul class="sectlevel4">
-<li><a href="#set-reminder">3.4.1.1. Set reminder</a></li>
-<li><a href="#check">3.4.1.2. Check</a></li>
-<li><a href="#check-with-days">3.4.1.3. Check with days</a></li>
+<li><a href="#set-reminder">3.3.1.1. Set reminder</a></li>
+<li><a href="#check">3.3.1.2. Check</a></li>
+<li><a href="#check-with-days">3.3.1.3. Check with days</a></li>
 </ul>
 </li>
-<li><a href="#design-considerations-4">3.4.2. Design Considerations</a>
+<li><a href="#design-considerations-4">3.3.2. Design Considerations</a>
 <ul class="sectlevel4">
-<li><a href="#aspect-how-set-reminder-executes">3.4.2.1. Aspect: How set reminder executes</a></li>
-<li><a href="#aspect-active-notification">3.4.2.2. Aspect: Active notification</a></li>
+<li><a href="#aspect-how-set-reminder-executes">3.3.2.1. Aspect: How set reminder executes</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#undo-redo-feature">3.5. Undo/Redo feature</a>
+<li><a href="#undo-redo-feature">3.4. Undo/Redo feature</a>
 <ul class="sectlevel3">
-<li><a href="#implementation-6">3.5.1. Implementation</a></li>
-<li><a href="#design-considerations-5">3.5.2. Design Considerations</a>
+<li><a href="#implementation-6">3.4.1. Implementation</a></li>
+<li><a href="#design-considerations-5">3.4.2. Design Considerations</a>
 <ul class="sectlevel4">
-<li><a href="#aspect-how-undo-redo-executes">3.5.2.1. Aspect: How undo &amp; redo executes</a></li>
-<li><a href="#aspect-data-structure-to-support-the-undo-redo-commands">3.5.2.2. Aspect: Data structure to support the undo/redo commands</a></li>
+<li><a href="#aspect-how-undo-redo-executes">3.4.2.1. Aspect: How undo &amp; redo executes</a></li>
+<li><a href="#aspect-data-structure-to-support-the-undo-redo-commands">3.4.2.2. Aspect: Data structure to support the undo/redo commands</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a>
+<li><a href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a>
 <ul class="sectlevel3">
-<li><a href="#design-considerations-6">3.6.1. Design Considerations</a>
+<li><a href="#design-considerations-6">3.5.1. Design Considerations</a>
 <ul class="sectlevel4">
-<li><a href="#aspect-how-set-reminder-executes-2">3.6.1.1. Aspect: How set reminder executes</a></li>
-<li><a href="#aspect">3.6.1.2. Aspect:</a></li>
+<li><a href="#aspect-how-set-reminder-executes-2">3.5.1.1. Aspect: How set reminder executes</a></li>
+<li><a href="#aspect">3.5.1.2. Aspect:</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#search">3.7. Search</a>
+<li><a href="#search">3.6. Search</a>
 <ul class="sectlevel3">
-<li><a href="#implementation-7">3.7.1. Implementation</a></li>
+<li><a href="#implementation-7">3.6.1. Implementation</a></li>
 </ul>
 </li>
-<li><a href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a>
+<li><a href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a>
 <ul class="sectlevel3">
-<li><a href="#implementation-8">3.8.1. Implementation</a></li>
-<li><a href="#design-considerations-7">3.8.2. Design Considerations</a>
+<li><a href="#implementation-8">3.7.1. Implementation</a></li>
+<li><a href="#design-considerations-7">3.7.2. Design Considerations</a>
 <ul class="sectlevel4">
-<li><a href="#aspect-how-recommendations-execute">3.8.2.1. Aspect: How recommendations execute</a></li>
-<li><a href="#aspect-data-structure-to-store-the-recommendations">3.8.2.2. Aspect: Data structure to store the recommendations</a></li>
+<li><a href="#aspect-how-recommendations-execute">3.7.2.1. Aspect: How recommendations execute</a></li>
+<li><a href="#aspect-data-structure-to-store-the-recommendations">3.7.2.2. Aspect: Data structure to store the recommendations</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#user-interface-design">3.8. User Interface Design</a>
+<ul class="sectlevel3">
+<li><a href="#the-view-panel">3.8.1. The View Panel</a></li>
 </ul>
 </li>
 <li><a href="#logging">3.9. Logging</a></li>
@@ -136,9 +139,14 @@
 <li><a href="#instructions-for-manual-testing">Appendix G: Instructions for Manual Testing</a>
 <ul class="sectlevel2">
 <li><a href="#launch-and-shutdown">G.1. Launch and Shutdown</a></li>
-<li><a href="#adding-expired-items-to-the-tracking-list-for-testing">G.2. Adding expired items to the tracking list for testing</a></li>
-<li><a href="#deleting-an-item">G.3. Deleting an item</a></li>
-<li><a href="#saving-data">G.4. Saving data</a></li>
+<li><a href="#command-box">G.2. Command Box</a></li>
+<li><a href="#all-items-panel">G.3. All Items Panel</a></li>
+<li><a href="#view-panel">G.4. View Panel</a></li>
+<li><a href="#adding-expired-items-to-the-tracking-list-for-testing">G.5. Adding expired items to the tracking list for testing</a></li>
+<li><a href="#deleting-an-item">G.6. Deleting an item</a></li>
+<li><a href="#setting-a-reminder-for-an-item">G.7. Setting a reminder for an item</a></li>
+<li><a href="#filtering-items-based-on-its-expiry-date-and-status">G.8. Filtering items based on its expiry date and status</a></li>
+<li><a href="#saving-data">G.9. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -271,7 +279,7 @@ The following class plays an important role at the architecture level:</p>
 <p>Executes user commands using the <code>Logic</code> component.</p>
 </li>
 <li>
-<p>Listens for changes to <code>Model</code> data so that the UI can be updated with the modified data.</p>
+<p>Listens for changes to user&#8217;s input so that the UI can be updated with the modified data in <code>Model</code>.</p>
 </li>
 </ul>
 </div>
@@ -793,48 +801,42 @@ I also tried and tested varied options to derive an optimal data structure to st
 </div>
 </div>
 <div class="sect2">
-<h3 id="set-reminders-for-expiring-items"><a class="link" href="#set-reminders-for-expiring-items">3.3. Set Reminders for expiring items</a></h3>
-
-</div>
-<div class="sect2">
-<h3 id="reminders-for-expiring-items"><a class="link" href="#reminders-for-expiring-items">3.4. Reminders for expiring items</a></h3>
+<h3 id="reminders-for-expiring-items"><a class="link" href="#reminders-for-expiring-items">3.3. Reminders for expiring items</a></h3>
 <div class="paragraph">
 <p>The reminder function comprises two parts. Firstly, user sets a date designated to active the reminder through the command
 <code>set reminder</code>. Then, user will be able to find all items whose reminder has been activated at present through the command <code>check</code>.<br>
-There is also an enhanced function which allows the user to find all items expiring within a specified number of days,
+There is also an enhanced function which allows the user to filter items expiring within a specified number of days,
  through the <code>check|&lt;days&gt;</code> command.</p>
 </div>
 <div class="sect3">
-<h4 id="implementation-5"><a class="link" href="#implementation-5">3.4.1. Implementation</a></h4>
+<h4 id="implementation-5"><a class="link" href="#implementation-5">3.3.1. Implementation</a></h4>
 <div class="sect4">
-<h5 id="set-reminder"><a class="link" href="#set-reminder">3.4.1.1. Set reminder</a></h5>
+<h5 id="set-reminder"><a class="link" href="#set-reminder">3.3.1.1. Set reminder</a></h5>
 <div class="paragraph">
-<p>The set reminder function is facilitated by <code>FilteredItemList</code>, in which the old item will
-be replaced by a new one with its <code>reminderThreshold</code> field updated. It is activated using the command <code>set reminder</code>.</p>
+<p>The set reminder function is implemented in a similar way as delete, add and tag. It is facilitated by the method <code>setItem</code> in <code>Model</code>
+where the old item in <code>Xpire</code> will be replaced by a new item with an updated value for the field <code>ReminderThreshold</code>.
+It is activated using the command <code>set reminder</code>.</p>
 </div>
 <div class="paragraph">
 <p>You can refer to the example usage scenario given below to see what happens at each stage of the execution.</p>
 </div>
 <div class="paragraph">
-<p>Scenario: the user wants to activate a reminder for an item with index 1 in the current view of the list
+<p>Scenario: the user wants to set a reminder for an item with index 1 in the current view of the list
 1 day before its expiry date.</p>
 </div>
 <div class="paragraph">
 <p>Step 1: the user input is parsed by <code>SetReminderCommandParser</code> to check validity of the reminder threshold.</p>
 </div>
 <div class="paragraph">
-<p>Step 2: the <code>SetReminderCommandParser</code> creates a <code>SetReminderCommand</code> object if the input is valid. The <code>SetReminderCommand</code> is
-returned to the <code>LogicManager</code> and executed.</p>
+<p>Step 2: the <code>SetReminderCommandParser</code> creates a <code>SetReminderCommand</code> object if the input is valid. The <code>SetReminderCommand</code> contains a
+ new <code>ReminderThreshold</code> object. The <code>SetReminderCommand</code> is returned to the <code>LogicManager</code> and executed.</p>
 </div>
 <div class="paragraph">
-<p>Step 3: during the execution, a copy of the old item with the reminder threshold set will be created. The copy will replace the old one
+<p>Step 3: during the execution, a copy of the old item with the new <code>ReminderThreshold</code> will be created. The copy will replace the old one
 in the <code>Xpire</code> by <code>ModelManager</code>.</p>
 </div>
 <div class="paragraph">
 <p>Step 4: result of execution will be displayed.</p>
-</div>
-<div class="paragraph">
-<p>The reminder is now set up and is reflected in the UI like this:</p>
 </div>
 <div class="paragraph">
 <p>The following sequence diagram shows how the operation works:</p>
@@ -847,13 +849,13 @@ in the <code>Xpire</code> by <code>ModelManager</code>.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="check"><a class="link" href="#check">3.4.1.2. Check</a></h5>
+<h5 id="check"><a class="link" href="#check">3.3.1.2. Check</a></h5>
 <div class="paragraph">
-<p>The check function uses the <code>updateFilteredItemList</code> method provided by model to filter items whose reminder has been activated.
+<p>The basic check function uses the <code>updateFilteredItemList</code> method provided by model to filter items whose reminder has been activated.
 The predicate used by the filtering method is named <code>ReminderThresholdExceededPredicate</code>.</p>
 </div>
 <div class="paragraph">
-<p>The <code>ReminderThresholdExceededPredicate</code> will check whether the number of days to an item&#8217;s expiry date is smaller than its reminder
+<p>The <code>ReminderThresholdExceededPredicate</code> will check whether the number of days to an item&#8217;s expiry date is smaller than or equal to its reminder
  threshold.</p>
 </div>
 <div class="paragraph">
@@ -865,13 +867,16 @@ The predicate used by the filtering method is named <code>ReminderThresholdExcee
 </div>
 <div class="title">Figure 22. CheckSequenceDiagram</div>
 </div>
+<div class="paragraph">
+<p>A successful <code>check</code> will lists all items marked as yellow and red int he <code>ViewPanel</code> of the UI component.</p>
+</div>
 </div>
 <div class="sect4">
-<h5 id="check-with-days"><a class="link" href="#check-with-days">3.4.1.3. Check with days</a></h5>
+<h5 id="check-with-days"><a class="link" href="#check-with-days">3.3.1.3. Check with days</a></h5>
 <div class="paragraph">
 <p>The enhanced check function also uses the <code>updateFilteredItemList</code> method provided by model to filter items. The condition
-for filtering is that the user input number of days is smaller than the number of days to an item&#8217;s expiry date. This is
-done by predicate named <code>ExpiringSoonPredicate</code>.</p>
+for filtering is that the user input number of days is smaller than or equal to the number of days to an item&#8217;s expiry date. This is
+done by the predicate named <code>ExpiringSoonPredicate</code>.</p>
 </div>
 <div class="paragraph">
 <p>You can see how the <code>Check|&lt;days&gt;</code> operation works in the following sequence diagram.</p>
@@ -885,9 +890,9 @@ done by predicate named <code>ExpiringSoonPredicate</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.4.2. Design Considerations</a></h4>
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.3.2. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">3.4.2.1. Aspect: How set reminder executes</a></h5>
+<h5 id="aspect-how-set-reminder-executes"><a class="link" href="#aspect-how-set-reminder-executes">3.3.2.1. Aspect: How set reminder executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -895,57 +900,26 @@ done by predicate named <code>ExpiringSoonPredicate</code>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: the flow is consistent with that of adding items and deleting items.</p>
+<p>Pros: removes unwanted dependency as modifying the item directly in <code>SetReminderCommand</code> class requires the original <code>XpireItemList</code>
+to be passed to the class and could possibly result in unwanted modification. Using a <code>ObservableList</code> instead prevents any changes to the item by
+the <code>SetReminderCommand</code> class.</p>
 </li>
 <li>
-<p>Cons: a new item has to be created and the list will be sorted again which could be unnecessary.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> Update the original item directly</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: edit the original item in <code>Xpire</code>.</p>
-</li>
-<li>
-<p>Cons: changes to the state of the item may result in unwanted bugs.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="aspect-active-notification"><a class="link" href="#aspect-active-notification">3.4.2.2. Aspect: Active notification</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong> No active notification; Reminder is evoked through the <code>check</code> command</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: The app does not have to run at the background. User can check the reminders at anytime easily.</p>
-</li>
-<li>
-<p>Cons: User may miss the expiry date.</p>
+<p>Cons: Time complexity is O(nlogn). Despite setting a reminder will not result in change in name or expiry date of the item, and thus
+requires no change to the sorted list, the list will still be sorted as a new item is considered added to the list.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Active notification to report expiring items</p>
+<p><strong>Alternative 2:</strong> Modify the original item</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: User gets active updates on expiring items.</p>
+<p>Pros: Time complexity is low: O(n) to locate the item.</p>
 </li>
 <li>
-<p>Cons: The function will not work if the app does not activate itself on starting of the computer, which required
-change in the user&#8217;s operating system.</p>
+<p>Cons: This is dangerous as modifying items in a sorted list is prone to unwanted side effects and undesirable modifications.</p>
 </li>
 </ul>
 </div>
@@ -956,9 +930,9 @@ change in the user&#8217;s operating system.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">3.5. Undo/Redo feature</a></h3>
+<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">3.4. Undo/Redo feature</a></h3>
 <div class="sect3">
-<h4 id="implementation-6"><a class="link" href="#implementation-6">3.5.1. Implementation</a></h4>
+<h4 id="implementation-6"><a class="link" href="#implementation-6">3.4.1. Implementation</a></h4>
 <div class="paragraph">
 <p>The undo/redo mechanism is facilitated by <code>CloneModel</code> and <code>StackManager</code>.
 It is a separate class that stores a state of the model at any command in time. Internally, it runs three private functions that copy the data over.</p>
@@ -1144,9 +1118,9 @@ Not all commands will save states to StackManager. Exit and Help commands will n
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.2. Design Considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.4.2. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">3.5.2.1. Aspect: How undo &amp; redo executes</a></h5>
+<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">3.4.2.1. Aspect: How undo &amp; redo executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1180,7 +1154,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">3.5.2.2. Aspect: Data structure to support the undo/redo commands</a></h5>
+<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">3.4.2.2. Aspect: Data structure to support the undo/redo commands</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1215,7 +1189,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></h3>
+<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></h3>
 <div class="paragraph">
 <p><em>{Explain here how the data encryption feature will be implemented}</em></p>
 </div>
@@ -1229,9 +1203,9 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p>The following activity diagram summarizes what happens when a user executes a new command:</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.6.1. Design Considerations</a></h4>
+<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.5.1. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-set-reminder-executes-2"><a class="link" href="#aspect-how-set-reminder-executes-2">3.6.1.1. Aspect: How set reminder executes</a></h5>
+<h5 id="aspect-how-set-reminder-executes-2"><a class="link" href="#aspect-how-set-reminder-executes-2">3.5.1.1. Aspect: How set reminder executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1264,7 +1238,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect"><a class="link" href="#aspect">3.6.1.2. Aspect:</a></h5>
+<h5 id="aspect"><a class="link" href="#aspect">3.5.1.2. Aspect:</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1299,7 +1273,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="search"><a class="link" href="#search">3.7. Search</a></h3>
+<h3 id="search"><a class="link" href="#search">3.6. Search</a></h3>
 <div class="paragraph">
 <p>This feature allows users to filter out specific items either by name or by tag(s) through providing the relevant keyword(s). Items which contain any of the keywords will be shown on the view panel. For search by name, partial words can be matched. For search by tag, only exact words will be matched.</p>
 </div>
@@ -1307,7 +1281,7 @@ Hard to do when we are applying stackable search/sort commands.</p>
 <p>This implementation is under <code>Logic</code> and <code>Model</code> components.</p>
 </div>
 <div class="sect3">
-<h4 id="implementation-7"><a class="link" href="#implementation-7">3.7.1. Implementation</a></h4>
+<h4 id="implementation-7"><a class="link" href="#implementation-7">3.6.1. Implementation</a></h4>
 <div class="paragraph">
 <p>Below is the UML sequence diagram of an example usage scenario.</p>
 </div>
@@ -1319,9 +1293,9 @@ Hard to do when we are applying stackable search/sort commands.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.8. Spelling correction with alternative recommendations</a></h3>
+<h3 id="spelling-correction-with-alternative-recommendations"><a class="link" href="#spelling-correction-with-alternative-recommendations">3.7. Spelling correction with alternative recommendations</a></h3>
 <div class="sect3">
-<h4 id="implementation-8"><a class="link" href="#implementation-8">3.8.1. Implementation</a></h4>
+<h4 id="implementation-8"><a class="link" href="#implementation-8">3.7.1. Implementation</a></h4>
 <div class="paragraph">
 <p>Invalid commands are checked for spelling mistakes.
 The spelling correction mechanism is based primarily on the Damerau–Levenshtein distance algorithm, which computes the edit distance between two strings.
@@ -1435,13 +1409,13 @@ is then thrown to the user as feedback.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.8.2. Design Considerations</a></h4>
+<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.7.2. Design Considerations</a></h4>
 <div class="paragraph">
 <p>When tasked to implement this feature, I had to decide on what was the best way to display any form of recommendations to the user.
 I also evaluated multiple options to derive an optimal data structure to store the recommendations. The following is a brief summary of my analysis and decisions.</p>
 </div>
 <div class="sect4">
-<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">3.8.2.1. Aspect: How recommendations execute</a></h5>
+<h5 id="aspect-how-recommendations-execute"><a class="link" href="#aspect-how-recommendations-execute">3.7.2.1. Aspect: How recommendations execute</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1474,7 +1448,7 @@ I also evaluated multiple options to derive an optimal data structure to store t
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">3.8.2.2. Aspect: Data structure to store the recommendations</a></h5>
+<h5 id="aspect-data-structure-to-store-the-recommendations"><a class="link" href="#aspect-data-structure-to-store-the-recommendations">3.7.2.2. Aspect: Data structure to store the recommendations</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1505,6 +1479,100 @@ I also evaluated multiple options to derive an optimal data structure to store t
 </li>
 </ul>
 </div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="user-interface-design"><a class="link" href="#user-interface-design">3.8. User Interface Design</a></h3>
+<div class="paragraph">
+<p>The UI contains two panels that change according to the items in the <code>XpireItemList</code> and <code>ReplenishList</code>. However, these
+UI components are not able to update by listening to changes in these <code>ObservableLists</code>. This is because both lists are
+sorted and thus all items in the lists will be modified each time a <code>sort</code>, <code>add</code>, <code>delete</code>, <code>tag</code> or other commands that modify the lists
+are executed, causing the listener in the API to catch unwanted changes. Instead, the lists are passed as parameters to the
+UI classes through <code>MainWindow</code> and rendered each time a command is executed.</p>
+</div>
+<div class="paragraph">
+<p>As as an example of how the UI were implemented, we will examine the implementation of <code>ViewPanel</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="the-view-panel"><a class="link" href="#the-view-panel">3.8.1. The View Panel</a></h4>
+<div class="paragraph">
+<p><code>ViewPanel</code> is a container for many <code>ItemCards</code>, each carrying information about the items.<br>
+Given below are the steps of an example scenario of how <code>ViewPanel</code> is constructed and updated:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The User launches the application and the <code>MainWindow</code> creates a new <code>ViewPanelPlaceholder</code> container that hosts the <code>ViewPanel</code>.</p>
+</li>
+<li>
+<p><code>MainWindow</code> calls <code>Logic</code> which in turn calls <code>Model</code> to obtain a current active list through <code>getCurrentFilteredItemList()</code>.
+Depending on the user&#8217;s current list in view, it will either be an <code>XpireItemList</code> or <code>ReplenishList</code>.</p>
+</li>
+<li>
+<p>On starting of the GUI, <code>MainWindow</code> makes a call to <code>fillInnerParts()</code> , where the <code>MainWindow</code> passes the list as parameters to the constructor of the <code>ViewPanel</code>.</p>
+</li>
+<li>
+<p><code>ViewPanel</code> makes a call to <code>displayItems(ObservableList)</code> and constructs a Collection of <code>ItemCard</code> by mapping each <code>XpireItem</code> or <code>Item</code>
+to an <code>ItemCard</code> .
+.<code>ItemCard</code> takes as parameters the item and its index in the list. It renders all fields of an <code>XpireItem</code> and <code>Item</code> and also
+dose an additional check on the condition of the <code>XpireItem</code> and assign it to different colours respectively through <code>setColour()</code>.</p>
+</li>
+<li>
+<p>The app then starts.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s now see what happens when a command is executed.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the command is a <code>help</code>, <code>exit</code> of <code>export</code>, the <code>ViewPanel</code> will not be updated and refreshed.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In <code>MainWindow</code>, a call to <code>executeCommand(String)</code> is made, where <code>Logic</code> will executes the command.</p>
+</li>
+<li>
+<p>Upon a successful execution, a call to <code>updateViewPanel()</code> is made. In this method the <code>ViewPanel</code> then calls <code>displayItems(ObservableList)</code> again to rerender the items.</p>
+</li>
+<li>
+<p><code>displayItems</code> will first have to clear all child Nodes that the <code>ViewPanel</code> contains before adding a new Collection of <code>ItemCard</code>.</p>
+</li>
+<li>
+<p><code>ViewPanelPlaceholder</code> will then have to remove the <code>ViewPanel</code> child and add the new one to allow the changes to be reflected in the GUI.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You can refer to the activity diagram below for reference.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/UpdateViewPanelActivityDiagram.png" alt="UpdateViewPanelActivityDiagram">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the execution by <code>Logic</code> is not successful, an error will be thrown and the <code>ViewPanel</code> will not be updated and refreshed.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1811,6 +1879,18 @@ I also evaluated multiple options to derive an optimal data structure to store t
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">edit items</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">can update their details easily when I need to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">filter items by expiry date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can check what items are expiring before a certain date</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view a summary of items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">can quickly scan through all items (tracked and to-buy) to see what have been added to each list</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
@@ -2312,6 +2392,10 @@ I also evaluated multiple options to derive an optimal data structure to store t
 <td class="tableblock halign-left valign-top"><p class="tableblock">UI component that takes in user input</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ResultDisplay</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI component that displays the feedback to the user</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FXML</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">XML-based user interface markup language for defining user interface of a JaxaFX application</p></td>
 </tr>
@@ -2322,6 +2406,10 @@ I also evaluated multiple options to derive an optimal data structure to store t
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ViewPanel</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">UI component that displays list of items</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AllItemsPanel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI component that displays list of all items in an expandable list</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JavaFX</p></td>
@@ -2500,7 +2588,109 @@ Expected: The most recent window size and location is retained.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-expired-items-to-the-tracking-list-for-testing"><a class="link" href="#adding-expired-items-to-the-tracking-list-for-testing">G.2. Adding expired items to the tracking list for testing</a></h3>
+<h3 id="command-box"><a class="link" href="#command-box">G.2. Command Box</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Input length limit</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>add|an item with a very long name that will be rejected|09/09/2020|100</code><br>
+Expected: Input is truncated to <code>add|an item with a very long name that will be rejected|09/0</code> and turns red.<br>
+Feedback to user that the maximum length of input cannot exceed 60 characters.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Retrieving previous commands</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Some command have been entered by pressing <kbd>enter</kbd>, and the tester is not already at the least recent command.</p>
+</li>
+<li>
+<p>Test case: <kbd>↑</kbd><br>
+Expected: Previously entered command is retrieved into the Command Box.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Retrieving later commands</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The tester has retrieved at least one previous commands and nothing has been entered since the retrieval.</p>
+</li>
+<li>
+<p>Test case: <kbd>↓</kbd><br>
+Expected: A command that had been entered after the current retrieved command is retrieved into he Command Box.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="all-items-panel"><a class="link" href="#all-items-panel">G.3. All Items Panel</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Updating the All Items Panel</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list.</p>
+</li>
+<li>
+<p>Test case: <code>add|apple|09/09/2020</code><br>
+Expected: All Items Panel should be updated to display the item under "tracking items".</p>
+</li>
+<li>
+<p>Test case: <code>search|b</code><br>
+Expected: All Items Panel should not be updated.</p>
+</li>
+<li>
+<p>Test case: <code>shift|1</code><br>
+Expected: Item with index 1 is shifted from "tracking items" to "to-buy items".</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="view-panel"><a class="link" href="#view-panel">G.4. View Panel</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Updating the colour of <code>ItemCard</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view in the main list and the first item in <code>View</code> has not expired. It should not have a reminder and should be expiring in less than 1000 days.</p>
+</li>
+<li>
+<p>Test case: Follow the instructions under <a href="#adding-expired-items-to-the-tracking-list-for-testing">Section G.5, &#8220;Adding expired items to the tracking list for testing&#8221;</a> to add expired items to the Xpire. Do not
+add any reminder threshold.<br>
+  Expected: The expired items are marked as red; not expired items are green.</p>
+</li>
+<li>
+<p>Test case: <code>set reminder|1|1000</code><br>
+Expected: the first item turns yellow.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-expired-items-to-the-tracking-list-for-testing"><a class="link" href="#adding-expired-items-to-the-tracking-list-for-testing">G.5. Adding expired items to the tracking list for testing</a></h3>
 <div class="paragraph">
 <p>Xpire automatically tags items as <code>Expired</code> in the tracking list once an item&#8217;s expiry date has passed, as seen in the diagram below. See <a href="#replenish-list">Section 3.1, &#8220;Replenish List&#8221;</a> for details.</p>
 </div>
@@ -2520,6 +2710,9 @@ Expected: The most recent window size and location is retained.</p>
 </li>
 <li>
 <p>The expiry date should be a date that is before the current date of testing. The reminder threshold should be a non-negative integer and quantity should be a positive integer.</p>
+</li>
+<li>
+<p>Compute the reminder date by subtracting the reminder threshold from the expiry date. The reminder date should not be before 1/10/2019.</p>
 </li>
 <li>
 <p>The format to follow for adding an item can be seen within the box outline:</p>
@@ -2553,7 +2746,7 @@ Expected: The most recent window size and location is retained.</p>
 <td class="content">
 Remember to enclose these name-value items with <code>{</code> and <code>}</code>.
 Do note that if you manually tamper with the xpire.json file, the data file might be corrupted.
-See <a href="#saving-data">Section G.4, &#8220;Saving data&#8221;</a> on details for corrupted files.
+See <a href="#saving-data">Section G.9, &#8220;Saving data&#8221;</a> on details for corrupted files.
 For more information about JSON objects, please refer to <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-json">this tutorial</a>.
 </td>
 </tr>
@@ -2561,7 +2754,7 @@ For more information about JSON objects, please refer to <a href="https://www.di
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-an-item"><a class="link" href="#deleting-an-item">G.3. Deleting an item</a></h3>
+<h3 id="deleting-an-item"><a class="link" href="#deleting-an-item">G.6. Deleting an item</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -2626,7 +2819,94 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">G.4. Saving data</a></h3>
+<h3 id="setting-a-reminder-for-an-item"><a class="link" href="#setting-a-reminder-for-an-item">G.7. Setting a reminder for an item</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Setting a reminder for an item</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list. The target item should have at least 6 days before its expiry date.</p>
+</li>
+<li>
+<p>Test case <code>set reminder|1|5</code><br>
+Expected: First item from the list shows a reminder date which is 5 days before its expiry date.<br>
+Feedback shows reminder is set successfully.</p>
+</li>
+<li>
+<p>Test case <code>set reminder|1|-5</code><br>
+Expected: Reminder not set. Feedback shows error details.</p>
+</li>
+<li>
+<p>Test case <code>set reminder|1|365000</code><br>
+Expected: Reminder not set. Feedback shows error details.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Removing a reminder for an item</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list. The target item should not be expired and has a reminder.</p>
+</li>
+<li>
+<p>Test case <code>set reminder|1|0</code><br>
+Expected: First item&#8217;s reminder date is removed from its item card.<br>
+Feedback shows reminder is removed successfully.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="filtering-items-based-on-its-expiry-date-and-status"><a class="link" href="#filtering-items-based-on-its-expiry-date-and-status">G.8. Filtering items based on its expiry date and status</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Find items expiring in a specific number of days</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list. The list contains at least one expired item.</p>
+</li>
+<li>
+<p>Test case <code>check|0</code><br>
+Expected: Expired items are displayed in the <code>View</code> (items in red).<br>
+Feedback shows listing of items expiring in 0 day.</p>
+</li>
+<li>
+<p>Test case <code>check|20</code><br>
+Expected: Items expiring in 20 days are displayed in the <code>View</code>.<br>
+Feedback shows listing of items expiring in 20 days.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Find all expired items and items whose reminder date has been reached (items in yellow)</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Current view is the main list. The list contains at least one expired item or item with active reminder.</p>
+</li>
+<li>
+<p>Test case <code>check</code><br>
+Expected: Expired items and items with active reminder in the <code>View</code> (items in red or yellow).
+Feedback shows listing of expired items and items whose reminder has been activated.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="saving-data"><a class="link" href="#saving-data">G.9. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -2643,4 +2923,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 05:11:08 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 11:34:59 UTC</div></div></div></body></html>
