@@ -107,17 +107,16 @@
 <li><a href="#sorting-all-items-by-their-name">4.2.5.2. Sorting all items by their name</a></li>
 </ul>
 </li>
+<li><a href="#redo-an-earlier-command-code-redo-code-2">4.2.6. Redo an earlier command : <code>redo</code></a></li>
+</ul>
+</li>
+<li><a href="#upcoming-features-coming-in-v2-0">4.3. Upcoming features (coming in v2.0)</a>
+<ul class="sectlevel3">
+<li><a href="#user-authentication">4.3.1. User authentication</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#faq">5. FAQ</a></li>
-<li><a href="#command-summary">6. Command Summary</a>
-<ul class="sectlevel2">
-<li><a href="#table-summary">6.1. Table Summary</a></li>
-</ul>
-</li>
-<li><a href="#command-shorthands">7. Command Shorthands</a></li>
 </ul>
 </div>
 </div>
@@ -1137,7 +1136,7 @@ able to download the list of items (see Figure 13).</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/export-phone.png" alt="export phone" width="250">
+<img src="images/export-phone.PNG" alt="export phone" width="250">
 </div>
 <div class="title">Figure 19. List of items received when scanning the QR code through a mobile phone</div>
 </div>
@@ -1170,7 +1169,7 @@ received on the web (see Figure 14).</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/export-prompt.png" alt="export prompt" width="250">
+<img src="images/export-prompt.PNG" alt="export prompt" width="250">
 </div>
 <div class="title">Figure 20. Pop-up prompt to suggest to search the content on the web</div>
 </div>
@@ -1184,7 +1183,7 @@ options available (see Figure 15). Choose "Copy" or any other similar options.</
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/export-other-options.png" alt="export other options" width="250">
+<img src="images/export-other-options.PNG" alt="export other options" width="250">
 </div>
 <div class="title">Figure 21. Additional options to handle the content</div>
 </div>
@@ -1555,25 +1554,95 @@ Items with the same name will be sorted by their expiry dates.
 </div>
 </div>
 </div>
+<div class="paragraph">
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+==== Undo previous command : <code>undo</code>
+Undo the previous command that you have entered in.<br>
+Format: <code>undo</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<code>undo</code> only works on commands that alter your items or the current view!<br>
+Thus, commands such as <code>help</code> and <code>export</code> are not undoable as they do not alter items or the current view.<br>
+Also, <code>undo</code> only works for the last 10 commands. Therefore, make sure you are certain before you type in a command!
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>undo</code> command also tells you the exact user input you have keyed in as well as what command was entered so that you know what you have undone.</p>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="redo-an-earlier-command-code-redo-code-2"><a class="link" href="#redo-an-earlier-command-code-redo-code-2">4.2.6. Redo an earlier command : <code>redo</code></a></h4>
+<div class="paragraph">
+<p>Redo an earlier command that you have entered in.<br>
+Format: <code>redo</code></p>
+</div>
+<div class="paragraph">
+<p>This command works in the opposite way as <code>undo</code>, it will redo any command that you have undone in the past.<br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Keying in a new command other than <code>redo</code> will erase the earlier command that you have undid. Thus, doing so will not allow you to redo that command again.
+</td>
+</tr>
+</table>
 </div>
 </div>
-<div class="sect1">
-<h2 id="faq"><a class="link" href="#faq">5. FAQ</a></h2>
-<div class="sectionbody">
+</div>
+<div class="sect2">
+<h3 id="upcoming-features-coming-in-v2-0"><a class="link" href="#upcoming-features-coming-in-v2-0">4.3. Upcoming features (coming in v2.0)</a></h3>
+<div class="sect3">
+<h4 id="user-authentication"><a class="link" href="#user-authentication">4.3.1. User authentication</a></h4>
+<div class="paragraph">
+<p>Want to have your own personal password-protected account? Look forward to our user authentication functionality
+where you can create an account and keep your items' data safe and secure!</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;re some sneak peeks of the upcoming feature!</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/user-login.png" alt="user login" width="790">
+</div>
+<div class="title">Figure 29. Login page</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/user-register.png" alt="user register" width="790">
+</div>
+<div class="title">Figure 30. Sign-up page</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>&gt;&gt;&gt;&gt;&gt;&gt;&gt; 114fdebffc25d81ba3d9ab78491fdd472b66cc04</p>
+</div>
+<div class="paragraph">
+<p>== FAQ</p>
+</div>
 <div class="paragraph">
 <p><strong>Q</strong>: How do I transfer my data to another Computer?<br>
 <strong>A</strong>: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Xpire folder.</p>
 </div>
+<div class="paragraph">
+<p>== Command Summary</p>
 </div>
+<div class="paragraph">
+<p>=== Table Summary</p>
 </div>
-<div class="sect1">
-<h2 id="command-summary"><a class="link" href="#command-summary">6. Command Summary</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="table-summary"><a class="link" href="#table-summary">6.1. Table Summary</a></h3>
 <div class="paragraph">
 <p>The table below summarises the common commands available for use in both lists.</p>
 </div>
@@ -1724,12 +1793,9 @@ Items with the same name will be sorted by their expiry dates.
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>== Command Shorthands</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="command-shorthands"><a class="link" href="#command-shorthands">7. Command Shorthands</a></h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>If you are looking for a quick way to type and execute the commands, then this section is just
 for you. Commands also come with command shorthands which can be used in place of the full command word.
@@ -1788,4 +1854,8 @@ For instance, <code>a|Strawberry|31/12/2019</code> is the same as <code>add|Stra
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 15:29:20 UTC</div></div></div></body></html>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 15:53:42 UTC</div></div></div></body></html>

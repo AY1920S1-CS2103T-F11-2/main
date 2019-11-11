@@ -510,6 +510,52 @@ Keying in a new command other than <code>redo</code> will erase the earlier comm
 </table>
 </div>
 </div>
+<div class="sect3">
+<h4 id="undo-previous-command-code-undo-code-2"><a class="link" href="#undo-previous-command-code-undo-code-2">Undo previous command : <code>undo</code></a></h4>
+<div class="paragraph">
+<p>Undo the previous command that you have entered in.<br>
+Format: <code>undo</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<code>undo</code> only works on commands that alter your items or the current view!<br>
+Thus, commands such as <code>help</code> and <code>export</code> are not undoable as they do not alter items or the current view.<br>
+Also, <code>undo</code> only works for the last 10 commands. Therefore, make sure you are certain before you type in a command!
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>undo</code> command also tells you the exact user input you have keyed in as well as what command was entered so that you know what you have undone.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="redo-an-earlier-command-code-redo-code-2"><a class="link" href="#redo-an-earlier-command-code-redo-code-2">Redo an earlier command : <code>redo</code></a></h4>
+<div class="paragraph">
+<p>Redo an earlier command that you have entered in.<br>
+Format: <code>redo</code></p>
+</div>
+<div class="paragraph">
+<p>This command works in the opposite way as <code>undo</code>, it will redo any command that you have undone in the past.<br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Keying in a new command other than <code>redo</code> will erase the earlier command that you have undid. Thus, doing so will not allow you to redo that command again.
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -813,4 +859,4 @@ Hard to do when applying stackable <code>SearchCommand</code> and <code>SortComm
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 15:29:20 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 15:53:43 UTC</div></div></div></body></html>
