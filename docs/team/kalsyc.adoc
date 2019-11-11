@@ -22,7 +22,6 @@ My team and I were tasked to morph an existing Desktop application called Addres
 Currently, this is what our project, Xpire, looks like in v1.4:
 
 .User Interface of Xpire
-
 image::Ui.png[width="790"]
 
 == Formatting and Terms used in this Project Portfolio
@@ -30,7 +29,9 @@ image::Ui.png[width="790"]
 `undo` - This grey highlight represents a class, a variable or method that exists in the codebase. It can also represent a command that has to be entered into the application. +
 `Xpire` - This refers to the main list in the application and not the entire application. The Xpire application will be simply referred to as 'the application'. +
 `ReplenishList` - This refers to the replenish list in the application. +
-`current view` - This refers to the current list that the user is viewing (either the main list (`Xpire`) or the replenish list (`ReplenishList`)).
+`current view` - This refers to the current list that the user is viewing (either the main list (`Xpire`) or the replenish list (`ReplenishList`)). +
+Lightbulb icon - Refers to a tip that developers/users can follow. +
+Info icon - Refers to an important note that developers/users need to know.
 
 == Summary of contributions
 

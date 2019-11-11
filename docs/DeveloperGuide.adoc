@@ -1562,7 +1562,7 @@ set for them previously.
    Feedback shows listing of expired items and items whose reminder has been activated.
 
 === Undo/Redo commands
-. Undo an earlier command or redo a previously done command
+. Undo an earlier command or redo a previously done command.
 
 .. Prerequisites: No commands have been entered yet and the current view is the main list. There is at least one item in the main list that is expiring within 50 days, and one item in the replenish list.
 .. Test case: `add|Apple|12/03/2025|3` followed by `undo` and then `redo` +
