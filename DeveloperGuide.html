@@ -186,8 +186,9 @@
 <li><a href="#filtering-items-based-on-its-expiry-date-and-status">G.13. Filtering items based on its expiry date and status</a></li>
 <li><a href="#undo-redo-commands">G.14. Undo/Redo commands</a></li>
 <li><a href="#sorting-items">G.15. Sorting items</a></li>
-<li><a href="#export-data">G.16. Export data</a></li>
-<li><a href="#saving-data">G.17. Saving data</a></li>
+<li><a href="#searching-items">G.16. Searching items</a></li>
+<li><a href="#export-data">G.17. Export data</a></li>
+<li><a href="#saving-data">G.18. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -3495,7 +3496,7 @@ Expected: <code>view</code> is given as a recommendation in the error message.</
 <td class="content">
 Remember to enclose these name-value items with <code>{</code> and <code>}</code>.
 Do note that if you manually tamper with the xpire.json file, the data file might be corrupted.
-See <a href="#saving-data">Section G.17, &#8220;Saving data&#8221;</a> on details for corrupted files.
+See <a href="#saving-data">Section G.18, &#8220;Saving data&#8221;</a> on details for corrupted files.
 For more information about JSON objects, please refer to <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-json">this tutorial</a>.
 </td>
 </tr>
@@ -3815,6 +3816,14 @@ Feedback shows listing of expired items and items whose reminder has been activa
 <p>Prerequisites: No commands have been entered yet and the current view is the main list. There is at least one item in the main list that is expiring within 50 days, and one item in the replenish list.</p>
 </li>
 <li>
+<p>Test case: <code>undo</code><br>
+Expected: Feedback stating that there are no commands to undo.</p>
+</li>
+<li>
+<p>Test case: <code>redo</code><br>
+Expected: Feedback stating that there are no commands to redo.</p>
+</li>
+<li>
 <p>Test case: <code>add|Apple|12/03/2025|3</code> followed by <code>undo</code> and then <code>redo</code><br>
 Expected: The item with name Apple, expiry date 12/03/2025 and with quantity 3 will be added. Undo command will proceed to remove the item whilst the Redo command will proceed to add the same item back.</p>
 </li>
@@ -3829,14 +3838,6 @@ Expected: The item on the first index will be shifted to the ReplenishList. Undo
 <li>
 <p>Test case: <code>view|replenish</code> followed by <code>shift|1|12/03/2025</code> followed by <code>undo</code> and lastly <code>redo</code><br>
 Expected: The view changes to the replenish list and the first item on the list gets shifted to the main list with expiry date 12/03/2025. Undo command will shift the item back to the main list. Redo command will shift the item back to the replenish list.</p>
-</li>
-<li>
-<p>Test case: <code>undo</code><br>
-Expected: Feedback stating that there are no commands to undo.</p>
-</li>
-<li>
-<p>Test case: <code>redo</code><br>
-Expected: Feedback stating that there are no commands to redo.</p>
 </li>
 </ol>
 </div>
@@ -3912,7 +3913,73 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="export-data"><a class="link" href="#export-data">G.16. Export data</a></h3>
+<h3 id="searching-items"><a class="link" href="#searching-items">G.16. Searching items</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Non empty current list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: current list contains "apple" tagged with "#Fruit", "pear" tagged
+with "#Fruit" and "banana" tagged with "#Yellow". Note: <code>view</code> is executed after
+every <code>search</code> command to reset the current list.</p>
+</li>
+<li>
+<p>Test case: <code>search|apple</code><br>
+Expected: "apple" will be in the new current list.</p>
+</li>
+<li>
+<p>Test case: <code>search|a</code><br>
+Expected: "apple", "pear" and "banana" will be in the new current list.</p>
+</li>
+<li>
+<p>Test case: <code>search|e</code><br>
+Expected: "apple" and "pear" will be in the new current list.</p>
+</li>
+<li>
+<p>Test case: <code>search|x</code><br>
+Expected: New current list will be empty.</p>
+</li>
+<li>
+<p>Test case: <code>search|e</code> then <code>search|r</code><br>
+Expected: "pear" will be in the new current list.</p>
+</li>
+<li>
+<p>Test case: <code>search|#Fruit</code><br>
+Expected: "apple" and "pear" will be in the new current list.</p>
+</li>
+<li>
+<p>Test case: <code>search|#fruit</code><br>
+Expected: "apple" and "pear" will be in the new current list.</p>
+</li>
+<li>
+<p>Test case: <code>search|#Frui</code><br>
+Expected: New current list will be empty.</p>
+</li>
+<li>
+<p>Test case: <code>search|#yellow|app</code><br>
+Expected: "apple" and "banana" will be in the new current list.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Empty current list</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>search|random string</code>
+Expected: Error message indicating that current list is empty.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="export-data"><a class="link" href="#export-data">G.17. Export data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3941,7 +4008,7 @@ Expected: Error message indicating that current list is empty.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">G.17. Saving data</a></h3>
+<h3 id="saving-data"><a class="link" href="#saving-data">G.18. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3958,4 +4025,4 @@ Expected: Error message indicating that current list is empty.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 16:29:00 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-11-11 17:27:59 UTC</div></div></div></body></html>
