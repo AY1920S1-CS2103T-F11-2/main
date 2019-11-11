@@ -514,16 +514,16 @@ image::UndoRedo/ActivityDiagramUndoRedoCommand.png[width="790"]
 
 ==== Design Considerations
 
-The following class diagram shows the entirety of the undo/redo mechanism and its associations.
-
-.Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)
-image::UndoRedo/UndoRedoSystemClassDiagram2.png[]
-
 There are two classes that inherit from the abstract class `State` which are `FilteredState` and `ModifiedState`.
 
 The states that are stored at each valid and undoable command depends on the type of command itself as `FilteredState` only copies over the predicate and method of sorting but not the backend `Xpire` or `ReplenishList` data. Thus, commands that do not alter items such as `SortCommand` and `CheckCommand` commands instantiate a `FilteredState`.
 
 On the other hand, `ModifiedState` is created with commands that alters the item of the data, thus new `Xpire` and `ReplenishList` objects will be stored within the state. Commands that instantiate a `ModifiedState` include `AddCommand`, `TagCommand` and `DeleteCommand`.
+
+The following class diagram shows the entirety of the undo/redo mechanism and its associations.
+
+.Class Diagram for Undo/Redo mechanism (Note that only classes that are in the feature are included)
+image::UndoRedo/UndoRedoSystemClassDiagram2.png[]
 
 ===== Aspect: How undo & redo executes
 
@@ -651,7 +651,7 @@ also be made "stackable" through using the API.
 // tag::tag[]
 === Tag Feature
 
-This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all of the tags are parsed in Sentence-Case and must not be more than 20 characters long each. If the user simply enters `tag`, all the tags in the current list view will be collected and displayed to the user.
+This feature allows users to tag specific items in the list. Items can only have a maximum of 5 tags and all tags are parsed in Sentence-Case and must not be more than 20 characters long each. If the user enters `tag`, all the tags in the current list view will be collected and displayed to the user.
 
 ==== Implementation
 
